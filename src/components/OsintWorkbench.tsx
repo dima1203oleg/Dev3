@@ -13,6 +13,8 @@ import {
   MapPin, Layers
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { OSINT_ENTITIES, OsintEntity } from '../osintData';
 
 interface OsintWorkbenchProps {
@@ -107,67 +109,12 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
-  
-  // Interactive Map State variables
-  const [mapZoom, setMapZoom] = useState<'ukraine' | 'kyiv' | 'lviv' | 'global'>('ukraine');
-  const [mapShowRoutes, setMapShowRoutes] = useState(true);
-  const [mapShowFlows, setMapShowFlows] = useState(true);
-  const [mapShowHeatmap, setMapShowHeatmap] = useState(false);
-  const [hoveredMapEntityId, setHoveredMapEntityId] = useState<string | null>(null);
-  const [mapHoverCoords, setMapHoverCoords] = useState<{ x: number; y: number } | null>(null);
 
-  const handleCopyToClipboard = (text: string, fieldKey: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedField(fieldKey);
-    setTimeout(() => {
-      setCopiedField(null);
-    }, 1500);
-  };
-
-  const exportToCSV = () => {
-    // Generate CSV content
-    const headers = ["ID", "Назва/Ім'я", "Код/Ідентифікатор", "Тип об'єкта", "Рівень ризику (%)", "Статус", "Опис"];
-    const rows = filteredEntities.map(e => [
-      e.id,
-      `"${e.name.replace(/"/g, '""')}"`,
-      `"${e.code}"`,
-      e.type === 'company' ? 'Юридична особа' : e.type === 'cryptowallet' ? 'Криптогаманець' : 'Фізична особа',
-      `${e.riskScore}%`,
-      e.status === 'SANCTIONED' ? 'Під санкціями' : e.status === 'SUSPICIOUS' ? 'Підозрілий' : 'Активний',
-      `"${e.description.replace(/"/g, '""')}"`
-    ]);
-    
-    const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `OSINT_Report_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const handleCSVExport = () => {
-    if (isExporting) return;
-    setIsExporting(true);
-    setTimeout(() => {
-      exportToCSV();
-      setIsExporting(false);
-    }, 1000);
-  };
-
-  const handlePDFExport = () => {
-    if (isExporting) return;
-    setIsExporting(true);
-    setTimeout(() => {
-      setShowReportModal(true);
-      setIsExporting(false);
-    }, 1000);
-  };
-  
-  // Local active entity (defaults to the first one)
-  const activeEntity = selectedEntity || OSINT_ENTITIES[0];
+  // Checklist Multi-Selection and Simulation States
+  const [selectedEntityIds, setSelectedEntityIds] = useState<string[]>(OSINT_ENTITIES.map(e => e.id));
+  const [simulateLargeDataset, setSimulateLargeDataset] = useState(false);
+  const [showLargeExportConfirmation, setShowLargeExportConfirmation] = useState(false);
+  const [pendingExportType, setPendingExportType] = useState<'csv' | 'pdf' | null>(null);
 
   // Memoized filtered entities for the quick-access sidebar list
   const filteredEntities = useMemo(() => {
@@ -219,6 +166,181 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
       return true;
     });
   }, [searchQuery, activeFilter, categoryFilter, riskLevelFilter, startDate, endDate]);
+
+  const toggleEntitySelection = (id: string) => {
+    setSelectedEntityIds(prev => 
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+  const toggleAllEntitiesSelection = () => {
+    const visibleIds = filteredEntities.map(e => e.id);
+    const allVisibleAreSelected = visibleIds.every(id => selectedEntityIds.includes(id));
+    if (allVisibleAreSelected) {
+      setSelectedEntityIds(prev => prev.filter(id => !visibleIds.includes(id)));
+    } else {
+      setSelectedEntityIds(prev => {
+        const newSelection = [...prev];
+        visibleIds.forEach(id => {
+          if (!newSelection.includes(id)) {
+            newSelection.push(id);
+          }
+        });
+        return newSelection;
+      });
+    }
+  };
+
+  // Generate real + virtual list of entities for export to support testing >50 limit
+  const selectedEntitiesForExport = useMemo(() => {
+    const realSelected = filteredEntities.filter(e => selectedEntityIds.includes(e.id));
+    if (simulateLargeDataset) {
+      const mockEntities = Array.from({ length: 65 }, (_, index) => ({
+        id: `mock-${index}`,
+        type: index % 3 === 0 ? 'company' : index % 3 === 1 ? 'person' : 'cryptowallet',
+        name: index % 3 === 0 
+          ? `ТОВ 'ТестТрейд ${index + 1}'` 
+          : index % 3 === 1 
+            ? `Петренко Іван ${index + 1}` 
+            : `Crypto Wallet #${index + 1}`,
+        code: index % 3 === 0 
+          ? `${30000000 + index}` 
+          : index % 3 === 1 
+            ? `${2000000000 + index}` 
+            : `bc1qxy2kg3ut7wvufgz7h0df30097h42831d${index}`,
+        status: index % 4 === 0 ? 'SANCTIONED' : index % 4 === 1 ? 'SUSPICIOUS' : 'ACTIVE',
+        riskScore: Math.floor(Math.random() * 40) + 50, // 50 to 90
+        address: `м. Київ, вул. Тестова, буд. ${index + 1}`,
+        description: `Симульований тестовий запис для перевірки експорту великих масивів даних. Створено з метою верифікації лімітів та навантаження. Запис №${index + 1}.`,
+        relationships: [],
+        aiRecommendations: "Рекомендується перевірити транзакційну активність.",
+        lastActivityDate: "2026-06-25"
+      } as OsintEntity));
+      return [...realSelected, ...mockEntities];
+    }
+    return realSelected;
+  }, [filteredEntities, selectedEntityIds, simulateLargeDataset]);
+
+  const exportToCSV = () => {
+    // Generate CSV content
+    const headers = ["ID", "Назва/Ім'я", "Код/Ідентифікатор", "Тип об'єкта", "Рівень ризику (%)", "Статус", "Опис"];
+    const rows = selectedEntitiesForExport.map(e => [
+      e.id,
+      `"${e.name.replace(/"/g, '""')}"`,
+      `"${e.code}"`,
+      e.type === 'company' ? 'Юридична особа' : e.type === 'cryptowallet' ? 'Криптогаманець' : 'Фізична особа',
+      `${e.riskScore}%`,
+      e.status === 'SANCTIONED' ? 'Під санкціями' : e.status === 'SUSPICIOUS' ? 'Підозрілий' : 'Активний',
+      `"${e.description.replace(/"/g, '""')}"`
+    ]);
+    
+    const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `OSINT_Report_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const executeCSVExport = () => {
+    if (isExporting) return;
+    setIsExporting(true);
+    setTimeout(() => {
+      exportToCSV();
+      setIsExporting(false);
+    }, 1000);
+  };
+
+  const executePDFExport = () => {
+    if (isExporting) return;
+    setIsExporting(true);
+    setTimeout(() => {
+      setShowReportModal(true);
+      setIsExporting(false);
+    }, 1000);
+  };
+
+  const downloadPDF = async () => {
+    const input = document.getElementById('pdf-report-content');
+    if (!input) return;
+    
+    setIsExporting(true);
+    try {
+      const canvas = await html2canvas(input, { scale: 2, useCORS: true });
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+      });
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      pdf.save(`OSINT_Report_${new Date().toISOString().split('T')[0]}.pdf`);
+    } catch (error) {
+      console.error("PDF Export failed", error);
+    } finally {
+      setIsExporting(false);
+      setShowReportModal(false);
+    }
+  };
+
+  const handleCSVExport = () => {
+    if (selectedEntitiesForExport.length > 50) {
+      setPendingExportType('csv');
+      setShowLargeExportConfirmation(true);
+    } else {
+      executeCSVExport();
+    }
+  };
+
+  const handlePDFExport = () => {
+    if (selectedEntitiesForExport.length > 50) {
+      setPendingExportType('pdf');
+      setShowLargeExportConfirmation(true);
+    } else {
+      executePDFExport();
+    }
+  };
+
+  const confirmAndExecuteExport = () => {
+    setShowLargeExportConfirmation(false);
+    if (pendingExportType === 'csv') {
+      executeCSVExport();
+    } else if (pendingExportType === 'pdf') {
+      executePDFExport();
+    }
+    setPendingExportType(null);
+  };
+  
+
+
+
+
+  // Interactive Map State variables
+  const [mapZoom, setMapZoom] = useState<'ukraine' | 'kyiv' | 'lviv' | 'global'>('ukraine');
+  const [mapShowRoutes, setMapShowRoutes] = useState(true);
+  const [mapShowFlows, setMapShowFlows] = useState(true);
+  const [mapShowHeatmap, setMapShowHeatmap] = useState(false);
+  const [hoveredMapEntityId, setHoveredMapEntityId] = useState<string | null>(null);
+  const [mapHoverCoords, setMapHoverCoords] = useState<{ x: number; y: number } | null>(null);
+
+  const handleCopyToClipboard = (text: string, fieldKey: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(fieldKey);
+    setTimeout(() => {
+      setCopiedField(null);
+    }, 1500);
+  };
+
+
+  
+  // Local active entity (defaults to the first one)
+  const activeEntity = selectedEntity || OSINT_ENTITIES[0];
+
+
 
   // Calculate concentration of High Risk entities (riskScore >= 80) in the filtered list
   const highRiskRatio = useMemo(() => {
@@ -902,6 +1024,29 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               )}
             </div>
 
+            {/* Selection control bar */}
+            <div className="flex items-center justify-between bg-slate-950/40 border border-slate-900/60 rounded-xl px-2.5 py-1.5 mb-3 text-[10px] font-mono text-slate-400">
+              <div className="flex items-center gap-1.5">
+                <input
+                  type="checkbox"
+                  checked={filteredEntities.length > 0 && filteredEntities.every(e => selectedEntityIds.includes(e.id))}
+                  onChange={toggleAllEntitiesSelection}
+                  className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-950 text-indigo-500 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-indigo-500"
+                  title="Вибрати всі / зняти вибір"
+                />
+                <span>Обрано: <strong className="text-indigo-400 font-bold">{selectedEntitiesForExport.length}</strong></span>
+              </div>
+              <label className="flex items-center gap-1.5 cursor-pointer hover:text-slate-200 transition-colors" title="Додати 65 віртуальних об'єктів для перевірки попередження про понад 50 об'єктів">
+                <input
+                  type="checkbox"
+                  checked={simulateLargeDataset}
+                  onChange={(e) => setSimulateLargeDataset(e.target.checked)}
+                  className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-950 text-rose-500 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-rose-500"
+                />
+                <span className="text-[9px] text-rose-400/90 font-bold uppercase tracking-tight">Тест &gt;50</span>
+              </label>
+            </div>
+
             <div className="flex-1 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
               {filteredEntities.length === 0 ? (
                 <div className="text-center py-12 text-slate-500 font-mono text-[10px] space-y-2">
@@ -923,6 +1068,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               ) : (
                 filteredEntities.map((entity) => {
                   const isSelected = activeEntity.id === entity.id;
+                  const isChecked = selectedEntityIds.includes(entity.id);
                   const theme = getRiskTheme(entity.riskScore);
                   return (
                     <motion.div
@@ -944,6 +1090,15 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
 
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex items-center gap-1.5 min-w-0">
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              toggleEntitySelection(entity.id);
+                            }}
+                            className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-950 text-indigo-500 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-indigo-500 mr-1 shrink-0"
+                          />
                           {entity.type === 'company' ? (
                             <Briefcase className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
                           ) : entity.type === 'cryptowallet' ? (
@@ -2361,7 +2516,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               <div className="flex-1 overflow-y-auto p-6 bg-slate-950/50 custom-scrollbar flex justify-center">
                 
                 {/* Paper page mimic */}
-                <div className="w-full max-w-3xl bg-white text-slate-900 p-8 sm:p-12 shadow-2xl rounded-xl border border-slate-200 my-4 select-text">
+                <div id="pdf-report-content" className="w-full max-w-3xl bg-white text-slate-900 p-8 sm:p-12 shadow-2xl rounded-xl border border-slate-200 my-4 select-text">
                   
                   {/* Internal Report representation */}
                   <div className="flex items-start justify-between border-b-2 border-slate-900 pb-4 mb-6">
@@ -2390,9 +2545,9 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     <div>
                       <div className="font-bold text-slate-800 uppercase tracking-wider text-[10px]">Статистичні показники:</div>
                       <div className="mt-1 space-y-0.5 font-mono">
-                        <div>Всього об'єктів: <span className="font-bold">{filteredEntities.length}</span></div>
-                        <div>Високий ризик (High): <span className="text-red-600 font-bold">{filteredEntities.filter(e => e.riskScore >= 80).length}</span></div>
-                        <div>Середній ризик (Med): <span className="text-amber-600 font-bold">{filteredEntities.filter(e => e.riskScore >= 50 && e.riskScore < 80).length}</span></div>
+                        <div>Всього об'єктів: <span className="font-bold">{selectedEntitiesForExport.length}</span></div>
+                        <div>Високий ризик (High): <span className="text-red-600 font-bold">{selectedEntitiesForExport.filter(e => e.riskScore >= 80).length}</span></div>
+                        <div>Середній ризик (Med): <span className="text-amber-600 font-bold">{selectedEntitiesForExport.filter(e => e.riskScore >= 50 && e.riskScore < 80).length}</span></div>
                       </div>
                     </div>
                   </div>
@@ -2410,7 +2565,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-200">
-                        {filteredEntities.map(e => {
+                        {selectedEntitiesForExport.map(e => {
                           const isHigh = e.riskScore >= 80;
                           const isMedium = e.riskScore >= 50 && e.riskScore < 80;
                           return (
@@ -2438,7 +2593,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                             </tr>
                           );
                         })}
-                        {filteredEntities.length === 0 && (
+                        {selectedEntitiesForExport.length === 0 && (
                           <tr>
                             <td colSpan={5} className="p-6 text-center text-slate-400 font-mono">
                               Жодних збігів за обраними фільтрами не знайдено.
@@ -2466,7 +2621,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               {/* Modal Footer */}
               <div className="p-4 border-t border-slate-800 bg-slate-950/80 flex items-center justify-between">
                 <span className="text-[10px] text-slate-500 font-mono">
-                  Загалом записів у звіті: <strong className="text-slate-300 font-bold">{filteredEntities.length}</strong>
+                  Загалом записів у звіті: <strong className="text-slate-300 font-bold">{selectedEntitiesForExport.length}</strong>
                 </span>
                 <div className="flex items-center gap-2">
                   <button
@@ -2477,12 +2632,15 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                   </button>
                   <button
                     onClick={() => {
-                      window.print();
+                      downloadPDF();
                     }}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-950/20 cursor-pointer transition-colors"
+                    disabled={isExporting}
+                    className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-semibold shadow-lg shadow-indigo-950/20 cursor-pointer transition-colors ${
+                      isExporting ? 'bg-indigo-500/50 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500'
+                    }`}
                   >
-                    <Printer className="w-4 h-4" />
-                    <span>Надрукувати / Зберегти як PDF</span>
+                    {isExporting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Printer className="w-4 h-4" />}
+                    <span>{isExporting ? 'Формування PDF...' : 'Зберегти як PDF'}</span>
                   </button>
                 </div>
               </div>
@@ -2567,7 +2725,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800/60 font-mono text-slate-300">
-                      {filteredEntities.map(e => {
+                      {selectedEntitiesForExport.map(e => {
                         const isHigh = e.riskScore >= 80;
                         const isMedium = e.riskScore >= 50 && e.riskScore < 80;
                         return (
@@ -2596,7 +2754,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                           </tr>
                         );
                       })}
-                      {filteredEntities.length === 0 && (
+                      {selectedEntitiesForExport.length === 0 && (
                         <tr>
                           <td colSpan={5} className="p-8 text-center text-slate-500 font-mono text-[11px]">
                             Жодних об'єктів за обраними критеріями фільтрації не знайдено.
@@ -2611,7 +2769,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               {/* Modal Footer */}
               <div className="p-4 border-t border-slate-800 bg-slate-950/80 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <span className="text-[10px] text-slate-500 font-mono">
-                  Загалом записів у таблиці: <strong className="text-slate-300 font-bold">{filteredEntities.length}</strong>
+                  Загалом записів у таблиці: <strong className="text-slate-300 font-bold">{selectedEntitiesForExport.length}</strong>
                 </span>
                 
                 <div className="flex items-center gap-3">
@@ -2672,6 +2830,71 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     </button>
                   )}
                 </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Large Export Confirmation Modal */}
+      <AnimatePresence>
+        {showLargeExportConfirmation && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md" id="osint-large-export-confirmation">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              className="bg-slate-900 border border-rose-500/40 w-full max-w-md rounded-2xl flex flex-col shadow-2xl overflow-hidden"
+            >
+              {/* Alert Header */}
+              <div className="p-5 border-b border-slate-800 bg-slate-950/60 flex items-center gap-3.5">
+                <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400">
+                  <AlertTriangle className="w-6 h-6 animate-pulse" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider font-mono">⚠️ Попередження: Великий обсяг даних</h3>
+                  <p className="text-[10px] text-slate-500 font-mono mt-0.5">Операція потребує додаткового підтвердження</p>
+                </div>
+              </div>
+
+              {/* Warning Content */}
+              <div className="p-6 space-y-4 text-xs text-slate-300">
+                <p className="leading-relaxed">
+                  Ви ініціювали експорт великого набору даних, який налічує <strong className="text-rose-400 font-bold">{selectedEntitiesForExport.length}</strong> записів. 
+                </p>
+                
+                <div className="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3.5 space-y-2 text-[11px] leading-relaxed">
+                  <span className="text-[9px] font-bold text-slate-500 block uppercase tracking-wider font-mono">Можливі наслідки:</span>
+                  <ul className="list-disc list-inside space-y-1 text-slate-400">
+                    <li>Формування звіту у форматі <span className="text-slate-200 font-bold font-mono uppercase">{pendingExportType}</span> може зайняти більше часу</li>
+                    <li>Тимчасове підвищення навантаження на систему дешифрування зв'язків</li>
+                    <li>Значний розмір фінального файлу вивантаження</li>
+                  </ul>
+                </div>
+
+                <p className="text-[11px] text-slate-400">
+                  Рекомендується застосувати точніші фільтри за типом реєстру або датою активності, щоб зменшити розмір вибірки. Бажаєте продовжити експорт у повному обсязі?
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="p-4 border-t border-slate-800 bg-slate-950/80 flex items-center justify-end gap-3">
+                <button
+                  onClick={() => {
+                    setShowLargeExportConfirmation(false);
+                    setPendingExportType(null);
+                  }}
+                  className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800/60 text-xs font-semibold cursor-pointer transition-colors"
+                >
+                  Скасувати
+                </button>
+                <button
+                  onClick={confirmAndExecuteExport}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold shadow-lg shadow-rose-950/20 cursor-pointer transition-colors"
+                >
+                  <FileDown className="w-4 h-4" />
+                  <span>Так, продовжити експорт</span>
+                </button>
               </div>
             </motion.div>
           </div>

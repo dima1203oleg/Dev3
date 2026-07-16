@@ -16,6 +16,7 @@ import DashboardView from './components/DashboardView';
 import InspectorPanel from './components/InspectorPanel';
 import LiveAnalyticalCenter from './components/LiveAnalyticalCenter';
 import AdminBackOffice from './components/AdminBackOffice';
+import MapsTab from './components/MapsTab';
 import { OSINT_ENTITIES, OsintEntity } from './osintData';
 import { SOLUTIONS } from './data';
 import { 
@@ -24,11 +25,11 @@ import {
   Menu, X, Search, Bell, User, Terminal, Cpu, Database, 
   Activity, Landmark, MessageSquare, Sparkles, Send, HelpCircle,
   Maximize2, Minimize2, Settings, ShieldAlert, Compass,
-  Briefcase, Truck, Globe, TrendingUp, Users
+  Briefcase, Truck, Globe, TrendingUp, Users, Map, Mic
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-type TabId = 'live-analytical-center' | 'admin-back-office' | 'dashboard' | 'osint' | 'catalog' | 'license' | 'architecture' | 'gap' | 'roadmap' | 'volumes' | 'advisor';
+type TabId = 'live-analytical-center' | 'admin-back-office' | 'dashboard' | 'osint' | 'maps' | 'catalog' | 'license' | 'architecture' | 'gap' | 'roadmap' | 'volumes' | 'advisor';
 
 export default function App() {
   const [ecosystem, setEcosystem] = useState<'user' | 'admin'>('user');
@@ -144,6 +145,341 @@ export default function App() {
   // Spotlight / Command Center State
   const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
   const [spotlightQuery, setSpotlightQuery] = useState('');
+
+  // Voice Command / Web Speech API states
+  const [isVoiceListening, setIsVoiceListening] = useState(false);
+  const [voiceTranscript, setVoiceTranscript] = useState('');
+  const [voiceFeedback, setVoiceFeedback] = useState<string | null>(null);
+  const [voiceError, setVoiceError] = useState<string | null>(null);
+
+  const recognitionRef = React.useRef<any>(null);
+
+  // Microsoft TTS Engine state (Web Speech Synthesis Integration)
+  const [isTtsEnabled, setIsTtsEnabled] = useState(true);
+  const [selectedTtsVoice, setSelectedTtsVoice] = useState('Microsoft Irina (UA)');
+  const [availableVoices, setAvailableVoices] = useState<any[]>([]);
+
+  // Initialize and load Speech Synthesis voices natively supporting Microsoft cloud-inspired voices
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      const loadVoices = () => {
+        const voices = window.speechSynthesis.getVoices();
+        setAvailableVoices(voices);
+      };
+      loadVoices();
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+      }
+    }
+  }, []);
+
+  const speakText = (text: string) => {
+    if (!isTtsEnabled) return;
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+
+    try {
+      window.speechSynthesis.cancel();
+    } catch (e) {
+      console.warn("SpeechSynthesis cancel notice:", e);
+    }
+
+    // Clean text: remove code blocks, formatting, long logs
+    let cleanText = text
+      .replace(/```sql[\s\S]*?```/g, ' [Згенеровано SQL запит] ')
+      .replace(/```[\s\S]*?```/g, ' [Фрагмент коду] ')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/[*#_\[\]()\-]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    if (!cleanText) return;
+
+    // Split into readable sentences to avoid browser length bottlenecks
+    const sentences = cleanText.match(/[^.!?]+[.!?]*/g) || [cleanText];
+    
+    sentences.forEach((sentence) => {
+      const sTrimmed = sentence.trim();
+      if (!sTrimmed) return;
+
+      const utterance = new SpeechSynthesisUtterance(sTrimmed);
+      utterance.lang = 'uk-UA';
+      utterance.rate = 1.05; // natural swift pace
+      utterance.pitch = 1.0;
+
+      // Match selected voice or any Ukrainian Microsoft cloud voice
+      const voices = window.speechSynthesis.getVoices();
+      let matchedVoice = null;
+
+      if (selectedTtsVoice.includes('Irina')) {
+        matchedVoice = voices.find(v => v.lang.startsWith('uk') && v.name.includes('Irina')) ||
+                       voices.find(v => v.lang.startsWith('uk') && v.name.includes('Microsoft'));
+      } else if (selectedTtsVoice.includes('Pavel')) {
+        matchedVoice = voices.find(v => v.lang.startsWith('uk') && v.name.includes('Pavel')) ||
+                       voices.find(v => v.lang.startsWith('uk') && v.name.includes('Microsoft'));
+      } else {
+        matchedVoice = voices.find(v => v.lang.startsWith('uk') && v.name.includes('Microsoft'));
+      }
+
+      if (!matchedVoice) {
+        // Fallback to general Ukrainian engines (Microsoft, Google, iOS native)
+        matchedVoice = voices.find(v => v.lang.startsWith('uk')) ||
+                       voices.find(v => v.lang.startsWith('uk-UA')) ||
+                       voices.find(v => v.name.toLowerCase().includes('ukrainian'));
+      }
+
+      if (matchedVoice) {
+        utterance.voice = matchedVoice;
+      }
+
+      window.speechSynthesis.speak(utterance);
+    });
+  };
+
+  const handleVoiceCommand = (transcript: string) => {
+    const text = transcript.trim();
+    if (!text) return;
+
+    const lower = text.toLowerCase();
+    setVoiceFeedback(`Почуто: "${text}"`);
+
+    // Automatic clear of feedback
+    setTimeout(() => {
+      setVoiceFeedback(null);
+    }, 4000);
+
+    // 1. Navigation commands
+    if (lower.includes('дашборд') || lower.includes('dashboard') || lower.includes('панель')) {
+      setActiveTab('dashboard');
+      const msg = `Перехід на інтерактивний Дашборд`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('мапа') || lower.includes('карта') || lower.includes('maps') || lower.includes('map')) {
+      setActiveTab('maps');
+      const msg = `Перехід на інтерактивну карту`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('пошук') || lower.includes('search') || lower.includes('осінт') || lower.includes('osint')) {
+      setActiveTab('osint');
+      const msg = `Перехід на пошуковий робочий стіл OSINT`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('ядро') || lower.includes('центр') || lower.includes('live') || lower.includes('шi')) {
+      setActiveTab('live-analytical-center');
+      const msg = `Перехід до живого аналітичного ядра PREDATOR`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('адмін') || lower.includes('адмінка') || lower.includes('консоль') || lower.includes('admin') || lower.includes('office')) {
+      setEcosystem('admin');
+      setActiveTab('admin-back-office');
+      const msg = `Доступ надано. Перехід у बैक офіс консоль`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('граф') || lower.includes('архітектура') || lower.includes('залежності') || lower.includes('architecture')) {
+      setActiveTab('architecture');
+      const msg = `Відкриття графу залежностей архітектури`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('прогалини') || lower.includes('ризики') || lower.includes('gap')) {
+      setActiveTab('gap');
+      const msg = `Завантаження аналізу прогалин та ризиків комплаєнсу`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('дорожня карта') || lower.includes('план') || lower.includes('roadmap')) {
+      setActiveTab('roadmap');
+      const msg = `Показ дорожньої карти впровадження системи`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('томи') || lower.includes('регламенти') || lower.includes('volumes')) {
+      setActiveTab('volumes');
+      const msg = `Відкриття електронних томів технічного завдання`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('архітектор') || lower.includes('радник') || lower.includes('advisor')) {
+      setActiveTab('advisor');
+      const msg = `Підключення до радника ШІ архітектора`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+
+    // 2. Action / Device commands
+    if (lower.includes('заблокувати') || lower.includes('розблокувати') || lower.includes('lock') || lower.includes('unlock')) {
+      toggleIphonePower();
+      const msg = `Зміна режиму блокування симулятора`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('беззвучний') || lower.includes('звук') || lower.includes('mute') || lower.includes('unmute')) {
+      handleActionButton();
+      const msg = `Перемикання звукового режиму`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('гучніше') || lower.includes('гучність плюс') || lower.includes('volume up')) {
+      adjustVolume(10);
+      const msg = `Гучність збільшено`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('тихіше') || lower.includes('гучність мінус') || lower.includes('volume down')) {
+      adjustVolume(-10);
+      const msg = `Гучність зменшено`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('інспектор') || lower.includes('inspector')) {
+      setIsInspectorOpen(prev => !prev);
+      const msg = `Перемикання стану панелі інспектора`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+
+    // 3. Search queries
+    let queryText = text;
+    let isExplicitSearch = false;
+    if (lower.startsWith('знайди ') || lower.startsWith('пошук ')) {
+      queryText = text.substring(6).trim();
+      isExplicitSearch = true;
+    } else if (lower.startsWith('find ') || lower.startsWith('search ')) {
+      queryText = text.substring(5).trim();
+      isExplicitSearch = true;
+    }
+
+    if (isExplicitSearch || lower.includes('коваленко') || lower.includes('спецтехпостач') || lower.includes('фольксваген') || lower.includes('клієнт')) {
+      const queryLower = queryText.toLowerCase();
+      const matched = (window as any).OSINT_ENTITIES || (typeof OSINT_ENTITIES !== 'undefined' ? OSINT_ENTITIES : []).find((ent: any) => 
+        ent.name.toLowerCase().includes(queryLower) ||
+        ent.code.includes(queryLower)
+      );
+
+      if (matched) {
+        setSelectedEntity(matched);
+        setSelectedTool(null);
+        setSelectedNode(null);
+        setIsInspectorOpen(true);
+        setActiveTab('live-analytical-center');
+        const msg = `Знайдено об'єкт дослідження: ${matched.name}`;
+        setVoiceFeedback(msg);
+        speakText(msg);
+        return;
+      }
+    }
+
+    // 4. Default: Chat with Jarvis
+    setChatHistory(prev => [...prev, { sender: 'user', text: text }]);
+    setIsAiChatOpen(true);
+    
+    setTimeout(() => {
+      let aiResponse = "Голосовий запит опрацьовано ШІ-ядром PREDATOR через Web Speech API. Збігів у базі санкцій не знайдено.";
+      
+      if (lower.includes('санкції') || lower.includes('рнбо')) {
+        aiResponse = "ШІ знайшов критичну загрозу: ТОВ 'СпецТехПостач' (код 38294012) знаходиться під санкціями РНБО з 2026 року через обхід експортних обмежень через турецьких контрагентів.";
+      } else if (lower.includes('коваленко')) {
+        aiResponse = "Коваленко Ігор Вікторович є засновником ТОВ 'СпецТехПостач' (51%) та володіє BTC-гаманцем bc1qxy...d831. ШІ оцінює рівень ризику особи як ВИСОКИЙ (82%).";
+      } else if (lower.includes('sql')) {
+        aiResponse = "Ось згенерований SQL для пошуку пов'язаних бенефіціарів:\n\nSELECT * FROM company_founders WHERE risk_level = 'HIGH';";
+      } else if (lower.includes('pdf')) {
+        aiResponse = "Надішліть PDF-файл ТЗ чи митної декларації в чат. Я проведу миттєвий комплаєнс-аналіз згідно з 16 томами.";
+      } else if (lower.includes('привіт') || lower.includes('вітаю') || lower.includes('hello')) {
+        aiResponse = "Вітаю! Я уважно слухаю ваші голосові команди. Ви можете сказати 'Перейди на дашборд', 'Покажи карту' або запитати про санкції.";
+      }
+
+      setChatHistory(prev => [...prev, { sender: 'ai', text: aiResponse }]);
+      speakText(aiResponse);
+    }, 800);
+  };
+
+  const startVoiceControl = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setVoiceError("Web Speech API не підтримується у цьому браузері. Будь ласка, використовуйте Google Chrome.");
+      setTimeout(() => setVoiceError(null), 5000);
+      return;
+    }
+
+    if (isVoiceListening) {
+      try {
+        recognitionRef.current?.stop();
+      } catch (e) {}
+      setIsVoiceListening(false);
+      setDynamicIslandState('normal');
+      return;
+    }
+
+    setIsVoiceListening(true);
+    setVoiceError(null);
+    setVoiceFeedback("Активація мікрофона...");
+    setDynamicIslandState('voice-listening');
+
+    const rec = new SpeechRecognition();
+    rec.continuous = false;
+    rec.interimResults = false;
+    rec.lang = 'uk-UA';
+
+    rec.onstart = () => {
+      setVoiceFeedback("Слухаю... Назвіть команду");
+    };
+
+    rec.onerror = (event: any) => {
+      console.warn("Speech recognition notice (non-fatal):", event);
+      if (event.error === 'no-speech') {
+        setVoiceError("Голос не виявлено. Спробуйте ще раз або виберіть симуляцію нижче:");
+      } else if (event.error === 'not-allowed') {
+        setVoiceError("Доступ заблоковано (запуск у пісочниці/фреймі). Виберіть симуляцію:");
+      } else {
+        setVoiceError(`Помилка розпізнавання: ${event.error}. Виберіть симуляцію:`);
+      }
+      setIsVoiceListening(false);
+      setDynamicIslandState('normal');
+      setTimeout(() => setVoiceError(null), 15000);
+    };
+
+    rec.onend = () => {
+      setIsVoiceListening(false);
+      setTimeout(() => {
+        setDynamicIslandState(prev => prev === 'voice-listening' ? 'normal' : prev);
+      }, 3000);
+    };
+
+    rec.onresult = (event: any) => {
+      const resultIndex = event.resultIndex;
+      const transcript = event.results[resultIndex][0].transcript;
+      setVoiceTranscript(transcript);
+      handleVoiceCommand(transcript);
+    };
+
+    recognitionRef.current = rec;
+    try {
+      rec.start();
+    } catch (err) {
+      console.warn("Could not start speech recognition directly (non-fatal):", err);
+      setIsVoiceListening(false);
+      setDynamicIslandState('normal');
+    }
+  };
 
   // Handle key escape and Ctrl/Cmd+K to toggle Spotlight
   useEffect(() => {
@@ -687,6 +1023,13 @@ export default function App() {
                   }}
                   className="flex-1 bg-slate-900 border border-slate-850 rounded-md px-2 py-1.5 text-[11px] focus:outline-none focus:border-indigo-500/40"
                 />
+                <button
+                  onClick={startVoiceControl}
+                  className={`p-1.5 rounded-md transition-colors flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900 border border-slate-850 text-slate-400 hover:text-indigo-400'}`}
+                  title="Голосовий ввід"
+                >
+                  <Mic className="w-3.5 h-3.5" />
+                </button>
                 <button onClick={handleSendMessage} className="bg-indigo-600 hover:bg-indigo-500 text-white p-1.5 rounded-md transition-colors">
                   <Send className="w-3.5 h-3.5" />
                 </button>
@@ -820,8 +1163,8 @@ export default function App() {
               onClick={handleDynamicIslandClick}
               className="absolute top-3 left-1/2 -translate-x-1/2 bg-black rounded-[20px] z-50 flex items-center justify-between pointer-events-auto border border-slate-900/80 shadow-2xl cursor-pointer select-none overflow-hidden"
               animate={{
-                width: dynamicIslandState === 'expanded' ? 320 : dynamicIslandState === 'mute-alert' || dynamicIslandState === 'unmute-alert' ? 150 : 112,
-                height: dynamicIslandState === 'expanded' ? 120 : 26,
+                width: dynamicIslandState === 'expanded' ? 320 : dynamicIslandState === 'voice-listening' ? 240 : dynamicIslandState === 'mute-alert' || dynamicIslandState === 'unmute-alert' ? 150 : 112,
+                height: dynamicIslandState === 'expanded' ? 120 : dynamicIslandState === 'voice-listening' ? 36 : 26,
                 borderRadius: dynamicIslandState === 'expanded' ? 28 : 20,
                 paddingLeft: dynamicIslandState === 'expanded' ? 16 : 10,
                 paddingRight: dynamicIslandState === 'expanded' ? 16 : 10,
@@ -838,6 +1181,28 @@ export default function App() {
                     <div className="w-1 h-1 bg-[#020617] rounded-full"></div>
                   </div>
                 </>
+              )}
+
+              {dynamicIslandState === 'voice-listening' && (
+                <div className="w-full flex items-center justify-between gap-2 text-[9px] font-mono text-white py-1">
+                  <div className="flex items-center gap-1 shrink-0">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                    <span className="text-[7px] uppercase tracking-wider text-red-400 font-bold animate-pulse">Голос</span>
+                  </div>
+                  <div className="flex items-center gap-0.5 justify-center flex-1 h-3 shrink-0">
+                    <span className="w-0.5 h-2 bg-indigo-400 animate-pulse rounded"></span>
+                    <span className="w-0.5 h-3 bg-indigo-400 animate-pulse rounded delay-75"></span>
+                    <span className="w-0.5 h-1.5 bg-indigo-400 animate-pulse rounded delay-150"></span>
+                    <span className="w-0.5 h-3 bg-indigo-400 animate-pulse rounded delay-200"></span>
+                    <span className="w-0.5 h-1 bg-indigo-400 animate-pulse rounded delay-300"></span>
+                  </div>
+                  <span className="text-[7px] text-slate-400 truncate max-w-[110px] shrink-0 font-sans italic">
+                    {voiceFeedback ? voiceFeedback.replace('Почуто: ', '').replace('Об\'єкт: ', '') : "Слухаю..."}
+                  </span>
+                </div>
               )}
 
               {(dynamicIslandState === 'mute-alert' || dynamicIslandState === 'unmute-alert') && (
@@ -1068,17 +1433,27 @@ export default function App() {
             </div>
           </div>
 
-          {/* Search Trigger for Command Center (Ctrl+K) */}
-          <div 
-            onClick={() => setIsSpotlightOpen(true)}
-            className="hidden lg:flex items-center gap-2 bg-slate-900/50 border border-slate-850 hover:border-indigo-500/30 rounded-xl px-3 py-2 cursor-pointer transition-all w-72 select-none group"
-            id="spotlight-header-trigger"
-          >
-            <Search className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 transition-colors" />
-            <span className="text-slate-400 text-xs flex-1 text-left">Шукати фірму, особу чи гаманець...</span>
-            <span className="text-[9px] bg-slate-950 border border-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">
-              Ctrl+K
-            </span>
+          {/* Search Trigger for Command Center (Ctrl+K) & Voice Control */}
+          <div className="hidden lg:flex items-center gap-2">
+            <div 
+              onClick={() => setIsSpotlightOpen(true)}
+              className="flex items-center gap-2 bg-slate-900/50 border border-slate-850 hover:border-indigo-500/30 rounded-xl px-3 py-2 cursor-pointer transition-all w-72 select-none group"
+              id="spotlight-header-trigger"
+            >
+              <Search className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 transition-colors" />
+              <span className="text-slate-400 text-xs flex-1 text-left">Шукати фірму, особу чи гаманець...</span>
+              <span className="text-[9px] bg-slate-950 border border-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">
+                Ctrl+K
+              </span>
+            </div>
+            <button
+              onClick={startVoiceControl}
+              className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border-red-500/40 animate-pulse' : 'bg-slate-900/50 text-slate-400 border-slate-850 hover:border-indigo-500/30 hover:text-indigo-400'}`}
+              title="Голосовий пошук та команди (Web Speech API)"
+              id="voice-header-trigger"
+            >
+              <Mic className="w-4 h-4" />
+            </button>
           </div>
 
           {/* Center: Dual Ecosystem Switch Toggle & Device Rendering Switch */}
@@ -1239,6 +1614,19 @@ export default function App() {
                         <div className="flex items-center justify-between flex-1">
                           <span>Живе ШІ-Ядро</span>
                           <span className="text-[8px] bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 px-1.5 py-0.5 rounded font-mono font-bold tracking-widest">CORE</span>
+                        </div>
+                      )}
+                    </button>
+
+                    <button 
+                      onClick={() => setActiveTab('maps')}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'maps' ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 shadow-sm' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                    >
+                      <Map className={`w-4 h-4 ${activeTab === 'maps' ? 'text-indigo-400' : 'text-slate-500'}`} />
+                      {!sidebarCollapsed && (
+                        <div className="flex items-center justify-between flex-1">
+                          <span>Інтерактивна Карта</span>
+                          <span className="text-[9px] bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 px-1.5 py-0.5 rounded font-mono font-bold">MAP</span>
                         </div>
                       )}
                     </button>
@@ -1419,6 +1807,7 @@ export default function App() {
                 {activeTab === 'admin-back-office' && 'Back Office Консоль (ArgoCD & Grafana)'}
                 {activeTab === 'dashboard' && 'Старий Дашборд'}
                 {activeTab === 'osint' && 'Старий Пошук OSINT'}
+                {activeTab === 'maps' && 'Інтерактивна Карта PREDATOR'}
                 {activeTab === 'catalog' && 'Каталог рішень'}
                 {activeTab === 'license' && 'Сумісність ліцензій'}
                 {activeTab === 'architecture' && 'Граф залежностей'}
@@ -1476,6 +1865,16 @@ export default function App() {
                       setSelectedTool(null);
                       setSelectedNode(null);
                       setIsInspectorOpen(true);
+                    }}
+                  />
+                )}
+                {activeTab === 'maps' && (
+                  <MapsTab 
+                    onSelectEntityGlobal={(ent) => {
+                      setSelectedEntity(ent);
+                      setSelectedTool(null);
+                      setSelectedNode(null);
+                      setActiveTab('live-analytical-center');
                     }}
                   />
                 )}
@@ -1576,6 +1975,13 @@ export default function App() {
                       }}
                       className="flex-1 bg-slate-900 border border-slate-850 rounded-lg px-2.5 py-2 text-xs focus:outline-none focus:border-indigo-500/40"
                     />
+                    <button
+                      onClick={startVoiceControl}
+                      className={`p-2 rounded-lg transition-colors cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900 border border-slate-850 text-slate-400 hover:text-indigo-400'}`}
+                      title="Голосовий ввід"
+                    >
+                      <Mic className="w-3.5 h-3.5" />
+                    </button>
                     <button
                       onClick={handleSendMessage}
                       className="bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-lg transition-colors cursor-pointer"
@@ -1781,8 +2187,106 @@ export default function App() {
   };
 
   return (
-    <AnimatePresence mode="wait">
-      {deviceMode === 'iphone' ? renderIphoneLayout() : renderDesktopLayout()}
-    </AnimatePresence>
+    <>
+      <AnimatePresence mode="wait">
+        {deviceMode === 'iphone' ? renderIphoneLayout() : renderDesktopLayout()}
+      </AnimatePresence>
+
+      {/* Floating Voice Control HUD Overlay */}
+      <AnimatePresence>
+        {isVoiceListening && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 10 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-20 left-1/2 -translate-x-1/2 bg-[#090e1a]/95 border border-red-500/30 shadow-2xl rounded-2xl px-5 py-3 z-50 flex items-center gap-4 w-[420px] max-w-[90vw] backdrop-blur-md"
+          >
+            <div className="relative flex h-3.5 w-3.5 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500"></span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-mono font-bold text-red-400 uppercase tracking-widest">
+                🎙️ Голосовий аналізатор PREDATOR активний
+              </p>
+              <p className="text-xs text-slate-200 font-medium truncate mt-0.5 font-sans">
+                {voiceFeedback || "Слухаю голос... Назвіть команду навігації чи пошуку"}
+              </p>
+            </div>
+            <div className="flex gap-0.5 items-center justify-end h-5 w-12 shrink-0">
+              <motion.div className="w-[3px] bg-red-400 rounded-full animate-pulse" style={{ height: 12 }} />
+              <motion.div className="w-[3px] bg-red-400 rounded-full animate-pulse" style={{ height: 20 }} />
+              <motion.div className="w-[3px] bg-red-400 rounded-full animate-pulse" style={{ height: 8 }} />
+              <motion.div className="w-[3px] bg-red-400 rounded-full animate-pulse" style={{ height: 24 }} />
+              <motion.div className="w-[3px] bg-red-400 rounded-full animate-pulse" style={{ height: 14 }} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Voice Control Toast / Feedback Alert */}
+      <AnimatePresence>
+        {!isVoiceListening && (voiceFeedback || voiceError) && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 10, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className={`fixed top-20 left-1/2 -translate-x-1/2 shadow-[0_15px_40px_rgba(0,0,0,0.5)] rounded-2xl p-4.5 z-50 flex flex-col gap-3 w-[450px] max-w-[90vw] backdrop-blur-md border ${voiceError ? 'bg-red-950/95 border-red-500/40 text-red-200 shadow-red-900/10' : 'bg-slate-950/95 border-indigo-500/40 text-slate-200 shadow-indigo-900/10'}`}
+          >
+            <div className="flex items-start gap-2.5">
+              <span className="text-sm shrink-0 mt-0.5">{voiceError ? '⚠️' : '🎙️'}</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
+                  {voiceError ? 'Помилка голосового аналізатора' : 'Аналітичний голос PREDATOR'}
+                </p>
+                <p className="text-xs font-semibold tracking-wide leading-relaxed mt-0.5">
+                  {voiceError || voiceFeedback}
+                </p>
+              </div>
+              <button 
+                onClick={() => {
+                  setVoiceError(null);
+                  setVoiceFeedback(null);
+                }}
+                className="text-slate-500 hover:text-slate-300 transition-colors text-xs p-1 font-bold font-mono"
+              >
+                ✕
+              </button>
+            </div>
+
+            {voiceError && (
+              <div className="border-t border-red-500/10 pt-2.5 mt-0.5">
+                <p className="text-[9px] font-mono text-red-400 font-bold uppercase tracking-wider mb-2">
+                  ⚡ Клікніть, щоб симулювати голосову команду:
+                </p>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {[
+                    { label: '📊 Перейти на Дашборд', cmd: 'перейди на дашборд' },
+                    { label: '🗺️ Показати Карту', cmd: 'покажи карту' },
+                    { label: '🔍 OSINT пошук', cmd: 'осінт пошук' },
+                    { label: '👤 Знайди Коваленко', cmd: 'знайди Коваленко' },
+                    { label: '🛡️ Дорожня карта', cmd: 'дорожня карта' },
+                    { label: '⚠️ Санкції РНБО?', cmd: 'які санкції?' },
+                  ].map((item, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setVoiceError(null);
+                        setVoiceFeedback(`Симульовано команду: "${item.cmd}"`);
+                        handleVoiceCommand(item.cmd);
+                        setTimeout(() => setVoiceFeedback(null), 3000);
+                      }}
+                      className="bg-red-500/10 hover:bg-red-500/20 text-red-300 hover:text-white border border-red-500/20 hover:border-red-500/40 px-2 py-1.5 rounded-lg text-[10px] font-semibold text-left transition-all cursor-pointer truncate"
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
