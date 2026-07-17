@@ -9,7 +9,7 @@ export function AuthStatus() {
 
   if (user) {
     return (
-      <div className="flex items-center gap-3 bg-slate-900/50 px-3 py-1.5 rounded-full border border-slate-800">
+      <div className="flex items-center gap-3 bg-slate-900/50 px-3 py-1.5 rounded-full border border-indigo-500/10">
         <div className="flex items-center gap-2">
           {user.photoURL ? (
             <img src={user.photoURL} alt="User" className="w-5 h-5 rounded-full border border-slate-700" />

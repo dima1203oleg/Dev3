@@ -515,7 +515,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
       case 'ACTIVE':
         return <span className="text-[8px] font-bold text-emerald-400 px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 uppercase tracking-tight">АКТИВНИЙ</span>;
       default:
-        return <span className="text-[8px] font-mono text-slate-400 px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 uppercase tracking-tight">{status}</span>;
+        return <span className="text-[8px] font-mono text-slate-400 px-1.5 py-0.5 rounded bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 uppercase tracking-tight">{status}</span>;
     }
   };
 
@@ -543,7 +543,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
       </AnimatePresence>
       
       {/* Workspace Header with Export Actions */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-900/60" id="osint-workspace-header">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-indigo-500/5/60" id="osint-workspace-header">
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <div>
             <h2 className="text-sm font-bold text-slate-100 flex items-center gap-2 uppercase tracking-wider">
@@ -556,7 +556,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
           </div>
 
           {filteredEntities.length > 0 && (
-            <div className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-900/60 border border-slate-900/80 shrink-0 select-none">
+            <div className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-900/60 border border-indigo-500/5/80 shrink-0 select-none">
               <span className="relative flex h-2 w-2">
                 <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${highRiskRatio > 0.4 ? 'bg-rose-500' : highRiskRatio > 0.1 ? 'bg-amber-400' : 'bg-emerald-400'}`} />
                 <span className={`relative inline-flex rounded-full h-2 w-2 ${highRiskRatio > 0.4 ? 'bg-rose-500' : highRiskRatio > 0.1 ? 'bg-amber-400' : 'bg-emerald-400'}`} />
@@ -569,10 +569,10 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
         </div>
         
         {/* Export Control Panel with Format Selector */}
-        <div className="flex items-center gap-3 bg-slate-950/40 p-1.5 rounded-xl border border-slate-900/60 shrink-0 select-none" id="export-format-selector-panel">
+        <div className="flex items-center gap-3 bg-slate-950/40 p-1.5 rounded-xl border border-indigo-500/5/60 shrink-0 select-none" id="export-format-selector-panel">
           <button
             onClick={() => setShowPreviewModal(true)}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800/40 text-[10px] font-mono font-bold uppercase tracking-wider cursor-pointer transition-all"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-indigo-500/10/40 text-[10px] font-mono font-bold uppercase tracking-wider cursor-pointer transition-all"
             title="Попередній перегляд відфільтрованої таблиці перед експортом"
           >
             <Eye className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
@@ -581,7 +581,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
           
           <div className="h-4 w-px bg-slate-800" />
 
-          <div className="flex items-center gap-1 bg-slate-950/80 p-0.5 rounded-lg border border-slate-900/40 relative">
+          <div className="flex items-center gap-1 bg-slate-950/80 p-0.5 rounded-lg border border-indigo-500/5/40 relative">
             <button
               onClick={() => setExportFormat('csv')}
               className={`px-2.5 py-1 rounded-md text-[9px] font-mono font-bold uppercase tracking-wider relative transition-all duration-300 cursor-pointer ${
@@ -672,7 +672,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
       </div>
       
       {/* Top OSINT filter options */}
-      <div className="flex flex-col gap-4 bg-slate-900/10 border border-slate-900/30 p-4 rounded-2xl" id="osint-filters-panel">
+      <div className="flex flex-col gap-4 bg-slate-900/10 border border-indigo-500/5/30 p-4 rounded-2xl" id="osint-filters-panel">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-1.5" id="registry-quick-filters">
             <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-wider mr-2 min-w-[80px]">Бази OSINT:</span>
@@ -680,7 +680,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${activeFilter === filter ? 'bg-indigo-600/15 text-indigo-400 border-indigo-500/40 shadow-sm' : 'bg-slate-900/40 text-slate-400 border-slate-900 hover:border-slate-800'}`}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${activeFilter === filter ? 'bg-indigo-600/15 text-indigo-400 border-indigo-500/40 shadow-sm' : 'bg-slate-900/40 text-slate-400 border-indigo-500/5 hover:border-indigo-500/10'}`}
               >
                 {filter === 'all' && 'Всі реєстри'}
                 {filter === 'company' && 'Юридичні особи (ЄДР)'}
@@ -704,7 +704,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
             <button
               key={cat}
               onClick={() => setCategoryFilter(cat)}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${categoryFilter === cat ? 'bg-rose-600/15 text-rose-400 border-rose-500/40 shadow-sm' : 'bg-slate-900/40 text-slate-400 border-slate-900 hover:border-slate-800'}`}
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${categoryFilter === cat ? 'bg-rose-600/15 text-rose-400 border-rose-500/40 shadow-sm' : 'bg-slate-900/40 text-slate-400 border-indigo-500/5 hover:border-indigo-500/10'}`}
             >
               {cat === 'all' && 'Всі статуси'}
               {cat === 'sanctioned' && '⚠️ Під санкціями'}
@@ -729,7 +729,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                       : lvl === 'low'
                         ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/40 shadow-sm'
                         : 'bg-indigo-600/15 text-indigo-400 border-indigo-500/40 shadow-sm'
-                  : 'bg-slate-900/40 text-slate-400 border-slate-900 hover:border-slate-800'
+                  : 'bg-slate-900/40 text-slate-400 border-indigo-500/5 hover:border-indigo-500/10'
               }`}
             >
               {lvl === 'all' && 'Всі рівні'}
@@ -745,7 +745,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
           
           <div className="flex flex-wrap items-center gap-2">
             {/* Start Date */}
-            <div className="flex items-center gap-1.5 bg-slate-950/60 border border-slate-900/80 rounded-lg px-2.5 py-1 text-slate-300">
+            <div className="flex items-center gap-1.5 bg-slate-950/60 border border-indigo-500/5/80 rounded-lg px-2.5 py-1 text-slate-300">
               <Calendar className="w-3.5 h-3.5 text-indigo-400" />
               <span className="text-[9px] font-mono text-slate-500 uppercase">Початок:</span>
               <input 
@@ -757,7 +757,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
             </div>
             
             {/* End Date */}
-            <div className="flex items-center gap-1.5 bg-slate-950/60 border border-slate-900/80 rounded-lg px-2.5 py-1 text-slate-300">
+            <div className="flex items-center gap-1.5 bg-slate-950/60 border border-indigo-500/5/80 rounded-lg px-2.5 py-1 text-slate-300">
               <Calendar className="w-3.5 h-3.5 text-indigo-400" />
               <span className="text-[9px] font-mono text-slate-500 uppercase">Кінець:</span>
               <input 
@@ -778,7 +778,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                 className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                   startDate === '2026-01-01' && endDate === '2026-12-31' 
                     ? 'bg-indigo-600/15 text-indigo-400 border-indigo-500/40 shadow-sm' 
-                    : 'bg-slate-900/40 text-slate-400 border-slate-900 hover:border-slate-800'
+                    : 'bg-slate-900/40 text-slate-400 border-indigo-500/5 hover:border-indigo-500/10'
                 }`}
               >
                 2026 рік
@@ -791,7 +791,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                 className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                   startDate === '2025-01-01' && endDate === '2025-12-31' 
                     ? 'bg-indigo-600/15 text-indigo-400 border-indigo-500/40 shadow-sm' 
-                    : 'bg-slate-900/40 text-slate-400 border-slate-900 hover:border-slate-800'
+                    : 'bg-slate-900/40 text-slate-400 border-indigo-500/5 hover:border-indigo-500/10'
                 }`}
               >
                 2025 рік
@@ -812,7 +812,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
         </div>
 
         {/* Heatmap Visibility and Intensity controls */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-slate-900/40 mt-1" id="heatmap-control-panel">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-indigo-500/5/40 mt-1" id="heatmap-control-panel">
           <div className="flex items-center gap-2">
             <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-wider mr-2 min-w-[80px]">Теплова карта:</span>
             <button
@@ -820,7 +820,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                 showHeatmap 
                   ? 'bg-rose-500/15 text-rose-400 border-rose-500/40 shadow-sm' 
-                  : 'bg-slate-900/40 text-slate-500 border-slate-900 hover:border-slate-800'
+                  : 'bg-slate-900/40 text-slate-500 border-indigo-500/5 hover:border-indigo-500/10'
               }`}
             >
               {showHeatmap ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
@@ -829,7 +829,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
           </div>
 
           {showHeatmap && (
-            <div className="flex items-center gap-3 bg-slate-950/40 border border-slate-900/60 rounded-xl px-4 py-2 flex-1 sm:flex-initial sm:min-w-[280px]">
+            <div className="flex items-center gap-3 bg-slate-950/40 border border-indigo-500/5/60 rounded-xl px-4 py-2 flex-1 sm:flex-initial sm:min-w-[280px]">
               <span className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-wider flex items-center gap-1 shrink-0">
                 <Sliders className="w-3 h-3 text-rose-400" />
                 <span>Чутливість:</span>
@@ -851,7 +851,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
         </div>
 
         {/* Real-time Risk Distribution Histogram */}
-        <div className="pt-4 border-t border-slate-900/40 mt-1" id="risk-distribution-histogram-widget">
+        <div className="pt-4 border-t border-indigo-500/5/40 mt-1" id="risk-distribution-histogram-widget">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
             <div className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-indigo-400" />
@@ -866,7 +866,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* High Risk Category */}
-            <div className="bg-slate-950/40 border border-slate-900/60 p-3 rounded-xl flex flex-col justify-between hover:border-rose-500/30 hover:bg-rose-500/5 transition-all duration-300 group">
+            <div className="bg-slate-950/40 border border-indigo-500/5/60 p-3 rounded-xl flex flex-col justify-between hover:border-rose-500/30 hover:bg-rose-500/5 transition-all duration-300 group">
               <div className="flex items-center justify-between text-[10px] font-mono mb-2">
                 <span className="flex items-center gap-1.5 font-bold text-rose-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
@@ -876,7 +876,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                   {riskDistribution.high} ({Math.round(riskDistribution.highPercent)}%)
                 </span>
               </div>
-              <div className="h-2 bg-slate-900 rounded-full overflow-hidden relative">
+              <div className="h-2 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full overflow-hidden relative">
                 <motion.div 
                   initial={{ width: 0 }}
                   animate={{ width: `${riskDistribution.highPercent}%` }}
@@ -887,7 +887,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
             </div>
 
             {/* Medium Risk Category */}
-            <div className="bg-slate-950/40 border border-slate-900/60 p-3 rounded-xl flex flex-col justify-between hover:border-amber-500/30 hover:bg-amber-500/5 transition-all duration-300 group">
+            <div className="bg-slate-950/40 border border-indigo-500/5/60 p-3 rounded-xl flex flex-col justify-between hover:border-amber-500/30 hover:bg-amber-500/5 transition-all duration-300 group">
               <div className="flex items-center justify-between text-[10px] font-mono mb-2">
                 <span className="flex items-center gap-1.5 font-bold text-amber-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
@@ -897,7 +897,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                   {riskDistribution.medium} ({Math.round(riskDistribution.mediumPercent)}%)
                 </span>
               </div>
-              <div className="h-2 bg-slate-900 rounded-full overflow-hidden relative">
+              <div className="h-2 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full overflow-hidden relative">
                 <motion.div 
                   initial={{ width: 0 }}
                   animate={{ width: `${riskDistribution.mediumPercent}%` }}
@@ -908,7 +908,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
             </div>
 
             {/* Low Risk Category */}
-            <div className="bg-slate-950/40 border border-slate-900/60 p-3 rounded-xl flex flex-col justify-between hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all duration-300 group">
+            <div className="bg-slate-950/40 border border-indigo-500/5/60 p-3 rounded-xl flex flex-col justify-between hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all duration-300 group">
               <div className="flex items-center justify-between text-[10px] font-mono mb-2">
                 <span className="flex items-center gap-1.5 font-bold text-emerald-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -918,7 +918,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                   {riskDistribution.low} ({Math.round(riskDistribution.lowPercent)}%)
                 </span>
               </div>
-              <div className="h-2 bg-slate-900 rounded-full overflow-hidden relative">
+              <div className="h-2 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full overflow-hidden relative">
                 <motion.div 
                   initial={{ width: 0 }}
                   animate={{ width: `${riskDistribution.lowPercent}%` }}
@@ -933,7 +933,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
 
       {/* Global Auto-Complete Search Input */}
       <div className="relative z-20" id="workbench-search-container">
-        <div className="bg-slate-950 border border-slate-850 rounded-xl flex items-center p-1 shadow-2xl">
+        <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-slate-850 rounded-xl flex items-center p-1 shadow-2xl">
           <div className="pl-3 text-slate-500">
             <Search className="w-4 h-4" />
           </div>
@@ -974,7 +974,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 5 }}
-              className="absolute left-0 right-0 mt-1.5 bg-slate-950 border border-slate-850 rounded-xl overflow-hidden shadow-2xl divide-y divide-slate-900 max-h-[300px] overflow-y-auto"
+              className="absolute left-0 right-0 mt-1.5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-slate-850 rounded-xl overflow-hidden shadow-2xl divide-y divide-slate-900 max-h-[300px] overflow-y-auto"
             >
               {suggestions.length > 0 && (
                 <div className="p-2.5">
@@ -990,7 +990,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                           setSearchQuery(entity.name);
                           setShowSuggestions(false);
                         }}
-                        className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-900 flex items-center justify-between text-xs text-slate-300 group"
+                        className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] flex items-center justify-between text-xs text-slate-300 group"
                       >
                         <div className="flex items-center gap-2.5">
                           {entity.type === 'company' ? (
@@ -1050,7 +1050,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                           setSearchQuery(term);
                           handleSearchSubmit(term);
                         }}
-                        className="text-[10px] text-slate-400 hover:text-white bg-slate-900 border border-slate-850 px-2.5 py-1 rounded-md transition-colors"
+                        className="text-[10px] text-slate-400 hover:text-white bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 px-2.5 py-1 rounded-md transition-colors"
                       >
                         {term}
                       </button>
@@ -1123,8 +1123,8 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
         
         {/* Left Column: List of filtered entities with categories */}
         <div className="xl:col-span-3 space-y-6" id="osint-list-panel">
-          <div className="bg-slate-900/40 border border-slate-900 rounded-2xl p-4.5 shadow-xl flex flex-col h-[650px]" id="osint-list-card">
-            <div className="flex items-center justify-between border-b border-slate-900 pb-3 mb-3">
+          <div className="bg-slate-900/40 border border-indigo-500/5 rounded-2xl p-4.5 shadow-xl flex flex-col h-[650px]" id="osint-list-card">
+            <div className="flex items-center justify-between border-b border-indigo-500/5 pb-3 mb-3">
               <div className="flex items-center gap-2">
                 <Filter className="w-4 h-4 text-indigo-400" />
                 <span className="text-xs font-bold text-slate-100 uppercase tracking-widest">
@@ -1149,13 +1149,13 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
             </div>
 
             {/* Selection control bar */}
-            <div className="flex items-center justify-between bg-slate-950/40 border border-slate-900/60 rounded-xl px-2.5 py-1.5 mb-3 text-[10px] font-mono text-slate-400">
+            <div className="flex items-center justify-between bg-slate-950/40 border border-indigo-500/5/60 rounded-xl px-2.5 py-1.5 mb-3 text-[10px] font-mono text-slate-400">
               <div className="flex items-center gap-1.5">
                 <input
                   type="checkbox"
                   checked={filteredEntities.length > 0 && filteredEntities.every(e => selectedEntityIds.includes(e.id))}
                   onChange={toggleAllEntitiesSelection}
-                  className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-950 text-indigo-500 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-indigo-500"
+                  className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] text-indigo-500 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-indigo-500"
                   title="Вибрати всі / зняти вибір"
                 />
                 <span>Обрано: <strong className="text-indigo-400 font-bold">{selectedEntitiesForExport.length}</strong></span>
@@ -1165,7 +1165,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                   type="checkbox"
                   checked={simulateLargeDataset}
                   onChange={(e) => setSimulateLargeDataset(e.target.checked)}
-                  className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-950 text-rose-500 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-rose-500"
+                  className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] text-rose-500 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-rose-500"
                 />
                 <span className="text-[9px] text-rose-400/90 font-bold uppercase tracking-tight">Тест &gt;50</span>
               </label>
@@ -1221,7 +1221,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                               e.stopPropagation();
                               toggleEntitySelection(entity.id);
                             }}
-                            className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-950 text-indigo-500 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-indigo-500 mr-1 shrink-0"
+                            className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] text-indigo-500 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-indigo-500 mr-1 shrink-0"
                           />
                           {entity.type === 'company' ? (
                             <Briefcase className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
@@ -1240,7 +1240,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                       </div>
 
                       {/* Dynamic Risk Score Progress Bar */}
-                      <div className="w-full bg-slate-950/80 rounded-full h-1 overflow-hidden border border-slate-900/40">
+                      <div className="w-full bg-slate-950/80 rounded-full h-1 overflow-hidden border border-indigo-500/5/40">
                         <div 
                           className={`h-full rounded-full transition-all duration-300 ${theme.barClass}`}
                           style={{ width: `${entity.riskScore}%` }}
@@ -1266,11 +1266,11 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                               e.stopPropagation();
                             }}
                           >
-                            <div className="pt-2.5 border-t border-slate-900/60 space-y-3 text-[10px] text-slate-300 font-sans">
+                            <div className="pt-2.5 border-t border-indigo-500/5/60 space-y-3 text-[10px] text-slate-300 font-sans">
                               {/* Analytic Note Description */}
                               <div 
                                 onClick={() => handleCopyToClipboard(entity.description, `${entity.id}-desc`)}
-                                className="bg-slate-950/40 p-2 rounded-lg border border-slate-900/60 text-slate-400 font-sans leading-relaxed text-[10px] cursor-pointer hover:bg-slate-950/60 transition-all relative group/copy"
+                                className="bg-slate-950/40 p-2 rounded-lg border border-indigo-500/5/60 text-slate-400 font-sans leading-relaxed text-[10px] cursor-pointer hover:bg-slate-950/60 transition-all relative group/copy"
                               >
                                 <span className="text-[8px] font-mono font-bold text-slate-600 block uppercase tracking-wider mb-1">
                                   Аналітична замітка
@@ -1294,7 +1294,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                                 </span>
                                 <div 
                                   onClick={() => handleCopyToClipboard(entity.address, `${entity.id}-address`)}
-                                  className="text-[9px] break-all text-slate-300 leading-normal bg-slate-950/20 p-1.5 rounded border border-slate-900/40 cursor-pointer hover:bg-slate-950/40 transition-all relative group/copy"
+                                  className="text-[9px] break-all text-slate-300 leading-normal bg-slate-950/20 p-1.5 rounded border border-indigo-500/5/40 cursor-pointer hover:bg-slate-950/40 transition-all relative group/copy"
                                 >
                                   {entity.address}
                                   <div className="absolute top-1.5 right-1.5 opacity-0 group-hover/copy:opacity-100 transition-opacity">
@@ -1317,7 +1317,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                                   </span>
                                   <div 
                                     onClick={() => handleCopyToClipboard(`Сплачено: ${entity.taxes?.paid}, Борг: ${entity.taxes?.debt}, Статус: ${entity.taxes?.status}`, `${entity.id}-taxes`)}
-                                    className="bg-slate-950/30 p-2 rounded-lg border border-slate-900/40 font-mono space-y-1 text-[9px] cursor-pointer hover:bg-slate-950/50 transition-all relative group/copy"
+                                    className="bg-slate-950/30 p-2 rounded-lg border border-indigo-500/5/40 font-mono space-y-1 text-[9px] cursor-pointer hover:bg-slate-950/50 transition-all relative group/copy"
                                   >
                                     <div className="flex justify-between pr-5">
                                       <span className="text-slate-500">Сплачено:</span>
@@ -1329,7 +1329,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                                         {entity.taxes.debt}
                                       </span>
                                     </div>
-                                    <div className="text-[8px] text-amber-500 font-semibold pt-0.5 border-t border-slate-900/40 text-center pr-5">
+                                    <div className="text-[8px] text-amber-500 font-semibold pt-0.5 border-t border-indigo-500/5/40 text-center pr-5">
                                       {entity.taxes.status}
                                     </div>
                                     <div className="absolute top-1.5 right-1.5 opacity-0 group-hover/copy:opacity-100 transition-opacity">
@@ -1353,7 +1353,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                                   </span>
                                   <div 
                                     onClick={() => handleCopyToClipboard(`Митна активність: Імпорт ${entity.customs?.importVolume}, Вантаж: ${entity.customs?.lastCargo}`, `${entity.id}-customs`)}
-                                    className="bg-slate-950/30 p-2 rounded-lg border border-slate-900/40 font-mono space-y-1 text-[9px] cursor-pointer hover:bg-slate-950/50 transition-all relative group/copy"
+                                    className="bg-slate-950/30 p-2 rounded-lg border border-indigo-500/5/40 font-mono space-y-1 text-[9px] cursor-pointer hover:bg-slate-950/50 transition-all relative group/copy"
                                   >
                                     <div className="flex justify-between pr-5">
                                       <span className="text-slate-500">Імпорт:</span>
@@ -1386,7 +1386,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                                       <div 
                                         key={idx} 
                                         onClick={() => handleCopyToClipboard(`${founder.name} (${founder.share})`, `${entity.id}-founder-${idx}`)}
-                                        className="bg-slate-950/40 p-1.5 rounded border border-slate-900/40 flex justify-between items-center text-[9px] font-sans cursor-pointer hover:bg-slate-950/60 transition-all relative group/copy"
+                                        className="bg-slate-950/40 p-1.5 rounded border border-indigo-500/5/40 flex justify-between items-center text-[9px] font-sans cursor-pointer hover:bg-slate-950/60 transition-all relative group/copy"
                                       >
                                         <div className="truncate max-w-[120px] text-slate-300 font-medium pr-5">
                                           {founder.name}
@@ -1417,7 +1417,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                                   </span>
                                   <div 
                                     onClick={() => handleCopyToClipboard(`Кримінальних справ: ${entity.courts?.criminalCases}, Остання справа: ${entity.courts?.lastCaseTitle}`, `${entity.id}-courts`)}
-                                    className="bg-slate-950/30 p-2 rounded-lg border border-slate-900/40 font-mono space-y-1 text-[9px] cursor-pointer hover:bg-slate-950/50 transition-all relative group/copy"
+                                    className="bg-slate-950/30 p-2 rounded-lg border border-indigo-500/5/40 font-mono space-y-1 text-[9px] cursor-pointer hover:bg-slate-950/50 transition-all relative group/copy"
                                   >
                                     <div className="flex justify-between pr-5">
                                       <span className="text-slate-500">Кримінальних справ:</span>
@@ -1486,10 +1486,10 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
 
         {/* Middle Column: Dossier Card Profile (Section 13) */}
         <div className="xl:col-span-4 space-y-6" id="osint-dossier-panel">
-          <div className="bg-slate-900/40 border border-slate-900 rounded-2xl overflow-hidden shadow-xl">
+          <div className="bg-slate-900/40 border border-indigo-500/5 rounded-2xl overflow-hidden shadow-xl">
             
             {/* Dossier Header */}
-            <div className="p-5 border-b border-slate-900 bg-slate-950/60 relative">
+            <div className="p-5 border-b border-indigo-500/5 bg-slate-950/60 relative">
               <div className="absolute right-4 top-4 flex items-center gap-2">
                 {getStatusBadge(activeEntity.status)}
                 <div className={`text-xs font-bold font-mono px-2.5 py-1 rounded-lg border ${getRiskColor(activeEntity.riskScore)}`}>
@@ -1498,7 +1498,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               </div>
 
               <div className="flex items-start gap-3.5 pr-28">
-                <div className={`p-3 rounded-xl shrink-0 bg-slate-950 border ${activeEntity.riskScore > 75 ? 'border-rose-500/30 text-rose-400' : 'border-slate-800 text-indigo-400'}`}>
+                <div className={`p-3 rounded-xl shrink-0 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border ${activeEntity.riskScore > 75 ? 'border-rose-500/30 text-rose-400' : 'border-indigo-500/10 text-indigo-400'}`}>
                   {activeEntity.type === 'company' ? (
                     <Briefcase className="w-5 h-5" />
                   ) : activeEntity.type === 'cryptowallet' ? (
@@ -1530,7 +1530,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               {/* Description */}
               <div className="space-y-1.5">
                 <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Аналітична замітка (Огляд)</span>
-                <p className="text-slate-300 leading-relaxed text-[11px] whitespace-pre-line bg-slate-950/50 p-3 rounded-xl border border-slate-900">
+                <p className="text-slate-300 leading-relaxed text-[11px] whitespace-pre-line bg-slate-950/50 p-3 rounded-xl border border-indigo-500/5">
                   {activeEntity.description}
                 </p>
               </div>
@@ -1549,7 +1549,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                             const foundPerson = entities.find(e => e.name === found.name);
                             if (foundPerson) onSelectEntityForInspector(foundPerson);
                           }}
-                          className="bg-slate-950/80 border border-slate-900 rounded-xl p-3 flex items-center justify-between hover:border-slate-800 transition-colors cursor-pointer group"
+                          className="bg-slate-950/80 border border-indigo-500/5 rounded-xl p-3 flex items-center justify-between hover:border-indigo-500/10 transition-colors cursor-pointer group"
                         >
                           <div className="flex items-center gap-2">
                             <User className="w-3.5 h-3.5 text-slate-500 group-hover:text-indigo-400 transition-colors" />
@@ -1564,7 +1564,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                               <span className="text-indigo-400 font-bold block">{found.share}</span>
                               <span className="text-[9px] text-slate-600 uppercase">ЧАСТКА</span>
                             </div>
-                            <span className={`px-1.5 py-0.5 rounded border text-[8px] font-bold ${found.riskLevel === 'HIGH' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-slate-900 text-slate-400 border-slate-800'}`}>
+                            <span className={`px-1.5 py-0.5 rounded border text-[8px] font-bold ${found.riskLevel === 'HIGH' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-slate-400 border-indigo-500/10'}`}>
                               {found.riskLevel} Risk
                             </span>
                           </div>
@@ -1576,7 +1576,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                   {/* Taxes and Customs Data (Section 13) */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {activeEntity.taxes && (
-                      <div className="bg-slate-950/40 border border-slate-900 rounded-xl p-3.5 space-y-2">
+                      <div className="bg-slate-950/40 border border-indigo-500/5 rounded-xl p-3.5 space-y-2">
                         <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block flex items-center gap-1">
                           <DollarSign className="w-3.5 h-3.5 text-slate-500" /> Фінансовий стан
                         </span>
@@ -1601,7 +1601,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     )}
 
                     {activeEntity.customs && (
-                      <div className="bg-slate-950/40 border border-slate-900 rounded-xl p-3.5 space-y-2">
+                      <div className="bg-slate-950/40 border border-indigo-500/5 rounded-xl p-3.5 space-y-2">
                         <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block flex items-center gap-1">
                           <Truck className="w-3.5 h-3.5 text-slate-500" /> Митна діяльність
                         </span>
@@ -1616,7 +1616,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                               {activeEntity.customs.mainPartners[0]}
                             </span>
                           </div>
-                          <div className="text-[9px] text-slate-400 bg-slate-950 p-1 rounded text-center border border-slate-900 truncate mt-1">
+                          <div className="text-[9px] text-slate-400 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] p-1 rounded text-center border border-indigo-500/5 truncate mt-1">
                             Вантаж: {activeEntity.customs.lastCargo}
                           </div>
                         </div>
@@ -1628,13 +1628,13 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
 
               {/* Courts / Litigation history (Section 13) */}
               {activeEntity.courts && (
-                <div className="bg-slate-950/40 border border-slate-900 rounded-xl p-3.5 space-y-2">
+                <div className="bg-slate-950/40 border border-indigo-500/5 rounded-xl p-3.5 space-y-2">
                   <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block flex items-center justify-between">
                     <span>СУДОВИЙ РЕЄСТР</span>
                     <span className="text-red-400 font-bold font-mono text-[10px]">{activeEntity.courts.criminalCases} КРИМІНАЛ / {activeEntity.courts.totalCases} ВСЬОГО</span>
                   </span>
                   
-                  <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-900">
+                  <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] p-2.5 rounded-lg border border-indigo-500/5">
                     <p className="text-[10px] font-semibold text-slate-200 line-clamp-2 leading-relaxed">
                       {activeEntity.courts.lastCaseTitle}
                     </p>
@@ -1670,7 +1670,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               {/* Physical Contact / address list */}
               <div className="space-y-1">
                 <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Адреса та контакти реєстрації</span>
-                <div className="bg-slate-950/60 rounded-xl p-3 border border-slate-900 text-[11px] text-slate-300 font-mono space-y-1">
+                <div className="bg-slate-950/60 rounded-xl p-3 border border-indigo-500/5 text-[11px] text-slate-300 font-mono space-y-1">
                   <p className="flex justify-between">
                     <span className="text-slate-500 shrink-0 mr-3">Адреса:</span>
                     <span className="text-right leading-relaxed text-slate-200">{activeEntity.address}</span>
@@ -1698,8 +1698,8 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
         <div className="xl:col-span-5 space-y-6" id="osint-visualizer-panel">
           
           {/* Force Graph (Section 14) */}
-          <div className="bg-slate-950 border border-slate-900 rounded-2xl p-5 shadow-xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-900 pb-3">
+          <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 rounded-2xl p-5 shadow-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-indigo-500/5 pb-3">
               <div className="flex items-center gap-2">
                 <Network className="w-4.5 h-4.5 text-indigo-400" />
                 <h4 className="text-xs font-bold text-slate-100 uppercase tracking-widest">
@@ -1712,11 +1712,11 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
             </div>
 
             {/* SVG Graph View representing relationships */}
-            <div className="relative w-full h-[320px] bg-slate-900/40 border border-slate-900 rounded-xl overflow-hidden flex items-center justify-center">
+            <div className="relative w-full h-[320px] bg-slate-900/40 border border-indigo-500/5 rounded-xl overflow-hidden flex items-center justify-center">
               
               {/* Background circular scanning matrix HUD (Section 2) */}
-              <div className="absolute inset-0 border border-dashed border-slate-800/10 rounded-full scale-75 animate-spin pointer-events-none" style={{ animationDuration: '60s' }}></div>
-              <div className="absolute inset-0 border border-slate-800/20 rounded-full scale-50 pointer-events-none"></div>
+              <div className="absolute inset-0 border border-dashed border-indigo-500/10/10 rounded-full scale-75 animate-spin pointer-events-none" style={{ animationDuration: '60s' }}></div>
+              <div className="absolute inset-0 border border-indigo-500/10/20 rounded-full scale-50 pointer-events-none"></div>
 
               {/* SVG Network canvas */}
               <svg className="w-full h-full" viewBox="0 0 600 320">
@@ -1818,8 +1818,8 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
           </div>
 
           {/* Interactive Geopolitical OSINT Map (Section 15) */}
-          <div className="bg-slate-950 border border-slate-900 rounded-2xl p-5 shadow-xl space-y-4" id="osint-interactive-map-widget">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-900 pb-3.5 gap-3">
+          <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 rounded-2xl p-5 shadow-xl space-y-4" id="osint-interactive-map-widget">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-indigo-500/5 pb-3.5 gap-3">
               <div className="flex items-center gap-2">
                 <Globe className="w-4.5 h-4.5 text-indigo-400" />
                 <div>
@@ -1833,7 +1833,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               </div>
               
               {/* Zoom Presets Controls */}
-              <div className="flex flex-wrap items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-slate-900/80">
+              <div className="flex flex-wrap items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-indigo-500/5/80">
                 <button
                   onClick={() => setMapZoom('ukraine')}
                   className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
@@ -1881,8 +1881,8 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
               
               {/* Left Column: Coordinates Sidebar */}
-              <div className="lg:col-span-1 bg-slate-900/30 border border-slate-900/60 rounded-xl p-3 flex flex-col gap-2 max-h-[360px] overflow-y-auto custom-scrollbar">
-                <span className="text-[8px] font-mono font-bold text-slate-500 uppercase tracking-widest border-b border-slate-900 pb-1.5 mb-1 block">
+              <div className="lg:col-span-1 bg-slate-900/30 border border-indigo-500/5/60 rounded-xl p-3 flex flex-col gap-2 max-h-[360px] overflow-y-auto custom-scrollbar">
+                <span className="text-[8px] font-mono font-bold text-slate-500 uppercase tracking-widest border-b border-indigo-500/5 pb-1.5 mb-1 block">
                   Активні вузли на карті
                 </span>
                 
@@ -1910,7 +1910,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                       className={`p-2 rounded-lg border text-left cursor-pointer transition-all duration-300 ${
                         isInspected 
                           ? 'bg-indigo-600/10 border-indigo-500/50 shadow-md shadow-indigo-600/5' 
-                          : 'bg-slate-950/40 border-slate-900/60 hover:bg-slate-950/80 hover:border-slate-800'
+                          : 'bg-slate-950/40 border-indigo-500/5/60 hover:bg-slate-950/80 hover:border-indigo-500/10'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-1">
@@ -1930,7 +1930,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                   );
                 })}
                 
-                <div className="mt-auto pt-3 border-t border-slate-900/80 text-[8px] font-mono text-slate-500 leading-relaxed">
+                <div className="mt-auto pt-3 border-t border-indigo-500/5/80 text-[8px] font-mono text-slate-500 leading-relaxed">
                   <div className="flex items-center gap-1 text-indigo-400 mb-0.5">
                     <span className="w-1 h-1 bg-indigo-500 rounded-full animate-ping"></span>
                     <span>Режим синхронізації:</span>
@@ -1940,7 +1940,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               </div>
 
               {/* Right Column: SVG Visualizer Area */}
-              <div className="lg:col-span-3 relative h-[360px] bg-slate-950 border border-slate-900 rounded-xl overflow-hidden flex items-center justify-center">
+              <div className="lg:col-span-3 relative h-[360px] bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 rounded-xl overflow-hidden flex items-center justify-center">
                 
                 {/* SVG Visual Canvas */}
                 <svg 
@@ -2314,7 +2314,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                 </div>
 
                 {/* Scale Overlay Indicator */}
-                <div className="absolute left-3.5 bottom-3.5 bg-slate-950/90 border border-slate-900 rounded-lg px-2 py-1 text-[8px] font-mono text-slate-400 flex items-center gap-1.5 pointer-events-none">
+                <div className="absolute left-3.5 bottom-3.5 bg-slate-950/90 border border-indigo-500/5 rounded-lg px-2 py-1 text-[8px] font-mono text-slate-400 flex items-center gap-1.5 pointer-events-none">
                   <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
                   <span>
                     {mapZoom === 'kyiv' ? 'МАСШТАБ: 1:20,000' : mapZoom === 'lviv' ? 'МАСШТАБ: 1:15,000' : 'МАСШТАБ: 1:1,500,000'}
@@ -2345,7 +2345,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute z-30 bg-slate-950/95 border border-slate-900 rounded-xl p-3 shadow-2xl w-[210px] pointer-events-none"
+                        className="absolute z-30 bg-slate-950/95 border border-indigo-500/5 rounded-xl p-3 shadow-2xl w-[210px] pointer-events-none"
                         style={{ 
                           left: `${leftPct}%`, 
                           top: `${topPct}%`,
@@ -2363,7 +2363,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                         <p className="text-[8px] font-mono text-slate-500 mt-0.5 uppercase tracking-wider">
                           {loc.sector}
                         </p>
-                        <div className="border-t border-slate-900 my-1.5"></div>
+                        <div className="border-t border-indigo-500/5 my-1.5"></div>
                         <p className="text-[9px] text-slate-300 leading-normal font-sans">
                           Адреса: <strong className="text-slate-100">{loc.address}</strong>
                         </p>
@@ -2379,7 +2379,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
             </div>
 
             {/* Bottom Layer Toggles toolbar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-900/60 mt-1" id="map-layers-toolbar">
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-indigo-500/5/60 mt-1" id="map-layers-toolbar">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-wider flex items-center gap-1 shrink-0">
                   <Layers className="w-3.5 h-3.5 text-indigo-400" />
@@ -2393,7 +2393,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                       mapShowRoutes 
                         ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' 
-                        : 'bg-slate-900/40 text-slate-500 border-slate-900 hover:border-slate-850'
+                        : 'bg-slate-900/40 text-slate-500 border-indigo-500/5 hover:border-slate-850'
                     }`}
                   >
                     Митні Маршрути
@@ -2404,7 +2404,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                       mapShowFlows 
                         ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' 
-                        : 'bg-slate-900/40 text-slate-500 border-slate-900 hover:border-slate-850'
+                        : 'bg-slate-900/40 text-slate-500 border-indigo-500/5 hover:border-slate-850'
                     }`}
                   >
                     Крипто Транзакції
@@ -2415,7 +2415,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${
                       mapShowHeatmap 
                         ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' 
-                        : 'bg-slate-900/40 text-slate-500 border-slate-900 hover:border-slate-850'
+                        : 'bg-slate-900/40 text-slate-500 border-indigo-500/5 hover:border-slate-850'
                     }`}
                   >
                     Теплокарта Загроз
@@ -2516,7 +2516,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
 
         {/* Real Content for PDF Printing */}
         <div className="text-black bg-white p-6 max-w-4xl mx-auto font-sans leading-relaxed">
-          <div className="print-header flex items-center justify-between border-b-2 border-slate-900 pb-4 mb-6">
+          <div className="print-header flex items-center justify-between border-b-2 border-indigo-500/5 pb-4 mb-6">
             <div>
               <div className="text-xs font-bold text-red-600 tracking-widest uppercase">ЦЛКОМ ТАЄМНО / CLASSIFIED SECURITY INTELLIGENCE</div>
               <h1 className="text-2xl font-bold tracking-tight text-slate-900 mt-1">ОФІЦІЙНИЙ АНАЛІТИЧНИЙ ЗВІТ OSINT / РИЗИК-АНАЛІЗУ</h1>
@@ -2617,10 +2617,10 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-slate-900 border border-slate-800 w-full max-w-4xl h-[85vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden"
+              className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 w-full max-w-4xl h-[85vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden"
             >
               {/* Modal Header */}
-              <div className="p-4 border-b border-slate-800 bg-slate-950/40 flex items-center justify-between">
+              <div className="p-4 border-b border-indigo-500/10 bg-slate-950/40 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Printer className="w-4.5 h-4.5 text-rose-400" />
                   <div>
@@ -2640,7 +2640,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               <div className="flex-1 overflow-hidden flex">
                 
                 {/* Configuration Panel */}
-                <div className="w-64 shrink-0 bg-slate-900 border-r border-slate-800 p-6 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
+                <div className="w-64 shrink-0 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-r border-indigo-500/10 p-6 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
                   <div>
                     <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono mb-4 flex items-center gap-2">
                       <Layers className="w-3.5 h-3.5" />
@@ -2648,35 +2648,35 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     </h4>
                     <div className="space-y-3">
                       <label className="flex items-center gap-2.5 cursor-pointer group">
-                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950 group-hover:border-indigo-500/50 transition-colors">
+                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] group-hover:border-indigo-500/50 transition-colors">
                           <input type="checkbox" checked={pdfConfig.metadata} onChange={e => setPdfConfig({...pdfConfig, metadata: e.target.checked})} className="absolute opacity-0 w-full h-full cursor-pointer" />
                           {pdfConfig.metadata && <div className="w-2 h-2 rounded-sm bg-indigo-500" />}
                         </div>
                         <span className="text-xs text-slate-300 group-hover:text-slate-100 transition-colors font-semibold">Search Criteria</span>
                       </label>
                       <label className="flex items-center gap-2.5 cursor-pointer group">
-                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950 group-hover:border-indigo-500/50 transition-colors">
+                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] group-hover:border-indigo-500/50 transition-colors">
                           <input type="checkbox" checked={pdfConfig.riskScore} onChange={e => setPdfConfig({...pdfConfig, riskScore: e.target.checked})} className="absolute opacity-0 w-full h-full cursor-pointer" />
                           {pdfConfig.riskScore && <div className="w-2 h-2 rounded-sm bg-indigo-500" />}
                         </div>
                         <span className="text-xs text-slate-300 group-hover:text-slate-100 transition-colors font-semibold">Risk Statistics</span>
                       </label>
                       <label className="flex items-center gap-2.5 cursor-pointer group">
-                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950 group-hover:border-indigo-500/50 transition-colors">
+                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] group-hover:border-indigo-500/50 transition-colors">
                           <input type="checkbox" checked={pdfConfig.connections} onChange={e => setPdfConfig({...pdfConfig, connections: e.target.checked})} className="absolute opacity-0 w-full h-full cursor-pointer" />
                           {pdfConfig.connections && <div className="w-2 h-2 rounded-sm bg-indigo-500" />}
                         </div>
                         <span className="text-xs text-slate-300 group-hover:text-slate-100 transition-colors font-semibold">Data Table</span>
                       </label>
                       <label className="flex items-center gap-2.5 cursor-pointer group">
-                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950 group-hover:border-indigo-500/50 transition-colors">
+                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] group-hover:border-indigo-500/50 transition-colors">
                           <input type="checkbox" checked={pdfConfig.timeline} onChange={e => setPdfConfig({...pdfConfig, timeline: e.target.checked})} className="absolute opacity-0 w-full h-full cursor-pointer" />
                           {pdfConfig.timeline && <div className="w-2 h-2 rounded-sm bg-indigo-500" />}
                         </div>
                         <span className="text-xs text-slate-300 group-hover:text-slate-100 transition-colors font-semibold">Graph Connections</span>
                       </label>
                       <label className="flex items-center gap-2.5 cursor-pointer group">
-                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950 group-hover:border-indigo-500/50 transition-colors">
+                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] group-hover:border-indigo-500/50 transition-colors">
                           <input type="checkbox" checked={pdfConfig.qrCode} onChange={e => setPdfConfig({...pdfConfig, qrCode: e.target.checked})} className="absolute opacity-0 w-full h-full cursor-pointer" />
                           {pdfConfig.qrCode && <div className="w-2 h-2 rounded-sm bg-indigo-500" />}
                         </div>
@@ -2693,7 +2693,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                   <div id="pdf-report-content" className="w-full max-w-3xl bg-white text-slate-900 p-8 sm:p-12 shadow-2xl rounded-xl border border-slate-200 my-4 select-text">
                     
                     {/* Internal Report representation */}
-                    <div className="flex items-start justify-between border-b-2 border-slate-900 pb-4 mb-6">
+                    <div className="flex items-start justify-between border-b-2 border-indigo-500/5 pb-4 mb-6">
                       <div>
                         <div className="text-[9px] font-bold text-red-600 tracking-wider uppercase font-mono">ЦЛКОМ ТАЄМНО / CLASSIFIED SECURITY</div>
                         <h1 className="text-xl font-bold tracking-tight text-slate-900 mt-1 uppercase">ОФІЦІЙНИЙ АНАЛІТИЧНИЙ ЗВІТ OSINT</h1>
@@ -2829,14 +2829,14 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
             </div>
 
               {/* Modal Footer */}
-              <div className="p-4 border-t border-slate-800 bg-slate-950/80 flex items-center justify-between">
+              <div className="p-4 border-t border-indigo-500/10 bg-slate-950/80 flex items-center justify-between">
                 <span className="text-[10px] text-slate-500 font-mono">
                   Загалом записів у звіті: <strong className="text-slate-300 font-bold">{selectedEntitiesForExport.length}</strong>
                 </span>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setShowReportModal(false)}
-                    className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800/60 text-xs font-semibold cursor-pointer transition-colors"
+                    className="px-4 py-2 rounded-xl bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-indigo-500/10/60 text-xs font-semibold cursor-pointer transition-colors"
                   >
                     Скасувати
                   </button>
@@ -2867,10 +2867,10 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-slate-900 border border-slate-800 w-full max-w-5xl h-[80vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden"
+              className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 w-full max-w-5xl h-[80vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden"
             >
               {/* Modal Header */}
-              <div className="p-4 border-b border-slate-800 bg-slate-950/40 flex items-center justify-between">
+              <div className="p-4 border-b border-indigo-500/10 bg-slate-950/40 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <div className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/25">
                     <Eye className="w-5 h-5 text-indigo-400" />
@@ -2889,7 +2889,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               </div>
 
               {/* Filtering metadata info banner */}
-              <div className="px-6 py-3 bg-slate-950/20 border-b border-slate-800/60 flex flex-wrap gap-4 text-[10px] font-mono text-slate-400">
+              <div className="px-6 py-3 bg-slate-950/20 border-b border-indigo-500/10/60 flex flex-wrap gap-4 text-[10px] font-mono text-slate-400">
                 <div>
                   <span className="text-slate-600 uppercase">Фільтр:</span>{' '}
                   <span className="text-slate-200 font-bold">
@@ -2923,10 +2923,10 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
 
               {/* Modal Body - Data Table */}
               <div className="flex-1 overflow-y-auto p-6 bg-slate-950/40 custom-scrollbar">
-                <div className="border border-slate-800/80 rounded-xl overflow-hidden bg-slate-900/40">
+                <div className="border border-indigo-500/10/80 rounded-xl overflow-hidden bg-slate-900/40">
                   <table className="w-full text-left border-collapse text-xs">
                     <thead>
-                      <tr className="border-b border-slate-800 bg-slate-950/60 text-slate-400 text-[10px] font-mono uppercase tracking-wider">
+                      <tr className="border-b border-indigo-500/10 bg-slate-950/60 text-slate-400 text-[10px] font-mono uppercase tracking-wider">
                         <th className="p-3 font-semibold">Код / ID</th>
                         <th className="p-3 font-semibold">Назва / Ім'я об'єкта</th>
                         <th className="p-3 font-semibold">Реєстр / Тип</th>
@@ -2977,14 +2977,14 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               </div>
 
               {/* Modal Footer */}
-              <div className="p-4 border-t border-slate-800 bg-slate-950/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="p-4 border-t border-indigo-500/10 bg-slate-950/80 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <span className="text-[10px] text-slate-500 font-mono">
                   Загалом записів у таблиці: <strong className="text-slate-300 font-bold">{selectedEntitiesForExport.length}</strong>
                 </span>
                 
                 <div className="flex items-center gap-3">
                   {/* Format quick switcher in the footer */}
-                  <div className="flex items-center gap-1 bg-slate-950/80 p-0.5 rounded-lg border border-slate-900/40 relative text-[10px] select-none shrink-0">
+                  <div className="flex items-center gap-1 bg-slate-950/80 p-0.5 rounded-lg border border-indigo-500/5/40 relative text-[10px] select-none shrink-0">
                     <button
                       onClick={() => setExportFormat('csv')}
                       className={`px-2 py-1 rounded-md text-[9px] font-mono font-bold uppercase tracking-wider relative transition-all duration-300 cursor-pointer ${
@@ -3009,7 +3009,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
 
                   <button
                     onClick={() => setShowPreviewModal(false)}
-                    className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800/60 text-xs font-semibold cursor-pointer transition-colors"
+                    className="px-4 py-2 rounded-xl bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-indigo-500/10/60 text-xs font-semibold cursor-pointer transition-colors"
                   >
                     Закрити
                   </button>
@@ -3054,10 +3054,10 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="bg-slate-900 border border-rose-500/40 w-full max-w-md rounded-2xl flex flex-col shadow-2xl overflow-hidden"
+              className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-rose-500/40 w-full max-w-md rounded-2xl flex flex-col shadow-2xl overflow-hidden"
             >
               {/* Alert Header */}
-              <div className="p-5 border-b border-slate-800 bg-slate-950/60 flex items-center gap-3.5">
+              <div className="p-5 border-b border-indigo-500/10 bg-slate-950/60 flex items-center gap-3.5">
                 <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400">
                   <AlertTriangle className="w-6 h-6 animate-pulse" />
                 </div>
@@ -3073,7 +3073,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                   Ви ініціювали експорт великого набору даних, який налічує <strong className="text-rose-400 font-bold">{selectedEntitiesForExport.length}</strong> записів. 
                 </p>
                 
-                <div className="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3.5 space-y-2 text-[11px] leading-relaxed">
+                <div className="bg-slate-950/50 border border-indigo-500/10/80 rounded-xl p-3.5 space-y-2 text-[11px] leading-relaxed">
                   <span className="text-[9px] font-bold text-slate-500 block uppercase tracking-wider font-mono">Можливі наслідки:</span>
                   <ul className="list-disc list-inside space-y-1 text-slate-400">
                     <li>Формування звіту у форматі <span className="text-slate-200 font-bold font-mono uppercase">{pendingExportType}</span> може зайняти більше часу</li>
@@ -3088,13 +3088,13 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               </div>
 
               {/* Action Buttons */}
-              <div className="p-4 border-t border-slate-800 bg-slate-950/80 flex items-center justify-end gap-3">
+              <div className="p-4 border-t border-indigo-500/10 bg-slate-950/80 flex items-center justify-end gap-3">
                 <button
                   onClick={() => {
                     setShowLargeExportConfirmation(false);
                     setPendingExportType(null);
                   }}
-                  className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800/60 text-xs font-semibold cursor-pointer transition-colors"
+                  className="px-4 py-2 rounded-xl bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-indigo-500/10/60 text-xs font-semibold cursor-pointer transition-colors"
                 >
                   Скасувати
                 </button>
@@ -3118,10 +3118,10 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-slate-900 border border-slate-800 w-full max-w-4xl max-h-[85vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden"
+              className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 w-full max-w-4xl max-h-[85vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden"
             >
               {/* Header */}
-              <div className="p-4 border-b border-slate-800 bg-slate-950/40 flex items-center justify-between shrink-0">
+              <div className="p-4 border-b border-indigo-500/10 bg-slate-950/40 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25">
                     <Database className="w-5 h-5 text-emerald-400" />
@@ -3148,7 +3148,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     <Globe className="w-3.5 h-3.5" /> Публічні державні реєстри (Live)
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="bg-slate-900 border border-emerald-500/30 rounded-xl p-3 flex flex-col gap-2">
+                    <div className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-emerald-500/30 rounded-xl p-3 flex flex-col gap-2">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-slate-200">ЄДРПОУ (Юридичні особи)</span>
                         <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">ONLINE</span>
@@ -3156,7 +3156,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                       <p className="text-[10px] text-slate-500">Єдиний державний реєстр. Дані про засновників, бенефіціарів, КВЕД, статус.</p>
                       <div className="text-[9px] font-mono text-slate-600">API: api.gov.ua / GraphQL</div>
                     </div>
-                    <div className="bg-slate-900 border border-emerald-500/30 rounded-xl p-3 flex flex-col gap-2">
+                    <div className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-emerald-500/30 rounded-xl p-3 flex flex-col gap-2">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-slate-200">Судова влада України</span>
                         <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">ONLINE</span>
@@ -3164,7 +3164,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                       <p className="text-[10px] text-slate-500">Реєстр судових рішень. Цивільні, кримінальні та господарські справи.</p>
                       <div className="text-[9px] font-mono text-slate-600">API: court.gov.ua / REST</div>
                     </div>
-                    <div className="bg-slate-900 border border-emerald-500/30 rounded-xl p-3 flex flex-col gap-2">
+                    <div className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-emerald-500/30 rounded-xl p-3 flex flex-col gap-2">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-slate-200">Податкова (ДПС)</span>
                         <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">ONLINE</span>
@@ -3181,7 +3181,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     <Shield className="w-3.5 h-3.5" /> Обмежений доступ (Закриті БД МВС / Інтерпол)
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="bg-slate-900 border border-indigo-500/30 rounded-xl p-3 flex flex-col gap-2 relative overflow-hidden group">
+                    <div className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/30 rounded-xl p-3 flex flex-col gap-2 relative overflow-hidden group">
                       <div className="absolute top-0 right-0 p-1">
                         <Lock className="w-3 h-3 text-indigo-500/40" />
                       </div>
@@ -3194,7 +3194,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                         <ExternalLink className="w-2 h-2" /> СБУ VPN GATEWAY
                       </div>
                     </div>
-                    <div className="bg-slate-900 border border-indigo-500/30 rounded-xl p-3 flex flex-col gap-2 relative overflow-hidden group">
+                    <div className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/30 rounded-xl p-3 flex flex-col gap-2 relative overflow-hidden group">
                       <div className="absolute top-0 right-0 p-1">
                         <Lock className="w-3 h-3 text-indigo-500/40" />
                       </div>
@@ -3216,7 +3216,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     <ServerCrash className="w-3.5 h-3.5" /> Витоки даних, Darknet, Криптоаналіз
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="bg-slate-900 border border-rose-500/30 rounded-xl p-3 flex flex-col gap-2">
+                    <div className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-rose-500/30 rounded-xl p-3 flex flex-col gap-2">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-slate-200">Data Leaks (2020-2024)</span>
                         <span className="text-[9px] px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 font-mono animate-pulse">INDEXED</span>
@@ -3224,7 +3224,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                       <p className="text-[10px] text-slate-500">Злиті бази Нової Пошти, ПриватБанку, Kyivstar, Дії (агреговані дампи). Паролі, телефони.</p>
                       <div className="text-[9px] font-mono text-rose-500/60">SOURCE: RaidForums / BreachForums Archive</div>
                     </div>
-                    <div className="bg-slate-900 border border-rose-500/30 rounded-xl p-3 flex flex-col gap-2">
+                    <div className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-rose-500/30 rounded-xl p-3 flex flex-col gap-2">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-slate-200">Blockchain Analytics</span>
                         <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">ONLINE</span>

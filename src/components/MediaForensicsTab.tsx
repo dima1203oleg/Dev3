@@ -185,7 +185,7 @@ export function MediaForensicsTab() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 backdrop-blur-md flex items-center justify-between">
+      <div className="bg-slate-900/60 border border-indigo-500/10 rounded-xl p-6 backdrop-blur-md flex items-center justify-between">
         <div>
           <h2 className="text-xl font-semibold text-slate-100 flex items-center gap-2 mb-2">
             <Camera className="w-5 h-5 text-fuchsia-400" />
@@ -196,11 +196,11 @@ export function MediaForensicsTab() {
           </p>
         </div>
         <div className="hidden lg:flex items-center gap-3">
-          <div className="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
+          <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 px-3 py-1.5 rounded-lg flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-emerald-400" />
             <span className="text-[10px] font-mono text-slate-300">Veo 3.1 Fast</span>
           </div>
-          <div className="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
+          <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 px-3 py-1.5 rounded-lg flex items-center gap-2">
             <Search className="w-4 h-4 text-blue-400" />
             <span className="text-[10px] font-mono text-slate-300">Grounding</span>
           </div>
@@ -208,7 +208,7 @@ export function MediaForensicsTab() {
       </div>
 
       {/* Tabs */}
-      <div className="flex space-x-2 border-b border-slate-800">
+      <div className="flex space-x-2 border-b border-indigo-500/10">
         <button
           onClick={() => { setActiveMode('analysis'); setResult(null); }}
           className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${
@@ -242,7 +242,7 @@ export function MediaForensicsTab() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Control Panel */}
         <div className="lg:col-span-1 space-y-4">
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
+          <div className="bg-slate-900/60 border border-indigo-500/10 rounded-xl p-5">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Параметри завдання</h3>
             
             {activeMode === 'analysis' && (
@@ -260,7 +260,7 @@ export function MediaForensicsTab() {
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
                   onDrop={handleDrop}
-                  className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center text-center transition-colors cursor-pointer ${isDragging ? 'border-fuchsia-500 bg-fuchsia-500/10' : 'border-slate-800 bg-slate-950/50 hover:border-slate-700'}`}
+                  className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center text-center transition-colors cursor-pointer ${isDragging ? 'border-fuchsia-500 bg-fuchsia-500/10' : 'border-indigo-500/10 bg-slate-950/50 hover:border-slate-700'}`}
                 >
                   <UploadCloud className={`w-8 h-8 mb-2 ${isDragging ? 'text-fuchsia-400' : 'text-slate-500'}`} />
                   <span className="text-sm font-medium text-slate-300">
@@ -270,7 +270,7 @@ export function MediaForensicsTab() {
                 </div>
                 <div>
                   <label className="block text-xs text-slate-500 mb-1.5">Тип аналізу</label>
-                  <select className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-fuchsia-500">
+                  <select className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-fuchsia-500">
                     <option>Комплексний аналіз (Gemini 3.1 Pro)</option>
                     <option>Транскрибація аудіо (Gemini 3.5 Flash)</option>
                     <option>Глибокий роздум (High Thinking)</option>
@@ -282,14 +282,14 @@ export function MediaForensicsTab() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-xs text-slate-500 mb-1.5">Тип генерації</label>
-                  <select className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-fuchsia-500">
+                  <select className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-fuchsia-500">
                     <option>Зображення (Imagen 3 Pro)</option>
                     <option>Відео (Veo 3.1 Fast)</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs text-slate-500 mb-1.5">Співвідношення сторін</label>
-                  <select className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-fuchsia-500">
+                  <select className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-fuchsia-500">
                     <option>16:9 (Landscape)</option>
                     <option>9:16 (Portrait)</option>
                     <option>1:1 (Square)</option>
@@ -297,7 +297,7 @@ export function MediaForensicsTab() {
                 </div>
                 <div>
                   <label className="block text-xs text-slate-500 mb-1.5">Базове зображення (опціонально)</label>
-                  <div className="border border-dashed border-slate-800 rounded-lg p-3 flex items-center justify-center cursor-pointer hover:border-slate-700 bg-slate-950/50">
+                  <div className="border border-dashed border-indigo-500/10 rounded-lg p-3 flex items-center justify-center cursor-pointer hover:border-slate-700 bg-slate-950/50">
                     <span className="text-xs text-slate-400 flex items-center gap-2"><ImageIcon className="w-4 h-4"/> Додати референс</span>
                   </div>
                 </div>
@@ -307,7 +307,7 @@ export function MediaForensicsTab() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-xs text-slate-500 mb-1.5">Джерело Grounding</label>
-                  <select className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-fuchsia-500">
+                  <select className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-fuchsia-500">
                     <option>Google Search (Останні новини)</option>
                     <option>Google Maps (Геодані та відгуки)</option>
                     <option>Search + Maps (Комбіновано)</option>
@@ -321,13 +321,13 @@ export function MediaForensicsTab() {
                 </div>
               </div>
             )}
-            <div className="mt-5 pt-5 border-t border-slate-800">
+            <div className="mt-5 pt-5 border-t border-indigo-500/10">
               <label className="block text-xs text-slate-500 mb-1.5">Запит / Інструкція (Prompt)</label>
               <textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 rows={4}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-fuchsia-500 resize-none"
+                className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-lg px-3 py-2 text-sm text-slate-300 focus:outline-none focus:border-fuchsia-500 resize-none"
                 placeholder={activeMode === 'analysis' ? "Що саме шукати в цих медіа?" : "Опишіть, що потрібно згенерувати..."}
               />
             </div>
@@ -350,8 +350,8 @@ export function MediaForensicsTab() {
 
         {/* Right Output Area */}
         <div className="lg:col-span-2">
-          <div className="bg-slate-950 border border-slate-800 rounded-xl h-[600px] overflow-hidden flex flex-col relative">
-            <div className="px-4 py-3 bg-slate-900/60 border-b border-slate-800 flex items-center justify-between z-10 relative">
+          <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-xl h-[600px] overflow-hidden flex flex-col relative">
+            <div className="px-4 py-3 bg-slate-900/60 border-b border-indigo-500/10 flex items-center justify-between z-10 relative">
               <span className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
                 <FileText className="w-4 h-4 text-slate-500" />
                 {activeMode === 'analysis' ? 'Черга файлів & Результати' : 'Результат обробки'}
@@ -396,18 +396,18 @@ export function MediaForensicsTab() {
                         className="space-y-4"
                       >
                         {result.image && (
-                          <div className="rounded-xl overflow-hidden border border-slate-800 bg-black flex items-center justify-center">
+                          <div className="rounded-xl overflow-hidden border border-indigo-500/10 bg-black flex items-center justify-center">
                              <img src={`data:image/jpeg;base64,${result.image}`} alt="Generated" className="max-h-[400px] object-contain w-full" />
                           </div>
                         )}
                         
-                        <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-xl">
+                        <div className="bg-slate-900/50 border border-indigo-500/10 p-4 rounded-xl">
                           <p className="text-sm text-slate-300 leading-relaxed font-mono whitespace-pre-wrap">
                             {result.text}
                           </p>
                         </div>
                         {activeMode === 'generation' && !result.image && (
-                          <div className="aspect-video bg-black border border-slate-800 rounded-xl flex items-center justify-center overflow-hidden relative group">
+                          <div className="aspect-video bg-black border border-indigo-500/10 rounded-xl flex items-center justify-center overflow-hidden relative group">
                              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                                <span className="text-xs text-white font-mono bg-black/50 px-2 py-1 rounded">Generated by Veo 3.1</span>
                              </div>
@@ -437,10 +437,10 @@ export function MediaForensicsTab() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden"
+                        className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 rounded-xl overflow-hidden"
                       >
                         {/* Status bar */}
-                        <div className="bg-slate-950 px-4 py-2 border-b border-slate-800 flex items-center justify-between">
+                        <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] px-4 py-2 border-b border-indigo-500/10 flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-mono text-slate-300 truncate max-w-[200px]" title={qFile.file.name}>{qFile.file.name}</span>
                             {qFile.status === 'queued' && <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">В черзі</span>}
@@ -461,7 +461,7 @@ export function MediaForensicsTab() {
                         
                         {/* Progress bar */}
                         {(qFile.status === 'scanning' || qFile.status === 'analyzing' || qFile.status === 'done') && (
-                          <div className="h-1 w-full bg-slate-950">
+                          <div className="h-1 w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
                             <motion.div 
                               className={`h-full ${qFile.status === 'done' ? 'bg-emerald-500' : 'bg-fuchsia-500'}`}
                               initial={{ width: 0 }}
@@ -473,7 +473,7 @@ export function MediaForensicsTab() {
                         
                         <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                           {/* Left: Preview */}
-                          <div className="relative rounded-lg overflow-hidden border border-slate-800 bg-black flex items-center justify-center min-h-[200px]">
+                          <div className="relative rounded-lg overflow-hidden border border-indigo-500/10 bg-black flex items-center justify-center min-h-[200px]">
                             {qFile.previewUrl ? (
                               <img src={qFile.previewUrl} alt={qFile.file.name} className="max-h-[300px] object-contain w-full" />
                             ) : (
@@ -527,7 +527,7 @@ export function MediaForensicsTab() {
                           {/* Right: Results or Status */}
                           <div className="flex flex-col">
                             {qFile.resultText ? (
-                              <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 flex-1 overflow-y-auto max-h-[300px]">
+                              <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-lg p-3 flex-1 overflow-y-auto max-h-[300px]">
                                 <p className="text-[11px] text-slate-300 font-mono whitespace-pre-wrap leading-relaxed">
                                   {qFile.resultText}
                                 </p>
@@ -538,7 +538,7 @@ export function MediaForensicsTab() {
                                 <p className="text-xs">{qFile.error}</p>
                               </div>
                             ) : (
-                              <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 flex-1 flex items-center justify-center border-dashed">
+                              <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-lg p-3 flex-1 flex items-center justify-center border-dashed">
                                 <span className="text-xs text-slate-500 font-mono">
                                   {qFile.status === 'queued' && 'Готовий до аналізу...'}
                                   {qFile.status === 'scanning' && 'Зчитування образів...'}

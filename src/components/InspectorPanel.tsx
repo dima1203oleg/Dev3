@@ -26,10 +26,10 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
   const hasSelection = !!(selectedEntity || selectedTool || selectedNode);
 
   return (
-    <div className="h-full flex flex-col bg-slate-950 border-l border-slate-900 w-full" id="inspector-panel-container">
+    <div className="h-full flex flex-col bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-l border-indigo-500/5 w-full" id="inspector-panel-container">
       
       {/* Panel Header */}
-      <div className="p-4 border-b border-slate-900 flex items-center justify-between bg-slate-950/80 sticky top-0 z-10">
+      <div className="p-4 border-b border-indigo-500/5 flex items-center justify-between bg-slate-950/80 sticky top-0 z-10">
         <div className="flex items-center gap-2">
           <Terminal className="w-4 h-4 text-indigo-400" />
           <span className="text-[10px] text-slate-300 font-mono font-bold uppercase tracking-widest">
@@ -38,7 +38,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
         </div>
         <button 
           onClick={onClose}
-          className="text-slate-500 hover:text-slate-300 font-mono text-[11px] px-2 py-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+          className="text-slate-500 hover:text-slate-300 font-mono text-[11px] px-2 py-1 rounded hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] transition-colors cursor-pointer"
         >
           Згорнути [ESC]
         </button>
@@ -49,7 +49,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
         
         {!hasSelection ? (
           <div className="h-full flex flex-col items-center justify-center text-center py-12 px-4 space-y-4">
-            <div className="p-4 rounded-full bg-slate-900 border border-slate-850 text-slate-600 animate-pulse">
+            <div className="p-4 rounded-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-600 animate-pulse">
               <Network className="w-8 h-8" />
             </div>
             <div>
@@ -72,7 +72,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                     <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                       OSINT {selectedEntity.type}
                     </span>
-                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${selectedEntity.riskScore > 75 ? 'text-red-400 border-red-500/20 bg-red-500/5' : 'text-slate-400 border-slate-800'}`}>
+                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${selectedEntity.riskScore > 75 ? 'text-red-400 border-red-500/20 bg-red-500/5' : 'text-slate-400 border-indigo-500/10'}`}>
                       Ризик: {selectedEntity.riskScore}%
                     </span>
                   </div>
@@ -83,7 +83,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                 {/* Metadata Grid (Section 9) */}
                 <div className="space-y-1.5">
                   <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Метадані об'єкта</span>
-                  <div className="bg-slate-900/40 border border-slate-900 rounded-xl p-3 space-y-1.5 font-mono text-[10px] text-slate-300">
+                  <div className="bg-slate-900/40 border border-indigo-500/5 rounded-xl p-3 space-y-1.5 font-mono text-[10px] text-slate-300">
                     <div className="flex justify-between">
                       <span className="text-slate-500">Адреса:</span>
                       <span className="text-slate-200 text-right max-w-[160px] truncate" title={selectedEntity.address}>{selectedEntity.address}</span>
@@ -104,12 +104,12 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                   <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Пов'язані об'єкти (Ланки)</span>
                   <div className="space-y-1.5">
                     {selectedEntity.relationships.map((rel, idx) => (
-                      <div key={idx} className="bg-slate-950 border border-slate-900 p-2.5 rounded-lg flex items-center justify-between text-[11px]">
+                      <div key={idx} className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 p-2.5 rounded-lg flex items-center justify-between text-[11px]">
                         <div>
                           <p className="font-semibold text-slate-200">{rel.targetName}</p>
                           <span className="text-[9px] text-slate-500 font-mono uppercase">{rel.type}</span>
                         </div>
-                        <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${rel.risk === 'HIGH' ? 'text-red-400 bg-red-500/5 border-red-500/15' : 'text-slate-400 bg-slate-900 border-slate-800'}`}>
+                        <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${rel.risk === 'HIGH' ? 'text-red-400 bg-red-500/5 border-red-500/15' : 'text-slate-400 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-indigo-500/10'}`}>
                           {rel.risk}
                         </span>
                       </div>
@@ -131,12 +131,12 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
 
                 {/* Raw Context / Fetched OSINT Data */}
                 {selectedEntity.rawContext && (
-                  <div className="space-y-2 pt-2 border-t border-slate-900">
+                  <div className="space-y-2 pt-2 border-t border-indigo-500/5">
                     <span className="text-[9px] text-emerald-500 font-mono font-bold uppercase tracking-widest block flex items-center gap-1.5">
                       <Network className="w-3 h-3" />
                       Сирі дані інтеграцій (Data Lake)
                     </span>
-                    <div className="bg-slate-950/50 border border-slate-900 rounded-lg p-3 space-y-3 text-[10px] text-slate-400 font-mono overflow-hidden">
+                    <div className="bg-slate-950/50 border border-indigo-500/5 rounded-lg p-3 space-y-3 text-[10px] text-slate-400 font-mono overflow-hidden">
                       {selectedEntity.rawContext.wikipedia && selectedEntity.rawContext.wikipedia.length > 0 && (
                         <div>
                           <span className="text-slate-300 font-bold block mb-1">Wikipedia (UK):</span>
@@ -209,12 +209,12 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                 </div>
 
                 {/* Compatibility Rating */}
-                <div className="bg-slate-900/40 border border-slate-900 p-3 rounded-xl space-y-2">
+                <div className="bg-slate-900/40 border border-indigo-500/5 p-3 rounded-xl space-y-2">
                   <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Сумісність з ТЗ</span>
                   <div className="flex items-center gap-3">
                     <span className="text-2xl font-bold font-mono text-indigo-400">{selectedTool.compatibilityScore}%</span>
                     <div className="flex-1">
-                      <div className="w-full bg-slate-950 rounded-full h-1.5">
+                      <div className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] rounded-full h-1.5">
                         <div className="bg-indigo-500 h-1.5 rounded-full" style={{ width: `${selectedTool.compatibilityScore}%` }}></div>
                       </div>
                     </div>
@@ -241,7 +241,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                 {/* Technical Description */}
                 <div className="space-y-1.5">
                   <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Опис архітектурної ролі</span>
-                  <p className="text-slate-300 leading-relaxed text-[11px] p-3 rounded-xl bg-slate-950 border border-slate-900 font-sans">
+                  <p className="text-slate-300 leading-relaxed text-[11px] p-3 rounded-xl bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 font-sans">
                     {selectedTool.role}
                   </p>
                 </div>
@@ -263,7 +263,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                 </div>
 
                 {/* Status metrics */}
-                <div className="bg-slate-900/40 border border-slate-900 p-3 rounded-xl space-y-2 font-mono text-[10px]">
+                <div className="bg-slate-900/40 border border-indigo-500/5 p-3 rounded-xl space-y-2 font-mono text-[10px]">
                   <span className="text-[9px] text-slate-500 font-bold uppercase tracking-widest block">Метрики контейнера</span>
                   <div className="space-y-1 text-slate-300">
                     <div className="flex justify-between">
@@ -284,7 +284,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                 {/* Details / description */}
                 <div className="space-y-1.5">
                   <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Призначення за архітектурою</span>
-                  <p className="text-slate-300 leading-relaxed text-[11px] p-3 rounded-xl bg-slate-950 border border-slate-900">
+                  <p className="text-slate-300 leading-relaxed text-[11px] p-3 rounded-xl bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5">
                     {selectedNode.details || "Цей контейнер забезпечує автоматизоване завантаження, первинну фільтрацію та індексування великих масивів даних судових ухвал та митних декларацій."}
                   </p>
                 </div>
@@ -292,7 +292,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                 {/* Port bindings, logs preview */}
                 <div className="space-y-1.5 font-mono">
                   <span className="text-[9px] text-slate-500 font-bold uppercase tracking-widest block">Порти та обв'язка</span>
-                  <div className="bg-slate-950 border border-slate-900 p-3 rounded-xl text-[10px] text-slate-400 space-y-1">
+                  <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 p-3 rounded-xl text-[10px] text-slate-400 space-y-1">
                     <p>PORT: <span className="text-slate-200">3000 / internal TCP</span></p>
                     <p>CONTAINER: <span className="text-slate-200">Docker CloudRun Node v18</span></p>
                     <p>LOGS: <span className="text-slate-500">Listening on 0.0.0.0:3000... success</span></p>

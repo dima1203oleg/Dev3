@@ -660,7 +660,7 @@ export default function App() {
       <div className="h-full flex flex-col relative bg-[#020611] text-slate-100 font-sans bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" style={{ backgroundBlendMode: 'color-dodge' }} id="mobile-viewport-root">
         
         {/* Compact iOS / Mobile App Header */}
-        <header className="border-b border-slate-900 bg-[#050c18]/90 backdrop-blur-md px-4 py-3 flex items-center justify-between gap-2 sticky top-0 z-40">
+        <header className="border-b border-indigo-500/5 bg-[#050c18]/90 backdrop-blur-md px-4 py-3 flex items-center justify-between gap-2 sticky top-0 z-40">
           <div className="flex items-center gap-2.5">
             <button 
               onClick={() => setMobileMenuOpen(true)}
@@ -687,7 +687,7 @@ export default function App() {
             {!isRealMobile && (
               <button
                 onClick={() => setDeviceMode('desktop')}
-                className="px-2 py-1 bg-slate-900 border border-slate-800 rounded-lg text-[8px] font-bold font-mono text-indigo-400 hover:bg-slate-850 transition-all"
+                className="px-2 py-1 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 rounded-lg text-[8px] font-bold font-mono text-indigo-400 hover:bg-slate-850 transition-all"
                 title="Режим Десктоп"
               >
                 ДЕСКТОП 💻
@@ -789,12 +789,12 @@ export default function App() {
                 animate={{ x: 0 }}
                 exit={{ x: '-100%' }}
                 transition={{ type: 'spring', damping: 26, stiffness: 220 }}
-                className="absolute left-0 top-0 bottom-0 w-[280px] bg-[#050b14] border-r border-slate-900 z-50 flex flex-col justify-between shadow-2xl"
+                className="absolute left-0 top-0 bottom-0 w-[280px] bg-[#050b14] border-r border-indigo-500/5 z-50 flex flex-col justify-between shadow-2xl"
               >
                 <div className="p-4 space-y-5 overflow-y-auto flex-1">
                   
                   {/* Header */}
-                  <div className="flex items-center justify-between border-b border-slate-900 pb-3.5">
+                  <div className="flex items-center justify-between border-b border-indigo-500/5 pb-3.5">
                     <div className="flex items-center gap-2.5">
                       <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-mono font-black text-white shadow">P</div>
                       <div>
@@ -804,7 +804,7 @@ export default function App() {
                     </div>
                     <button
                       onClick={() => setMobileMenuOpen(false)}
-                      className="p-1.5 hover:bg-slate-900 rounded-lg text-slate-400 hover:text-slate-200 transition-colors"
+                      className="p-1.5 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg text-slate-400 hover:text-slate-200 transition-colors"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -905,7 +905,7 @@ export default function App() {
                   </div>
 
                   {/* Mobile Stats alert */}
-                  <div className="bg-[#020612] border border-slate-900 p-3 rounded-xl space-y-1.5 text-[9px] font-mono">
+                  <div className="bg-[#020612] border border-indigo-500/5 p-3 rounded-xl space-y-1.5 text-[9px] font-mono">
                     <span className="text-[7px] text-slate-500 font-bold uppercase tracking-wider block">СТАТУС З'ЄДНАННЯ</span>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Пінґ Сервера:</span>
@@ -919,7 +919,7 @@ export default function App() {
 
                 </div>
 
-                <div className="p-3.5 border-t border-slate-900 text-center text-[8px] text-slate-600 font-mono tracking-widest uppercase">
+                <div className="p-3.5 border-t border-indigo-500/5 text-center text-[8px] text-slate-600 font-mono tracking-widest uppercase">
                   Military Crypto v3.5
                 </div>
               </motion.aside>
@@ -946,11 +946,11 @@ export default function App() {
                 animate={{ y: 0 }}
                 exit={{ y: '100%' }}
                 transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-                className="absolute left-0 right-0 bottom-0 h-[72%] bg-[#050b14] border-t border-slate-800 rounded-t-[32px] z-50 flex flex-col shadow-2xl overflow-hidden select-text"
+                className="absolute left-0 right-0 bottom-0 h-[72%] bg-[#050b14] border-t border-indigo-500/10 rounded-t-[32px] z-50 flex flex-col shadow-2xl overflow-hidden select-text"
               >
                 {/* Horizontal Drag handle indicator bar */}
                 <div 
-                  className="py-3 flex justify-center items-center cursor-pointer border-b border-slate-900/60 shrink-0 bg-[#050b14]"
+                  className="py-3 flex justify-center items-center cursor-pointer border-b border-indigo-500/5/60 shrink-0 bg-[#050b14]"
                   onClick={() => setIsInspectorOpen(false)}
                 >
                   <div className="w-12 h-1 bg-slate-700 hover:bg-slate-500 rounded-full transition-colors" />
@@ -988,10 +988,10 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 30 }}
-              className="absolute bottom-18 right-4 left-4 h-[300px] bg-[#050c18] border border-slate-900 rounded-2xl overflow-hidden shadow-2xl flex flex-col z-40 select-text"
+              className="absolute bottom-18 right-4 left-4 h-[300px] bg-[#050c18] border border-indigo-500/5 rounded-2xl overflow-hidden shadow-2xl flex flex-col z-40 select-text"
             >
               {/* Header */}
-              <div className="p-2.5 bg-indigo-950/20 border-b border-slate-900 flex items-center justify-between">
+              <div className="p-2.5 bg-indigo-950/20 border-b border-indigo-500/5 flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
                   <span className="text-[9px] font-mono font-bold text-white uppercase tracking-wider">JARVIS ШІ</span>
@@ -1006,7 +1006,7 @@ export default function App() {
                 {chatHistory.map((msg, i) => (
                   <div 
                     key={i} 
-                    className={`p-2 rounded-xl leading-relaxed max-w-[90%] ${msg.sender === 'user' ? 'bg-indigo-600 text-white ml-auto' : 'bg-slate-900 border border-slate-850 text-slate-300'}`}
+                    className={`p-2 rounded-xl leading-relaxed max-w-[90%] ${msg.sender === 'user' ? 'bg-indigo-600 text-white ml-auto' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300'}`}
                   >
                     {msg.text}
                   </div>
@@ -1014,7 +1014,7 @@ export default function App() {
               </div>
 
               {/* Chat inputs */}
-              <div className="p-1.5 border-t border-slate-900 bg-slate-950 flex items-center gap-1">
+              <div className="p-1.5 border-t border-indigo-500/5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] flex items-center gap-1">
                 <input
                   type="text"
                   placeholder="Запитайте ШІ про санкції..."
@@ -1023,11 +1023,11 @@ export default function App() {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleSendMessage();
                   }}
-                  className="flex-1 bg-slate-900 border border-slate-850 rounded-md px-2 py-1.5 text-[11px] focus:outline-none focus:border-indigo-500/40"
+                  className="flex-1 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 rounded-md px-2 py-1.5 text-[11px] focus:outline-none focus:border-indigo-500/40"
                 />
                 <button
                   onClick={startVoiceControl}
-                  className={`p-1.5 rounded-md transition-colors flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900 border border-slate-850 text-slate-400 hover:text-indigo-400'}`}
+                  className={`p-1.5 rounded-md transition-colors flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-400 hover:text-indigo-400'}`}
                   title="Голосовий ввід"
                 >
                   <Mic className="w-3.5 h-3.5" />
@@ -1041,7 +1041,7 @@ export default function App() {
         </AnimatePresence>
 
         {/* Bottom iOS Navigation / Tab Bar */}
-        <nav className="border-t border-slate-900 bg-slate-950/95 backdrop-blur-md px-2 py-1.5 flex items-center justify-around shrink-0 relative z-30 pb-5">
+        <nav className="border-t border-indigo-500/5 bg-slate-950/95 backdrop-blur-md px-2 py-1.5 flex items-center justify-around shrink-0 relative z-30 pb-5">
           {[
             { id: 'live-analytical-center', label: 'ШІ-Ядро', icon: Compass },
             { id: 'dashboard', label: 'Дашборд', icon: Layers },
@@ -1101,7 +1101,7 @@ export default function App() {
           </p>
           <button
             onClick={() => setDeviceMode('desktop')}
-            className="mt-2 px-3.5 py-1.5 bg-slate-900 border border-slate-800 hover:bg-slate-850 text-indigo-400 text-[10px] font-bold font-mono tracking-wider rounded-xl transition-all cursor-pointer shadow flex items-center gap-1.5"
+            className="mt-2 px-3.5 py-1.5 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 hover:bg-slate-850 text-indigo-400 text-[10px] font-bold font-mono tracking-wider rounded-xl transition-all cursor-pointer shadow flex items-center gap-1.5"
           >
             💻 ПОВЕРНУТИСЬ НА ДЕСКТОП
           </button>
@@ -1142,7 +1142,7 @@ export default function App() {
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                 className="absolute left-4 top-[220px] w-6 h-32 bg-black/95 rounded-xl z-50 border border-slate-850/80 p-1 flex flex-col items-center justify-end overflow-hidden shadow-2xl"
               >
-                <div className="flex-1 w-full bg-slate-900 rounded-lg overflow-hidden flex flex-col justify-end relative">
+                <div className="flex-1 w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg overflow-hidden flex flex-col justify-end relative">
                   <motion.div 
                     className="w-full bg-indigo-500"
                     animate={{ height: `${iphoneVolume}%` }}
@@ -1163,7 +1163,7 @@ export default function App() {
             <motion.div 
               layout
               onClick={handleDynamicIslandClick}
-              className="absolute top-3 left-1/2 -translate-x-1/2 bg-black rounded-[20px] z-50 flex items-center justify-between pointer-events-auto border border-slate-900/80 shadow-2xl cursor-pointer select-none overflow-hidden"
+              className="absolute top-3 left-1/2 -translate-x-1/2 bg-black rounded-[20px] z-50 flex items-center justify-between pointer-events-auto border border-indigo-500/5/80 shadow-2xl cursor-pointer select-none overflow-hidden"
               animate={{
                 width: dynamicIslandState === 'expanded' ? 320 : dynamicIslandState === 'voice-listening' ? 240 : dynamicIslandState === 'mute-alert' || dynamicIslandState === 'unmute-alert' ? 150 : 112,
                 height: dynamicIslandState === 'expanded' ? 120 : dynamicIslandState === 'voice-listening' ? 36 : 26,
@@ -1179,7 +1179,7 @@ export default function App() {
                     <div className="w-1 h-1 bg-indigo-400 rounded-full animate-ping"></div>
                   </div>
                   <span className="text-[7px] text-indigo-400 font-mono font-black tracking-widest uppercase animate-pulse shrink-0">PREDATOR</span>
-                  <div className="w-2 h-2 bg-slate-900 rounded-full flex items-center justify-center shrink-0">
+                  <div className="w-2 h-2 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full flex items-center justify-center shrink-0">
                     <div className="w-1 h-1 bg-[#020617] rounded-full"></div>
                   </div>
                 </>
@@ -1402,13 +1402,13 @@ export default function App() {
       <div className="min-h-screen bg-transparent text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200" id="predator-hub-app">
         
         {/* 1. STICKY HEADER (Section 6) */}
-        <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-5 py-3.5 flex items-center justify-between gap-4">
+        <header className="border-b border-indigo-500/5 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-5 py-3.5 flex items-center justify-between gap-4">
           
           {/* Left: Brand logo & name */}
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="p-1.5 hover:bg-slate-900 rounded-lg text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+              className="p-1.5 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
               title={sidebarCollapsed ? "Розгорнути меню" : "Згорнути меню"}
             >
               <Menu className="w-5 h-5" />
@@ -1444,7 +1444,7 @@ export default function App() {
             >
               <Search className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 transition-colors" />
               <span className="text-slate-400 text-xs flex-1 text-left">Шукати фірму, особу чи гаманець...</span>
-              <span className="text-[9px] bg-slate-950 border border-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">
+              <span className="text-[9px] bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 text-slate-400 px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">
                 Ctrl+K
               </span>
             </div>
@@ -1488,10 +1488,10 @@ export default function App() {
             )}
 
             {!isRealMobile && (
-              <div className="flex bg-slate-950/60 p-0.5 rounded-lg border border-slate-900 gap-1">
+              <div className="flex bg-slate-950/60 p-0.5 rounded-lg border border-indigo-500/5 gap-1">
                 <button
                   onClick={() => setDeviceMode('desktop')}
-                  className={`px-2.5 py-1.5 rounded text-[9px] font-black font-mono tracking-wider transition-all flex items-center gap-1 cursor-pointer ${deviceMode === 'desktop' ? 'bg-slate-900 text-indigo-400 border border-indigo-500/10' : 'text-slate-500 hover:text-slate-300'}`}
+                  className={`px-2.5 py-1.5 rounded text-[9px] font-black font-mono tracking-wider transition-all flex items-center gap-1 cursor-pointer ${deviceMode === 'desktop' ? 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-indigo-400 border border-indigo-500/10' : 'text-slate-500 hover:text-slate-300'}`}
                   title="Режим Десктоп"
                 >
                   💻 ДЕСКТОП
@@ -1529,14 +1529,14 @@ export default function App() {
             </div>
 
             {/* Alerts Bell notification */}
-            <button className="p-1.5 hover:bg-slate-900 rounded-lg text-slate-400 hover:text-slate-200 relative cursor-pointer" title="Сповіщення">
+            <button className="p-1.5 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg text-slate-400 hover:text-slate-200 relative cursor-pointer" title="Сповіщення">
               <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full animate-ping"></span>
               <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full"></span>
               <Bell className="w-4 h-4" />
             </button>
 
             {/* Profile Avatars / Auth Status */}
-            <div className="flex items-center gap-2.5 pl-2 border-l border-slate-900">
+            <div className="flex items-center gap-2.5 pl-2 border-l border-indigo-500/5">
               <AuthStatus />
             </div>
 
@@ -1546,7 +1546,7 @@ export default function App() {
 
         {/* MILITARY BROADCAST SECURITY NEWS TICKER */}
         {ecosystem === 'user' && (
-          <div className="bg-slate-950/90 border-b border-slate-900/60 h-8 flex items-center overflow-hidden relative select-none z-30 shrink-0">
+          <div className="bg-slate-950/90 border-b border-indigo-500/5/60 h-8 flex items-center overflow-hidden relative select-none z-30 shrink-0">
             <div className="absolute left-0 top-0 bottom-0 px-3 bg-indigo-950/80 border-r border-indigo-900/40 text-indigo-400 font-mono text-[9px] font-extrabold uppercase tracking-widest flex items-center gap-1.5 z-10 shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
               <span>ШІ-СЕНСОР</span>
@@ -1572,7 +1572,7 @@ export default function App() {
                 </span>
                 <span className="flex items-center gap-1.5 shrink-0">
                   <span className="text-indigo-400 font-bold">💡 ПІДКАЗКА:</span>
-                  <span>Натисніть <strong className="text-white bg-slate-900 border border-slate-800 px-1 rounded">Ctrl+K</strong> або клікніть "Швидкий пошук" для миттєвих команд.</span>
+                  <span>Натисніть <strong className="text-white bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 px-1 rounded">Ctrl+K</strong> або клікніть "Швидкий пошук" для миттєвих команд.</span>
                 </span>
               </div>
             </div>
@@ -1584,7 +1584,7 @@ export default function App() {
           
           {/* LEFT SIDEBAR (Section 7) */}
           <aside 
-            className={`shrink-0 bg-slate-950 border-r border-slate-900 flex flex-col justify-between transition-all duration-300 ${sidebarCollapsed ? 'w-[72px]' : 'w-[280px]'}`}
+            className={`shrink-0 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-r border-indigo-500/5 flex flex-col justify-between transition-all duration-300 ${sidebarCollapsed ? 'w-[72px]' : 'w-[280px]'}`}
             id="tactical-sidebar"
           >
             
@@ -1631,7 +1631,7 @@ export default function App() {
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
               activeTab === 'forensics' 
                 ? 'bg-gradient-to-r from-fuchsia-600/20 to-transparent border-l-2 border-fuchsia-500 text-white' 
-                : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200 border-l-2 border-transparent'
+                : 'text-slate-400 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:text-slate-200 border-l-2 border-transparent'
             }`}
           >
             <Camera className={`w-5 h-5 ${activeTab === 'forensics' ? 'text-fuchsia-400' : ''}`} />
@@ -1643,7 +1643,7 @@ export default function App() {
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
               activeTab === 'forensics' 
                 ? 'bg-gradient-to-r from-fuchsia-600/20 to-transparent border-l-2 border-fuchsia-500 text-white' 
-                : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200 border-l-2 border-transparent'
+                : 'text-slate-400 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:text-slate-200 border-l-2 border-transparent'
             }`}
           >
             <Camera className={`w-5 h-5 ${activeTab === 'forensics' ? 'text-fuchsia-400' : ''}`} />
@@ -1769,7 +1769,7 @@ export default function App() {
                               setSelectedTool(null);
                             }
                           }}
-                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${isActive ? 'bg-slate-900 text-indigo-400 border border-slate-800' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${isActive ? 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-indigo-400 border border-indigo-500/10' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                         >
                           <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-500'}`} />
                           {!sidebarCollapsed && <span>{tab.label}</span>}
@@ -1782,7 +1782,7 @@ export default function App() {
 
               {/* Quick status alerts inside sidebar */}
               {!sidebarCollapsed && (
-                <div className="bg-slate-950 border border-slate-900 p-3.5 rounded-xl space-y-2 mt-4">
+                <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 p-3.5 rounded-xl space-y-2 mt-4">
                   <span className="text-[8px] text-slate-500 font-mono font-bold uppercase tracking-wider block">СТАН СИСТЕМИ PREDATOR</span>
                   <div className="space-y-1 text-[10px] text-slate-400 font-mono">
                     <div className="flex justify-between">
@@ -1800,10 +1800,10 @@ export default function App() {
             </div>
 
             {/* Collapsed control */}
-            <div className="p-3 border-t border-slate-900 text-center">
+            <div className="p-3 border-t border-indigo-500/5 text-center">
               <button 
                 onClick={() => setIsInspectorOpen(!isInspectorOpen)}
-                className="w-full bg-slate-900 hover:bg-slate-850 text-slate-400 hover:text-slate-200 py-2 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 text-slate-400 hover:text-slate-200 py-2 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer"
               >
                 {sidebarCollapsed ? 'INSP' : isInspectorOpen ? 'Сховати Інспектор' : 'Показати Інспектор'}
               </button>
@@ -1812,7 +1812,7 @@ export default function App() {
           </aside>
 
           {/* MAIN WORKSPACE (Section 8) */}
-          <main className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-950 relative" id="workspace-main">
+          <main className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] relative" id="workspace-main">
             
             {/* Active Navigation Breadcrumbs */}
             <div className="flex items-center gap-2 text-[10px] text-slate-500 font-mono uppercase tracking-wider mb-2">
@@ -1953,10 +1953,10 @@ export default function App() {
                   initial={{ opacity: 0, y: 50, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 50, scale: 0.95 }}
-                  className="absolute bottom-14 right-0 w-80 bg-slate-950 border border-slate-900 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-[380px]"
+                  className="absolute bottom-14 right-0 w-80 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-[380px]"
                 >
                   {/* Header */}
-                  <div className="p-3 bg-indigo-950/20 border-b border-slate-900 flex items-center justify-between">
+                  <div className="p-3 bg-indigo-950/20 border-b border-indigo-500/5 flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-indigo-400" />
                       <span className="text-[10px] font-mono font-bold text-white uppercase tracking-wider">
@@ -1976,7 +1976,7 @@ export default function App() {
                     {chatHistory.map((msg, i) => (
                       <div 
                         key={i} 
-                        className={`p-2.5 rounded-xl leading-relaxed max-w-[85%] ${msg.sender === 'user' ? 'bg-indigo-600 text-white ml-auto' : 'bg-slate-900 border border-slate-850 text-slate-300'}`}
+                        className={`p-2.5 rounded-xl leading-relaxed max-w-[85%] ${msg.sender === 'user' ? 'bg-indigo-600 text-white ml-auto' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300'}`}
                       >
                         {msg.text}
                       </div>
@@ -1984,7 +1984,7 @@ export default function App() {
                   </div>
 
                   {/* Input */}
-                  <div className="p-2 border-t border-slate-900 bg-slate-950/80 flex items-center gap-1.5">
+                  <div className="p-2 border-t border-indigo-500/5 bg-slate-950/80 flex items-center gap-1.5">
                     <input
                       type="text"
                       placeholder="Запитайте ШІ про санкції чи SQL..."
@@ -1993,11 +1993,11 @@ export default function App() {
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') handleSendMessage();
                       }}
-                      className="flex-1 bg-slate-900 border border-slate-850 rounded-lg px-2.5 py-2 text-xs focus:outline-none focus:border-indigo-500/40"
+                      className="flex-1 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 rounded-lg px-2.5 py-2 text-xs focus:outline-none focus:border-indigo-500/40"
                     />
                     <button
                       onClick={startVoiceControl}
-                      className={`p-2 rounded-lg transition-colors cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900 border border-slate-850 text-slate-400 hover:text-indigo-400'}`}
+                      className={`p-2 rounded-lg transition-colors cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-400 hover:text-indigo-400'}`}
                       title="Голосовий ввід"
                     >
                       <Mic className="w-3.5 h-3.5" />
@@ -2019,7 +2019,7 @@ export default function App() {
 
         {/* 4. BOTTOM STATUS BAR (Section 10) */}
         {ecosystem === 'admin' ? (
-          <footer className="border-t border-slate-900 bg-slate-950 px-5 py-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-[9px] text-slate-500 font-mono uppercase tracking-wider z-40 sticky bottom-0">
+          <footer className="border-t border-indigo-500/5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] px-5 py-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-[9px] text-slate-500 font-mono uppercase tracking-wider z-40 sticky bottom-0">
             
             {/* Left indicators */}
             <div className="flex flex-wrap items-center gap-4">
@@ -2044,7 +2044,7 @@ export default function App() {
 
           </footer>
         ) : (
-          <footer className="border-t border-slate-900 bg-slate-950 px-5 py-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-[9px] text-slate-500 font-mono uppercase tracking-wider z-40 sticky bottom-0">
+          <footer className="border-t border-indigo-500/5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] px-5 py-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-[9px] text-slate-500 font-mono uppercase tracking-wider z-40 sticky bottom-0">
             
             {/* Left analytical indicators */}
             <div className="flex flex-wrap items-center gap-4">
@@ -2086,10 +2086,10 @@ export default function App() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: -10 }}
                 transition={{ duration: 0.15 }}
-                className="relative w-full max-w-2xl bg-[#0a0f1d] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[500px] z-50"
+                className="relative w-full max-w-2xl bg-[#0a0f1d] border border-indigo-500/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[500px] z-50"
               >
                 {/* Search input header */}
-                <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-900 bg-slate-950/50">
+                <div className="flex items-center gap-3 px-4 py-3.5 border-b border-indigo-500/5 bg-slate-950/50">
                   <Search className="w-5 h-5 text-indigo-400 shrink-0" />
                   <input
                     type="text"
@@ -2099,7 +2099,7 @@ export default function App() {
                     onChange={(e) => setSpotlightQuery(e.target.value)}
                     className="w-full bg-transparent text-white placeholder-slate-500 text-sm focus:outline-none"
                   />
-                  <span className="text-[10px] bg-slate-900 border border-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono shrink-0">
+                  <span className="text-[10px] bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 text-slate-400 px-2 py-0.5 rounded font-mono shrink-0">
                     ESC
                   </span>
                 </div>
@@ -2184,12 +2184,12 @@ export default function App() {
                 </div>
 
                 {/* Spotlight footer */}
-                <div className="px-4 py-2.5 bg-slate-950/80 border-t border-slate-900 flex items-center justify-between text-[10px] text-slate-500 font-mono">
+                <div className="px-4 py-2.5 bg-slate-950/80 border-t border-indigo-500/5 flex items-center justify-between text-[10px] text-slate-500 font-mono">
                   <span className="flex items-center gap-1">
                     <span>Швидкі дії:</span>
-                    <strong className="text-slate-400 font-bold bg-slate-900 border border-slate-800 px-1.5 py-0.5 rounded">↑↓</strong>
+                    <strong className="text-slate-400 font-bold bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 px-1.5 py-0.5 rounded">↑↓</strong>
                     <span>для вибору,</span>
-                    <strong className="text-slate-400 font-bold bg-slate-900 border border-slate-800 px-1.5 py-0.5 rounded">Enter</strong>
+                    <strong className="text-slate-400 font-bold bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 px-1.5 py-0.5 rounded">Enter</strong>
                     <span>для запуску</span>
                   </span>
                   <span className="text-indigo-400 font-bold uppercase tracking-wider">

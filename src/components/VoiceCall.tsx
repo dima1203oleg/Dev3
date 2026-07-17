@@ -185,7 +185,7 @@ export function VoiceCall() {
           className={`h-14 w-14 rounded-full flex items-center justify-center shadow-2xl transition-all border ${
             isActive 
               ? 'bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/30' 
-              : 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-700'
+              : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-800 text-slate-300 border-slate-700'
           }`}
         >
           {isActive ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}

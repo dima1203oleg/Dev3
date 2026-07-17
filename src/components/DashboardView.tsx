@@ -27,8 +27,8 @@ interface DashboardViewProps {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-slate-950/90 border border-slate-800 p-3 rounded-xl shadow-xl backdrop-blur-sm">
-        <p className="text-[10px] font-mono text-slate-400 mb-2 border-b border-slate-800 pb-1">Дата: {label}</p>
+      <div className="bg-slate-950/90 border border-indigo-500/10 p-3 rounded-xl shadow-xl backdrop-blur-sm">
+        <p className="text-[10px] font-mono text-slate-400 mb-2 border-b border-indigo-500/10 pb-1">Дата: {label}</p>
         <div className="space-y-1.5">
           {payload.map((entry: any, index: number) => (
             <div key={index} className="flex items-center justify-between gap-4 text-xs">
@@ -330,7 +330,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
             key={i} 
             whileHover={{ y: -4, scale: 1.02 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="bg-[#0b1329]/60 border border-slate-850 hover:border-indigo-500/30 rounded-2xl p-4.5 flex items-center justify-between shadow-xl backdrop-blur-sm relative overflow-hidden group cursor-pointer"
+            className="bg-slate-900/40 border border-indigo-500/10 hover:border-indigo-500/50 rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] backdrop-blur-md p-4.5 flex items-center justify-between shadow-xl backdrop-blur-sm relative overflow-hidden group cursor-pointer"
           >
             {/* Ambient hover glow spot */}
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
@@ -360,8 +360,8 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
         <div className="xl:col-span-8 space-y-6">
           
           {/* Map & Link-Graph Widget combination */}
-          <div className="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 shadow-lg space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-900 pb-3">
+          <div className="bg-slate-900/40 border border-indigo-500/5 rounded-2xl p-5 shadow-lg space-y-4">
+            <div className="flex items-center justify-between border-b border-indigo-500/5 pb-3">
               <div className="flex items-center gap-2">
                 <Globe className="w-4.5 h-4.5 text-teal-400" />
                 <span className="text-xs font-bold uppercase text-slate-100 tracking-widest">
@@ -374,7 +374,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-              <div className="md:col-span-8 h-[240px] bg-slate-950 border border-slate-850 rounded-xl relative overflow-hidden flex items-center justify-center">
+              <div className="md:col-span-8 h-[240px] bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-slate-850 rounded-xl relative overflow-hidden flex items-center justify-center">
                 {/* SVG representing tactical vector background */}
                 <svg className="absolute inset-0 w-full h-full opacity-35" viewBox="0 0 400 240">
                   <defs>
@@ -414,7 +414,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
               </div>
 
               {/* Sidebar metric inside the Situational map block */}
-              <div className="md:col-span-4 bg-slate-950/40 border border-slate-900 rounded-xl p-3.5 flex flex-col justify-between">
+              <div className="md:col-span-4 bg-slate-950/40 border border-indigo-500/5 rounded-xl p-3.5 flex flex-col justify-between">
                 <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">АКТИВНІ КАНАЛИ</span>
                 
                 <div className="space-y-2 mt-2">
@@ -422,7 +422,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                     <span className="text-slate-400">Шеньчжень → Київ</span>
                     <span className="text-red-400 font-bold font-mono">94% Ризик</span>
                   </div>
-                  <div className="w-full bg-slate-900 rounded-full h-1">
+                  <div className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full h-1">
                     <div className="bg-red-500 h-1 rounded-full" style={{ width: '94%' }}></div>
                   </div>
 
@@ -430,7 +430,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                     <span className="text-slate-400">Лейпциг → Львів</span>
                     <span className="text-emerald-400 font-bold font-mono">10% Безпечно</span>
                   </div>
-                  <div className="w-full bg-slate-900 rounded-full h-1">
+                  <div className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full h-1">
                     <div className="bg-emerald-500 h-1 rounded-full" style={{ width: '10%' }}></div>
                   </div>
 
@@ -438,12 +438,12 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                     <span className="text-slate-400">Гонконг → Стамбул</span>
                     <span className="text-amber-400 font-bold font-mono">68% Скринінг</span>
                   </div>
-                  <div className="w-full bg-slate-900 rounded-full h-1">
+                  <div className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full h-1">
                     <div className="bg-amber-500 h-1 rounded-full" style={{ width: '68%' }}></div>
                   </div>
                 </div>
 
-                <div className="text-[9px] text-slate-500 font-mono border-t border-slate-900 pt-2 mt-2">
+                <div className="text-[9px] text-slate-500 font-mono border-t border-indigo-500/5 pt-2 mt-2">
                   Дані митниці оновлюються автоматично згідно з 16 томами ТЗ.
                 </div>
               </div>
@@ -451,10 +451,10 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
           </div>
 
           {/* 2D Risk-Distribution Heatmap Widget */}
-          <div className="bg-[#0b1329]/60 border border-slate-850 rounded-2xl p-5 shadow-xl space-y-4 relative overflow-hidden backdrop-blur-sm" id="risk-distribution-heatmap-widget">
+          <div className="bg-slate-900/40 border border-indigo-500/10 rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] backdrop-blur-md p-5 shadow-xl space-y-4 relative overflow-hidden backdrop-blur-sm" id="risk-distribution-heatmap-widget">
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-transparent pointer-events-none" />
             
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-900 pb-3 gap-3 relative z-10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-indigo-500/5 pb-3 gap-3 relative z-10">
               <div className="flex items-center gap-2">
                 <Activity className="w-4.5 h-4.5 text-rose-500" />
                 <div>
@@ -468,7 +468,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
               </div>
               
               {/* Filter controls inside the heatmap widget */}
-              <div className="flex items-center gap-1.5 bg-slate-950/80 p-1 rounded-xl border border-slate-900/60">
+              <div className="flex items-center gap-1.5 bg-slate-950/80 p-1 rounded-xl border border-indigo-500/5/60">
                 <button
                   onClick={() => setHeatmapFilter('all')}
                   className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
@@ -507,7 +507,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
             {/* Grid for heatmap container */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 relative z-10">
               {/* Heatmap main canvas */}
-              <div className="lg:col-span-8 relative h-[300px] bg-slate-950/80 border border-slate-900/80 rounded-xl overflow-hidden p-4 flex flex-col justify-between">
+              <div className="lg:col-span-8 relative h-[300px] bg-slate-950/80 border border-indigo-500/5/80 rounded-xl overflow-hidden p-4 flex flex-col justify-between">
                 
                 {/* 2D Plane Grid Background */}
                 <div className="absolute inset-0 pointer-events-none">
@@ -598,17 +598,17 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                         )}
                         
                         {/* Interactive Circle Pin */}
-                        <div className={`w-6 h-6 rounded-full border-2 border-slate-950 bg-slate-900 flex items-center justify-center shadow-lg shadow-black/80 group-hover:scale-125 group-hover:border-indigo-400 transition-all duration-300 relative`}>
+                        <div className={`w-6 h-6 rounded-full border-2 border-slate-950 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] flex items-center justify-center shadow-lg shadow-black/80 group-hover:scale-125 group-hover:border-indigo-400 transition-all duration-300 relative`}>
                           <Icon className={`w-3.5 h-3.5 ${riskText}`} />
                           
                           {/* Risk Score Pill directly attached */}
-                          <span className="absolute -top-3.5 -right-3 px-1 rounded bg-slate-950 border border-slate-800 text-[7px] font-mono font-bold text-slate-300 scale-90 group-hover:scale-100 transition-transform">
+                          <span className="absolute -top-3.5 -right-3 px-1 rounded bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 text-[7px] font-mono font-bold text-slate-300 scale-90 group-hover:scale-100 transition-transform">
                             {ent.riskScore}%
                           </span>
                         </div>
 
                         {/* Floating quick mini-label */}
-                        <span className="absolute left-7 top-1/2 -translate-y-1/2 whitespace-nowrap bg-slate-950/90 border border-slate-900/60 px-2 py-0.5 rounded text-[8.5px] font-mono font-bold text-slate-300 group-hover:text-white transition-colors">
+                        <span className="absolute left-7 top-1/2 -translate-y-1/2 whitespace-nowrap bg-slate-950/90 border border-indigo-500/5/60 px-2 py-0.5 rounded text-[8.5px] font-mono font-bold text-slate-300 group-hover:text-white transition-colors">
                           {ent.name.replace(/ТОВ |"|'/g, '')}
                         </span>
 
@@ -622,17 +622,17 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                             <p className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">
                               {ent.type === 'company' ? 'Юридична особа' : ent.type === 'person' ? 'Фізична особа' : 'Крипто-гаманець'}
                             </p>
-                            <div className="border-t border-slate-900 my-1.5"></div>
+                            <div className="border-t border-indigo-500/5 my-1.5"></div>
                             <div className="text-[8.5px] text-slate-400 font-mono space-y-1">
                               <div>Код/Адреса: <span className="text-slate-200 block truncate">{ent.code}</span></div>
                               <div className="flex justify-between">
                                 <span>Зв'язків: <strong className="text-slate-200">{ent.relationships?.length || 0}</strong></span>
-                                <span className={`px-1.5 py-0.5 rounded text-[7.5px] font-bold uppercase bg-slate-900 ${riskText}`}>
+                                <span className={`px-1.5 py-0.5 rounded text-[7.5px] font-bold uppercase bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] ${riskText}`}>
                                   {ent.status}
                                 </span>
                               </div>
                             </div>
-                            <div className="border-t border-slate-900/60 pt-1 mt-1 flex items-center justify-between">
+                            <div className="border-t border-indigo-500/5/60 pt-1 mt-1 flex items-center justify-between">
                               <span className="text-[7.5px] text-indigo-400 font-mono animate-pulse">Клікніть для повного аналізу зв'язків</span>
                               <ArrowRight className="w-2.5 h-2.5 text-indigo-400 animate-pulse" />
                             </div>
@@ -644,7 +644,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                 </div>
 
                 {/* Chart X-Axis Labels */}
-                <div className="flex justify-between text-[8px] font-mono text-slate-500 border-t border-slate-900 pt-2 ml-14 mr-4 select-none">
+                <div className="flex justify-between text-[8px] font-mono text-slate-500 border-t border-indigo-500/5 pt-2 ml-14 mr-4 select-none">
                   <span>Низький рівень зв'язків (1-2)</span>
                   <span>Середній ступінь залученості</span>
                   <span>Критичні транскордонні зв'язки (3+)</span>
@@ -652,26 +652,26 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
               </div>
 
               {/* Right panel: Heatmap key stats / legend */}
-              <div className="lg:col-span-4 bg-slate-950/40 border border-slate-900 rounded-xl p-4 flex flex-col justify-between space-y-4">
+              <div className="lg:col-span-4 bg-slate-950/40 border border-indigo-500/5 rounded-xl p-4 flex flex-col justify-between space-y-4">
                 <div className="space-y-3.5">
-                  <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block border-b border-slate-900 pb-1.5">
+                  <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block border-b border-indigo-500/5 pb-1.5">
                     Показники ризик-матриці
                   </span>
                   
                   {/* Analytics metrics */}
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-slate-950/80 p-2.5 rounded-lg border border-slate-900 text-center">
+                    <div className="bg-slate-950/80 p-2.5 rounded-lg border border-indigo-500/5 text-center">
                       <span className="text-[8px] text-slate-500 font-mono block">СЕРЕДНІЙ РИЗИК</span>
                       <span className="text-lg font-black text-indigo-400 font-mono">{avgRiskScore}%</span>
                     </div>
-                    <div className="bg-slate-950/80 p-2.5 rounded-lg border border-slate-900 text-center">
+                    <div className="bg-slate-950/80 p-2.5 rounded-lg border border-indigo-500/5 text-center">
                       <span className="text-[8px] text-slate-500 font-mono block">КРИТИЧНІ ОБ'ЄКТИ</span>
                       <span className="text-lg font-black text-rose-500 font-mono">{criticalCount}</span>
                     </div>
                   </div>
 
                   {/* Settings toggle */}
-                  <div className="bg-slate-950/80 rounded-lg border border-slate-900 p-3 space-y-2">
+                  <div className="bg-slate-950/80 rounded-lg border border-indigo-500/5 p-3 space-y-2">
                     <span className="text-[8px] text-slate-400 font-mono font-bold block uppercase tracking-wider">Візуальні параметри</span>
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] text-slate-400">Градієнтні теплові ареоли</span>
@@ -687,7 +687,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                   {/* Distribution Legend */}
                   <div className="space-y-1.5 pt-1">
                     <span className="text-[8px] text-slate-500 font-mono font-bold block uppercase tracking-wider">Легенда інтенсивності</span>
-                    <div className="flex flex-col gap-1 text-[9px] text-slate-400 bg-slate-950/40 p-2 rounded border border-slate-900/60 space-y-1">
+                    <div className="flex flex-col gap-1 text-[9px] text-slate-400 bg-slate-950/40 p-2 rounded border border-indigo-500/5/60 space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="flex items-center gap-1.5">
                           <span className="w-2 h-2 rounded-full bg-rose-500"></span>
@@ -713,7 +713,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                   </div>
                 </div>
 
-                <div className="text-[9px] text-slate-500 font-mono leading-relaxed border-t border-slate-900/80 pt-3">
+                <div className="text-[9px] text-slate-500 font-mono leading-relaxed border-t border-indigo-500/5/80 pt-3">
                   <div className="flex items-center gap-1.5 text-rose-400 font-bold mb-1">
                     <AlertTriangle className="w-3 h-3 shrink-0" />
                     <span>Виявлено аномальну концентрацію:</span>
@@ -728,7 +728,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
           <div className="bg-[#0b1329]/40 border border-slate-850 rounded-2xl p-5 shadow-xl space-y-4 relative overflow-hidden backdrop-blur-sm" id="tactical-interactive-panel">
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-transparent pointer-events-none" />
             
-            <div className="flex items-center justify-between border-b border-slate-900 pb-3 relative z-10">
+            <div className="flex items-center justify-between border-b border-indigo-500/5 pb-3 relative z-10">
               <div className="flex items-center gap-2">
                 <Zap className="w-4.5 h-4.5 text-indigo-400 animate-pulse" />
                 <span className="text-xs font-bold uppercase text-slate-100 tracking-widest font-mono">
@@ -740,7 +740,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">
               {/* Operation 1: Radar scan */}
-              <div className="bg-slate-950/70 border border-slate-900 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/20 transition-all group">
+              <div className="bg-slate-950/70 border border-indigo-500/5 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/20 transition-all group">
                 <div>
                   <h4 className="text-xs font-bold text-slate-200 group-hover:text-indigo-400 transition-colors">📡 ГЛОБАЛЬНИЙ РАДАР</h4>
                   <p className="text-[10px] text-slate-500 font-mono mt-1 leading-relaxed">Сканування гео-каналів та обходу митниць у реальному часі.</p>
@@ -764,7 +764,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                   <button
                     onClick={triggerRadarScan}
                     disabled={radarStatus === 'SCANNING'}
-                    className={`w-full py-2 px-3 text-[10px] font-black uppercase rounded-lg tracking-wider font-mono cursor-pointer transition-all ${radarStatus === 'SCANNING' ? 'bg-slate-900 text-slate-500' : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-500/10'}`}
+                    className={`w-full py-2 px-3 text-[10px] font-black uppercase rounded-lg tracking-wider font-mono cursor-pointer transition-all ${radarStatus === 'SCANNING' ? 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-slate-500' : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-500/10'}`}
                   >
                     {radarStatus === 'SCANNING' ? 'Сканування...' : 'Запустити Скринінг'}
                   </button>
@@ -772,7 +772,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
               </div>
 
               {/* Operation 2: Sync DB */}
-              <div className="bg-slate-950/70 border border-slate-900 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/20 transition-all group">
+              <div className="bg-slate-950/70 border border-indigo-500/5 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/20 transition-all group">
                 <div>
                   <h4 className="text-xs font-bold text-slate-200 group-hover:text-indigo-400 transition-colors">🔄 СИНХРОНІЗАЦІЯ БАЗИ</h4>
                   <p className="text-[10px] text-slate-500 font-mono mt-1 leading-relaxed">Звірка реєстру РНБО з міжнародними санкційними списками.</p>
@@ -784,7 +784,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                         <span>Синхронізація реєстрів...</span>
                         <span>{syncProgress}%</span>
                       </div>
-                      <div className="w-full bg-slate-900 h-1 rounded-full overflow-hidden">
+                      <div className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] h-1 rounded-full overflow-hidden">
                         <div className="bg-amber-500 h-1 rounded-full transition-all duration-300" style={{ width: `${syncProgress}%` }} />
                       </div>
                     </div>
@@ -801,7 +801,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                   <button
                     onClick={triggerDatabaseSync}
                     disabled={syncStatus === 'SYNCING'}
-                    className={`w-full py-2 px-3 text-[10px] font-black uppercase rounded-lg tracking-wider font-mono cursor-pointer transition-all ${syncStatus === 'SYNCING' ? 'bg-slate-900 text-slate-500' : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-500/10'}`}
+                    className={`w-full py-2 px-3 text-[10px] font-black uppercase rounded-lg tracking-wider font-mono cursor-pointer transition-all ${syncStatus === 'SYNCING' ? 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-slate-500' : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-500/10'}`}
                   >
                     {syncStatus === 'SYNCING' ? 'Оновлюємо...' : 'Звірити бази'}
                   </button>
@@ -809,7 +809,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
               </div>
 
               {/* Operation 3: AI Screening */}
-              <div className="bg-slate-950/70 border border-slate-900 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/20 transition-all group">
+              <div className="bg-slate-950/70 border border-indigo-500/5 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/20 transition-all group">
                 <div>
                   <h4 className="text-xs font-bold text-slate-200 group-hover:text-indigo-400 transition-colors">🧪 ШІ AML СКРИНІНГ</h4>
                   <p className="text-[10px] text-slate-500 font-mono mt-1 leading-relaxed">Глибока перевірка транскордонних переказів через Gemini 3.5.</p>
@@ -835,7 +835,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
 
           
           {/* Risk Dynamics Chart */}
-          <div className="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 shadow-lg relative overflow-hidden" id="risk-dynamics-chart">
+          <div className="bg-slate-900/40 border border-indigo-500/5 rounded-2xl p-5 shadow-lg relative overflow-hidden" id="risk-dynamics-chart">
                         <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4 text-indigo-400" />
@@ -929,7 +929,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
         <div className="xl:col-span-4 space-y-6">
           
           {/* Last Searches / Autocomplete AI reference (Section 11 & 12) */}
-          <div className="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 shadow-lg space-y-3.5">
+          <div className="bg-slate-900/40 border border-indigo-500/5 rounded-2xl p-5 shadow-lg space-y-3.5">
             <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-widest block flex items-center justify-between">
               <span>ОСТАННІ АНАЛІЗОВАНИЙ ОБ'ЄКТИ</span>
               <Activity className="w-3.5 h-3.5 text-indigo-400" />
@@ -946,10 +946,10 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                       onSelectTab('volumes'); // Navigate to workbench
                     }
                   }}
-                  className="bg-slate-950/70 border border-slate-900 hover:border-slate-800 rounded-xl p-3 flex items-center justify-between transition-colors cursor-pointer group"
+                  className="bg-slate-950/70 border border-indigo-500/5 hover:border-indigo-500/10 rounded-xl p-3 flex items-center justify-between transition-colors cursor-pointer group"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 group-hover:text-indigo-400 transition-colors">
+                    <div className="p-1.5 rounded-lg bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 text-slate-400 group-hover:text-indigo-400 transition-colors">
                       {search.type === 'Company' ? <Briefcase className="w-3.5 h-3.5" /> : search.type === 'Person' ? <User className="w-3.5 h-3.5" /> : <Terminal className="w-3.5 h-3.5" />}
                     </div>
                     <div>
@@ -966,7 +966,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
           </div>
 
           {/* Risks list widget (Section 11) */}
-          <div className="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 shadow-lg space-y-3.5">
+          <div className="bg-slate-900/40 border border-indigo-500/5 rounded-2xl p-5 shadow-lg space-y-3.5">
             <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-widest block flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-amber-500" />
               <span>ДЖЕРЕЛО РИЗИКІВ (РЕАЛЬНИЙ ЧАС)</span>
@@ -974,7 +974,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
 
             <div className="space-y-3">
               {criticalRisks.map((risk, idx) => (
-                <div key={idx} className="bg-slate-950 p-3 rounded-xl border border-slate-900 space-y-1.5">
+                <div key={idx} className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] p-3 rounded-xl border border-indigo-500/5 space-y-1.5">
                   <div className="flex justify-between items-center text-[9px] font-mono">
                     <span className="text-slate-500">{risk.source}</span>
                     <span className={`font-bold px-1.5 py-0.5 rounded ${risk.level === 'КРИТИЧНО' ? 'bg-red-500/10 text-red-400' : 'bg-amber-500/10 text-amber-400'}`}>

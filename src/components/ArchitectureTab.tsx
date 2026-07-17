@@ -77,7 +77,7 @@ export default function ArchitectureTab() {
   return (
     <div className="space-y-6" id="architecture-tab-root">
       {/* Intro Header */}
-      <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 backdrop-blur-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-slate-900/60 border border-indigo-500/10 rounded-xl p-6 backdrop-blur-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
           <h2 className="text-xl font-semibold text-slate-100 flex items-center gap-2">
             <Network className="w-5 h-5 text-indigo-400" id="arch-title-icon" />
@@ -93,35 +93,35 @@ export default function ArchitectureTab() {
           <button
             id="layer-all-btn"
             onClick={() => setActiveLayer('all')}
-            className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'all' ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-300 font-medium' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'}`}
+            className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'all' ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-300 font-medium' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-indigo-500/10 text-slate-400 hover:text-slate-200'}`}
           >
             Уся мережа
           </button>
           <button
             id="layer-data-btn"
             onClick={() => setActiveLayer('data')}
-            className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'data' ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-medium' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-emerald-300'}`}
+            className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'data' ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-medium' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-indigo-500/10 text-slate-400 hover:text-emerald-300'}`}
           >
             Сховища / БД
           </button>
           <button
             id="layer-ai-btn"
             onClick={() => setActiveLayer('ai')}
-            className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'ai' ? 'bg-teal-500/15 border-teal-500/40 text-teal-300 font-medium' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-teal-300'}`}
+            className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'ai' ? 'bg-teal-500/15 border-teal-500/40 text-teal-300 font-medium' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-indigo-500/10 text-slate-400 hover:text-teal-300'}`}
           >
             Штучний інтелект
           </button>
           <button
             id="layer-event-btn"
             onClick={() => setActiveLayer('event')}
-            className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'event' ? 'bg-amber-500/15 border-amber-500/40 text-amber-300 font-medium' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-amber-300'}`}
+            className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'event' ? 'bg-amber-500/15 border-amber-500/40 text-amber-300 font-medium' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-indigo-500/10 text-slate-400 hover:text-amber-300'}`}
           >
             Шина & Воркери
           </button>
           <button
             id="layer-edge-btn"
             onClick={() => setActiveLayer('edge')}
-            className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'edge' ? 'bg-sky-500/15 border-sky-500/40 text-sky-300 font-medium' : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-sky-300'}`}
+            className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'edge' ? 'bg-sky-500/15 border-sky-500/40 text-sky-300 font-medium' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-indigo-500/10 text-slate-400 hover:text-sky-300'}`}
           >
             Ядро & Клієнт
           </button>
@@ -132,7 +132,7 @@ export default function ArchitectureTab() {
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
         
         {/* Interactive SVG Diagram - Takes 3 columns on xl, 1 column on smaller */}
-        <div className="xl:col-span-3 bg-slate-950/80 border border-slate-800/80 rounded-xl p-4 overflow-x-auto relative flex justify-center" id="svg-canvas-container">
+        <div className="xl:col-span-3 bg-slate-950/80 border border-indigo-500/10/80 rounded-xl p-4 overflow-x-auto relative flex justify-center" id="svg-canvas-container">
           <div className="min-w-[1000px] w-full aspect-[1000/680] relative">
             <svg
               className="w-full h-full select-none"
@@ -284,7 +284,7 @@ export default function ArchitectureTab() {
             </svg>
 
             {/* Quick Map Legend Overlay */}
-            <div className="absolute bottom-3 left-3 bg-slate-950/95 border border-slate-800 rounded-lg p-3 grid grid-cols-2 gap-x-4 gap-y-1.5 text-[10px] text-slate-400 font-mono shadow-lg">
+            <div className="absolute bottom-3 left-3 bg-slate-950/95 border border-indigo-500/10 rounded-lg p-3 grid grid-cols-2 gap-x-4 gap-y-1.5 text-[10px] text-slate-400 font-mono shadow-lg">
               <div className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-sky-400"></span> Клієнтський рівень
               </div>
@@ -309,9 +309,9 @@ export default function ArchitectureTab() {
 
         {/* Selected Component Specification Sidebar */}
         <div className="xl:col-span-1 flex flex-col justify-between" id="architecture-sidebar">
-          <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-5 space-y-4 h-full flex flex-col justify-between">
+          <div className="bg-slate-900/40 border border-indigo-500/10 rounded-xl p-5 space-y-4 h-full flex flex-col justify-between">
             <div className="space-y-4">
-              <div className="border-b border-slate-800 pb-3">
+              <div className="border-b border-indigo-500/10 pb-3">
                 <span className="text-[10px] text-indigo-400 uppercase tracking-widest font-bold block font-mono">
                   {getGroupTitleUkrainian(selectedNode.group)}
                 </span>
@@ -327,7 +327,7 @@ export default function ArchitectureTab() {
                   <Info className="w-3.5 h-3.5 text-indigo-400" />
                   Призначення мікросервісу
                 </span>
-                <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/60 p-3 rounded-lg border border-slate-900/50">
+                <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/60 p-3 rounded-lg border border-indigo-500/5/50">
                   {selectedNode.description}
                 </p>
                 <p className="text-[11px] text-slate-400 italic">
@@ -341,7 +341,7 @@ export default function ArchitectureTab() {
                   <Cpu className="w-3.5 h-3.5 text-emerald-400" />
                   Технологічний стек
                 </span>
-                <code className="block text-xs font-mono bg-slate-950 p-2 rounded-lg border border-slate-900 text-slate-300">
+                <code className="block text-xs font-mono bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] p-2 rounded-lg border border-indigo-500/5 text-slate-300">
                   {selectedNode.tech}
                 </code>
               </div>
@@ -352,7 +352,7 @@ export default function ArchitectureTab() {
                   <Shield className="w-3.5 h-3.5 text-rose-400" />
                   Рівень безпеки & Контур
                 </span>
-                <p className="text-xs text-slate-300 bg-slate-950/40 p-2.5 rounded-lg border border-slate-900 text-[11px]">
+                <p className="text-xs text-slate-300 bg-slate-950/40 p-2.5 rounded-lg border border-indigo-500/5 text-[11px]">
                   {selectedNode.security}
                 </p>
               </div>
@@ -363,13 +363,13 @@ export default function ArchitectureTab() {
                   <Activity className="w-3.5 h-3.5 text-amber-400" />
                   Масштабування в K8s
                 </span>
-                <p className="text-xs text-slate-300 bg-slate-950/40 p-2.5 rounded-lg border border-slate-900 text-[11px]">
+                <p className="text-xs text-slate-300 bg-slate-950/40 p-2.5 rounded-lg border border-indigo-500/5 text-[11px]">
                   {selectedNode.scaling}
                 </p>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-800/80 bg-slate-900/10 text-center">
+            <div className="pt-4 border-t border-indigo-500/10/80 bg-slate-900/10 text-center">
               <span className="text-[10px] text-slate-500 block font-mono">Апаратна архітектура</span>
               <span className="text-xs font-bold text-slate-300">Kubernetes High-Availability Cluster</span>
             </div>

@@ -171,7 +171,7 @@ export default function AdvisorTab() {
   return (
     <div className="space-y-6" id="advisor-tab-root">
       {/* Intro Header */}
-      <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 backdrop-blur-md">
+      <div className="bg-slate-900/60 border border-indigo-500/10 rounded-xl p-6 backdrop-blur-md">
         <h2 className="text-xl font-semibold text-slate-100 flex items-center gap-2 mb-2">
           <Bot className="w-5 h-5 text-indigo-400" id="advisor-title-icon" />
           Інтерактивний ШІ-Архітектор PREDATOR
@@ -198,7 +198,7 @@ export default function AdvisorTab() {
                   id={`faq-item-btn-${idx}`}
                   type="button"
                   onClick={() => handleSelectPredefined(item)}
-                  className={`w-full text-left p-4 rounded-xl border transition-all text-xs flex flex-col justify-between space-y-3 ${isSelected ? 'bg-indigo-500/10 border-indigo-500/40 shadow-[0_0_15px_rgba(99,102,241,0.04)] text-white' : 'bg-slate-900/40 border-slate-850 hover:border-slate-800 text-slate-300'}`}
+                  className={`w-full text-left p-4 rounded-xl border transition-all text-xs flex flex-col justify-between space-y-3 ${isSelected ? 'bg-indigo-500/10 border-indigo-500/40 shadow-[0_0_15px_rgba(99,102,241,0.04)] text-white' : 'bg-slate-900/40 border-slate-850 hover:border-indigo-500/10 text-slate-300'}`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider font-mono bg-indigo-500/10 px-2 py-0.5 rounded">
@@ -217,7 +217,7 @@ export default function AdvisorTab() {
         </div>
 
         {/* Right Column: Conversational Advisor Console */}
-        <div className="lg:col-span-2 flex flex-col justify-center items-center bg-slate-950 border border-slate-800 rounded-2xl p-10 text-center h-[620px]">
+        <div className="lg:col-span-2 flex flex-col justify-center items-center bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-2xl p-10 text-center h-[620px]">
           <Bot className="w-16 h-16 text-indigo-400/50 mb-4" />
           <h3 className="text-lg font-bold text-slate-200 mb-2">Глобальний ШІ-Асистент MARIARTI</h3>
           <p className="text-sm text-slate-400 max-w-md">

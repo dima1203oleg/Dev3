@@ -276,7 +276,7 @@ export function LiveChatBot() {
             className="absolute bottom-20 right-0 w-[380px] h-[550px] bg-slate-950/95 border border-indigo-500/30 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.5)] backdrop-blur-md flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="px-4 py-3 bg-slate-900/60 border-b border-slate-800 flex items-center justify-between">
+            <div className="px-4 py-3 bg-slate-900/60 border-b border-indigo-500/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Bot className="w-5 h-5 text-indigo-400" />
                 <div>
@@ -301,7 +301,7 @@ export function LiveChatBot() {
               )}
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] rounded-2xl p-3 text-xs leading-relaxed ${msg.sender === 'user' ? 'bg-indigo-600 text-white' : 'bg-slate-900/80 border border-slate-800 text-slate-300'}`}>
+                  <div className={`max-w-[85%] rounded-2xl p-3 text-xs leading-relaxed ${msg.sender === 'user' ? 'bg-indigo-600 text-white' : 'bg-slate-900/80 border border-indigo-500/10 text-slate-300'}`}>
                     <p className="whitespace-pre-line">{msg.text}</p>
                   </div>
                 </div>
@@ -318,8 +318,8 @@ export function LiveChatBot() {
             )}
 
             {/* Input Area */}
-            <div className="p-2 bg-slate-900/60 border-t border-slate-800">
-              <form onSubmit={handleSendText} className="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-2xl border border-slate-800/80">
+            <div className="p-2 bg-slate-900/60 border-t border-indigo-500/10">
+              <form onSubmit={handleSendText} className="flex items-center gap-1.5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] p-1.5 rounded-2xl border border-indigo-500/10/80">
                 <button
                   type="button"
                   onClick={isActive ? stopMic : startMic}
@@ -368,7 +368,7 @@ export function LiveChatBot() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="h-14 w-14 rounded-full flex items-center justify-center shadow-2xl transition-all border bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-700 relative"
+        className="h-14 w-14 rounded-full flex items-center justify-center shadow-2xl transition-all border bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-800 text-slate-300 border-slate-700 relative"
       >
         <MessageSquare className="w-6 h-6" />
         {isActive && (
