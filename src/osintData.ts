@@ -22,6 +22,7 @@ export interface OsintEntity {
   relationships: { targetId: string; targetName: string; type: string; risk: 'HIGH' | 'MEDIUM' | 'LOW' }[];
   aiRecommendations: string;
   lastActivityDate?: string; // YYYY-MM-DD
+  rawContext?: any;
 }
 
 export const OSINT_ENTITIES: OsintEntity[] = [

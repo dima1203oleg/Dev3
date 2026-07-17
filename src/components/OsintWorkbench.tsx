@@ -10,11 +10,12 @@ import {
   AlertTriangle, ArrowRight, Zap, RefreshCw, Send, Plus, Filter,
   TrendingUp, ShieldCheck, Landmark, ChevronRight, Hash, Truck,
   X, Printer, FileDown, Eye, EyeOff, Sliders, Copy, Check, Calendar,
-  MapPin, Layers
+  MapPin, Layers, Database, Lock, Shield, ServerCrash, ExternalLink
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { QRCodeSVG } from 'qrcode.react';
 import { OSINT_ENTITIES, OsintEntity } from '../osintData';
 
 interface OsintWorkbenchProps {
@@ -102,6 +103,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [showDataSourcesModal, setShowDataSourcesModal] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(true);
   const [heatmapSensitivity, setHeatmapSensitivity] = useState(1.0);
   const [exportFormat, setExportFormat] = useState<'csv' | 'pdf'>('csv');
@@ -109,6 +111,18 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
+
+  const [pdfConfig, setPdfConfig] = useState({
+    metadata: true,
+    riskScore: true,
+    connections: true,
+    timeline: true,
+    qrCode: true
+  });
+
+  const [entities, setEntities] = useState<OsintEntity[]>(OSINT_ENTITIES);
+  const [isSearchingLive, setIsSearchingLive] = useState(false);
+  const [liveSearchError, setLiveSearchError] = useState<string | null>(null);
 
   // Checklist Multi-Selection and Simulation States
   const [selectedEntityIds, setSelectedEntityIds] = useState<string[]>(OSINT_ENTITIES.map(e => e.id));
@@ -118,7 +132,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
 
   // Memoized filtered entities for the quick-access sidebar list
   const filteredEntities = useMemo(() => {
-    return OSINT_ENTITIES.filter(entity => {
+    return entities.filter(entity => {
       // Apply search query if typed
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
@@ -165,7 +179,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
       
       return true;
     });
-  }, [searchQuery, activeFilter, categoryFilter, riskLevelFilter, startDate, endDate]);
+  }, [searchQuery, activeFilter, categoryFilter, riskLevelFilter, startDate, endDate, entities]);
 
   const toggleEntitySelection = (id: string) => {
     setSelectedEntityIds(prev => 
@@ -338,7 +352,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
 
   
   // Local active entity (defaults to the first one)
-  const activeEntity = selectedEntity || OSINT_ENTITIES[0];
+  const activeEntity = selectedEntity || entities[0];
 
 
 
@@ -381,34 +395,65 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
   // Filters entities by query and registry type
   const suggestions = useMemo(() => {
     if (!searchQuery.trim()) return [];
-    return OSINT_ENTITIES.filter(e => {
+    return entities.filter(e => {
       const matchesText = e.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           e.code.includes(searchQuery) ||
                           e.description.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesType = activeFilter === 'all' || e.type === activeFilter;
       return matchesText && matchesType;
     });
-  }, [searchQuery, activeFilter]);
+  }, [searchQuery, activeFilter, entities]);
 
-  const handleSearchSubmit = (queryText: string) => {
+  const handleSearchSubmit = async (queryText: string) => {
     if (!queryText.trim()) return;
     
     // Check if there is an exact or partial match
-    const found = OSINT_ENTITIES.find(e => 
+    const found = entities.find(e => 
       e.name.toLowerCase().includes(queryText.toLowerCase()) || 
       e.code.includes(queryText)
     );
 
     if (found) {
       onSelectEntityForInspector(found);
+      setSearchQuery(queryText);
+      setShowSuggestions(false);
+    } else {
+      // Trigger live search API call!
+      setIsSearchingLive(true);
+      setLiveSearchError(null);
+      try {
+        const response = await fetch("/api/osint/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: queryText, type: activeFilter === 'all' ? undefined : activeFilter }),
+        });
+        if (!response.ok) {
+          throw new Error("Не вдалося отримати дані з OSINT API");
+        }
+        const data: OsintEntity = await response.json();
+        if (data && data.id) {
+          // Add newly generated entity to entities state
+          setEntities(prev => [data, ...prev]);
+          // Also automatically select it in selectedEntityIds
+          setSelectedEntityIds(prev => [data.id, ...prev]);
+          // Select it in parent/inspector
+          onSelectEntityForInspector(data);
+          setSearchQuery(queryText);
+          setShowSuggestions(false);
+        } else {
+          throw new Error("Некоректний формат відповіді від сервера");
+        }
+      } catch (error: any) {
+        console.error("Live OSINT search error:", error);
+        setLiveSearchError(error.message || "Сталася помилка під час виконання запиту");
+      } finally {
+        setIsSearchingLive(false);
+      }
     }
 
     if (!recentSearches.includes(queryText)) {
       setRecentSearches(prev => [queryText, ...prev.slice(0, 3)]);
     }
-    
-    setSearchQuery(queryText);
-    setShowSuggestions(false);
   };
 
   const getRiskColor = (score: number) => {
@@ -619,7 +664,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                 ) : (
                   <Printer className="w-3.5 h-3.5" />
                 )}
-                <span>{isExporting ? 'Підготовка...' : 'Звіт PDF'}</span>
+                <span>{isExporting ? 'Підготовка...' : 'Generate PDF Brief'}</span>
               </motion.button>
             )}
           </AnimatePresence>
@@ -628,20 +673,29 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
       
       {/* Top OSINT filter options */}
       <div className="flex flex-col gap-4 bg-slate-900/10 border border-slate-900/30 p-4 rounded-2xl" id="osint-filters-panel">
-        <div className="flex flex-wrap items-center gap-1.5" id="registry-quick-filters">
-          <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-wider mr-2 min-w-[80px]">Бази OSINT:</span>
-          {(['all', 'company', 'person', 'cryptowallet'] as const).map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${activeFilter === filter ? 'bg-indigo-600/15 text-indigo-400 border-indigo-500/40 shadow-sm' : 'bg-slate-900/40 text-slate-400 border-slate-900 hover:border-slate-800'}`}
-            >
-              {filter === 'all' && 'Всі реєстри'}
-              {filter === 'company' && 'Юридичні особи (ЄДР)'}
-              {filter === 'person' && 'Фізичні особи / ФОП'}
-              {filter === 'cryptowallet' && 'Криптоактиви / Валюта'}
-            </button>
-          ))}
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-1.5" id="registry-quick-filters">
+            <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-wider mr-2 min-w-[80px]">Бази OSINT:</span>
+            {(['all', 'company', 'person', 'cryptowallet'] as const).map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border transition-all cursor-pointer ${activeFilter === filter ? 'bg-indigo-600/15 text-indigo-400 border-indigo-500/40 shadow-sm' : 'bg-slate-900/40 text-slate-400 border-slate-900 hover:border-slate-800'}`}
+              >
+                {filter === 'all' && 'Всі реєстри'}
+                {filter === 'company' && 'Юридичні особи (ЄДР)'}
+                {filter === 'person' && 'Фізичні особи / ФОП'}
+                {filter === 'cryptowallet' && 'Криптоактиви / Валюта'}
+              </button>
+            ))}
+          </div>
+          <button 
+            onClick={() => setShowDataSourcesModal(true)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-[10px] font-mono font-bold uppercase tracking-wider transition-all cursor-pointer"
+          >
+            <Database className="w-3.5 h-3.5" />
+            <span>Інтеграції та Бази Даних</span>
+          </button>
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5" id="category-quick-filters">
@@ -806,7 +860,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               </span>
             </div>
             <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-wider">
-              Відфільтровано: <strong className="text-indigo-400 font-bold">{filteredEntities.length}</strong> з <strong className="text-slate-400 font-bold">{OSINT_ENTITIES.length}</strong>
+              Відфільтровано: <strong className="text-indigo-400 font-bold">{filteredEntities.length}</strong> з <strong className="text-slate-400 font-bold">{entities.length}</strong>
             </span>
           </div>
 
@@ -967,6 +1021,21 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                 </div>
               )}
 
+              {suggestions.length === 0 && searchQuery.trim() !== "" && (
+                <div className="p-4 text-center">
+                  <p className="text-xs text-slate-400 mb-2.5">
+                    Даний об'єкт не знайдено у локальній базі даних.
+                  </p>
+                  <button
+                    onClick={() => handleSearchSubmit(searchQuery)}
+                    className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all"
+                  >
+                    <Search className="w-3.5 h-3.5" />
+                    Запустити зовнішній OSINT-пошук PREDATOR
+                  </button>
+                </div>
+              )}
+
               {/* Recent searches */}
               {recentSearches.length > 0 && (
                 <div className="p-2.5 bg-slate-950/40">
@@ -994,6 +1063,61 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
         </AnimatePresence>
       </div>
 
+      {/* Dynamic OSINT Search Loading Indicator */}
+      <AnimatePresence>
+        {isSearchingLive && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mb-6 overflow-hidden"
+          >
+            <div className="bg-slate-950/80 border-2 border-indigo-500/30 rounded-xl p-5 shadow-[0_0_15px_rgba(99,102,241,0.15)] flex flex-col md:flex-row gap-5 items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  <div className="w-10 h-10 rounded-full border-4 border-indigo-500/20 border-t-indigo-500 animate-spin" />
+                  <div className="absolute inset-0 w-10 h-10 rounded-full border-4 border-emerald-500/10 border-b-emerald-500 animate-spin [animation-duration:1.5s]" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-slate-100 uppercase tracking-wider font-mono">
+                    Ініційовано інтелектуальний OSINT-пошук
+                  </h4>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Шукаємо дані по запиту <span className="text-indigo-400 font-bold">"{searchQuery}"</span> у державних реєстрах, реєстрах МВС, Darknet-форумах, витоках баз даних (2020-2024), базах Інтерполу та крипто-міксерах...
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1.5 items-end text-right font-mono text-[10px] text-indigo-400">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  API GATEWAY: ONLINE
+                </div>
+                <div className="text-slate-500">
+                  ESTIMATED TIME: ~5-10s
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {liveSearchError && (
+        <div className="mb-6 bg-rose-950/20 border border-rose-500/30 rounded-xl p-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+            <p className="text-xs text-rose-300 font-mono">
+              ПОМИЛКА ПОШУКУ: {liveSearchError}
+            </p>
+          </div>
+          <button 
+            onClick={() => setLiveSearchError(null)}
+            className="text-[10px] font-mono text-rose-400 hover:text-rose-200"
+          >
+            Приховати
+          </button>
+        </div>
+      )}
+
       {/* Grid: 3 Columns - Quick Filtered List Left, Detailed Dossier Middle, Graph/Map Visualizers Right */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         
@@ -1007,7 +1131,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                   Об'єкти ({filteredEntities.length})
                 </span>
               </div>
-              {(filteredEntities.length < OSINT_ENTITIES.length || searchQuery || activeFilter !== 'all' || categoryFilter !== 'all' || riskLevelFilter !== 'all' || startDate || endDate) && (
+              {(filteredEntities.length < entities.length || searchQuery || activeFilter !== 'all' || categoryFilter !== 'all' || riskLevelFilter !== 'all' || startDate || endDate) && (
                 <button
                   onClick={() => {
                     setActiveFilter('all');
@@ -1422,7 +1546,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                         <div 
                           key={idx}
                           onClick={() => {
-                            const foundPerson = OSINT_ENTITIES.find(e => e.name === found.name);
+                            const foundPerson = entities.find(e => e.name === found.name);
                             if (foundPerson) onSelectEntityForInspector(foundPerson);
                           }}
                           className="bg-slate-950/80 border border-slate-900 rounded-xl p-3 flex items-center justify-between hover:border-slate-800 transition-colors cursor-pointer group"
@@ -1628,7 +1752,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     <g 
                       className="cursor-pointer group"
                       onClick={() => {
-                        const found = OSINT_ENTITIES.find(e => e.id === activeEntity.relationships[0].targetId);
+                        const found = entities.find(e => e.id === activeEntity.relationships[0].targetId);
                         if (found) onSelectEntityForInspector(found);
                       }}
                     >
@@ -1648,7 +1772,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     <g 
                       className="cursor-pointer group"
                       onClick={() => {
-                        const found = OSINT_ENTITIES.find(e => e.id === activeEntity.relationships[1].targetId);
+                        const found = entities.find(e => e.id === activeEntity.relationships[1].targetId);
                         if (found) onSelectEntityForInspector(found);
                       }}
                     >
@@ -1668,7 +1792,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     <g 
                       className="cursor-pointer group"
                       onClick={() => {
-                        const found = OSINT_ENTITIES.find(e => e.id === activeEntity.relationships[2].targetId);
+                        const found = entities.find(e => e.id === activeEntity.relationships[2].targetId);
                         if (found) onSelectEntityForInspector(found);
                       }}
                     >
@@ -1770,7 +1894,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     <div 
                       key={loc.id}
                       onClick={() => {
-                        const found = OSINT_ENTITIES.find(e => e.id === loc.id);
+                        const found = entities.find(e => e.id === loc.id);
                         if (found) {
                           onSelectEntityForInspector(found);
                           // Auto trigger correct zoom mode for optimal UX
@@ -2103,7 +2227,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                           key={loc.id}
                           className="cursor-pointer group"
                           onClick={() => {
-                            const found = OSINT_ENTITIES.find(e => e.id === loc.id);
+                            const found = entities.find(e => e.id === loc.id);
                             if (found) onSelectEntityForInspector(found);
                           }}
                           onMouseEnter={() => setHoveredMapEntityId(loc.id)}
@@ -2500,8 +2624,8 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                 <div className="flex items-center gap-2">
                   <Printer className="w-4.5 h-4.5 text-rose-400" />
                   <div>
-                    <h3 className="text-xs font-bold text-slate-100 uppercase tracking-widest font-mono">Генератор звітів OSINT</h3>
-                    <p className="text-[9px] text-slate-500 font-mono">Попередній перегляд та друк звіту</p>
+                    <h3 className="text-xs font-bold text-slate-100 uppercase tracking-widest font-mono">PDF Brief Preview</h3>
+                    <p className="text-[9px] text-slate-500 font-mono">Review the intelligence report before final export</p>
                   </div>
                 </div>
                 <button
@@ -2513,47 +2637,118 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
               </div>
 
               {/* Modal Body */}
-              <div className="flex-1 overflow-y-auto p-6 bg-slate-950/50 custom-scrollbar flex justify-center">
+              <div className="flex-1 overflow-hidden flex">
                 
-                {/* Paper page mimic */}
-                <div id="pdf-report-content" className="w-full max-w-3xl bg-white text-slate-900 p-8 sm:p-12 shadow-2xl rounded-xl border border-slate-200 my-4 select-text">
+                {/* Configuration Panel */}
+                <div className="w-64 shrink-0 bg-slate-900 border-r border-slate-800 p-6 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
+                  <div>
+                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono mb-4 flex items-center gap-2">
+                      <Layers className="w-3.5 h-3.5" />
+                      Sections to Include
+                    </h4>
+                    <div className="space-y-3">
+                      <label className="flex items-center gap-2.5 cursor-pointer group">
+                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950 group-hover:border-indigo-500/50 transition-colors">
+                          <input type="checkbox" checked={pdfConfig.metadata} onChange={e => setPdfConfig({...pdfConfig, metadata: e.target.checked})} className="absolute opacity-0 w-full h-full cursor-pointer" />
+                          {pdfConfig.metadata && <div className="w-2 h-2 rounded-sm bg-indigo-500" />}
+                        </div>
+                        <span className="text-xs text-slate-300 group-hover:text-slate-100 transition-colors font-semibold">Search Criteria</span>
+                      </label>
+                      <label className="flex items-center gap-2.5 cursor-pointer group">
+                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950 group-hover:border-indigo-500/50 transition-colors">
+                          <input type="checkbox" checked={pdfConfig.riskScore} onChange={e => setPdfConfig({...pdfConfig, riskScore: e.target.checked})} className="absolute opacity-0 w-full h-full cursor-pointer" />
+                          {pdfConfig.riskScore && <div className="w-2 h-2 rounded-sm bg-indigo-500" />}
+                        </div>
+                        <span className="text-xs text-slate-300 group-hover:text-slate-100 transition-colors font-semibold">Risk Statistics</span>
+                      </label>
+                      <label className="flex items-center gap-2.5 cursor-pointer group">
+                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950 group-hover:border-indigo-500/50 transition-colors">
+                          <input type="checkbox" checked={pdfConfig.connections} onChange={e => setPdfConfig({...pdfConfig, connections: e.target.checked})} className="absolute opacity-0 w-full h-full cursor-pointer" />
+                          {pdfConfig.connections && <div className="w-2 h-2 rounded-sm bg-indigo-500" />}
+                        </div>
+                        <span className="text-xs text-slate-300 group-hover:text-slate-100 transition-colors font-semibold">Data Table</span>
+                      </label>
+                      <label className="flex items-center gap-2.5 cursor-pointer group">
+                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950 group-hover:border-indigo-500/50 transition-colors">
+                          <input type="checkbox" checked={pdfConfig.timeline} onChange={e => setPdfConfig({...pdfConfig, timeline: e.target.checked})} className="absolute opacity-0 w-full h-full cursor-pointer" />
+                          {pdfConfig.timeline && <div className="w-2 h-2 rounded-sm bg-indigo-500" />}
+                        </div>
+                        <span className="text-xs text-slate-300 group-hover:text-slate-100 transition-colors font-semibold">Graph Connections</span>
+                      </label>
+                      <label className="flex items-center gap-2.5 cursor-pointer group">
+                        <div className="relative flex items-center justify-center w-4 h-4 rounded border border-slate-700 bg-slate-950 group-hover:border-indigo-500/50 transition-colors">
+                          <input type="checkbox" checked={pdfConfig.qrCode} onChange={e => setPdfConfig({...pdfConfig, qrCode: e.target.checked})} className="absolute opacity-0 w-full h-full cursor-pointer" />
+                          {pdfConfig.qrCode && <div className="w-2 h-2 rounded-sm bg-indigo-500" />}
+                        </div>
+                        <span className="text-xs text-slate-300 group-hover:text-slate-100 transition-colors font-semibold">QR Code Auth</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* PDF Content View */}
+                <div className="flex-1 overflow-y-auto p-6 bg-slate-950/50 custom-scrollbar flex justify-center items-start">
                   
-                  {/* Internal Report representation */}
-                  <div className="flex items-start justify-between border-b-2 border-slate-900 pb-4 mb-6">
-                    <div>
-                      <div className="text-[9px] font-bold text-red-600 tracking-wider uppercase font-mono">ЦЛКОМ ТАЄМНО / CLASSIFIED SECURITY</div>
-                      <h1 className="text-xl font-bold tracking-tight text-slate-900 mt-1 uppercase">ОФІЦІЙНИЙ АНАЛІТИЧНИЙ ЗВІТ OSINT</h1>
-                      <div className="text-[9px] text-slate-500 font-mono mt-0.5">PREDATOR SECURITY INTELLIGENCE MATRIX</div>
-                    </div>
-                    <div className="text-right font-mono text-[9px] text-slate-600 space-y-0.5 border-l border-slate-200 pl-4">
-                      <div>ДАТА: {new Date().toLocaleDateString('uk-UA')}</div>
-                      <div>КОРИСТУВАЧ: vkizima534@gmail.com</div>
-                      <div>СИСТЕМА: PREDATOR V4.2</div>
-                    </div>
-                  </div>
-
-                  {/* Summary grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200/80 mb-6 text-xs text-slate-700">
-                    <div>
-                      <div className="font-bold text-slate-800 uppercase tracking-wider text-[10px]">Критерії пошуку:</div>
-                      <div className="mt-1 space-y-0.5 font-mono">
-                        <div>База: {activeFilter === 'all' ? 'Всі реєстри' : activeFilter === 'company' ? 'Юридичні особи (ЄДР)' : activeFilter === 'person' ? 'Фізичні особи' : 'Криптоактиви'}</div>
-                        <div>Категорія: {categoryFilter === 'all' ? 'Всі статуси' : categoryFilter === 'sanctioned' ? 'Під санкціями' : categoryFilter === 'active' ? 'Активні' : 'Високий ризик'}</div>
-                        <div>Ризик: {riskLevelFilter === 'all' ? 'Всі рівні' : riskLevelFilter === 'high' ? 'High' : riskLevelFilter === 'medium' ? 'Medium' : 'Low'}</div>
+                  {/* Paper page mimic */}
+                  <div id="pdf-report-content" className="w-full max-w-3xl bg-white text-slate-900 p-8 sm:p-12 shadow-2xl rounded-xl border border-slate-200 my-4 select-text">
+                    
+                    {/* Internal Report representation */}
+                    <div className="flex items-start justify-between border-b-2 border-slate-900 pb-4 mb-6">
+                      <div>
+                        <div className="text-[9px] font-bold text-red-600 tracking-wider uppercase font-mono">ЦЛКОМ ТАЄМНО / CLASSIFIED SECURITY</div>
+                        <h1 className="text-xl font-bold tracking-tight text-slate-900 mt-1 uppercase">ОФІЦІЙНИЙ АНАЛІТИЧНИЙ ЗВІТ OSINT</h1>
+                        <div className="text-[9px] text-slate-500 font-mono mt-0.5">PREDATOR SECURITY INTELLIGENCE MATRIX</div>
+                      </div>
+                      <div className="text-right font-mono text-[9px] text-slate-600 space-y-0.5 border-l border-slate-200 pl-4">
+                        <div>ДАТА: {new Date().toLocaleDateString('uk-UA')}</div>
+                        <div>КОРИСТУВАЧ: vkizima534@gmail.com</div>
+                        <div>СИСТЕМА: PREDATOR V4.2</div>
                       </div>
                     </div>
-                    <div>
-                      <div className="font-bold text-slate-800 uppercase tracking-wider text-[10px]">Статистичні показники:</div>
-                      <div className="mt-1 space-y-0.5 font-mono">
-                        <div>Всього об'єктів: <span className="font-bold">{selectedEntitiesForExport.length}</span></div>
-                        <div>Високий ризик (High): <span className="text-red-600 font-bold">{selectedEntitiesForExport.filter(e => e.riskScore >= 80).length}</span></div>
-                        <div>Середній ризик (Med): <span className="text-amber-600 font-bold">{selectedEntitiesForExport.filter(e => e.riskScore >= 50 && e.riskScore < 80).length}</span></div>
-                      </div>
-                    </div>
-                  </div>
 
-                  {/* Data Table preview */}
-                  <div className="overflow-x-auto">
+                    {/* Summary grid */}
+                    {(pdfConfig.metadata || pdfConfig.riskScore) && (
+                      <div className={`grid grid-cols-1 ${pdfConfig.metadata && pdfConfig.riskScore ? 'sm:grid-cols-2' : ''} gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200/80 mb-6 text-xs text-slate-700`}>
+                        {pdfConfig.metadata && (
+                          <div>
+                            <div className="font-bold text-slate-800 uppercase tracking-wider text-[10px]">Критерії пошуку:</div>
+                            <div className="mt-1 space-y-0.5 font-mono">
+                              <div>База: {activeFilter === 'all' ? 'Всі реєстри' : activeFilter === 'company' ? 'Юридичні особи (ЄДР)' : activeFilter === 'person' ? 'Фізичні особи' : 'Криптоактиви'}</div>
+                              <div>Категорія: {categoryFilter === 'all' ? 'Всі статуси' : categoryFilter === 'sanctioned' ? 'Під санкціями' : categoryFilter === 'active' ? 'Активні' : 'Високий ризик'}</div>
+                              <div>Ризик: {riskLevelFilter === 'all' ? 'Всі рівні' : riskLevelFilter === 'high' ? 'High' : riskLevelFilter === 'medium' ? 'Medium' : 'Low'}</div>
+                            </div>
+                          </div>
+                        )}
+                        {pdfConfig.riskScore && (
+                          <div>
+                            <div className="font-bold text-slate-800 uppercase tracking-wider text-[10px]">Статистичні показники:</div>
+                            <div className="mt-1 space-y-0.5 font-mono">
+                              <div>Всього об'єктів: <span className="font-bold">{selectedEntitiesForExport.length}</span></div>
+                              <div>Високий ризик (High): <span className="text-red-600 font-bold">{selectedEntitiesForExport.filter(e => e.riskScore >= 80).length}</span></div>
+                              <div>Середній ризик (Med): <span className="text-amber-600 font-bold">{selectedEntitiesForExport.filter(e => e.riskScore >= 50 && e.riskScore < 80).length}</span></div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Timeline/Graph Placeholder */}
+                    {pdfConfig.timeline && (
+                      <div className="mb-6">
+                        <div className="font-bold text-slate-800 uppercase tracking-wider text-[10px] mb-2 border-b border-slate-200 pb-1">Graph Connections</div>
+                        <div className="bg-slate-50 rounded-lg border border-slate-200/80 h-40 flex items-center justify-center p-4">
+                           <div className="text-center text-slate-400">
+                             <Layers className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                             <p className="text-[10px] font-mono uppercase tracking-wider">Network Graph Visualization Data</p>
+                             <p className="text-[9px] mt-1">Generated dynamically from selected entities.</p>
+                           </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Data Table preview */}
+                    {pdfConfig.connections && (
+                      <div className="overflow-x-auto mb-6">
                     <table className="w-full text-left border-collapse text-xs">
                       <thead>
                         <tr className="border-b border-slate-300 bg-slate-100 text-slate-700">
@@ -2603,20 +2798,35 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                       </tbody>
                     </table>
                   </div>
+                  )}
 
-                  <div className="mt-12 pt-6 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-500">
-                    <div>
-                      <span className="font-bold uppercase tracking-wider text-slate-700 block">Predator Intelligence Security</span>
-                      <span>Документ згенеровано автоматично в захищеному сеансі користувача.</span>
-                    </div>
-                    <div className="text-right font-mono text-indigo-600 text-[9px]">
-                      vkizima534@gmail.com
+                  <div className="mt-12 pt-6 border-t border-slate-200 flex flex-col gap-4">
+                    {pdfConfig.qrCode && (
+                      <div className="flex items-center gap-4">
+                        <div className="p-1 border border-slate-200 rounded bg-white">
+                          <QRCodeSVG value={window.location.href} size={64} level="H" includeMargin={false} />
+                        </div>
+                        <div>
+                          <span className="font-bold uppercase tracking-wider text-slate-700 block text-xs">Verify Intelligence Brief</span>
+                          <span className="text-[10px] text-slate-500">Scan QR code to access the live entity analysis dashboard and authenticate document origins.</span>
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex justify-between items-center text-[10px] text-slate-500">
+                      <div>
+                        <span className="font-bold uppercase tracking-wider text-slate-700 block">Predator Intelligence Security</span>
+                        <span>Документ згенеровано автоматично в захищеному сеансі користувача.</span>
+                      </div>
+                      <div className="text-right font-mono text-indigo-600 text-[9px]">
+                        vkizima534@gmail.com
+                      </div>
                     </div>
                   </div>
 
                 </div>
 
               </div>
+            </div>
 
               {/* Modal Footer */}
               <div className="p-4 border-t border-slate-800 bg-slate-950/80 flex items-center justify-between">
@@ -2640,7 +2850,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                     }`}
                   >
                     {isExporting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Printer className="w-4 h-4" />}
-                    <span>{isExporting ? 'Формування PDF...' : 'Зберегти як PDF'}</span>
+                    <span>{isExporting ? 'Формування PDF...' : 'Export Final PDF'}</span>
                   </button>
                 </div>
               </div>
@@ -2826,7 +3036,7 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
                       className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold shadow-lg shadow-rose-950/20 cursor-pointer transition-colors"
                     >
                       {isExporting ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Printer className="w-4 h-4" />}
-                      <span>Згенерувати PDF</span>
+                      <span>Generate PDF Brief</span>
                     </button>
                   )}
                 </div>
@@ -2899,7 +3109,150 @@ export default function OsintWorkbench({ onSelectEntityForInspector, selectedEnt
             </motion.div>
           </div>
         )}
+      
+      {/* Data Sources / APIs Modal */}
+      <AnimatePresence>
+        {showDataSourcesModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-slate-900 border border-slate-800 w-full max-w-4xl max-h-[85vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden"
+            >
+              {/* Header */}
+              <div className="p-4 border-b border-slate-800 bg-slate-950/40 flex items-center justify-between shrink-0">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25">
+                    <Database className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-slate-100 uppercase tracking-widest font-mono">Інтеграції та Бази Даних</h3>
+                    <p className="text-[10px] text-slate-500 font-mono mt-0.5">Підключені реєстри, API-шлюзи та закриті джерела (PREDATOR ENGINE)</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowDataSourcesModal(false)}
+                  className="p-2 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="flex-1 overflow-y-auto p-6 custom-scrollbar bg-slate-950/50 space-y-6">
+                
+                {/* 1. State Registries (Open) */}
+                <div className="space-y-3">
+                  <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono flex items-center gap-2">
+                    <Globe className="w-3.5 h-3.5" /> Публічні державні реєстри (Live)
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="bg-slate-900 border border-emerald-500/30 rounded-xl p-3 flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-200">ЄДРПОУ (Юридичні особи)</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">ONLINE</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500">Єдиний державний реєстр. Дані про засновників, бенефіціарів, КВЕД, статус.</p>
+                      <div className="text-[9px] font-mono text-slate-600">API: api.gov.ua / GraphQL</div>
+                    </div>
+                    <div className="bg-slate-900 border border-emerald-500/30 rounded-xl p-3 flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-200">Судова влада України</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">ONLINE</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500">Реєстр судових рішень. Цивільні, кримінальні та господарські справи.</p>
+                      <div className="text-[9px] font-mono text-slate-600">API: court.gov.ua / REST</div>
+                    </div>
+                    <div className="bg-slate-900 border border-emerald-500/30 rounded-xl p-3 flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-200">Податкова (ДПС)</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">ONLINE</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500">Статус платника ПДВ, податковий борг, анульовані ліцензії.</p>
+                      <div className="text-[9px] font-mono text-slate-600">API: tax.gov.ua / SOAP/REST</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Closed / Restricted Databases */}
+                <div className="space-y-3">
+                  <h4 className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest font-mono flex items-center gap-2">
+                    <Shield className="w-3.5 h-3.5" /> Обмежений доступ (Закриті БД МВС / Інтерпол)
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="bg-slate-900 border border-indigo-500/30 rounded-xl p-3 flex flex-col gap-2 relative overflow-hidden group">
+                      <div className="absolute top-0 right-0 p-1">
+                        <Lock className="w-3 h-3 text-indigo-500/40" />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-200">АРМОР МВС (Дзеркало)</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400 font-mono">AUTHORIZED</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500">Розшук, судимості, зброя, автотранспорт, перетин кордону.</p>
+                      <div className="text-[9px] font-mono text-indigo-500/60 flex items-center gap-1">
+                        <ExternalLink className="w-2 h-2" /> СБУ VPN GATEWAY
+                      </div>
+                    </div>
+                    <div className="bg-slate-900 border border-indigo-500/30 rounded-xl p-3 flex flex-col gap-2 relative overflow-hidden group">
+                      <div className="absolute top-0 right-0 p-1">
+                        <Lock className="w-3 h-3 text-indigo-500/40" />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-200">INTERPOL Red/Yellow Notices</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-400 font-mono">AUTHORIZED</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500">Міжнародний розшук, тероризм, фінансові махінації, відмивання коштів.</p>
+                      <div className="text-[9px] font-mono text-indigo-500/60 flex items-center gap-1">
+                        <ExternalLink className="w-2 h-2" /> INTERPOL SECURE API
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Darknet / Data Leaks */}
+                <div className="space-y-3">
+                  <h4 className="text-[10px] font-bold text-rose-400 uppercase tracking-widest font-mono flex items-center gap-2">
+                    <ServerCrash className="w-3.5 h-3.5" /> Витоки даних, Darknet, Криптоаналіз
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="bg-slate-900 border border-rose-500/30 rounded-xl p-3 flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-200">Data Leaks (2020-2024)</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 font-mono animate-pulse">INDEXED</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500">Злиті бази Нової Пошти, ПриватБанку, Kyivstar, Дії (агреговані дампи). Паролі, телефони.</p>
+                      <div className="text-[9px] font-mono text-rose-500/60">SOURCE: RaidForums / BreachForums Archive</div>
+                    </div>
+                    <div className="bg-slate-900 border border-rose-500/30 rounded-xl p-3 flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-200">Blockchain Analytics</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">ONLINE</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500">Моніторинг Tornado Cash, міксерів, AML-скоринг криптогаманців.</p>
+                      <div className="text-[9px] font-mono text-slate-600">API: Chainalysis / Crystal Blockchain</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* AI Synthesis Notice */}
+                <div className="mt-8 p-4 bg-indigo-500/5 border border-indigo-500/20 rounded-xl flex gap-4 items-start">
+                  <div className="p-2 rounded bg-indigo-500/10 shrink-0">
+                    <ShieldCheck className="w-4 h-4 text-indigo-400" />
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold text-slate-200">Інтелектуальний OSINT-пошук (AI Aggregation)</h5>
+                    <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
+                      У випадках відсутності об'єкта в локальній базі, <span className="font-bold text-indigo-400">PREDATOR AI ENGINE</span> автоматично підключається до вищезазначених джерел через API, аналізує неструктуровані дані (у т.ч. дампи з Darknet та закриті БД МВС), і синтезує єдине досьє з графом зв'язків у реальному часі.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
       </AnimatePresence>
+</AnimatePresence>
 
     </div>
   );
