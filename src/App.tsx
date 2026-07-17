@@ -158,7 +158,7 @@ export default function App() {
 
   // Microsoft TTS Engine state (Web Speech Synthesis Integration)
   const [isTtsEnabled, setIsTtsEnabled] = useState(true);
-  const [selectedTtsVoice, setSelectedTtsVoice] = useState('Microsoft Irina (UA)');
+  const [selectedTtsVoice, setSelectedTtsVoice] = useState('Microsoft Pavel (UA)');
   const [availableVoices, setAvailableVoices] = useState<any[]>([]);
 
   // Initialize and load Speech Synthesis voices natively supporting Microsoft cloud-inspired voices
@@ -205,8 +205,8 @@ export default function App() {
 
       const utterance = new SpeechSynthesisUtterance(sTrimmed);
       utterance.lang = 'uk-UA';
-      utterance.rate = 1.05; // natural swift pace
-      utterance.pitch = 1.0;
+      utterance.rate = 0.85; // slower, masked pace
+      utterance.pitch = 0.2; // deeply lowered pitch for masked voice effect
 
       // Match selected voice or any Ukrainian Microsoft cloud voice
       const voices = window.speechSynthesis.getVoices();
@@ -657,7 +657,7 @@ export default function App() {
 
   const renderMobileMainContent = () => {
     return (
-      <div className="h-full flex flex-col relative bg-[#020611] text-slate-100 font-sans" id="mobile-viewport-root">
+      <div className="h-full flex flex-col relative bg-[#020611] text-slate-100 font-sans bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" style={{ backgroundBlendMode: 'color-dodge' }} id="mobile-viewport-root">
         
         {/* Compact iOS / Mobile App Header */}
         <header className="border-b border-slate-900 bg-[#050c18]/90 backdrop-blur-md px-4 py-3 flex items-center justify-between gap-2 sticky top-0 z-40">
@@ -1399,7 +1399,7 @@ export default function App() {
 
   const renderDesktopLayout = () => {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200" id="predator-hub-app">
+      <div className="min-h-screen bg-transparent text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200" id="predator-hub-app">
         
         {/* 1. STICKY HEADER (Section 6) */}
         <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-5 py-3.5 flex items-center justify-between gap-4">

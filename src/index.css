@@ -10,6 +10,18 @@ body {
   background-color: #030712;
   color: #f3f4f6;
   font-family: var(--font-sans);
+  background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, transparent 70%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(217, 70, 239, 0.3);
+  color: #fdf4ff;
+}
+
+/* Subtle glow for fuchsia elements */
+.glow-fuchsia {
+  box-shadow: 0 0 15px rgba(217, 70, 239, 0.15);
 }
 
 /* Custom scrollbar to keep it clean and tech-y */

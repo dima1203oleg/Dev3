@@ -128,6 +128,10 @@ export function LiveChatBot() {
 
         const sourceNode = outputAudioCtx.createBufferSource();
         sourceNode.buffer = audioBuffer;
+        
+        // Deepen and mask the voice by lowering playback rate
+        sourceNode.playbackRate.value = 0.75;
+
         if (!analyserRef.current) {
           analyserRef.current = outputAudioCtx.createAnalyser();
           analyserRef.current.fftSize = 64;
