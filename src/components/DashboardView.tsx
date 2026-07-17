@@ -12,7 +12,9 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { OSINT_ENTITIES } from '../osintData';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceArea } from 'recharts';
+import { doc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
 
 interface DashboardViewProps {
   onSelectTab: (tabId: string) => void;
@@ -56,6 +58,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
   const [heatmapFilter, setHeatmapFilter] = React.useState<'all' | 'company' | 'person' | 'cryptowallet'>('all');
   const [showGlow, setShowGlow] = React.useState(true);
   const [activeHoverId, setActiveHoverId] = React.useState<string | null>(null);
+
   const initialChartData = [
     { date: '06-18', operations: 12, critical: 2 },
     { date: '06-21', operations: 19, critical: 5 },
@@ -68,8 +71,121 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
     { date: '07-12', operations: 38, critical: 11 },
     { date: '07-15', operations: 45, critical: 22 },
   ];
+  
   const [chartData, setChartData] = React.useState(initialChartData);
   const [isChartUpdating, setIsChartUpdating] = React.useState(false);
+  const [isDbInitialized, setIsDbInitialized] = React.useState(false);
+
+  React.useEffect(() => {
+    const dashboardDoc = doc(db, 'dashboard', 'risk_metrics');
+    const unsubscribe = onSnapshot(dashboardDoc, (snapshot) => {
+      if (snapshot.exists()) {
+        setChartData(snapshot.data().metrics);
+        setIsDbInitialized(true);
+      } else {
+        // Initialize if it doesn't exist
+        setDoc(dashboardDoc, {
+          metrics: initialChartData,
+          updatedAt: serverTimestamp()
+        }).catch(err => console.error("Error initializing dashboard data:", err));
+      }
+    }, (error) => {
+      console.error("Firestore Error: ", error);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+
+  const [refAreaLeft, setRefAreaLeft] = React.useState<string | null>(null);
+  const [refAreaRight, setRefAreaRight] = React.useState<string | null>(null);
+  const [zoomIndices, setZoomIndices] = React.useState<[number, number] | null>(null);
+
+
+  const [showForecast, setShowForecast] = React.useState(false);
+
+  const chartDataWithForecast = React.useMemo(() => {
+    if (!showForecast) return chartData;
+    
+    // Simple linear regression to project next 7 days
+    const n = chartData.length;
+    let sumX = 0, sumYOp = 0, sumYCr = 0, sumXYOp = 0, sumXYCr = 0, sumX2 = 0;
+    
+    chartData.forEach((d, i) => {
+      sumX += i;
+      sumYOp += d.operations;
+      sumYCr += d.critical;
+      sumXYOp += i * d.operations;
+      sumXYCr += i * d.critical;
+      sumX2 += i * i;
+    });
+
+    const slopeOp = (n * sumXYOp - sumX * sumYOp) / (n * sumX2 - sumX * sumX);
+    const interceptOp = (sumYOp - slopeOp * sumX) / n;
+    
+    const slopeCr = (n * sumXYCr - sumX * sumYCr) / (n * sumX2 - sumX * sumX);
+    const interceptCr = (sumYCr - slopeCr * sumX) / n;
+
+    const forecastData = [];
+    const lastDate = chartData[chartData.length - 1].date;
+    const [lastMonth, lastDay] = lastDate.split('-').map(Number);
+    let currentDate = new Date(2024, lastMonth - 1, lastDay);
+
+    // Connect the lines by adding forecast keys to the last actual point
+    const enhancedChartData = [...chartData];
+    enhancedChartData[enhancedChartData.length - 1] = {
+      ...enhancedChartData[enhancedChartData.length - 1],
+      operationsForecast: enhancedChartData[enhancedChartData.length - 1].operations,
+      criticalForecast: enhancedChartData[enhancedChartData.length - 1].critical
+    };
+
+    for (let i = 1; i <= 7; i++) {
+      currentDate.setDate(currentDate.getDate() + 1);
+      const nextMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const nextDay = String(currentDate.getDate()).padStart(2, '0');
+      
+      const projectedOp = Math.max(0, Math.round(slopeOp * (n - 1 + i) + interceptOp));
+      const projectedCr = Math.max(0, Math.round(slopeCr * (n - 1 + i) + interceptCr));
+      
+      forecastData.push({
+        date: `${nextMonth}-${nextDay}`,
+        operationsForecast: projectedOp,
+        criticalForecast: projectedCr,
+        isForecast: true
+      });
+    }
+
+    return [...enhancedChartData, ...forecastData];
+  }, [chartData, showForecast]);
+
+  const currentChartData = zoomIndices ? chartDataWithForecast.slice(zoomIndices[0], zoomIndices[1] + 1) : chartDataWithForecast;
+
+
+  const zoom = () => {
+    if (refAreaLeft === refAreaRight || !refAreaLeft || !refAreaRight) {
+      setRefAreaLeft(null);
+      setRefAreaRight(null);
+      return;
+    }
+
+    let leftIndex = chartDataWithForecast.findIndex(d => d.date === refAreaLeft);
+    let rightIndex = chartDataWithForecast.findIndex(d => d.date === refAreaRight);
+
+    if (leftIndex > rightIndex) {
+      [leftIndex, rightIndex] = [rightIndex, leftIndex];
+    }
+
+    setZoomIndices([leftIndex, rightIndex]);
+    setRefAreaLeft(null);
+    setRefAreaRight(null);
+  };
+
+  const zoomOut = () => {
+    setZoomIndices(null);
+    setRefAreaLeft(null);
+    setRefAreaRight(null);
+  };
+
 
 
   // Trigger simulated radar sweep
@@ -93,7 +209,9 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
           clearInterval(interval);
           setSyncStatus('DONE');
           
-          // Simulate updated data
+
+          // Simulate updated data by writing to Firestore
+          const dashboardDoc = doc(db, 'dashboard', 'risk_metrics');
           setChartData(prevData => {
             const newData = [...prevData];
             newData[newData.length - 1] = {
@@ -101,8 +219,17 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
               operations: newData[newData.length - 1].operations + Math.floor(Math.random() * 5),
               critical: newData[newData.length - 1].critical + Math.floor(Math.random() * 2)
             };
+            
+            // Only update Firestore if it was initialized, to avoid race conditions
+            if (isDbInitialized) {
+              setDoc(dashboardDoc, {
+                metrics: newData,
+                updatedAt: serverTimestamp()
+              }).catch(err => console.error("Error updating dashboard data:", err));
+            }
             return newData;
           });
+
           
           // Stop pulse after a short delay
           setTimeout(() => setIsChartUpdating(false), 800);
@@ -716,18 +843,41 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                   Динаміка виявлених ризикових операцій (30 днів)
                 </span>
               </div>
-              <button 
-                onClick={downloadChartCSV}
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => setShowForecast(!showForecast)}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider border transition-colors ${showForecast ? 'bg-fuchsia-500/20 text-fuchsia-400 border-fuchsia-500/30' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-fuchsia-400 border-slate-700'}`}
+                >
+                  <TrendingUp className="w-3.5 h-3.5" />
+                  <span>Forecast</span>
+                </button>
+                {zoomIndices && (
+                  <button 
+                    onClick={zoomOut}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider border border-indigo-500/20 transition-colors"
+                  >
+                    <span>Zoom Out</span>
+                  </button>
+                )}
+                <button 
+                  onClick={downloadChartCSV}
                 className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-indigo-400 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider border border-slate-700 transition-colors"
                 title="Download CSV"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Download CSV</span>
-              </button>
+                </button>
+              </div>
             </div>
             <div className={`h-[220px] w-full ${isChartUpdating ? 'animate-data-pulse' : ''}`}>
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <AreaChart 
+                  data={currentChartData} 
+                  margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                  onMouseDown={(e: any) => e && setRefAreaLeft(e.activeLabel)}
+                  onMouseMove={(e: any) => refAreaLeft && e && setRefAreaRight(e.activeLabel)}
+                  onMouseUp={zoom}
+                >
                   <defs>
                     <linearGradient id="colorOperations" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#818cf8" stopOpacity={0.3}/>
@@ -742,8 +892,16 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                   <XAxis dataKey="date" stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} />
                   <YAxis stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} />
                   <Tooltip content={<CustomTooltip />} />
+                  
                   <Area type="monotone" dataKey="operations" name="Загалом операцій" stroke="#818cf8" strokeWidth={2} fillOpacity={1} fill="url(#colorOperations)" />
+                  <Area type="monotone" dataKey="operationsForecast" name="Прогноз операцій" stroke="#e879f9" strokeWidth={2} strokeDasharray="5 5" fillOpacity={0} />
+                  
                   <Area type="monotone" dataKey="critical" name="Критичні ризики" stroke="#f43f5e" strokeWidth={2} fillOpacity={1} fill="url(#colorCritical)" />
+                  <Area type="monotone" dataKey="criticalForecast" name="Прогноз ризиків" stroke="#fb7185" strokeWidth={2} strokeDasharray="5 5" fillOpacity={0} />
+
+                  {refAreaLeft && refAreaRight ? (
+                    <ReferenceArea x1={refAreaLeft} x2={refAreaRight} />
+                  ) : null}
                 </AreaChart>
               </ResponsiveContainer>
             </div>

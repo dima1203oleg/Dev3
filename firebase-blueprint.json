@@ -1,0 +1,84 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "A user of the application",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "email",
+        "createdAt"
+      ]
+    },
+    "riskMetric": {
+      "title": "Risk Metric",
+      "description": "Risk metrics data point for charts",
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string"
+        },
+        "operations": {
+          "type": "number"
+        },
+        "critical": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "date",
+        "operations",
+        "critical"
+      ]
+    },
+    "dashboardData": {
+      "title": "Dashboard Data",
+      "description": "Container for dashboard metrics",
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "type": "array",
+          "items": {
+            "$ref": "#/entities/riskMetric"
+          },
+          "maxLength": 30
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "metrics",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/user"
+      },
+      "description": "User profiles"
+    },
+    "dashboard/{docId}": {
+      "schema": {
+        "$ref": "#/entities/dashboardData"
+      },
+      "description": "Dashboard data singleton"
+    }
+  }
+}

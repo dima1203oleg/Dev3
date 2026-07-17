@@ -23,11 +23,12 @@ import {
   Layers, ShieldCheck, Network, Wrench, Calendar, Bot, 
   FileText, CheckCircle, AlertTriangle, Info, BookOpen,
   Menu, X, Search, Bell, User, Terminal, Cpu, Database, 
-  Activity, Landmark, MessageSquare, Sparkles, Send, HelpCircle,
+  Activity, Camera, Landmark, MessageSquare, Sparkles, Send, HelpCircle,
   Maximize2, Minimize2, Settings, ShieldAlert, Compass,
   Briefcase, Truck, Globe, TrendingUp, Users, Map, Mic
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { LiveChatBot } from './components/LiveChatBot';
 
 type TabId = 'live-analytical-center' | 'admin-back-office' | 'dashboard' | 'osint' | 'maps' | 'catalog' | 'license' | 'architecture' | 'gap' | 'roadmap' | 'volumes' | 'advisor';
 
@@ -1630,6 +1631,30 @@ export default function App() {
                         </div>
                       )}
                     </button>
+          <button
+            onClick={() => setActiveTab('forensics')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+              activeTab === 'forensics' 
+                ? 'bg-gradient-to-r from-fuchsia-600/20 to-transparent border-l-2 border-fuchsia-500 text-white' 
+                : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200 border-l-2 border-transparent'
+            }`}
+          >
+            <Camera className={`w-5 h-5 ${activeTab === 'forensics' ? 'text-fuchsia-400' : ''}`} />
+            <span className="font-medium">Media Forensics</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('forensics')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+              activeTab === 'forensics' 
+                ? 'bg-gradient-to-r from-fuchsia-600/20 to-transparent border-l-2 border-fuchsia-500 text-white' 
+                : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200 border-l-2 border-transparent'
+            }`}
+          >
+            <Camera className={`w-5 h-5 ${activeTab === 'forensics' ? 'text-fuchsia-400' : ''}`} />
+            <span className="font-medium">Media Forensics</span>
+          </button>
+
 
                     <button 
                       onClick={() => setActiveTab('dashboard')}
@@ -2287,6 +2312,7 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
+      <LiveChatBot />
     </>
   );
 }

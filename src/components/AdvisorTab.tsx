@@ -217,93 +217,13 @@ export default function AdvisorTab() {
         </div>
 
         {/* Right Column: Conversational Advisor Console */}
-        <div className="lg:col-span-2 flex flex-col justify-between bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden h-[620px]" id="advisor-console">
-          
-          {/* Header */}
-          <div className="px-5 py-3.5 bg-slate-900/60 border-b border-slate-850 flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <Bot className="w-5 h-5 text-indigo-400" />
-              <div>
-                <h4 className="text-xs font-bold text-white uppercase tracking-wider">PREDATOR Architecture Advisor</h4>
-                <span className="text-[9px] text-emerald-400 font-mono flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> ONLINE / EXPERT MODE
-                </span>
-              </div>
-            </div>
-            
-            <span className="text-[10px] bg-slate-950 border border-slate-800 text-slate-400 font-mono px-2 py-0.5 rounded">
-              v1.2.0
-            </span>
-          </div>
-
-          {/* Chat Messages Log */}
-          <div className="p-5 overflow-y-auto space-y-4 flex-1 text-xs text-slate-300 bg-slate-950/40" id="chat-messages-log">
-            {chatHistory.map((msg, idx) => {
-              const isBot = msg.sender === 'bot';
-              return (
-                <div
-                  key={idx}
-                  className={`flex ${isBot ? 'justify-start' : 'justify-end'}`}
-                >
-                  <div className={`max-w-[85%] rounded-2xl p-4 space-y-3 ${isBot ? 'bg-slate-900/60 border border-slate-850 text-slate-300' : 'bg-indigo-600 text-white shadow-lg'}`}>
-                    <div className="flex items-center gap-1.5 border-b border-slate-800/40 pb-1.5">
-                      {isBot ? (
-                        <>
-                          <Bot className="w-4 h-4 text-indigo-400" />
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">ШІ Архітектор</span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-200">Ви (Аналітик)</span>
-                        </>
-                      )}
-                    </div>
-
-                    <p className="whitespace-pre-line leading-relaxed text-[11px]">
-                      {msg.text}
-                    </p>
-
-                    {/* Optional code snippets render */}
-                    {msg.code && (
-                      <div className="space-y-1">
-                        <span className="text-[9px] text-slate-500 font-mono uppercase tracking-widest block">Запропоноване рішення:</span>
-                        <div className="bg-slate-950 rounded-lg p-3 border border-slate-900 overflow-x-auto">
-                          <pre className="text-[10px] font-mono text-emerald-400 leading-normal">
-                            <code>{msg.code}</code>
-                          </pre>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Form Chat Input */}
-          <form
-            id="advisor-chat-form"
-            onSubmit={handleSendMessage}
-            className="p-4 bg-slate-900/60 border-t border-slate-850 flex items-center gap-2"
-          >
-            <input
-              id="advisor-chat-input"
-              type="text"
-              placeholder="Запитайте про реєстри, ліцензії, vLLM, Neo4j, Qdrant, масштабування..."
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              className="flex-1 bg-slate-950 border border-slate-850 rounded-xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 placeholder:text-slate-500"
-            />
-            <button
-              id="send-chat-message-button"
-              type="submit"
-              className="bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white p-3 rounded-xl transition-all cursor-pointer flex items-center justify-center shadow-lg"
-              title="Надіслати запит"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </form>
-
+        <div className="lg:col-span-2 flex flex-col justify-center items-center bg-slate-950 border border-slate-800 rounded-2xl p-10 text-center h-[620px]">
+          <Bot className="w-16 h-16 text-indigo-400/50 mb-4" />
+          <h3 className="text-lg font-bold text-slate-200 mb-2">Глобальний ШІ-Асистент MARIARTI</h3>
+          <p className="text-sm text-slate-400 max-w-md">
+            Чат-бот архітектора інтегровано в єдиний глобальний комунікаційний модуль PREDATOR (внизу праворуч). 
+            Використовуйте плаваючий віджет для текстового та голосового спілкування з MARIARTI з будь-якого екрану.
+          </p>
         </div>
       </div>
     </div>
