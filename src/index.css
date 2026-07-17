@@ -47,3 +47,13 @@ body {
   animation-play-state: paused;
 }
 
+
+@keyframes data-pulse {
+  0% { opacity: 1; filter: blur(0px); transform: scale(1); }
+  50% { opacity: 0.5; filter: blur(3px); transform: scale(0.98); }
+  100% { opacity: 1; filter: blur(0px); transform: scale(1); }
+}
+
+.animate-data-pulse {
+  animation: data-pulse 0.8s ease-in-out;
+}

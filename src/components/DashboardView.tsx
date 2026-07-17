@@ -8,7 +8,7 @@ import {
   ShieldAlert, Activity, TrendingUp, Compass, Globe, Server, 
   CheckCircle, HelpCircle, ArrowRight, Zap, RefreshCw, Eye, 
   Briefcase, User, Terminal, Calendar, AlertTriangle, FileText, 
-  Sparkles, Award
+  Sparkles, Award, Download
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { OSINT_ENTITIES } from '../osintData';
@@ -20,18 +20,31 @@ interface DashboardViewProps {
 }
 
 
-const riskDynamicsData = [
-  { date: '06-18', operations: 12, critical: 2 },
-  { date: '06-21', operations: 19, critical: 5 },
-  { date: '06-24', operations: 15, critical: 1 },
-  { date: '06-27', operations: 22, critical: 8 },
-  { date: '06-30', operations: 30, critical: 12 },
-  { date: '07-03', operations: 28, critical: 9 },
-  { date: '07-06', operations: 35, critical: 15 },
-  { date: '07-09', operations: 42, critical: 18 },
-  { date: '07-12', operations: 38, critical: 11 },
-  { date: '07-15', operations: 45, critical: 22 },
-];
+
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-slate-950/90 border border-slate-800 p-3 rounded-xl shadow-xl backdrop-blur-sm">
+        <p className="text-[10px] font-mono text-slate-400 mb-2 border-b border-slate-800 pb-1">Дата: {label}</p>
+        <div className="space-y-1.5">
+          {payload.map((entry: any, index: number) => (
+            <div key={index} className="flex items-center justify-between gap-4 text-xs">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
+                <span className="text-slate-300">{entry.name}:</span>
+              </div>
+              <span className="font-mono font-bold" style={{ color: entry.color }}>
+                {entry.value}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function DashboardView({ onSelectTab, onSelectEntity }: DashboardViewProps) {
   const [radarStatus, setRadarStatus] = React.useState<'IDLE' | 'SCANNING' | 'FINISHED'>('IDLE');
@@ -43,6 +56,21 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
   const [heatmapFilter, setHeatmapFilter] = React.useState<'all' | 'company' | 'person' | 'cryptowallet'>('all');
   const [showGlow, setShowGlow] = React.useState(true);
   const [activeHoverId, setActiveHoverId] = React.useState<string | null>(null);
+  const initialChartData = [
+    { date: '06-18', operations: 12, critical: 2 },
+    { date: '06-21', operations: 19, critical: 5 },
+    { date: '06-24', operations: 15, critical: 1 },
+    { date: '06-27', operations: 22, critical: 8 },
+    { date: '06-30', operations: 30, critical: 12 },
+    { date: '07-03', operations: 28, critical: 9 },
+    { date: '07-06', operations: 35, critical: 15 },
+    { date: '07-09', operations: 42, critical: 18 },
+    { date: '07-12', operations: 38, critical: 11 },
+    { date: '07-15', operations: 45, critical: 22 },
+  ];
+  const [chartData, setChartData] = React.useState(initialChartData);
+  const [isChartUpdating, setIsChartUpdating] = React.useState(false);
+
 
   // Trigger simulated radar sweep
   const triggerRadarScan = () => {
@@ -53,15 +81,32 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
   };
 
   // Trigger simulated database indexing sync
+
   const triggerDatabaseSync = () => {
     if (syncStatus === 'SYNCING') return;
     setSyncStatus('SYNCING');
     setSyncProgress(0);
+    setIsChartUpdating(true); // Start pulse effect
     const interval = setInterval(() => {
       setSyncProgress(prev => {
         if (prev >= 100) {
           clearInterval(interval);
           setSyncStatus('DONE');
+          
+          // Simulate updated data
+          setChartData(prevData => {
+            const newData = [...prevData];
+            newData[newData.length - 1] = {
+              ...newData[newData.length - 1],
+              operations: newData[newData.length - 1].operations + Math.floor(Math.random() * 5),
+              critical: newData[newData.length - 1].critical + Math.floor(Math.random() * 2)
+            };
+            return newData;
+          });
+          
+          // Stop pulse after a short delay
+          setTimeout(() => setIsChartUpdating(false), 800);
+          
           return 100;
         }
         return prev + 20;
@@ -70,6 +115,27 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
   };
 
   // Trigger immediate AI security compliance screening notice
+
+  const downloadChartCSV = () => {
+    const headers = ['Дата', 'Загалом операцій', 'Критичні ризики'];
+    const csvContent = [
+      headers.join(','),
+      ...chartData.map(row => `${row.date},${row.operations},${row.critical}`)
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'risk_dynamics_metrics.csv');
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   const triggerComplianceScreening = () => {
     setScreeningResult("ШІ: Виявлено 4 транскордонні підозрілі транзакції на суму $120,000 через Беліз. Об'єкт ТОВ 'СпецТехПостач' помічено як КРИТИЧНИЙ РИЗИК.");
   };
@@ -643,17 +709,25 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
           
           {/* Risk Dynamics Chart */}
           <div className="bg-slate-900/40 border border-slate-900 rounded-2xl p-5 shadow-lg relative overflow-hidden" id="risk-dynamics-chart">
-            <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4 text-indigo-400" />
                 <span className="text-xs font-bold uppercase text-slate-200 tracking-widest font-mono">
                   Динаміка виявлених ризикових операцій (30 днів)
                 </span>
               </div>
+              <button 
+                onClick={downloadChartCSV}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-indigo-400 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider border border-slate-700 transition-colors"
+                title="Download CSV"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>Download CSV</span>
+              </button>
             </div>
-            <div className="h-[220px] w-full">
+            <div className={`h-[220px] w-full ${isChartUpdating ? 'animate-data-pulse' : ''}`}>
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={riskDynamicsData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorOperations" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#818cf8" stopOpacity={0.3}/>
@@ -667,10 +741,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
                   <XAxis dataKey="date" stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} />
                   <YAxis stroke="#64748b" fontSize={10} tickLine={false} axisLine={false} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', fontSize: '12px' }}
-                    itemStyle={{ color: '#cbd5e1' }}
-                  />
+                  <Tooltip content={<CustomTooltip />} />
                   <Area type="monotone" dataKey="operations" name="Загалом операцій" stroke="#818cf8" strokeWidth={2} fillOpacity={1} fill="url(#colorOperations)" />
                   <Area type="monotone" dataKey="critical" name="Критичні ризики" stroke="#f43f5e" strokeWidth={2} fillOpacity={1} fill="url(#colorCritical)" />
                 </AreaChart>
