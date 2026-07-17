@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { LiveChatBot } from './components/LiveChatBot';
+import { AuthStatus } from './components/AuthStatus';
 
 type TabId = 'live-analytical-center' | 'admin-back-office' | 'dashboard' | 'osint' | 'maps' | 'catalog' | 'license' | 'architecture' | 'gap' | 'roadmap' | 'volumes' | 'advisor';
 
@@ -1534,15 +1535,9 @@ export default function App() {
               <Bell className="w-4 h-4" />
             </button>
 
-            {/* Profile Avatars */}
+            {/* Profile Avatars / Auth Status */}
             <div className="flex items-center gap-2.5 pl-2 border-l border-slate-900">
-              <div className="w-8 h-8 rounded-lg bg-indigo-950 border border-indigo-900 flex items-center justify-center font-bold text-indigo-400 font-mono">
-                UA
-              </div>
-              <div className="hidden xl:block text-left text-[10px] leading-tight">
-                <p className="font-bold text-slate-200">Черговий : АН</p>
-                <p className="text-slate-500 font-mono">ID: 02894-A</p>
-              </div>
+              <AuthStatus />
             </div>
 
           </div>

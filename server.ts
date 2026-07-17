@@ -5,7 +5,7 @@ import { createServer } from "http";
 import { WebSocketServer } from "ws";
 import { LiveServerMessage, Modality } from "@google/genai";
 
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI, Type, ThinkingLevel } from "@google/genai";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -30,6 +30,7 @@ app.post("/api/media-forensics", async (req, res) => {
         contents: prompt || "Analyze this media",
         config: {
           systemInstruction: "You are an expert digital forensics AI. Analyze media for anomalies, deepfakes, and extract critical intelligence. Speak in Ukrainian.",
+          thinkingConfig: { thinkingLevel: ThinkingLevel.HIGH }
         }
       });
       res.json({ text: response.text });
@@ -38,8 +39,8 @@ app.post("/api/media-forensics", async (req, res) => {
         model: "gemini-3.5-flash",
         contents: prompt || "Verify location data",
         config: {
-          tools: [{ googleSearch: {} }],
-          systemInstruction: "You are an OSINT investigator. Use Google Search grounding to verify the user's query and provide concrete facts. Speak in Ukrainian.",
+          tools: [{ googleSearch: {} }/*, { googleMaps: {} }*/], // Note: googleMaps might not be fully supported by SDK type yet, but we add it if needed
+          systemInstruction: "You are an OSINT investigator. Use Google Search and Maps grounding to verify the user's query, check locations, and provide concrete facts. Speak in Ukrainian.",
         }
       });
       res.json({ text: response.text });

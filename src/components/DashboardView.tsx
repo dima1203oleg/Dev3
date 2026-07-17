@@ -14,7 +14,7 @@ import { motion } from 'motion/react';
 import { OSINT_ENTITIES } from '../osintData';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceArea } from 'recharts';
 import { doc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db } from '../lib/firebase';
 
 interface DashboardViewProps {
   onSelectTab: (tabId: string) => void;
