@@ -25,9 +25,21 @@ app.post("/api/media-forensics", async (req, res) => {
     }
 
     if (mode === 'analysis') {
+      const { image } = req.body;
+      const contents = [];
+      if (image) {
+        contents.push({
+          inlineData: {
+            data: image,
+            mimeType: "image/jpeg"
+          }
+        });
+      }
+      contents.push(prompt || "Analyze this media in detail. Describe any objects, text, or faces found. Identify any anomalies.");
+      
       const response = await ai.models.generateContent({
         model: "gemini-3.1-pro-preview",
-        contents: prompt || "Analyze this media",
+        contents: contents,
         config: {
           systemInstruction: "You are an expert digital forensics AI. Analyze media for anomalies, deepfakes, and extract critical intelligence. Speak in Ukrainian.",
           thinkingConfig: { thinkingLevel: ThinkingLevel.HIGH }

@@ -1,4 +1,6 @@
-import React, { useState, useRef } from 'react';
+const fs = require('fs');
+
+const content = `import React, { useState, useRef } from 'react';
 import { Camera, FileAudio, FileVideo, Search, Map, Sparkles, UploadCloud, AlertTriangle, Play, FileText, Image as ImageIcon, Video, Bot, Scan } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -57,7 +59,6 @@ export function MediaForensicsTab() {
         body: JSON.stringify({ 
           mode: activeMode, 
           prompt: prompt,
-          image: activeMode === 'analysis' && previewImage ? previewImage.split(',')[1] : undefined,
           config: {
             type: activeMode === 'generation' ? (prompt.toLowerCase().includes('відео') ? 'video' : 'image') : undefined,
             aspectRatio: '16:9'
@@ -107,27 +108,27 @@ export function MediaForensicsTab() {
       <div className="flex space-x-2 border-b border-slate-800">
         <button
           onClick={() => { setActiveMode('analysis'); setPreviewImage(null); setBoxes([]); setResult(null); }}
-          className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${
+          className={\`px-4 py-3 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 \${
             activeMode === 'analysis' ? 'border-fuchsia-500 text-fuchsia-400' : 'border-transparent text-slate-400 hover:text-slate-300'
-          }`}
+          }\`}
         >
           <FileAudio className="w-4 h-4" />
           Аналіз Медіа (Video/Audio/Image)
         </button>
         <button
           onClick={() => { setActiveMode('generation'); setPreviewImage(null); setBoxes([]); setResult(null); }}
-          className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${
+          className={\`px-4 py-3 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 \${
             activeMode === 'generation' ? 'border-fuchsia-500 text-fuchsia-400' : 'border-transparent text-slate-400 hover:text-slate-300'
-          }`}
+          }\`}
         >
           <ImageIcon className="w-4 h-4" />
           Реконструкція (Генерація)
         </button>
         <button
           onClick={() => { setActiveMode('grounding'); setPreviewImage(null); setBoxes([]); setResult(null); }}
-          className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 ${
+          className={\`px-4 py-3 text-sm font-medium transition-colors border-b-2 flex items-center gap-2 \${
             activeMode === 'grounding' ? 'border-fuchsia-500 text-fuchsia-400' : 'border-transparent text-slate-400 hover:text-slate-300'
-          }`}
+          }\`}
         >
           <Map className="w-4 h-4" />
           Google Search & Maps Grounding
@@ -294,10 +295,10 @@ export function MediaForensicsTab() {
                         animate={{ opacity: 1, scale: 1 }}
                         className="absolute border-2 border-red-500 bg-red-500/10 pointer-events-none"
                         style={{
-                          left: `${box.x}%`,
-                          top: `${box.y}%`,
-                          width: `${box.w}%`,
-                          height: `${box.h}%`
+                          left: \`\${box.x}%\`,
+                          top: \`\${box.y}%\`,
+                          width: \`\${box.w}%\`,
+                          height: \`\${box.h}%\`
                         }}
                       >
                         <div className="absolute -top-6 left-[-2px] bg-red-500 text-white text-[9px] font-bold font-mono px-1.5 py-0.5 whitespace-nowrap">
@@ -338,7 +339,7 @@ export function MediaForensicsTab() {
                   >
                     {result.image && (
                       <div className="rounded-xl overflow-hidden border border-slate-800 bg-black flex items-center justify-center">
-                         <img src={`data:image/jpeg;base64,${result.image}`} alt="Generated" className="max-h-[400px] object-contain w-full" />
+                         <img src={\`data:image/jpeg;base64,\${result.image}\`} alt="Generated" className="max-h-[400px] object-contain w-full" />
                       </div>
                     )}
                     
@@ -366,3 +367,6 @@ export function MediaForensicsTab() {
     </div>
   );
 }
+`;
+
+fs.writeFileSync('src/components/MediaForensicsTab.tsx', content);
