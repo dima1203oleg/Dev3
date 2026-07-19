@@ -575,7 +575,7 @@ export default function LiveAnalyticalCenter({
                 setTimeout(() => speakVoice("Голосовий асистент Джарвіс активовано."), 100);
               }
             }}
-            className={`p-2 rounded-lg flex items-center gap-2 border transition-all cursor-pointer ${!isMuted ? 'bg-indigo-600/10 border-indigo-500/30 text-indigo-400' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-indigo-500/10 text-slate-500'}`}
+            className={`p-2 rounded-lg flex items-center gap-2 border transition-all cursor-pointer ${!isMuted ? 'bg-indigo-600/20 border-indigo-500/30 text-indigo-400' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-indigo-500/10 text-slate-500'}`}
             title={isMuted ? "Увімкнути голосовий супровід" : "Вимкнути голос"}
           >
             {!isMuted ? <Volume2 className="w-4 h-4 animate-pulse" /> : <VolumeX className="w-4 h-4" />}
@@ -595,7 +595,7 @@ export default function LiveAnalyticalCenter({
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
               <span className="text-emerald-400 font-bold">ЯДРО СТАБІЛЬНЕ</span>
               <span className="text-slate-600">|</span>
-              <span className="text-slate-400 text-[10px] truncate max-w-[280px]">Останнє сповіщення: "{lastSpokenText}"</span>
+              <span className="text-slate-300 text-[10px] truncate max-w-[280px]">Останнє сповіщення: "{lastSpokenText}"</span>
             </div>
           )}
         </div>
@@ -613,7 +613,7 @@ export default function LiveAnalyticalCenter({
             <button
               key={m.id}
               onClick={() => handleWorkModeChange(m.id as any)}
-              className={`px-2 py-1 rounded text-[9px] font-bold border transition-all cursor-pointer ${workMode === m.id ? 'bg-indigo-600/10 border-indigo-500/30 text-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.2)]' : 'bg-slate-900/40 border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)]'}`}
+              className={`px-2 py-1 rounded text-[9px] font-bold border transition-all cursor-pointer ${workMode === m.id ? 'bg-indigo-600/20 border-indigo-500/30 text-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.2)]' : 'bg-slate-900/40 border-transparent text-slate-300 hover:text-slate-200 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)]'}`}
             >
               {m.label}
             </button>
@@ -711,7 +711,7 @@ export default function LiveAnalyticalCenter({
                   </button>
                   <button
                     onClick={() => setSuggestionState('dismissed')}
-                    className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 border border-indigo-500/10 text-slate-400 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+                    className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 border border-indigo-500/10 text-slate-300 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                   >
                     Пізніше
                   </button>
@@ -742,7 +742,7 @@ export default function LiveAnalyticalCenter({
                   };
                   speakVoice(stateGreetings[s.id]);
                 }}
-                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${coreState === s.id ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${coreState === s.id ? 'bg-indigo-600 text-white' : 'text-slate-300 hover:text-slate-200'}`}
               >
                 {s.label}
               </button>
@@ -908,7 +908,7 @@ export default function LiveAnalyticalCenter({
                     </motion.div>
 
                     {/* Activity flag below orb */}
-                    <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 text-[7px] font-mono font-bold text-indigo-400 bg-indigo-950/50 px-2 py-0.5 rounded-full border border-indigo-500/20 whitespace-nowrap">
+                    <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 text-[7px] font-mono font-bold text-indigo-400 bg-indigo-950/50 px-2 py-0.5 rounded-full border border-indigo-500/30 whitespace-nowrap">
                       🧠 AI BRAIN: REACTIVE
                     </span>
                   </div>
@@ -926,7 +926,7 @@ export default function LiveAnalyticalCenter({
                 >
                   <div className={`p-2 rounded-xl border flex items-center gap-2 max-w-[170px] bg-slate-950/90 backdrop-blur-md transition-all ${
                     node.risk === 'HIGH' ? 'border-rose-500/40 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.15)]' : 
-                    node.risk === 'MEDIUM' ? 'border-amber-500/30 text-amber-400' : 'border-indigo-500/20 text-indigo-400'
+                    node.risk === 'MEDIUM' ? 'border-amber-500/30 text-amber-400' : 'border-indigo-500/30 text-indigo-400'
                   } ${selectedNode?.id === node.id ? 'ring-1 ring-indigo-400 ring-offset-2 ring-offset-slate-950' : ''}`}>
                     <div className={`p-1 rounded shrink-0 ${node.risk === 'HIGH' ? 'bg-rose-500/15' : node.risk === 'MEDIUM' ? 'bg-amber-500/15' : 'bg-indigo-500/15'}`}>
                       {node.type === 'company' && <Briefcase className="w-3 h-3" />}
@@ -1026,27 +1026,27 @@ export default function LiveAnalyticalCenter({
             
             <div className="space-y-3 font-mono text-[10px]">
               <div className="flex justify-between items-center bg-slate-950/40 p-2 rounded-xl border border-indigo-500/5/50">
-                <span className="text-slate-400">🟢 AI готовність</span>
+                <span className="text-slate-300">🟢 AI готовність</span>
                 <span className="text-emerald-400 font-black">99.8% READY</span>
               </div>
               <div className="flex justify-between items-center bg-slate-950/40 p-2 rounded-xl border border-indigo-500/5/50">
-                <span className="text-slate-400">🧠 Рівень аналізу</span>
+                <span className="text-slate-300">🧠 Рівень аналізу</span>
                 <span className="text-indigo-400 font-black">ГЛИБОКИЙ ШІ</span>
               </div>
               <div className="flex justify-between items-center bg-slate-950/40 p-2 rounded-xl border border-indigo-500/5/50">
-                <span className="text-slate-400">📈 Достовірність</span>
+                <span className="text-slate-300">📈 Достовірність</span>
                 <span className="text-emerald-400 font-black">98.4% HIGH</span>
               </div>
               <div className="flex justify-between items-center bg-slate-950/40 p-2 rounded-xl border border-indigo-500/5/50">
-                <span className="text-slate-400">⚡ Швидкість відповіді</span>
+                <span className="text-slate-300">⚡ Швидкість відповіді</span>
                 <span className="text-indigo-400 font-black">1.2 СЕКУНДИ</span>
               </div>
               <div className="flex justify-between items-center bg-slate-950/40 p-2 rounded-xl border border-indigo-500/5/50">
-                <span className="text-slate-400">🔍 Активність</span>
+                <span className="text-slate-300">🔍 Активність</span>
                 <span className="text-indigo-400 font-black">АКТИВНИЙ СКРИНІНГ</span>
               </div>
               <div className="flex justify-between items-center bg-slate-950/40 p-2 rounded-xl border border-indigo-500/5/50">
-                <span className="text-slate-400">🎯 Якість прогнозу</span>
+                <span className="text-slate-300">🎯 Якість прогнозу</span>
                 <span className="text-emerald-400 font-black">КЛАС А++</span>
               </div>
             </div>
@@ -1128,7 +1128,7 @@ export default function LiveAnalyticalCenter({
               <p className="text-[9px] text-slate-500 font-mono mt-0.5">Код: {activeEntity?.code || "—"}</p>
             </div>
             
-            <div className={`px-2 py-1 rounded-xl border text-center ${activeEntity?.riskScore && activeEntity.riskScore >= 80 ? 'border-rose-500/20 bg-rose-500/5 text-rose-500' : 'border-indigo-500/20 bg-indigo-500/5 text-indigo-400'}`}>
+            <div className={`px-2 py-1 rounded-xl border text-center ${activeEntity?.riskScore && activeEntity.riskScore >= 80 ? 'border-rose-500/20 bg-rose-500/5 text-rose-500' : 'border-indigo-500/30 bg-indigo-500/5 text-indigo-400'}`}>
               <span className="text-[7px] font-mono block font-bold leading-none uppercase">РИЗИК</span>
               <span className="text-base font-mono font-black tracking-tight leading-none block mt-1">{activeEntity?.riskScore || 0}%</span>
             </div>
@@ -1227,12 +1227,12 @@ export default function LiveAnalyticalCenter({
                 <div key={idx} className={`p-3 rounded-xl border bg-slate-900/50 space-y-1 relative ${evt.risk === 'HIGH' ? 'border-rose-500/20' : 'border-slate-850'}`}>
                   <div className="flex items-center justify-between">
                     <span className="text-[9px] font-mono font-bold text-indigo-400">{evt.date}</span>
-                    <span className={`text-[8px] font-mono px-1.5 py-0.5 rounded ${evt.risk === 'HIGH' ? 'bg-rose-500/10 text-rose-400' : evt.risk === 'MEDIUM' ? 'bg-amber-500/10 text-amber-400' : 'bg-slate-800 text-slate-400'}`}>
+                    <span className={`text-[8px] font-mono px-1.5 py-0.5 rounded ${evt.risk === 'HIGH' ? 'bg-rose-500/10 text-rose-400' : evt.risk === 'MEDIUM' ? 'bg-amber-500/10 text-amber-400' : 'bg-slate-800 text-slate-300'}`}>
                       {evt.risk}
                     </span>
                   </div>
                   <h5 className="text-[10px] font-black text-slate-200 mt-1">{evt.title}</h5>
-                  <p className="text-[9px] text-slate-400 leading-normal">{evt.desc}</p>
+                  <p className="text-[9px] text-slate-300 leading-normal">{evt.desc}</p>
                 </div>
               ))}
             </div>
@@ -1258,7 +1258,7 @@ export default function LiveAnalyticalCenter({
                 </div>
                 <button 
                   onClick={() => setShowPdfDrawer(false)}
-                  className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 border border-indigo-500/10 text-slate-400 hover:text-slate-200 px-2.5 py-1 rounded text-[10px] font-mono font-bold"
+                  className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 border border-indigo-500/10 text-slate-300 hover:text-slate-200 px-2.5 py-1 rounded text-[10px] font-mono font-bold"
                 >
                   ЗАКРИТИ [X]
                 </button>
@@ -1266,7 +1266,7 @@ export default function LiveAnalyticalCenter({
 
               <div className="border border-dashed border-rose-500/40 bg-rose-500/5 p-3 rounded-xl text-center space-y-1 mb-5">
                 <span className="text-[10px] font-mono font-black tracking-widest text-rose-500 uppercase">ЦІЛКОМ ТАЄМНО / CLASSIFIED</span>
-                <p className="text-[8px] text-slate-400 font-mono">ДОСТУП ДОЗВОЛЕНО ТІЛЬКИ ОРГАНАМ БЕЗПЕКИ УКРАЇНИ ТА ФІНАНСОВОМУ МОНІТОРИНГУ</p>
+                <p className="text-[8px] text-slate-300 font-mono">ДОСТУП ДОЗВОЛЕНО ТІЛЬКИ ОРГАНАМ БЕЗПЕКИ УКРАЇНИ ТА ФІНАНСОВОМУ МОНІТОРИНГУ</p>
               </div>
 
               <div className="space-y-4 text-xs text-slate-300">
@@ -1313,7 +1313,7 @@ export default function LiveAnalyticalCenter({
               </button>
               <button 
                 onClick={() => setShowPdfDrawer(false)}
-                className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 border border-indigo-500/10 text-slate-400 py-2.5 px-4 rounded-xl text-xs font-mono font-bold cursor-pointer"
+                className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 border border-indigo-500/10 text-slate-300 py-2.5 px-4 rounded-xl text-xs font-mono font-bold cursor-pointer"
               >
                 Закрити
               </button>
@@ -1339,7 +1339,7 @@ export default function LiveAnalyticalCenter({
                 </div>
                 <button 
                   onClick={() => setShowMapDrawer(false)}
-                  className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 border border-indigo-500/10 text-slate-400 hover:text-slate-200 px-2.5 py-1 rounded text-[10px] font-mono font-bold"
+                  className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 border border-indigo-500/10 text-slate-300 hover:text-slate-200 px-2.5 py-1 rounded text-[10px] font-mono font-bold"
                 >
                   ЗАКРИТИ [X]
                 </button>

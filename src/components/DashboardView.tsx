@@ -28,7 +28,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-slate-950/90 border border-indigo-500/10 p-3 rounded-xl shadow-xl backdrop-blur-sm">
-        <p className="text-[10px] font-mono text-slate-400 mb-2 border-b border-indigo-500/10 pb-1">Дата: {label}</p>
+        <p className="text-[10px] font-mono text-slate-300 mb-2 border-b border-indigo-500/10 pb-1">Дата: {label}</p>
         <div className="space-y-1.5">
           {payload.map((entry: any, index: number) => (
             <div key={index} className="flex items-center justify-between gap-4 text-xs">
@@ -269,7 +269,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
 
   const stats = [
     { label: "Під санкціями РНБО", value: "4,192", change: "+14 сьогодні", icon: ShieldAlert, color: "text-rose-500 bg-rose-500/10 border-rose-500/20" },
-    { label: "Моніторинг юросіб", value: "148,029", change: "60 FPS індекс", icon: Briefcase, color: "text-indigo-400 bg-indigo-500/10 border-indigo-500/20" },
+    { label: "Моніторинг юросіб", value: "148,029", change: "60 FPS індекс", icon: Briefcase, color: "text-indigo-400 bg-indigo-500/10 border-indigo-500/30" },
     { label: "Судові ухвали (оброблено)", value: "1.2M", change: "99.9% точність OCR", icon: FileText, color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20" },
     { label: "Крипто-адреси в базі", value: "12,401", change: "+89 за годину", icon: TrendingUp, color: "text-amber-400 bg-amber-500/10 border-amber-500/20" }
   ];
@@ -336,7 +336,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
             
             <div className="relative z-10">
-              <span className="text-[9px] text-slate-400 font-mono font-bold uppercase tracking-widest block">
+              <span className="text-[9px] text-slate-300 font-mono font-bold uppercase tracking-widest block">
                 {stat.label}
               </span>
               <span className="text-2xl font-black text-white tracking-tight block mt-1.5 font-sans">
@@ -419,7 +419,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                 
                 <div className="space-y-2 mt-2">
                   <div className="flex justify-between items-center text-[11px]">
-                    <span className="text-slate-400">Шеньчжень → Київ</span>
+                    <span className="text-slate-300">Шеньчжень → Київ</span>
                     <span className="text-red-400 font-bold font-mono">94% Ризик</span>
                   </div>
                   <div className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full h-1">
@@ -427,7 +427,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                   </div>
 
                   <div className="flex justify-between items-center text-[11px]">
-                    <span className="text-slate-400">Лейпциг → Львів</span>
+                    <span className="text-slate-300">Лейпциг → Львів</span>
                     <span className="text-emerald-400 font-bold font-mono">10% Безпечно</span>
                   </div>
                   <div className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full h-1">
@@ -435,7 +435,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                   </div>
 
                   <div className="flex justify-between items-center text-[11px]">
-                    <span className="text-slate-400">Гонконг → Стамбул</span>
+                    <span className="text-slate-300">Гонконг → Стамбул</span>
                     <span className="text-amber-400 font-bold font-mono">68% Скринінг</span>
                   </div>
                   <div className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full h-1">
@@ -472,7 +472,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                 <button
                   onClick={() => setHeatmapFilter('all')}
                   className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                    heatmapFilter === 'all' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                    heatmapFilter === 'all' ? 'bg-indigo-600 text-white shadow' : 'text-slate-300 hover:text-slate-200'
                   }`}
                 >
                   Всі
@@ -480,7 +480,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                 <button
                   onClick={() => setHeatmapFilter('company')}
                   className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                    heatmapFilter === 'company' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                    heatmapFilter === 'company' ? 'bg-indigo-600 text-white shadow' : 'text-slate-300 hover:text-slate-200'
                   }`}
                 >
                   Юрособи
@@ -488,7 +488,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                 <button
                   onClick={() => setHeatmapFilter('person')}
                   className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                    heatmapFilter === 'person' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                    heatmapFilter === 'person' ? 'bg-indigo-600 text-white shadow' : 'text-slate-300 hover:text-slate-200'
                   }`}
                 >
                   Особи
@@ -496,7 +496,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                 <button
                   onClick={() => setHeatmapFilter('cryptowallet')}
                   className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                    heatmapFilter === 'cryptowallet' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+                    heatmapFilter === 'cryptowallet' ? 'bg-indigo-600 text-white shadow' : 'text-slate-300 hover:text-slate-200'
                   }`}
                 >
                   Крипто
@@ -623,7 +623,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                               {ent.type === 'company' ? 'Юридична особа' : ent.type === 'person' ? 'Фізична особа' : 'Крипто-гаманець'}
                             </p>
                             <div className="border-t border-indigo-500/5 my-1.5"></div>
-                            <div className="text-[8.5px] text-slate-400 font-mono space-y-1">
+                            <div className="text-[8.5px] text-slate-300 font-mono space-y-1">
                               <div>Код/Адреса: <span className="text-slate-200 block truncate">{ent.code}</span></div>
                               <div className="flex justify-between">
                                 <span>Зв'язків: <strong className="text-slate-200">{ent.relationships?.length || 0}</strong></span>
@@ -672,9 +672,9 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
 
                   {/* Settings toggle */}
                   <div className="bg-slate-950/80 rounded-lg border border-indigo-500/5 p-3 space-y-2">
-                    <span className="text-[8px] text-slate-400 font-mono font-bold block uppercase tracking-wider">Візуальні параметри</span>
+                    <span className="text-[8px] text-slate-300 font-mono font-bold block uppercase tracking-wider">Візуальні параметри</span>
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] text-slate-400">Градієнтні теплові ареоли</span>
+                      <span className="text-[10px] text-slate-300">Градієнтні теплові ареоли</span>
                       <button
                         onClick={() => setShowGlow(!showGlow)}
                         className={`w-8 h-4.5 rounded-full p-0.5 transition-colors cursor-pointer ${showGlow ? 'bg-indigo-600' : 'bg-slate-800'}`}
@@ -687,7 +687,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                   {/* Distribution Legend */}
                   <div className="space-y-1.5 pt-1">
                     <span className="text-[8px] text-slate-500 font-mono font-bold block uppercase tracking-wider">Легенда інтенсивності</span>
-                    <div className="flex flex-col gap-1 text-[9px] text-slate-400 bg-slate-950/40 p-2 rounded border border-indigo-500/5/60 space-y-1">
+                    <div className="flex flex-col gap-1 text-[9px] text-slate-300 bg-slate-950/40 p-2 rounded border border-indigo-500/5/60 space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="flex items-center gap-1.5">
                           <span className="w-2 h-2 rounded-full bg-rose-500"></span>
@@ -740,7 +740,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">
               {/* Operation 1: Radar scan */}
-              <div className="bg-slate-950/70 border border-indigo-500/5 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/20 transition-all group">
+              <div className="bg-slate-950/70 border border-indigo-500/5 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/30 transition-all group">
                 <div>
                   <h4 className="text-xs font-bold text-slate-200 group-hover:text-indigo-400 transition-colors">📡 ГЛОБАЛЬНИЙ РАДАР</h4>
                   <p className="text-[10px] text-slate-500 font-mono mt-1 leading-relaxed">Сканування гео-каналів та обходу митниць у реальному часі.</p>
@@ -772,7 +772,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
               </div>
 
               {/* Operation 2: Sync DB */}
-              <div className="bg-slate-950/70 border border-indigo-500/5 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/20 transition-all group">
+              <div className="bg-slate-950/70 border border-indigo-500/5 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/30 transition-all group">
                 <div>
                   <h4 className="text-xs font-bold text-slate-200 group-hover:text-indigo-400 transition-colors">🔄 СИНХРОНІЗАЦІЯ БАЗИ</h4>
                   <p className="text-[10px] text-slate-500 font-mono mt-1 leading-relaxed">Звірка реєстру РНБО з міжнародними санкційними списками.</p>
@@ -809,7 +809,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
               </div>
 
               {/* Operation 3: AI Screening */}
-              <div className="bg-slate-950/70 border border-indigo-500/5 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/20 transition-all group">
+              <div className="bg-slate-950/70 border border-indigo-500/5 rounded-xl p-3.5 flex flex-col justify-between space-y-4 hover:border-indigo-500/30 transition-all group">
                 <div>
                   <h4 className="text-xs font-bold text-slate-200 group-hover:text-indigo-400 transition-colors">🧪 ШІ AML СКРИНІНГ</h4>
                   <p className="text-[10px] text-slate-500 font-mono mt-1 leading-relaxed">Глибока перевірка транскордонних переказів через Gemini 3.5.</p>
@@ -854,7 +854,7 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                 {zoomIndices && (
                   <button 
                     onClick={zoomOut}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider border border-indigo-500/20 transition-colors"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider border border-indigo-500/30 transition-colors"
                   >
                     <span>Zoom Out</span>
                   </button>
@@ -946,10 +946,10 @@ export default function DashboardView({ onSelectTab, onSelectEntity }: Dashboard
                       onSelectTab('volumes'); // Navigate to workbench
                     }
                   }}
-                  className="bg-slate-950/70 border border-indigo-500/5 hover:border-indigo-500/10 rounded-xl p-3 flex items-center justify-between transition-colors cursor-pointer group"
+                  className="bg-slate-950/70 border border-indigo-500/5 rounded-xl p-3 flex items-center justify-between transition-all duration-300 ease-out cursor-pointer group hover:bg-slate-900/60 hover:border-indigo-400/40 hover:-translate-y-[1px] hover:shadow-[0_4px_15px_rgba(99,102,241,0.1)]"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 text-slate-400 group-hover:text-indigo-400 transition-colors">
+                    <div className="p-1.5 rounded-lg bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 text-slate-300 group-hover:text-indigo-400 transition-colors">
                       {search.type === 'Company' ? <Briefcase className="w-3.5 h-3.5" /> : search.type === 'Person' ? <User className="w-3.5 h-3.5" /> : <Terminal className="w-3.5 h-3.5" />}
                     </div>
                     <div>

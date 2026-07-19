@@ -5,7 +5,7 @@ import { createServer } from "http";
 import { WebSocketServer } from "ws";
 import { LiveServerMessage, Modality } from "@google/genai";
 
-import { GoogleGenAI, Type, ThinkingLevel } from "@google/genai";
+import { GoogleGenAI, Type, ThinkingLevel, GenerateVideosOperation } from "@google/genai";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,78 +14,6 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json({ limit: '50mb' }));
-
-// Media Forensics API
-app.post("/api/media-forensics", async (req, res) => {
-  try {
-    const { mode, prompt, config } = req.body;
-    
-    if (!ai) {
-      return res.status(500).json({ error: "Gemini API not configured" });
-    }
-
-    if (mode === 'analysis') {
-      const { image } = req.body;
-      const contents = [];
-      if (image) {
-        contents.push({
-          inlineData: {
-            data: image,
-            mimeType: "image/jpeg"
-          }
-        });
-      }
-      contents.push(prompt || "Analyze this media in detail. Describe any objects, text, or faces found. Identify any anomalies.");
-      
-      const response = await ai.models.generateContent({
-        model: "gemini-3.1-pro-preview",
-        contents: contents,
-        config: {
-          systemInstruction: "You are an expert digital forensics AI. Analyze media for anomalies, deepfakes, and extract critical intelligence. Speak in Ukrainian.",
-          thinkingConfig: { thinkingLevel: ThinkingLevel.HIGH }
-        }
-      });
-      res.json({ text: response.text });
-    } else if (mode === 'grounding') {
-      const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
-        contents: prompt || "Verify location data",
-        config: {
-          tools: [{ googleSearch: {} }/*, { googleMaps: {} }*/], // Note: googleMaps might not be fully supported by SDK type yet, but we add it if needed
-          systemInstruction: "You are an OSINT investigator. Use Google Search and Maps grounding to verify the user's query, check locations, and provide concrete facts. Speak in Ukrainian.",
-        }
-      });
-      res.json({ text: response.text });
-    } else if (mode === 'generation') {
-      if (config?.type === 'video') {
-        const response = await ai.models.generateImages({
-            model: "veo-3.1-fast-generate-preview",
-            prompt: prompt || "A cinematic scene",
-            config: {
-                aspectRatio: config?.aspectRatio === '16:9' ? '16:9' : '9:16',
-            }
-        });
-        // We will simulate the video response since it takes long or might return different format
-        res.json({ text: "Генерація Veo 3.1 запущена. В реальній системі тут повертається відео-об'єкт або URL.", type: "video" });
-      } else {
-        const response = await ai.models.generateImages({
-            model: "gemini-3-pro-image-preview",
-            prompt: prompt || "A realistic photo",
-            config: {
-                aspectRatio: config?.aspectRatio === '16:9' ? '16:9' : '1:1',
-            }
-        });
-        res.json({ text: "Генерація Imagen 3 Pro виконана.", type: "image", imageBase64: response.generatedImages?.[0]?.image?.imageBytes });
-      }
-    } else {
-      res.status(400).json({ error: "Invalid mode" });
-    }
-  } catch (error) {
-    console.error("Media API error:", error);
-    res.status(500).json({ error: error.message || "Media analysis failed" });
-  }
-});
-
 
 // Initialize Gemini API
 const apiKey = process.env.GEMINI_API_KEY;
@@ -97,6 +25,196 @@ const ai = apiKey ? new GoogleGenAI({
     }
   }
 }) : null;
+
+app.post("/api/video-status", async (req, res) => {
+  try {
+    const { operationName } = req.body;
+    if (!ai) return res.status(500).json({ error: "No AI client" });
+    const op = new GenerateVideosOperation();
+    op.name = operationName;
+    const updated = await ai.operations.getVideosOperation({ operation: op });
+    res.json({ done: updated.done });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/api/video-download", async (req, res) => {
+  try {
+    const { operationName } = req.query;
+    if (!ai) return res.status(500).json({ error: "No AI client" });
+    const op = new GenerateVideosOperation();
+    op.name = operationName as string;
+    const updated = await ai.operations.getVideosOperation({ operation: op });
+    const uri = updated.response?.generatedVideos?.[0]?.video?.uri;
+    if (!uri) return res.status(404).json({ error: "Video not found" });
+    const videoRes = await fetch(uri, {
+      headers: { 'x-goog-api-key': apiKey! },
+    });
+    res.setHeader('Content-Type', 'video/mp4');
+    videoRes.body!.pipeTo(
+      new WritableStream({
+        write(chunk) { res.write(chunk); },
+        close() { res.end(); },
+      })
+    );
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/music-generate", async (req, res) => {
+  try {
+    const { prompt, mode } = req.body;
+    if (!ai) return res.status(500).json({ error: "No AI client" });
+    const response = await ai.models.generateContentStream({
+      model: mode === "pro" ? "lyria-3-pro-preview" : "lyria-3-clip-preview",
+      contents: prompt || 'Generate a cinematic orchestral track.',
+    });
+    let audioBase64 = "";
+    let mimeType = "audio/wav";
+    for await (const chunk of response) {
+      const parts = chunk.candidates?.[0]?.content?.parts;
+      if (!parts) continue;
+      for (const part of parts) {
+        if (part.inlineData?.data) {
+          if (!audioBase64 && part.inlineData.mimeType) {
+            mimeType = part.inlineData.mimeType;
+          }
+          audioBase64 += part.inlineData.data;
+        }
+      }
+    }
+    res.json({ audioBase64, mimeType });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/audio-transcribe", async (req, res) => {
+  try {
+    const { audioBase64, mimeType } = req.body;
+    if (!ai) return res.status(500).json({ error: "No AI client" });
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: [
+        {
+          inlineData: { data: audioBase64, mimeType: mimeType || "audio/webm" }
+        },
+        { text: "Transcribe the audio accurately." }
+      ]
+    });
+    res.json({ text: response.text });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/chatbot", async (req, res) => {
+  try {
+    const { prompt, history, fast } = req.body;
+    if (!ai) return res.status(500).json({ error: "No AI client" });
+    const contents = (history || []).map((h: any) => ({
+      role: h.role,
+      parts: [{ text: h.text }]
+    }));
+    contents.push({ role: 'user', parts: [{ text: prompt }] });
+    const response = await ai.models.generateContent({
+      model: fast ? "gemini-3.1-flash-lite" : "gemini-3.5-flash",
+      contents: contents,
+      config: {
+        systemInstruction: "You are a helpful assistant.",
+      }
+    });
+    res.json({ text: response.text });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Media Forensics API
+app.post("/api/media-forensics", async (req, res) => {
+  try {
+    const { mode, prompt, config } = req.body;
+    
+    if (!ai) {
+      return res.status(500).json({ error: "Gemini API not configured" });
+    }
+
+    if (mode === 'analysis') {
+      const { fileData, fileType } = req.body;
+      const contents: any[] = [];
+      if (fileData) {
+        contents.push({
+          inlineData: {
+            data: fileData,
+            mimeType: fileType || "image/jpeg"
+          }
+        });
+      }
+      contents.push(prompt || "Analyze this media in detail. Describe any objects, text, or faces found. Identify any anomalies. Speak in Ukrainian.");
+      
+      const isAudio = fileType?.startsWith('audio/');
+      
+      const response = await ai.models.generateContent({
+        model: isAudio ? "gemini-3.5-flash" : "gemini-3.1-pro-preview",
+        contents: contents,
+        config: {
+          systemInstruction: isAudio ? "You are an expert audio transcription system. Provide an accurate transcription in Ukrainian." : "You are an expert digital forensics AI. Analyze media for anomalies, deepfakes, and extract critical intelligence. Speak in Ukrainian.",
+          thinkingConfig: isAudio ? undefined : { thinkingLevel: ThinkingLevel.HIGH }
+        }
+      });
+      res.json({ text: response.text });
+    } else if (mode === 'grounding') {
+      const response = await ai.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: prompt || "Verify location data",
+        config: {
+          tools: [{ googleSearch: {} }, { googleMaps: {} }], // Note: googleMaps might not be fully supported by SDK type yet, but we add it if needed
+          systemInstruction: "You are an OSINT investigator. Use Google Search and Maps grounding to verify the user's query, check locations, and provide concrete facts. Speak in Ukrainian.",
+        }
+      });
+      res.json({ text: response.text });
+    } else if (mode === 'generation') {
+      if (config?.type === 'video') {
+        const operation = await ai.models.generateVideos({
+            model: "veo-3.1-fast-generate-preview",
+            prompt: prompt || "A cinematic scene",
+            config: {
+                numberOfVideos: 1,
+                aspectRatio: config?.aspectRatio === '16:9' ? '16:9' : '9:16',
+                resolution: '1080p'
+            }
+        });
+        res.json({ text: "Генерація Veo 3.1 запущена. В реальній системі тут повертається відео-об'єкт або URL.", type: "video", operationName: operation.name });
+      } else {
+        const response = await ai.models.generateContent({
+            model: "gemini-3-pro-image-preview",
+            contents: { parts: [{ text: prompt || "A realistic photo" }] },
+            config: {
+                imageConfig: {
+                    aspectRatio: config?.aspectRatio === '16:9' ? '16:9' : '1:1',
+                    imageSize: "1K"
+                }
+            }
+        });
+        let imageBase64 = null;
+        for (const part of response.candidates[0].content.parts) {
+          if (part.inlineData) {
+            imageBase64 = part.inlineData.data;
+          }
+        }
+        res.json({ text: "Генерація Imagen 3 Pro виконана.", type: "image", imageBase64: imageBase64 });
+      }
+    } else {
+      res.status(400).json({ error: "Invalid mode" });
+    }
+  } catch (error) {
+    console.error("Media API error:", error);
+    res.status(500).json({ error: error.message || "Media analysis failed" });
+  }
+});
+
 
 // OSINT search API endpoint
 async function fetchNACP(query: string) {

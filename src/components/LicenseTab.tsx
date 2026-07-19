@@ -89,7 +89,7 @@ export default function LicenseTab() {
     if (deploymentModel === 'saas') {
       return {
         level: 'Фінансовий / Комерційний договір',
-        color: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/20',
+        color: 'text-indigo-400 bg-indigo-500/10 border-indigo-500/30',
         infectious: false,
         text: 'Потребує укладення B2B договору та оплати роялті.',
         advice: 'Для некомерційного використання (MVP, дослідження) дані OpenSanctions безкоштовні. Для запуску SaaS платформи потрібно придбати Enterprise Data License, інакше є ризик позовів.'
@@ -115,7 +115,7 @@ export default function LicenseTab() {
           <ShieldCheck className="w-5 h-5 text-emerald-400" id="license-title-icon" />
           Матриця сумісності ліцензій (License Compliance Matrix)
         </h2>
-        <p className="text-slate-400 text-sm leading-relaxed">
+        <p className="text-slate-300 text-sm leading-relaxed">
           Сумісність ліцензій є критичним аспектом для PREDATOR Analytics. Використання копілефт-рішень (GPL, AGPL) або Source Available продуктів (ELv2) в хмарі несе приховані ризики інтелектуальній власності, які необхідно нейтралізувати на рівні архітектурного проектування.
         </p>
       </div>
@@ -275,13 +275,13 @@ export default function LicenseTab() {
                     item.riskLevel === 'Низький' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
                     item.riskLevel === 'Середній' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
                     item.riskLevel === 'Високий' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' :
-                    'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
+                    'bg-indigo-500/10 text-indigo-400 border-indigo-500/30'
                   }`}>
                     Ризик: {item.riskLevel}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs border-y border-indigo-500/10/60 py-3 text-slate-400">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs border-y border-indigo-500/10/60 py-3 text-slate-300">
                   <div>
                     <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-medium">SaaS Використання</span>
                     <span className="text-slate-200 text-[11px] font-medium block mt-0.5">{item.saasUsage}</span>

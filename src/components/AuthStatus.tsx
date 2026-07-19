@@ -14,7 +14,7 @@ export function AuthStatus() {
           {user.photoURL ? (
             <img src={user.photoURL} alt="User" className="w-5 h-5 rounded-full border border-slate-700" />
           ) : (
-            <User className="w-4 h-4 text-slate-400" />
+            <User className="w-4 h-4 text-slate-300" />
           )}
           <span className="text-[10px] text-slate-300 font-mono font-bold truncate max-w-[100px]">
             {user.email}

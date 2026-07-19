@@ -17,6 +17,7 @@ import InspectorPanel from './components/InspectorPanel';
 import LiveAnalyticalCenter from './components/LiveAnalyticalCenter';
 import AdminBackOffice from './components/AdminBackOffice';
 import MapsTab from './components/MapsTab';
+import { MediaForensicsTab } from './components/MediaForensicsTab';
 import { OSINT_ENTITIES, OsintEntity } from './osintData';
 import { SOLUTIONS } from './data';
 import { 
@@ -205,8 +206,8 @@ export default function App() {
 
       const utterance = new SpeechSynthesisUtterance(sTrimmed);
       utterance.lang = 'uk-UA';
-      utterance.rate = 0.85; // slower, masked pace
-      utterance.pitch = 0.2; // deeply lowered pitch for masked voice effect
+      utterance.rate = 0.8; // slower, masked pace
+      utterance.pitch = 0.1; // deeply lowered pitch for masked voice effect
 
       // Match selected voice or any Ukrainian Microsoft cloud voice
       const voices = window.speechSynthesis.getVoices();
@@ -664,7 +665,7 @@ export default function App() {
           <div className="flex items-center gap-2.5">
             <button 
               onClick={() => setMobileMenuOpen(true)}
-              className="p-1.5 hover:bg-slate-900/60 rounded-lg text-slate-400 hover:text-slate-200 transition-colors"
+              className="p-1.5 hover:bg-slate-900/60 rounded-lg text-slate-300 hover:text-slate-200 transition-colors"
             >
               <Menu className="w-5 h-5" />
             </button>
@@ -766,6 +767,7 @@ export default function App() {
               {activeTab === 'roadmap' && <RoadmapTab />}
               {activeTab === 'volumes' && <VolumesTab />}
               {activeTab === 'advisor' && <AdvisorTab />}
+                {activeTab === 'media-forensics' && <MediaForensicsTab />}
             </motion.div>
           </AnimatePresence>
         </main>
@@ -804,7 +806,7 @@ export default function App() {
                     </div>
                     <button
                       onClick={() => setMobileMenuOpen(false)}
-                      className="p-1.5 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg text-slate-400 hover:text-slate-200 transition-colors"
+                      className="p-1.5 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg text-slate-300 hover:text-slate-200 transition-colors"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -822,7 +824,7 @@ export default function App() {
                           setActiveTab('live-analytical-center');
                           setMobileMenuOpen(false);
                         }}
-                        className={`py-2 rounded-lg text-[8px] font-black font-mono uppercase tracking-wider transition-all text-center ${ecosystem === 'user' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400'}`}
+                        className={`py-2 rounded-lg text-[8px] font-black font-mono uppercase tracking-wider transition-all text-center ${ecosystem === 'user' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-300'}`}
                       >
                         🛰️ USER SPACE
                       </button>
@@ -832,7 +834,7 @@ export default function App() {
                           setActiveTab('admin-back-office');
                           setMobileMenuOpen(false);
                         }}
-                        className={`py-2 rounded-lg text-[8px] font-black font-mono uppercase tracking-wider transition-all text-center ${ecosystem === 'admin' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400'}`}
+                        className={`py-2 rounded-lg text-[8px] font-black font-mono uppercase tracking-wider transition-all text-center ${ecosystem === 'admin' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-300'}`}
                       >
                         ⚙️ ADMIN SPACE
                       </button>
@@ -868,7 +870,7 @@ export default function App() {
                                 setSelectedScenario(scen.id);
                                 setMobileMenuOpen(false);
                               }}
-                              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[10px] font-semibold transition-all text-left border ${isActive ? 'bg-indigo-600/10 text-indigo-400 border-indigo-500/20 shadow-sm' : 'text-slate-400 border-transparent hover:bg-slate-900/30'}`}
+                              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[10px] font-semibold transition-all text-left border ${isActive ? 'bg-indigo-600/20 text-indigo-400 border-indigo-500/30 shadow-sm' : 'text-slate-300 border-transparent hover:bg-slate-900/30'}`}
                             >
                               <Icon className="w-3.5 h-3.5" />
                               <span>{scen.label}</span>
@@ -893,7 +895,7 @@ export default function App() {
                                 setActiveTab(tab.id as TabId);
                                 setMobileMenuOpen(false);
                               }}
-                              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[10px] font-semibold transition-all text-left border ${isActive ? 'bg-indigo-600/10 text-indigo-400 border-indigo-500/20 shadow-sm' : 'text-slate-400 border-transparent hover:bg-slate-900/30'}`}
+                              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[10px] font-semibold transition-all text-left border ${isActive ? 'bg-indigo-600/20 text-indigo-400 border-indigo-500/30 shadow-sm' : 'text-slate-300 border-transparent hover:bg-slate-900/30'}`}
                             >
                               <Icon className="w-3.5 h-3.5" />
                               <span>{tab.label}</span>
@@ -908,11 +910,11 @@ export default function App() {
                   <div className="bg-[#020612] border border-indigo-500/5 p-3 rounded-xl space-y-1.5 text-[9px] font-mono">
                     <span className="text-[7px] text-slate-500 font-bold uppercase tracking-wider block">СТАТУС З'ЄДНАННЯ</span>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Пінґ Сервера:</span>
+                      <span className="text-slate-300">Пінґ Сервера:</span>
                       <span className="text-emerald-400 font-bold">14ms</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Канали зв'язку:</span>
+                      <span className="text-slate-300">Канали зв'язку:</span>
                       <span className="text-indigo-400 font-bold">Зашифровано</span>
                     </div>
                   </div>
@@ -1027,7 +1029,7 @@ export default function App() {
                 />
                 <button
                   onClick={startVoiceControl}
-                  className={`p-1.5 rounded-md transition-colors flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-400 hover:text-indigo-400'}`}
+                  className={`p-1.5 rounded-md transition-colors flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300 hover:text-indigo-400'}`}
                   title="Голосовий ввід"
                 >
                   <Mic className="w-3.5 h-3.5" />
@@ -1149,7 +1151,7 @@ export default function App() {
                     transition={{ duration: 0.1 }}
                   />
                 </div>
-                <span className="text-[8px] text-slate-400 font-mono mt-1 font-bold">
+                <span className="text-[8px] text-slate-300 font-mono mt-1 font-bold">
                   {iphoneVolume}%
                 </span>
               </motion.div>
@@ -1201,7 +1203,7 @@ export default function App() {
                     <span className="w-0.5 h-3 bg-indigo-400 animate-pulse rounded delay-200"></span>
                     <span className="w-0.5 h-1 bg-indigo-400 animate-pulse rounded delay-300"></span>
                   </div>
-                  <span className="text-[7px] text-slate-400 truncate max-w-[110px] shrink-0 font-sans italic">
+                  <span className="text-[7px] text-slate-300 truncate max-w-[110px] shrink-0 font-sans italic">
                     {voiceFeedback ? voiceFeedback.replace('Почуто: ', '').replace('Об\'єкт: ', '') : "Слухаю..."}
                   </span>
                 </div>
@@ -1235,7 +1237,7 @@ export default function App() {
                       <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
                       <span className="text-[9px] font-mono font-black uppercase text-indigo-400 tracking-wider">PREDATOR INTEL ENGINE</span>
                     </div>
-                    <span className="text-[8px] bg-indigo-500/10 border border-indigo-500/20 px-1.5 py-0.5 rounded text-white font-mono">
+                    <span className="text-[8px] bg-indigo-500/10 border border-indigo-500/30 px-1.5 py-0.5 rounded text-white font-mono">
                       v2.5
                     </span>
                   </div>
@@ -1256,7 +1258,7 @@ export default function App() {
                   </div>
 
                   <div className="flex items-center justify-between pt-1">
-                    <span className="text-[8px] text-slate-400 font-mono flex items-center gap-1">
+                    <span className="text-[8px] text-slate-300 font-mono flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                       Зв'язок захищено (СБУ-VIP)
                     </span>
@@ -1282,7 +1284,7 @@ export default function App() {
                   initial={{ top: -10, scale: 0.8, opacity: 0 }}
                   animate={{ top: 12, scale: 1, opacity: 1 }}
                   exit={{ top: -10, scale: 0.8, opacity: 0 }}
-                  className="absolute left-1/2 -translate-x-1/2 w-72 bg-black/95 text-white py-2 px-3.5 rounded-full z-50 border border-indigo-500/20 flex items-center justify-between text-[8px] font-mono shadow-2xl pointer-events-auto"
+                  className="absolute left-1/2 -translate-x-1/2 w-72 bg-black/95 text-white py-2 px-3.5 rounded-full z-50 border border-indigo-500/30 flex items-center justify-between text-[8px] font-mono shadow-2xl pointer-events-auto"
                 >
                   <div className="flex items-center gap-1.5">
                     <Sparkles className="w-3 h-3 text-indigo-400 animate-spin" />
@@ -1300,7 +1302,7 @@ export default function App() {
               
               {/* Icons */}
               <div className="flex items-center gap-1.5 text-[9px]">
-                <span className="text-[8px] font-bold text-slate-400">5G</span>
+                <span className="text-[8px] font-bold text-slate-300">5G</span>
                 {/* Strength bars */}
                 <div className="flex gap-[1px] items-end h-2">
                   <div className="w-[1px] h-[3px] bg-slate-400 rounded-full" />
@@ -1311,7 +1313,7 @@ export default function App() {
                 <span>📶</span>
                 {/* Battery */}
                 <div className="flex items-center gap-0.5 border border-slate-500 rounded px-[1.5px] py-[0.5px]">
-                  <span className="text-[7px] scale-[0.8] leading-none text-slate-400 font-medium">98%</span>
+                  <span className="text-[7px] scale-[0.8] leading-none text-slate-300 font-medium">98%</span>
                   <div className="w-2.5 h-1 bg-emerald-500 rounded-sm" />
                 </div>
               </div>
@@ -1334,7 +1336,7 @@ export default function App() {
                     <span className="text-[10px] text-indigo-400 font-mono font-bold tracking-[0.25em] uppercase">
                       🔒 PREDATOR TACTICAL OS
                     </span>
-                    <h3 className="text-[11px] text-slate-400 font-medium font-sans">
+                    <h3 className="text-[11px] text-slate-300 font-medium font-sans">
                       {lockscreenDate}
                     </h3>
                     <h1 className="text-6xl font-light tracking-tighter text-white font-sans mt-2">
@@ -1408,7 +1410,7 @@ export default function App() {
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="p-1.5 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+              className="p-1.5 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg text-slate-300 hover:text-slate-200 transition-colors cursor-pointer"
               title={sidebarCollapsed ? "Розгорнути меню" : "Згорнути меню"}
             >
               <Menu className="w-5 h-5" />
@@ -1418,7 +1420,7 @@ export default function App() {
               onClick={() => setActiveTab('dashboard')} 
               className="flex items-center gap-2.5 cursor-pointer"
             >
-              <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center font-mono font-black text-lg tracking-wider text-white shadow-lg shadow-indigo-500/10 border border-indigo-500/20" id="header-logo">
+              <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center font-mono font-black text-lg tracking-wider text-white shadow-lg shadow-indigo-500/10 border border-indigo-500/30" id="header-logo">
                 P
               </div>
               <div>
@@ -1443,14 +1445,14 @@ export default function App() {
               id="spotlight-header-trigger"
             >
               <Search className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 transition-colors" />
-              <span className="text-slate-400 text-xs flex-1 text-left">Шукати фірму, особу чи гаманець...</span>
-              <span className="text-[9px] bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 text-slate-400 px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">
+              <span className="text-slate-300 text-xs flex-1 text-left">Шукати фірму, особу чи гаманець...</span>
+              <span className="text-[9px] bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 text-slate-300 px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">
                 Ctrl+K
               </span>
             </div>
             <button
               onClick={startVoiceControl}
-              className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border-red-500/40 animate-pulse' : 'bg-slate-900/50 text-slate-400 border-slate-850 hover:border-indigo-500/30 hover:text-indigo-400'}`}
+              className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border-red-500/40 animate-pulse' : 'bg-slate-900/50 text-slate-300 border-slate-850 hover:border-indigo-500/30 hover:text-indigo-400'}`}
               title="Голосовий пошук та команди (Web Speech API)"
               id="voice-header-trigger"
             >
@@ -1466,7 +1468,7 @@ export default function App() {
                   setEcosystem('user');
                   setActiveTab('live-analytical-center');
                 }}
-                className={`px-4 py-2 rounded-lg text-[10px] font-black font-mono tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer ${ecosystem === 'user' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/30'}`}
+                className={`px-4 py-2 rounded-lg text-[10px] font-black font-mono tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer ${ecosystem === 'user' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300 hover:text-slate-200 hover:bg-slate-900/30'}`}
               >
                 <Compass className="w-3.5 h-3.5" />
                 <span>🛰️ ЖИВИЙ ЦЕНТР</span>
@@ -1476,7 +1478,7 @@ export default function App() {
                   setEcosystem('admin');
                   setActiveTab('admin-back-office');
                 }}
-                className={`px-4 py-2 rounded-lg text-[10px] font-black font-mono tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer ${ecosystem === 'admin' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/30'}`}
+                className={`px-4 py-2 rounded-lg text-[10px] font-black font-mono tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer ${ecosystem === 'admin' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300 hover:text-slate-200 hover:bg-slate-900/30'}`}
               >
                 <Settings className="w-3.5 h-3.5" />
                 <span>⚙️ BACK OFFICE</span>
@@ -1517,7 +1519,7 @@ export default function App() {
             </div>
 
             {/* Quick Status indicators (Section 6) */}
-            <div className="hidden sm:flex items-center gap-4 text-slate-400 text-[10px]">
+            <div className="hidden sm:flex items-center gap-4 text-slate-300 text-[10px]">
               <span className="flex items-center gap-1">
                 <Activity className="w-3.5 h-3.5 text-indigo-400" />
                 API: <strong className="text-slate-200">14ms</strong>
@@ -1529,7 +1531,7 @@ export default function App() {
             </div>
 
             {/* Alerts Bell notification */}
-            <button className="p-1.5 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg text-slate-400 hover:text-slate-200 relative cursor-pointer" title="Сповіщення">
+            <button className="p-1.5 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg text-slate-300 hover:text-slate-200 relative cursor-pointer" title="Сповіщення">
               <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full animate-ping"></span>
               <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full"></span>
               <Bell className="w-4 h-4" />
@@ -1553,7 +1555,7 @@ export default function App() {
             </div>
 
             <div className="flex-1 overflow-hidden pl-24">
-              <div className="animate-marquee whitespace-nowrap flex gap-12 text-[10px] text-slate-400 font-mono font-medium py-1">
+              <div className="animate-marquee whitespace-nowrap flex gap-12 text-[10px] text-slate-300 font-mono font-medium py-1">
                 <span className="flex items-center gap-1.5 shrink-0">
                   <span className="text-rose-500 font-bold">🚨 КРИТИЧНО:</span>
                   <span>Виявлено обхід санкцій через Туреччину у ТОВ "СпецТехПостач" (Код: 38294012).</span>
@@ -1603,7 +1605,7 @@ export default function App() {
                     
                     <button 
                       onClick={() => setActiveTab('live-analytical-center')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'live-analytical-center' ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 shadow-sm' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'live-analytical-center' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                     >
                       <Compass className={`w-4 h-4 ${activeTab === 'live-analytical-center' ? 'text-indigo-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
@@ -1616,7 +1618,7 @@ export default function App() {
 
                     <button 
                       onClick={() => setActiveTab('maps')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'maps' ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 shadow-sm' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'maps' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                     >
                       <Map className={`w-4 h-4 ${activeTab === 'maps' ? 'text-indigo-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
@@ -1626,34 +1628,32 @@ export default function App() {
                         </div>
                       )}
                     </button>
-          <button
-            onClick={() => setActiveTab('forensics')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
-              activeTab === 'forensics' 
-                ? 'bg-gradient-to-r from-fuchsia-600/20 to-transparent border-l-2 border-fuchsia-500 text-white' 
-                : 'text-slate-400 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:text-slate-200 border-l-2 border-transparent'
-            }`}
-          >
-            <Camera className={`w-5 h-5 ${activeTab === 'forensics' ? 'text-fuchsia-400' : ''}`} />
-            <span className="font-medium">Media Forensics</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('forensics')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
-              activeTab === 'forensics' 
-                ? 'bg-gradient-to-r from-fuchsia-600/20 to-transparent border-l-2 border-fuchsia-500 text-white' 
-                : 'text-slate-400 hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:text-slate-200 border-l-2 border-transparent'
-            }`}
-          >
-            <Camera className={`w-5 h-5 ${activeTab === 'forensics' ? 'text-fuchsia-400' : ''}`} />
-            <span className="font-medium">Media Forensics</span>
-          </button>
+          <button 
+                      onClick={() => setActiveTab('media-forensics')}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'media-forensics' ? 'bg-fuchsia-600/10 text-fuchsia-400 border border-fuchsia-500/20 shadow-[inset_0_0_15px_rgba(217,70,239,0.1)]' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      title="Triggers high-load forensic deep-analysis"
+                    >
+                      <Camera className={`w-4 h-4 ${activeTab === 'media-forensics' ? 'text-fuchsia-400' : 'text-slate-500'}`} />
+                      {!sidebarCollapsed && (
+                        <div className="flex items-center justify-between flex-1">
+                          <span>Media Forensics</span>
+                          <div className="flex items-center gap-1.5 opacity-80">
+                            {/* Animated CSS Waveform */}
+                            <div className="flex items-center gap-[2px] h-3">
+                              <div className="w-[2px] bg-fuchsia-500 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.1s] h-1.5" />
+                              <div className="w-[2px] bg-fuchsia-400 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.3s] h-3" />
+                              <div className="w-[2px] bg-fuchsia-500 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.5s] h-1" />
+                              <div className="w-[2px] bg-fuchsia-400 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.2s] h-2" />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </button>
 
 
                     <button 
                       onClick={() => setActiveTab('dashboard')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'dashboard' ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'dashboard' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                     >
                       <Layers className={`w-4 h-4 ${activeTab === 'dashboard' ? 'text-indigo-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
@@ -1666,7 +1666,7 @@ export default function App() {
 
                     <button 
                       onClick={() => setActiveTab('osint')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'osint' ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'osint' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                     >
                       <Search className={`w-4 h-4 ${activeTab === 'osint' ? 'text-indigo-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
@@ -1706,7 +1706,7 @@ export default function App() {
                             setActiveTab('live-analytical-center');
                             setSelectedScenario(scen.id);
                           }}
-                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${isActive ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${isActive ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                         >
                           <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-500'}`} />
                           {!sidebarCollapsed && <span>{scen.label}</span>}
@@ -1727,7 +1727,7 @@ export default function App() {
                     
                     <button 
                       onClick={() => setActiveTab('admin-back-office')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'admin-back-office' ? 'bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 shadow-sm' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'admin-back-office' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                     >
                       <Settings className={`w-4 h-4 ${activeTab === 'admin-back-office' ? 'text-indigo-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
@@ -1769,7 +1769,7 @@ export default function App() {
                               setSelectedTool(null);
                             }
                           }}
-                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${isActive ? 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-indigo-400 border border-indigo-500/10' : 'text-slate-400 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${isActive ? 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-indigo-400 border border-indigo-500/10' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                         >
                           <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-500'}`} />
                           {!sidebarCollapsed && <span>{tab.label}</span>}
@@ -1784,7 +1784,7 @@ export default function App() {
               {!sidebarCollapsed && (
                 <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 p-3.5 rounded-xl space-y-2 mt-4">
                   <span className="text-[8px] text-slate-500 font-mono font-bold uppercase tracking-wider block">СТАН СИСТЕМИ PREDATOR</span>
-                  <div className="space-y-1 text-[10px] text-slate-400 font-mono">
+                  <div className="space-y-1 text-[10px] text-slate-300 font-mono">
                     <div className="flex justify-between">
                       <span>Kafka Queue:</span>
                       <span className="text-emerald-400 font-bold">0 lag</span>
@@ -1803,7 +1803,7 @@ export default function App() {
             <div className="p-3 border-t border-indigo-500/5 text-center">
               <button 
                 onClick={() => setIsInspectorOpen(!isInspectorOpen)}
-                className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 text-slate-400 hover:text-slate-200 py-2 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 text-slate-300 hover:text-slate-200 py-2 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer"
               >
                 {sidebarCollapsed ? 'INSP' : isInspectorOpen ? 'Сховати Інспектор' : 'Показати Інспектор'}
               </button>
@@ -1835,6 +1835,7 @@ export default function App() {
                 {activeTab === 'roadmap' && 'Дорожня карта'}
                 {activeTab === 'volumes' && 'Томи ТЗ'}
                 {activeTab === 'advisor' && 'ШІ-Архітектор'}
+                {activeTab === 'media-forensics' && 'Аналіз Медіа (Forensics)'}
               </span>
             </div>
 
@@ -1997,7 +1998,7 @@ export default function App() {
                     />
                     <button
                       onClick={startVoiceControl}
-                      className={`p-2 rounded-lg transition-colors cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-400 hover:text-indigo-400'}`}
+                      className={`p-2 rounded-lg transition-colors cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300 hover:text-indigo-400'}`}
                       title="Голосовий ввід"
                     >
                       <Mic className="w-3.5 h-3.5" />
@@ -2023,7 +2024,7 @@ export default function App() {
             
             {/* Left indicators */}
             <div className="flex flex-wrap items-center gap-4">
-              <span className="flex items-center gap-1.5 text-slate-400 font-bold">
+              <span className="flex items-center gap-1.5 text-slate-300 font-bold">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                 PREDATOR ENG: ONLINE
               </span>
@@ -2052,15 +2053,15 @@ export default function App() {
                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
                 СЕКТОР: АНАЛІТИКА ТА РОЗСЛІДУВАННЯ (СБУ-VIP)
               </span>
-              <span className="text-slate-400">РЕЄСТРИ: <strong className="text-slate-200">СИНХРОНІЗОВАНО</strong></span>
+              <span className="text-slate-300">РЕЄСТРИ: <strong className="text-slate-200">СИНХРОНІЗОВАНО</strong></span>
               <span className="text-emerald-400 font-bold">КЛАС КАНАЛУ: НАДІЙНИЙ (AES-GCM)</span>
-              <span className="text-slate-400">КАБІНЕТ: <strong className="text-slate-200">ОФІЦЕР-АНАЛІТИК</strong></span>
+              <span className="text-slate-300">КАБІНЕТ: <strong className="text-slate-200">ОФІЦЕР-АНАЛІТИК</strong></span>
             </div>
 
             {/* Right analytical indicators */}
             <div className="flex flex-wrap items-center gap-4">
               <span className="text-indigo-400 font-bold">ПРОТОКОЛ: RSA-4096 (СБУ-VIP)</span>
-              <span className="text-slate-400">ІНТЕГРАЦІЯ: YOUCONTROL, OPENDATABOT, МИТНИЦЯ, РНБО</span>
+              <span className="text-slate-300">ІНТЕГРАЦІЯ: YOUCONTROL, OPENDATABOT, МИТНИЦЯ, РНБО</span>
               <span className="text-indigo-400 font-bold">ШІ-ЯДРО: PREDATOR INTEL v3.5</span>
             </div>
 
@@ -2099,7 +2100,7 @@ export default function App() {
                     onChange={(e) => setSpotlightQuery(e.target.value)}
                     className="w-full bg-transparent text-white placeholder-slate-500 text-sm focus:outline-none"
                   />
-                  <span className="text-[10px] bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 text-slate-400 px-2 py-0.5 rounded font-mono shrink-0">
+                  <span className="text-[10px] bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 text-slate-300 px-2 py-0.5 rounded font-mono shrink-0">
                     ESC
                   </span>
                 </div>
@@ -2118,7 +2119,7 @@ export default function App() {
                           <button
                             key={n.id}
                             onClick={() => handleSpotlightSelect(n)}
-                            className="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-indigo-600/20 hover:border-indigo-500/20 border border-transparent transition-all flex items-center justify-between cursor-pointer"
+                            className="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-indigo-600/20 hover:border-indigo-500/40 border border-transparent transition-all duration-300 hover:-translate-y-[1px] hover:shadow-[0_2px_10px_rgba(99,102,241,0.15)] flex items-center justify-between cursor-pointer"
                           >
                             <span>{n.label}</span>
                             <span className="text-[9px] text-indigo-500 font-mono">Перейти →</span>
@@ -2160,7 +2161,7 @@ export default function App() {
                           <button
                             key={e.id}
                             onClick={() => handleSpotlightSelect(e)}
-                            className="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-rose-600/20 hover:border-rose-500/20 border border-transparent transition-all flex items-center justify-between cursor-pointer"
+                            className="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-rose-600/20 hover:border-rose-500/40 border border-transparent transition-all duration-300 hover:-translate-y-[1px] hover:shadow-[0_2px_10px_rgba(244,63,94,0.15)] flex items-center justify-between cursor-pointer"
                           >
                             <span>{e.label}</span>
                             <span className="text-[9px] bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded text-rose-400 font-mono font-bold">
@@ -2176,7 +2177,7 @@ export default function App() {
                   {spotlightResults.navigation.length === 0 && spotlightResults.actions.length === 0 && spotlightResults.entities.length === 0 && (
                     <div className="text-center py-8">
                       <AlertTriangle className="w-8 h-8 text-slate-500 mx-auto mb-2 animate-bounce" />
-                      <p className="text-xs text-slate-400 font-semibold">Жодного збігу не знайдено для "{spotlightQuery}"</p>
+                      <p className="text-xs text-slate-300 font-semibold">Жодного збігу не знайдено для "{spotlightQuery}"</p>
                       <p className="text-[10px] text-slate-600 mt-1 font-mono">Спробуйте ввести інший пошуковий термін</p>
                     </div>
                   )}
@@ -2187,9 +2188,9 @@ export default function App() {
                 <div className="px-4 py-2.5 bg-slate-950/80 border-t border-indigo-500/5 flex items-center justify-between text-[10px] text-slate-500 font-mono">
                   <span className="flex items-center gap-1">
                     <span>Швидкі дії:</span>
-                    <strong className="text-slate-400 font-bold bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 px-1.5 py-0.5 rounded">↑↓</strong>
+                    <strong className="text-slate-300 font-bold bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 px-1.5 py-0.5 rounded">↑↓</strong>
                     <span>для вибору,</span>
-                    <strong className="text-slate-400 font-bold bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 px-1.5 py-0.5 rounded">Enter</strong>
+                    <strong className="text-slate-300 font-bold bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 px-1.5 py-0.5 rounded">Enter</strong>
                     <span>для запуску</span>
                   </span>
                   <span className="text-indigo-400 font-bold uppercase tracking-wider">
@@ -2256,7 +2257,7 @@ export default function App() {
             <div className="flex items-start gap-2.5">
               <span className="text-sm shrink-0 mt-0.5">{voiceError ? '⚠️' : '🎙️'}</span>
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
+                <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-300">
                   {voiceError ? 'Помилка голосового аналізатора' : 'Аналітичний голос PREDATOR'}
                 </p>
                 <p className="text-xs font-semibold tracking-wide leading-relaxed mt-0.5">

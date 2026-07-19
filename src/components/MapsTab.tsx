@@ -169,18 +169,18 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4" id="maps-hud-stats">
         <div className="bg-[#0b1329]/60 border border-slate-850 rounded-2xl p-4 flex items-center justify-between shadow-lg">
           <div>
-            <span className="text-[8px] text-slate-400 font-mono font-bold uppercase tracking-widest block">АКТИВНІ ГЕО-ВУЗЛИ</span>
+            <span className="text-[8px] text-slate-300 font-mono font-bold uppercase tracking-widest block">АКТИВНІ ГЕО-ВУЗЛИ</span>
             <span className="text-xl font-black text-white tracking-tight mt-1 block">4 Точки інтересу</span>
             <span className="text-[9px] text-indigo-400 font-mono mt-0.5 block">Центральний & Західний сектори</span>
           </div>
-          <div className="p-2.5 rounded-xl border border-indigo-500/20 bg-indigo-500/10 text-indigo-400">
+          <div className="p-2.5 rounded-xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-400">
             <MapPin className="w-5 h-5" />
           </div>
         </div>
 
         <div className="bg-[#0b1329]/60 border border-slate-850 rounded-2xl p-4 flex items-center justify-between shadow-lg">
           <div>
-            <span className="text-[8px] text-slate-400 font-mono font-bold uppercase tracking-widest block">АКТИВНІСТЬ ТРАНЗАКЦІЙ</span>
+            <span className="text-[8px] text-slate-300 font-mono font-bold uppercase tracking-widest block">АКТИВНІСТЬ ТРАНЗАКЦІЙ</span>
             <span className="text-xl font-black text-amber-400 tracking-tight mt-1 block">2 Потоки коштів</span>
             <span className="text-[9px] text-amber-500/80 font-mono mt-0.5 block">Виявлено виведення в BTC Ledger</span>
           </div>
@@ -191,7 +191,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
 
         <div className="bg-[#0b1329]/60 border border-slate-850 rounded-2xl p-4 flex items-center justify-between shadow-lg">
           <div>
-            <span className="text-[8px] text-slate-400 font-mono font-bold uppercase tracking-widest block">РІВЕНЬ ЗАГРОЗИ СЕКТОРУ</span>
+            <span className="text-[8px] text-slate-300 font-mono font-bold uppercase tracking-widest block">РІВЕНЬ ЗАГРОЗИ СЕКТОРУ</span>
             <span className="text-xl font-black text-rose-500 tracking-tight mt-1 block">94% Критичний</span>
             <span className="text-[9px] text-rose-400 font-mono mt-0.5 block">ТОВ СпецТехПостач (Київ)</span>
           </div>
@@ -202,11 +202,11 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
 
         <div className="bg-[#0b1329]/60 border border-slate-850 rounded-2xl p-4 flex items-center justify-between shadow-lg">
           <div>
-            <span className="text-[8px] text-slate-400 font-mono font-bold uppercase tracking-widest block">АКТИВНІ ШАРИ ДАНИХ</span>
+            <span className="text-[8px] text-slate-300 font-mono font-bold uppercase tracking-widest block">АКТИВНІ ШАРИ ДАНИХ</span>
             <span className="text-xl font-black text-indigo-400 tracking-tight mt-1 block">{activeLayersCount} / 4 шарів</span>
             <span className="text-[9px] text-slate-500 font-mono mt-0.5 block">Векторні карти & супутники</span>
           </div>
-          <div className="p-2.5 rounded-xl border border-indigo-500/20 bg-indigo-500/10 text-indigo-400">
+          <div className="p-2.5 rounded-xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-400">
             <Layers className="w-5 h-5" />
           </div>
         </div>
@@ -239,7 +239,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
                 className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                   mapZoom === 'ukraine' 
                     ? 'bg-indigo-600 text-white shadow' 
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-300 hover:text-slate-200'
                 }`}
               >
                 Україна (Огляд)
@@ -249,7 +249,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
                 className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                   mapZoom === 'kyiv' 
                     ? 'bg-indigo-600 text-white shadow' 
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-300 hover:text-slate-200'
                 }`}
               >
                 Київ & Козин
@@ -259,7 +259,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
                 className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                   mapZoom === 'lviv' 
                     ? 'bg-indigo-600 text-white shadow' 
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-300 hover:text-slate-200'
                 }`}
               >
                 Львів (Захід)
@@ -269,7 +269,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
                 className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                   mapZoom === 'global' 
                     ? 'bg-indigo-600 text-white shadow' 
-                    : 'text-slate-400 hover:text-slate-200'
+                    : 'text-slate-300 hover:text-slate-200'
                 }`}
               >
                 Мережа Ledger
@@ -281,7 +281,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
           <div className="relative h-[440px] bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 rounded-xl overflow-hidden mt-5 flex items-center justify-center">
             
             {/* Top Indicator Panel inside Map */}
-            <div className="absolute top-3 left-3 bg-slate-950/80 border border-indigo-500/10 px-3 py-1.5 rounded-lg text-[9px] font-mono text-slate-400 z-20 flex items-center gap-2 uppercase">
+            <div className="absolute top-3 left-3 bg-slate-950/80 border border-indigo-500/10 px-3 py-1.5 rounded-lg text-[9px] font-mono text-slate-300 z-20 flex items-center gap-2 uppercase">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>Супутниковий шар: ГЛОБАЛЬНИЙ РЕЄСТР</span>
               <span className="text-slate-600">|</span>
@@ -729,7 +729,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
           {/* Node Selector & Filter Box */}
           <div className="bg-slate-900/40 border border-indigo-500/5 rounded-2xl p-5 shadow-lg space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] text-slate-400 font-mono font-bold uppercase tracking-widest block">
+              <span className="text-[10px] text-slate-300 font-mono font-bold uppercase tracking-widest block">
                 ФІЛЬТРАЦІЯ ГЕО-ВУЗЛІВ
               </span>
               <Sliders className="w-3.5 h-3.5 text-indigo-400" />
@@ -751,19 +751,19 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
             <div className="flex items-center gap-1 bg-slate-950/60 p-1 rounded-xl border border-indigo-500/5/60 text-[9px]">
               <button
                 onClick={() => setRiskFilter('all')}
-                className={`flex-1 py-1 px-1.5 rounded-lg font-bold uppercase transition-all cursor-pointer ${riskFilter === 'all' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400'}`}
+                className={`flex-1 py-1 px-1.5 rounded-lg font-bold uppercase transition-all cursor-pointer ${riskFilter === 'all' ? 'bg-indigo-600 text-white shadow' : 'text-slate-300'}`}
               >
                 Всі
               </button>
               <button
                 onClick={() => setRiskFilter('high')}
-                className={`flex-1 py-1 px-1.5 rounded-lg font-bold uppercase transition-all cursor-pointer ${riskFilter === 'high' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'text-slate-400'}`}
+                className={`flex-1 py-1 px-1.5 rounded-lg font-bold uppercase transition-all cursor-pointer ${riskFilter === 'high' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'text-slate-300'}`}
               >
                 Критичні
               </button>
               <button
                 onClick={() => setRiskFilter('medium')}
-                className={`flex-1 py-1 px-1.5 rounded-lg font-bold uppercase transition-all cursor-pointer ${riskFilter === 'medium' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-slate-400'}`}
+                className={`flex-1 py-1 px-1.5 rounded-lg font-bold uppercase transition-all cursor-pointer ${riskFilter === 'medium' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-slate-300'}`}
               >
                 Середні
               </button>
@@ -790,12 +790,12 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
                     }}
                     className={`p-2.5 rounded-xl border cursor-pointer transition-all duration-300 flex items-center justify-between ${
                       isSelected 
-                        ? 'bg-indigo-600/10 border-indigo-500/50 shadow' 
+                        ? 'bg-indigo-600/20 border-indigo-500/50 shadow' 
                         : 'bg-slate-950/40 border-indigo-500/5/60 hover:bg-slate-950/80 hover:border-slate-850'
                     }`}
                   >
                     <div className="flex items-center gap-2 overflow-hidden">
-                      <div className={`p-1.5 rounded-lg bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 text-slate-400 ${isSelected ? 'text-indigo-400' : ''}`}>
+                      <div className={`p-1.5 rounded-lg bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 text-slate-300 ${isSelected ? 'text-indigo-400' : ''}`}>
                         {loc.id === 'comp-1' || loc.id === 'comp-2' ? <Briefcase className="w-3.5 h-3.5" /> : loc.id === 'person-1' ? <User className="w-3.5 h-3.5" /> : <Terminal className="w-3.5 h-3.5" />}
                       </div>
                       <div className="overflow-hidden">
@@ -829,7 +829,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
               <span className="text-[10px] text-indigo-400 font-mono font-bold uppercase tracking-widest block">
                 ДОСЬЄ ВУЗЛА В РЕАЛЬНОМУ ЧАСІ
               </span>
-              <span className="text-[8px] bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] text-slate-400 border border-slate-850 px-2 py-0.5 rounded font-mono uppercase font-black">
+              <span className="text-[8px] bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] text-slate-300 border border-slate-850 px-2 py-0.5 rounded font-mono uppercase font-black">
                 {selectedEntity.status}
               </span>
             </div>
@@ -844,7 +844,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
               </div>
 
               {/* Grid with address & phone */}
-              <div className="bg-slate-950/70 p-3 rounded-xl border border-indigo-500/5 space-y-2 text-xs text-slate-400 font-mono">
+              <div className="bg-slate-950/70 p-3 rounded-xl border border-indigo-500/5 space-y-2 text-xs text-slate-300 font-mono">
                 <div className="flex gap-2">
                   <MapPin className="w-4 h-4 text-slate-500 shrink-0" />
                   <div>
@@ -862,7 +862,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
               </div>
 
               {/* Brief details based on type */}
-              <div className="text-xs leading-relaxed text-slate-400">
+              <div className="text-xs leading-relaxed text-slate-300">
                 <p className="font-sans italic">"{selectedEntity.description}"</p>
               </div>
 
@@ -923,7 +923,7 @@ export default function MapsTab({ onSelectEntityGlobal }: MapsTabProps) {
             </span>
 
             {isScanning ? (
-              <div className="bg-slate-950/80 p-3 rounded-xl border border-indigo-500/20 flex flex-col items-center justify-center text-center space-y-2">
+              <div className="bg-slate-950/80 p-3 rounded-xl border border-indigo-500/30 flex flex-col items-center justify-center text-center space-y-2">
                 <RefreshCw className="w-6 h-6 text-indigo-400 animate-spin" />
                 <span className="text-[10px] text-indigo-300 font-mono font-bold uppercase animate-pulse">
                   {scanMessage || "Сканування..."}

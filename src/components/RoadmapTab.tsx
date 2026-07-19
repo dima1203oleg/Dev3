@@ -111,7 +111,7 @@ export default function RoadmapTab() {
           <Calendar className="w-5 h-5 text-indigo-400" id="roadmap-title-icon" />
           Дорожня карта розгортання платформи (Enterprise Roadmap)
         </h2>
-        <p className="text-slate-400 text-sm leading-relaxed">
+        <p className="text-slate-300 text-sm leading-relaxed">
           Покроковий 12-місячний план розгортання та розвитку PREDATOR Analytics. Відстежуйте завершення віх у реальному часі та скористайтеся калькулятором інфраструктурних вимог до ШІ-підсистеми для планування бюджетів.
         </p>
       </div>
@@ -121,7 +121,7 @@ export default function RoadmapTab() {
         
         {/* Left Side: Timeline Navigation Nodes */}
         <div className="lg:col-span-1 space-y-4">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest pl-1">Етапи дорожньої карти</h3>
+          <h3 className="text-xs font-bold text-slate-300 uppercase tracking-widest pl-1">Етапи дорожньої карти</h3>
           
           <div className="space-y-2" id="roadmap-steps-list">
             {ROADMAP_PHASES.map((phase, idx) => {
@@ -242,7 +242,7 @@ export default function RoadmapTab() {
             </div>
 
             {/* GPU Requirements spec */}
-            <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] rounded-xl p-3 border border-indigo-500/5 flex items-center gap-2 text-xs text-slate-400">
+            <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] rounded-xl p-3 border border-indigo-500/5 flex items-center gap-2 text-xs text-slate-300">
               <Cpu className="w-4 h-4 text-indigo-400 flex-shrink-0" />
               <span>
                 <strong>Вимоги до GPU:</strong> {activePhase.gpuRequirements || 'Немає вимог.'}
@@ -261,7 +261,7 @@ export default function RoadmapTab() {
               </h3>
             </div>
             
-            <p className="text-[11px] text-slate-400 leading-normal">
+            <p className="text-[11px] text-slate-300 leading-normal">
               Моделюйте необхідну апаратну інфраструктуру для Phase 3 та 5. Оцінюйте потребу у відеопам’яті VRAM та орієнтовні хмарні витрати.
             </p>
 
@@ -312,7 +312,7 @@ export default function RoadmapTab() {
             {/* Concurrency parameters */}
             <div className="space-y-1 text-xs pt-2 border-t border-indigo-500/10/60">
               <div className="flex justify-between text-[11px]">
-                <span className="text-slate-400">Паралельні аналітики</span>
+                <span className="text-slate-300">Паралельні аналітики</span>
                 <span className="text-indigo-400 font-bold font-mono">{userConcurrency} чол.</span>
               </div>
               <input
@@ -333,7 +333,7 @@ export default function RoadmapTab() {
             <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] rounded-xl p-4 border border-slate-850 space-y-3" id="cluster-planner-results">
               <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest text-center">Конфігурація GPU ноди</h4>
               
-              <div className="space-y-1.5 text-xs text-slate-400">
+              <div className="space-y-1.5 text-xs text-slate-300">
                 <div className="flex justify-between">
                   <span>Об’єм VRAM:</span>
                   <span className="font-mono text-indigo-400 font-bold">{gpuCalculations.vram} GB</span>

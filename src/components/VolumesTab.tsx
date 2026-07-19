@@ -541,7 +541,7 @@ export default function VolumesTab() {
               <BookOpen className="w-5 h-5 text-indigo-400" />
               Комплект документації PREDATOR Analytics Enterprise
             </h2>
-            <p className="text-slate-400 text-xs leading-relaxed max-w-3xl">
+            <p className="text-slate-300 text-xs leading-relaxed max-w-3xl">
               Повний еталонний пакет системної архітектури, розроблений для масштабування OSINT платформи. 
               Містить 16 взаємопов'язаних томів, детальні діаграми, схеми даних, інфраструктурний код та понад 450+ функціональних вимог для реалізації.
             </p>
@@ -575,7 +575,7 @@ export default function VolumesTab() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${selectedCategory === cat ? 'bg-indigo-600 text-white' : 'bg-slate-900/60 text-slate-400 hover:text-slate-200 hover:bg-slate-850'}`}
+              className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${selectedCategory === cat ? 'bg-indigo-600 text-white' : 'bg-slate-900/60 text-slate-300 hover:text-slate-200 hover:bg-slate-850'}`}
             >
               {cat === 'All' ? 'Всі Категорії' : cat}
             </button>
@@ -610,7 +610,7 @@ export default function VolumesTab() {
                   setActiveVolume(vol.id);
                   setExpandedChapter(null);
                 }}
-                className={`w-full text-left p-3.5 rounded-xl border transition-all text-xs flex items-start gap-3.5 relative cursor-pointer ${isActive ? 'bg-indigo-500/10 border-indigo-500/40 text-white shadow-lg shadow-indigo-500/5' : 'bg-slate-900/40 border-indigo-500/5/80 text-slate-400 hover:text-slate-200 hover:border-indigo-500/10'}`}
+                className={`w-full text-left p-3.5 rounded-xl border transition-all text-xs flex items-start gap-3.5 relative cursor-pointer ${isActive ? 'bg-indigo-500/10 border-indigo-500/40 text-white shadow-lg shadow-indigo-500/5' : 'bg-slate-900/40 border-indigo-500/5/80 text-slate-300 hover:text-slate-200 hover:border-indigo-500/10'}`}
               >
                 <div className={`p-2 rounded-lg shrink-0 ${isActive ? 'bg-indigo-500/20 text-indigo-400' : 'bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] text-slate-500'}`}>
                   <Icon className="w-4 h-4" />
@@ -653,18 +653,18 @@ export default function VolumesTab() {
               <span className="text-[10px] bg-indigo-500/10 text-indigo-400 font-mono font-bold uppercase tracking-widest px-2.5 py-0.5 rounded">
                 {currentVolumeObj.category} специфікація
               </span>
-              <span className="text-[10px] bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-slate-400 font-mono px-2 py-0.5 rounded">
+              <span className="text-[10px] bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-slate-300 font-mono px-2 py-0.5 rounded">
                 Verified
               </span>
             </div>
             
             <h3 className="text-lg font-bold text-white mb-1.5">{currentVolumeObj.title}</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">{currentVolumeObj.subtitle}</p>
+            <p className="text-xs text-slate-300 leading-relaxed">{currentVolumeObj.subtitle}</p>
           </div>
 
           {/* Chapters loop */}
           <div className="space-y-4" id="chapters-accordion-group">
-            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest pl-1 mb-2">
+            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-widest pl-1 mb-2">
               Структура та зміст тому
             </h4>
 
@@ -717,7 +717,7 @@ export default function VolumesTab() {
                           {ch.technicalDetails && (
                             <div className="bg-slate-950/60 border border-slate-850/40 rounded-lg p-3 space-y-1">
                               <span className="text-[9px] text-amber-400 font-mono uppercase tracking-widest block font-bold">Архітектурні особливості:</span>
-                              <p className="text-slate-400 text-[10px] leading-relaxed">
+                              <p className="text-slate-300 text-[10px] leading-relaxed">
                                 {ch.technicalDetails}
                               </p>
                             </div>
@@ -765,7 +765,7 @@ export default function VolumesTab() {
                                 {ch.requirements.map((req, rIdx) => (
                                   <div 
                                     key={rIdx}
-                                    className="bg-slate-950/40 border border-indigo-500/5 rounded-lg p-2.5 flex items-start gap-2 text-[10px] text-slate-400"
+                                    className="bg-slate-950/40 border border-indigo-500/5 rounded-lg p-2.5 flex items-start gap-2 text-[10px] text-slate-300"
                                   >
                                     <CheckCircle className="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5" />
                                     <span className="leading-tight">{req}</span>
@@ -789,7 +789,7 @@ export default function VolumesTab() {
             <Info className="w-4.5 h-4.5 text-indigo-400 shrink-0 mt-0.5" />
             <div className="space-y-1">
               <span className="font-bold text-slate-200">Довідка розробника:</span>
-              <p className="text-slate-400 leading-normal">
+              <p className="text-slate-300 leading-normal">
                 Кожен том містить точні, затверджені в ТЗ специфікації, які є обов'язковими для дотримання при побудові PREDATOR OSINT. Натисніть на розділи вище для детального ознайомлення, копіювання коду та перевірки системних вимог (REQ).
               </p>
             </div>

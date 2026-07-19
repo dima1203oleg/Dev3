@@ -90,7 +90,7 @@ export default function CatalogTab() {
       case 'Permissive': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       case 'Weak Copyleft': return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
       case 'Strong Copyleft': return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
-      case 'Source Available': return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
+      case 'Source Available': return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30';
       default: return 'bg-rose-500/10 text-rose-400 border-rose-500/20';
     }
   };
@@ -103,7 +103,7 @@ export default function CatalogTab() {
           <Layers className="w-5 h-5 text-indigo-400" id="catalog-title-icon" />
           Глобальний каталог Open Source рішень для PREDATOR Analytics
         </h2>
-        <p className="text-slate-400 text-sm leading-relaxed">
+        <p className="text-slate-300 text-sm leading-relaxed">
           Професійний каталог перевірених технологій, оптимізованих для K8s-native архітектури та високопродуктивних пайплайнів збору OSINT, векторного пошуку, розпізнавання ШІ та побудови графів зв’язків. Скористайтеся інтерактивними інструментами, щоб оцінити та змоделювати їхню сумісність.
         </p>
       </div>
@@ -178,7 +178,7 @@ export default function CatalogTab() {
                 скинути
               </button>
             </div>
-            <p className="text-[11px] text-slate-400 leading-normal">
+            <p className="text-[11px] text-slate-300 leading-normal">
               Змінюйте пріоритет критеріїв оцінки, щоб перерахувати рейтинг сумісності для PREDATOR в реальному часі.
             </p>
 
@@ -186,7 +186,7 @@ export default function CatalogTab() {
               {/* Functional Weight */}
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-400">Зрілість функцій</span>
+                  <span className="text-slate-300">Зрілість функцій</span>
                   <span className="text-emerald-400 font-medium">{weights.functional}%</span>
                 </div>
                 <input
@@ -203,7 +203,7 @@ export default function CatalogTab() {
               {/* Security Weight */}
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-400">Безпека & Стійкість</span>
+                  <span className="text-slate-300">Безпека & Стійкість</span>
                   <span className="text-emerald-400 font-medium">{weights.security}%</span>
                 </div>
                 <input
@@ -220,7 +220,7 @@ export default function CatalogTab() {
               {/* License Friendliness Weight */}
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-400">Юридична свобода (Ліцензія)</span>
+                  <span className="text-slate-300">Юридична свобода (Ліцензія)</span>
                   <span className="text-emerald-400 font-medium">{weights.license}%</span>
                 </div>
                 <input
@@ -237,7 +237,7 @@ export default function CatalogTab() {
               {/* Tech Stack Fit Weight */}
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-400">Відповідність стеку (K8s/Py)</span>
+                  <span className="text-slate-300">Відповідність стеку (K8s/Py)</span>
                   <span className="text-emerald-400 font-medium">{weights.stack}%</span>
                 </div>
                 <input
@@ -254,7 +254,7 @@ export default function CatalogTab() {
               {/* Community Support Weight */}
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-400">Екосистема & Підтримка</span>
+                  <span className="text-slate-300">Екосистема & Підтримка</span>
                   <span className="text-emerald-400 font-medium">{weights.community}%</span>
                 </div>
                 <input
@@ -281,7 +281,7 @@ export default function CatalogTab() {
         {/* Right Side Solutions Grid */}
         <div className="lg:col-span-3 space-y-4">
           <div className="flex items-center justify-between">
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-300">
               Знайдено <span className="text-indigo-400 font-mono font-semibold">{filteredSolutions.length}</span> рішень
             </p>
           </div>
@@ -289,7 +289,7 @@ export default function CatalogTab() {
           {filteredSolutions.length === 0 ? (
             <div className="bg-slate-900/20 border border-dashed border-indigo-500/10 rounded-xl p-12 text-center" id="no-results-view">
               <HelpCircle className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-              <p className="text-slate-400 text-sm font-medium">Нічого не знайдено</p>
+              <p className="text-slate-300 text-sm font-medium">Нічого не знайдено</p>
               <p className="text-slate-600 text-xs mt-1">Спробуйте змінити фільтри пошуку або критерії</p>
             </div>
           ) : (
@@ -328,7 +328,7 @@ export default function CatalogTab() {
                         </div>
                       </div>
 
-                      <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
                         {sol.description}
                       </p>
                     </div>
@@ -343,8 +343,8 @@ export default function CatalogTab() {
                         </span>
                       </div>
                       
-                      <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 group-hover:text-slate-400">
-                        <span className="truncate max-w-[200px]">Стек: <code className="text-[10px] text-slate-400 font-mono">{sol.techStack}</code></span>
+                      <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 group-hover:text-slate-300">
+                        <span className="truncate max-w-[200px]">Стек: <code className="text-[10px] text-slate-300 font-mono">{sol.techStack}</code></span>
                         <span className="text-indigo-400 font-medium group-hover:underline flex items-center gap-0.5 text-xs">
                           Детальніше &rarr;
                         </span>
@@ -399,7 +399,7 @@ export default function CatalogTab() {
               {/* Modal Body */}
               <div className="p-6 space-y-5 overflow-y-auto text-sm text-slate-300">
                 <div className="space-y-1.5">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1">
                     <Info className="w-3.5 h-3.5 text-indigo-400" />
                     Опис призначення
                   </h4>
@@ -459,7 +459,7 @@ export default function CatalogTab() {
                     <Cpu className="w-4 h-4" />
                     Рекомендація архітектора
                   </h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-slate-300 leading-relaxed">
                     {selectedSolution.licenseType === 'Strong Copyleft' ? (
                       <span className="text-amber-400/90 font-medium">
                         Увага: ліцензія GPL-3.0 вимагає жорсткої мікросервісної ізоляції! Не підключайте бібліотеку прямим імпортом в ядро FastAPI. Спілкуйтеся виключно за допомогою мережевих REST/gRPC викликів або черги повідомлень (Kafka).

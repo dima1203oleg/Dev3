@@ -130,7 +130,30 @@ export function LiveChatBot() {
         sourceNode.buffer = audioBuffer;
         
         // Deepen and mask the voice by lowering playback rate
-        sourceNode.playbackRate.value = 0.75;
+        sourceNode.playbackRate.value = 0.82; // Lower pitch slightly for depth
+
+        // Anonymous/Masked voice effect: Bandpass filter
+        const bandpass = outputAudioCtx.createBiquadFilter();
+        bandpass.type = 'bandpass';
+        bandpass.frequency.value = 1000;
+        bandpass.Q.value = 0.8;
+
+        // Add a bit of distortion
+        const distortion = outputAudioCtx.createWaveShaper();
+        function makeDistortionCurve(amount) {
+          const k = typeof amount === 'number' ? amount : 50,
+            n_samples = 44100,
+            curve = new Float32Array(n_samples),
+            deg = Math.PI / 180;
+          for (let i = 0; i < n_samples; ++i) {
+            const x = (i * 2) / n_samples - 1;
+            curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
+          }
+          return curve;
+        }
+        distortion.curve = makeDistortionCurve(10);
+        distortion.oversample = '4x';
+
 
         if (!analyserRef.current) {
           analyserRef.current = outputAudioCtx.createAnalyser();
@@ -167,7 +190,9 @@ export function LiveChatBot() {
             gainNodeRef.current.gain.value = isTTSMutedRef.current ? 0 : 1;
         }
         
-        sourceNode.connect(analyserRef.current);
+        sourceNode.connect(distortion);
+          distortion.connect(bandpass);
+          bandpass.connect(analyserRef.current);
         
         if (nextStartTimeRef.current < outputAudioCtx.currentTime) {
           nextStartTimeRef.current = outputAudioCtx.currentTime;
@@ -286,7 +311,7 @@ export function LiveChatBot() {
                   </span>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white transition-colors">
+              <button onClick={() => setIsOpen(false)} className="text-slate-300 hover:text-white transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -326,7 +351,7 @@ export function LiveChatBot() {
                   className={`p-2 rounded-xl transition-all ${
                     isActive 
                       ? 'bg-red-500/20 text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.15)]' 
-                      : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                      : 'text-slate-300 hover:bg-slate-800 hover:text-slate-200'
                   }`}
                   title={isActive ? "Вимкнути мікрофон" : "Увімкнути мікрофон"}
                 >
@@ -337,7 +362,7 @@ export function LiveChatBot() {
                   onClick={() => setIsTTSMuted(!isTTSMuted)}
                   className={`p-2 rounded-xl transition-all ${
                     isTTSMuted 
-                      ? 'text-slate-500 hover:bg-slate-800 hover:text-slate-400' 
+                      ? 'text-slate-500 hover:bg-slate-800 hover:text-slate-300' 
                       : 'text-emerald-400 hover:bg-slate-800 bg-emerald-500/10'
                   }`}
                   title={isTTSMuted ? "Увімкнути звук" : "Вимкнути звук"}

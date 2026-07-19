@@ -99,7 +99,7 @@ export default function GapAnalysisTab() {
           <Wrench className="w-5 h-5 text-amber-400" id="gap-title-icon" />
           Gap Analysis (Аналіз прогалин та кастомна розробка)
         </h2>
-        <p className="text-slate-400 text-sm leading-relaxed">
+        <p className="text-slate-300 text-sm leading-relaxed">
           Аналіз відповідності вимогам open-source продуктів та розрахунок ресурсів на створення внутрішньої унікальної інтелектуальної власності PREDATOR Analytics. Визначте, які компоненти вимагають адаптації, заміни чи розробки з нуля.
         </p>
       </div>
@@ -115,7 +115,7 @@ export default function GapAnalysisTab() {
               <button
                 id="gap-all-filter"
                 onClick={() => setSelectedCategory('all')}
-                className={`w-full text-left px-3 py-2.5 rounded-lg border transition-all flex items-center justify-between ${selectedCategory === 'all' ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-300 font-semibold' : 'bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-slate-850 text-slate-400 hover:text-slate-200'}`}
+                className={`w-full text-left px-3 py-2.5 rounded-lg border transition-all flex items-center justify-between ${selectedCategory === 'all' ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-300 font-semibold' : 'bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-slate-850 text-slate-300 hover:text-slate-200'}`}
               >
                 <span>Усі категорії ({GAP_ITEMS.length})</span>
                 <span className="text-[10px] bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] px-1.5 py-0.5 rounded border border-indigo-500/10">Все</span>
@@ -125,7 +125,7 @@ export default function GapAnalysisTab() {
                   key={item.id}
                   id={`gap-filter-${item.id}`}
                   onClick={() => setSelectedCategory(item.category)}
-                  className={`w-full text-left px-3 py-2.5 rounded-lg border transition-all flex items-center justify-between ${selectedCategory === item.category ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-300 font-semibold' : 'bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-slate-850 text-slate-400 hover:text-slate-200'}`}
+                  className={`w-full text-left px-3 py-2.5 rounded-lg border transition-all flex items-center justify-between ${selectedCategory === item.category ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-300 font-semibold' : 'bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-slate-850 text-slate-300 hover:text-slate-200'}`}
                 >
                   <span className="truncate">{item.categoryLabel}</span>
                   <span className="text-[10px] bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] px-1.5 py-0.5 rounded border border-indigo-500/10 uppercase font-mono">{item.difficulty}</span>
@@ -143,7 +143,7 @@ export default function GapAnalysisTab() {
               </h3>
             </div>
             
-            <p className="text-[11px] text-slate-400 leading-normal">
+            <p className="text-[11px] text-slate-300 leading-normal">
               Оцінка ресурсів для створення <strong>Власної експертизи (з нуля)</strong>: Конекторів до реєстрів України, Entity Resolution Engine та онтології даних.
             </p>
 
@@ -152,7 +152,7 @@ export default function GapAnalysisTab() {
               {/* Connectors Complexity */}
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-400">Конектори до реєстрів</span>
+                  <span className="text-slate-300">Конектори до реєстрів</span>
                   <span className={`px-1.5 py-0.5 rounded font-medium text-[9px] border ${getComplexityColor(complexity.connectors)}`}>
                     {getComplexityLabel(complexity.connectors)}
                   </span>
@@ -171,7 +171,7 @@ export default function GapAnalysisTab() {
               {/* Entity Resolution Engine */}
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-400">Entity Resolution (ШІ-злиття)</span>
+                  <span className="text-slate-300">Entity Resolution (ШІ-злиття)</span>
                   <span className={`px-1.5 py-0.5 rounded font-medium text-[9px] border ${getComplexityColor(complexity.entityResolution)}`}>
                     {getComplexityLabel(complexity.entityResolution)}
                   </span>
@@ -190,7 +190,7 @@ export default function GapAnalysisTab() {
               {/* Data Ontology mapping */}
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-400">Єдина онтологія даних</span>
+                  <span className="text-slate-300">Єдина онтологія даних</span>
                   <span className={`px-1.5 py-0.5 rounded font-medium text-[9px] border ${getComplexityColor(complexity.ontology)}`}>
                     {getComplexityLabel(complexity.ontology)}
                   </span>
@@ -209,7 +209,7 @@ export default function GapAnalysisTab() {
               {/* Team Size */}
               <div className="space-y-1 pt-2 border-t border-indigo-500/10/60">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-400">Кількість розробників</span>
+                  <span className="text-slate-300">Кількість розробників</span>
                   <span className="text-indigo-400 font-bold font-mono">{teamSize} чол.</span>
                 </div>
                 <input
@@ -226,7 +226,7 @@ export default function GapAnalysisTab() {
               {/* Hourly Rate */}
               <div className="space-y-1">
                 <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-400">Погодинна ставка розробника</span>
+                  <span className="text-slate-300">Погодинна ставка розробника</span>
                   <span className="text-emerald-400 font-bold font-mono">${developerRate}/год</span>
                 </div>
                 <input
@@ -308,7 +308,7 @@ export default function GapAnalysisTab() {
                 </div>
 
                 {/* Card Description */}
-                <p className="text-xs text-slate-400 leading-relaxed bg-slate-950/40 p-3 rounded-lg border border-indigo-500/5/60">
+                <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/40 p-3 rounded-lg border border-indigo-500/5/60">
                   {item.description}
                 </p>
 
