@@ -1,76 +1,76 @@
 const fs = require('fs');
-let content = fs.readFileSync('src/components/DashboardView.tsx', 'utf-8');
+let code = fs.readFileSync('src/components/OsintWorkbench.tsx', 'utf8');
 
-// 1. Move riskDynamicsData to state and add chart update logic
-const stateInitialData = `  const initialChartData = [
-    { date: '06-18', operations: 12, critical: 2 },
-    { date: '06-21', operations: 19, critical: 5 },
-    { date: '06-24', operations: 15, critical: 1 },
-    { date: '06-27', operations: 22, critical: 8 },
-    { date: '06-30', operations: 30, critical: 12 },
-    { date: '07-03', operations: 28, critical: 9 },
-    { date: '07-06', operations: 35, critical: 15 },
-    { date: '07-09', operations: 42, critical: 18 },
-    { date: '07-12', operations: 38, critical: 11 },
-    { date: '07-15', operations: 45, critical: 22 },
-  ];
-  const [chartData, setChartData] = React.useState(initialChartData);
-  const [isChartUpdating, setIsChartUpdating] = React.useState(false);
-`;
+// 1. Add imports
+const importTarget = `import { OSINT_ENTITIES, OsintEntity } from '../osintData';`;
+const importReplacement = `import { OSINT_ENTITIES, OsintEntity } from '../osintData';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';`;
 
-content = content.replace(/const riskDynamicsData = \[[^\]]+\];\n/s, "");
-content = content.replace(
-  "  const [activeHoverId, setActiveHoverId] = React.useState<string | null>(null);",
-  "  const [activeHoverId, setActiveHoverId] = React.useState<string | null>(null);\n" + stateInitialData
-);
+code = code.replace(importTarget, importReplacement);
 
-// 2. Modify triggerDatabaseSync to also "refresh" chart data
-const newTriggerDatabaseSync = `
-  const triggerDatabaseSync = () => {
-    if (syncStatus === 'SYNCING') return;
-    setSyncStatus('SYNCING');
-    setSyncProgress(0);
-    setIsChartUpdating(true); // Start pulse effect
-    const interval = setInterval(() => {
-      setSyncProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setSyncStatus('DONE');
-          
-          // Simulate updated data
-          setChartData(prevData => {
-            const newData = [...prevData];
-            newData[newData.length - 1] = {
-              ...newData[newData.length - 1],
-              operations: newData[newData.length - 1].operations + Math.floor(Math.random() * 5),
-              critical: newData[newData.length - 1].critical + Math.floor(Math.random() * 2)
-            };
-            return newData;
-          });
-          
-          // Stop pulse after a short delay
-          setTimeout(() => setIsChartUpdating(false), 800);
-          
-          return 100;
-        }
-        return prev + 20;
-      });
-    }, 400);
-  };
-`;
-content = content.replace(/  const triggerDatabaseSync = \(\) => \{.*?(?=  \/\/ Trigger immediate)/s, newTriggerDatabaseSync + "\n");
+// 2. Add data generator inside OsintWorkbench
+const generatorTarget = `  const [pdfConfig, setPdfConfig] = useState({`;
+const generatorReplacement = `  const getRiskDynamicsData = useMemo(() => (entity: OsintEntity) => {
+    const hash = entity.id.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0);
+    const baseRisk = entity.riskScore;
+    const data = [];
+    const months = ['Сер', 'Вер', 'Жов', 'Лис', 'Гру', 'Січ', 'Лют', 'Бер', 'Кві', 'Тра', 'Чер', 'Лип'];
+    for (let i = 0; i < 12; i++) {
+      const variance = (Math.sin(hash + i) * 15);
+      let val = Math.round(baseRisk - 10 + (i * 0.8) + variance);
+      if (i === 11) val = baseRisk;
+      val = Math.max(0, Math.min(100, val));
+      data.push({ month: months[i], risk: val });
+    }
+    return data;
+  }, []);
 
-// 3. Update the AreaChart data reference and add pulse effect to its container
-content = content.replace(
-  `<AreaChart data={riskDynamicsData}`,
-  `<AreaChart data={chartData}`
-);
+  const [pdfConfig, setPdfConfig] = useState({`;
 
-// We need to apply the pulse effect. Let's find the container.
-content = content.replace(
-  `<div className="h-[220px] w-full">`,
-  `<div className={\`h-[220px] w-full transition-all duration-700 \${isChartUpdating ? 'opacity-50 blur-[2px] scale-[0.98]' : 'opacity-100 blur-0 scale-100'}\`}>`
-);
+code = code.replace(generatorTarget, generatorReplacement);
 
-fs.writeFileSync('src/components/DashboardView.tsx', content);
-console.log('Successfully patched DashboardView.tsx');
+// 3. Add the chart component
+const chartTarget = `              {/* Description */}
+              <div className="space-y-1.5">
+                <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Аналітична замітка (Огляд)</span>
+                <p className="text-slate-300 leading-relaxed text-[11px] whitespace-pre-line bg-slate-950/50 p-3 rounded-xl border border-blue-500/5">
+                  {activeEntity.description}
+                </p>
+              </div>`;
+
+const chartReplacement = `              {/* Description */}
+              <div className="space-y-1.5">
+                <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Аналітична замітка (Огляд)</span>
+                <p className="text-slate-300 leading-relaxed text-[11px] whitespace-pre-line bg-slate-950/50 p-3 rounded-xl border border-blue-500/5">
+                  {activeEntity.description}
+                </p>
+              </div>
+
+              {/* Risk Dynamics Chart */}
+              <div className="space-y-1.5">
+                <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Динаміка рівня ризику (12 місяців)</span>
+                <div className="bg-slate-950/50 p-3 rounded-xl border border-blue-500/5 h-[180px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={getRiskDynamicsData(activeEntity)} margin={{ top: 5, right: 0, left: -25, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorRisk" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor={activeEntity.riskScore >= 80 ? '#f43f5e' : activeEntity.riskScore >= 50 ? '#f59e0b' : '#10b981'} stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor={activeEntity.riskScore >= 80 ? '#f43f5e' : activeEntity.riskScore >= 50 ? '#f59e0b' : '#10b981'} stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.4} vertical={false} />
+                      <XAxis dataKey="month" stroke="#64748b" fontSize={9} tickLine={false} axisLine={false} />
+                      <YAxis stroke="#64748b" fontSize={9} tickLine={false} axisLine={false} domain={[0, 100]} />
+                      <RechartsTooltip 
+                        contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', borderColor: 'rgba(59, 130, 246, 0.2)', fontSize: '10px', borderRadius: '8px' }}
+                        itemStyle={{ color: '#e2e8f0', fontWeight: 'bold' }}
+                      />
+                      <Area type="monotone" dataKey="risk" stroke={activeEntity.riskScore >= 80 ? '#f43f5e' : activeEntity.riskScore >= 50 ? '#f59e0b' : '#10b981'} strokeWidth={2} fillOpacity={1} fill="url(#colorRisk)" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>`;
+
+code = code.replace(chartTarget, chartReplacement);
+
+fs.writeFileSync('src/components/OsintWorkbench.tsx', code);

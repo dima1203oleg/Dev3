@@ -13,83 +13,75 @@ body {
   background-color: #030712;
   color: #f3f4f6;
   font-family: var(--font-sans);
-  background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, transparent 70%);
+  background-image: 
+    radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(30, 27, 75, 0.5) 0%, transparent 80%);
   background-attachment: fixed;
 }
 
 ::selection {
-  background: rgba(217, 70, 239, 0.3);
-  color: #fdf4ff;
+  background: rgba(99, 102, 241, 0.4);
+  color: #ffffff;
 }
 
-/* Subtle glow for fuchsia elements */
+/* Elegant glow for premium components */
+.glow-premium {
+  box-shadow: 0 0 30px -5px rgba(99, 102, 241, 0.3);
+}
+
 .glow-fuchsia {
   box-shadow: 0 0 15px rgba(217, 70, 239, 0.15);
 }
 
-/* Custom scrollbar to keep it clean and tech-y */
+/* Premium scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 3px;
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 6px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: rgba(148, 163, 184, 0.4);
 }
 
-/* Custom smooth scrolling marquee animation for the Tactical Ticker */
+/* Animations */
 @keyframes marquee {
   0% { transform: translateX(50%); }
   100% { transform: translateX(-100%); }
 }
-
 .animate-marquee {
   display: inline-flex;
   animation: marquee 35s linear infinite;
   will-change: transform;
 }
-
 .animate-marquee:hover {
   animation-play-state: paused;
 }
 
-
 @keyframes data-pulse {
   0% { opacity: 1; filter: blur(0px); transform: scale(1); }
-  50% { opacity: 0.5; filter: blur(3px); transform: scale(0.98); }
+  50% { opacity: 0.5; filter: blur(2px); transform: scale(0.99); }
   100% { opacity: 1; filter: blur(0px); transform: scale(1); }
 }
-
 .animate-data-pulse {
-  animation: data-pulse 0.8s ease-in-out;
-}
-
-/* Global scrollbar improvements */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.5); 
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(71, 85, 105, 0.5); 
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.6); 
+  animation: data-pulse 1.2s ease-in-out;
 }
 
 @keyframes waveform {
   0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
   50% { transform: scaleY(1.5); opacity: 1; }
+}
+
+/* Smooth glass utilities */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }

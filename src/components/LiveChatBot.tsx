@@ -290,6 +290,19 @@ export function LiveChatBot() {
     setTextInput('');
   };
 
+  const handleSuggestionClick = (text: string) => {
+    if (!wsRef.current) return;
+    
+    if (!outputAudioCtxRef.current) {
+      const outputAudioCtx = new AudioContext({ sampleRate: 24000 });
+      outputAudioCtxRef.current = outputAudioCtx;
+      nextStartTimeRef.current = outputAudioCtx.currentTime;
+    }
+
+    setMessages(prev => [...prev, { id: Date.now().toString(), sender: 'user', text: text }]);
+    wsRef.current.send(JSON.stringify({ text: text }));
+  };
+
   return (
     <div className="fixed bottom-6 right-6 z-50">
       <AnimatePresence>
@@ -298,12 +311,12 @@ export function LiveChatBot() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="absolute bottom-20 right-0 w-[380px] h-[550px] bg-slate-950/95 border border-indigo-500/30 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.5)] backdrop-blur-md flex flex-col overflow-hidden"
+            className="absolute bottom-20 right-0 w-[380px] h-[550px] bg-slate-950/95 border border-blue-500/30 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.5)] backdrop-blur-md flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="px-4 py-3 bg-slate-900/60 border-b border-indigo-500/10 flex items-center justify-between">
+            <div className="px-4 py-3 bg-slate-900/60 border-b border-blue-500/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Bot className="w-5 h-5 text-indigo-400" />
+                <Bot className="w-5 h-5 text-blue-400" />
                 <div>
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider">MARIARTI</h3>
                   <span className="text-[9px] text-emerald-400 font-mono flex items-center gap-1">
@@ -319,14 +332,37 @@ export function LiveChatBot() {
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.length === 0 && (
-                <div className="h-full flex flex-col items-center justify-center text-center space-y-3 opacity-50">
-                  <Bot className="w-12 h-12 text-indigo-400" />
-                  <p className="text-xs text-slate-300 font-mono">MARIARTI готовий.<br/>Задайте питання або увімкніть мікрофон.</p>
+                <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
+                  <div className="opacity-50 flex flex-col items-center justify-center space-y-2">
+                    <Bot className="w-12 h-12 text-blue-400" />
+                    <p className="text-xs text-slate-300 font-mono">MARIARTI готовий.<br/>Задайте питання або увімкніть мікрофон.</p>
+                  </div>
+                  <div className="w-full px-2 pt-2 space-y-1.5 text-left">
+                    <p className="text-[10px] uppercase tracking-wider font-mono text-blue-400/70 font-semibold px-1">Швидкі розслідування:</p>
+                    <div className="grid grid-cols-1 gap-1.5">
+                      {[
+                        "Проаналізуй ТОВ 'СпецТехПостач'",
+                        "Знайди бенефіціарів Коваленка Ігоря",
+                        "Перевір Bitcoin гаманець 0x38ac",
+                        "Які діють санкції РНБО проти компаній?"
+                      ].map((item, idx) => (
+                        <motion.button
+                          key={idx}
+                          whileHover={{ scale: 1.01, backgroundColor: "rgba(59, 130, 246, 0.1)" }}
+                          whileTap={{ scale: 0.99 }}
+                          onClick={() => handleSuggestionClick(item)}
+                          className="w-full text-left p-2.5 rounded-xl border border-blue-500/10 hover:border-blue-500/30 bg-slate-900/40 text-[11px] text-slate-300 font-mono transition-all"
+                        >
+                          ⚡ {item}
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] rounded-2xl p-3 text-xs leading-relaxed ${msg.sender === 'user' ? 'bg-indigo-600 text-white' : 'bg-slate-900/80 border border-indigo-500/10 text-slate-300'}`}>
+                  <div className={`max-w-[85%] rounded-2xl p-3 text-xs leading-relaxed ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-slate-900/80 border border-blue-500/10 text-slate-300'}`}>
                     <p className="whitespace-pre-line">{msg.text}</p>
                   </div>
                 </div>
@@ -343,8 +379,8 @@ export function LiveChatBot() {
             )}
 
             {/* Input Area */}
-            <div className="p-2 bg-slate-900/60 border-t border-indigo-500/10">
-              <form onSubmit={handleSendText} className="flex items-center gap-1.5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] p-1.5 rounded-2xl border border-indigo-500/10/80">
+            <div className="p-2 bg-slate-900/60 border-t border-blue-500/10">
+              <form onSubmit={handleSendText} className="flex items-center gap-1.5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] p-1.5 rounded-2xl border border-blue-500/10/80">
                 <button
                   type="button"
                   onClick={isActive ? stopMic : startMic}
@@ -379,7 +415,7 @@ export function LiveChatBot() {
                 <button
                   type="submit"
                   disabled={!textInput.trim()}
-                  className="p-2 rounded-xl transition-all bg-indigo-600 hover:bg-indigo-500 disabled:bg-transparent disabled:text-slate-600 text-white"
+                  className="p-2 rounded-xl transition-all bg-blue-600 hover:bg-blue-500 disabled:bg-transparent disabled:text-slate-600 text-white"
                 >
                   <Send className="w-4 h-4" />
                 </button>

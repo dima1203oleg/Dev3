@@ -65,6 +65,82 @@
         "metrics",
         "updatedAt"
       ]
+    },
+    "customRegistry": {
+      "title": "Custom Registry",
+      "description": "Custom data source / registry integrated by user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "flag": { "type": "string" },
+        "category": { "type": "string", "enum": ["UA_STATE", "INT_REGISTRY", "OSINT_CYBER"] },
+        "owner": { "type": "string" },
+        "endpoint": { "type": "string" },
+        "authMethod": { "type": "string", "enum": ["OAuth2", "API Key", "Bearer Token", "None"] },
+        "rateLimit": { "type": "string" },
+        "schedule": { "type": "string" },
+        "confidence": { "type": "number" },
+        "qualityScore": { "type": "number" },
+        "rowsLoaded": { "type": "number" },
+        "status": { "type": "string", "enum": ["ACTIVE", "SYNCING", "SELF_HEALING", "ERROR"] },
+        "latency": { "type": "number" },
+        "hasOpenAPI": { "type": "boolean" }
+      },
+      "required": ["id", "name", "category", "endpoint", "authMethod", "status"]
+    },
+    "agentTask": {
+      "title": "Agent Task",
+      "description": "An asynchronous autonomous agent task",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "status": { "type": "string", "enum": ["QUEUED", "RUNNING", "COMPLETED", "FAILED"] },
+        "priority": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
+        "agent": { "type": "string" },
+        "progress": { "type": "number" },
+        "logs": { "type": "array" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "status", "priority", "agent", "progress", "logs"]
+    },
+    "councilVoteModel": {
+      "title": "Council Vote Model",
+      "description": "Single LLM vote detail",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "vote": { "type": "string", "enum": ["APPROVE", "REJECT", "ABSTAIN"] },
+        "reason": { "type": "string" },
+        "confidence": { "type": "number" }
+      },
+      "required": ["name", "vote", "reason", "confidence"]
+    },
+    "councilVote": {
+      "title": "Council Vote",
+      "description": "LLM council voting consensus record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "scenario": { "type": "string" },
+        "verdict": { "type": "string" },
+        "models": { "type": "array", "items": { "$ref": "#/entities/councilVoteModel" } },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "scenario", "verdict", "models"]
+    },
+    "telegramLog": {
+      "title": "Telegram Log",
+      "description": "Simulated or actual telegram communication logs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "sender": { "type": "string", "enum": ["user", "bot", "system"] },
+        "message": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "sender", "message", "timestamp"]
     }
   },
   "firestore": {
@@ -79,6 +155,30 @@
         "$ref": "#/entities/dashboardData"
       },
       "description": "Dashboard data singleton"
+    },
+    "custom_registries/{docId}": {
+      "schema": {
+        "$ref": "#/entities/customRegistry"
+      },
+      "description": "Custom registries sources uploaded by operator"
+    },
+    "agent_tasks/{docId}": {
+      "schema": {
+        "$ref": "#/entities/agentTask"
+      },
+      "description": "List of autonomous tasks in OODA orchestra"
+    },
+    "council_votes/{docId}": {
+      "schema": {
+        "$ref": "#/entities/councilVote"
+      },
+      "description": "Consensus voting records of LLM Council"
+    },
+    "telegram_logs/{docId}": {
+      "schema": {
+        "$ref": "#/entities/telegramLog"
+      },
+      "description": "Telegram log trace"
     }
   }
 }

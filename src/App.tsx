@@ -12,11 +12,15 @@ import RoadmapTab from './components/RoadmapTab';
 import VolumesTab from './components/VolumesTab';
 import AdvisorTab from './components/AdvisorTab';
 import OsintWorkbench from './components/OsintWorkbench';
+import PersonProfiler from './components/PersonProfiler';
 import DashboardView from './components/DashboardView';
+import DataIngestionTab from './components/DataIngestionTab';
 import InspectorPanel from './components/InspectorPanel';
 import LiveAnalyticalCenter from './components/LiveAnalyticalCenter';
 import AdminBackOffice from './components/AdminBackOffice';
+import AutonomousFactory from './components/AutonomousFactory';
 import MapsTab from './components/MapsTab';
+import InvestigationSandbox from './components/InvestigationSandbox';
 import { MediaForensicsTab } from './components/MediaForensicsTab';
 import { OSINT_ENTITIES, OsintEntity } from './osintData';
 import { SOLUTIONS } from './data';
@@ -26,17 +30,17 @@ import {
   Menu, X, Search, Bell, User, Terminal, Cpu, Database, 
   Activity, Camera, Landmark, MessageSquare, Sparkles, Send, HelpCircle,
   Maximize2, Minimize2, Settings, ShieldAlert, Compass,
-  Briefcase, Truck, Globe, TrendingUp, Users, Map, Mic
+  Briefcase, Truck, Globe, TrendingUp, Users, Map, Mic, UserCheck
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { LiveChatBot } from './components/LiveChatBot';
 import { AuthStatus } from './components/AuthStatus';
 
-type TabId = 'live-analytical-center' | 'admin-back-office' | 'dashboard' | 'osint' | 'maps' | 'catalog' | 'license' | 'architecture' | 'gap' | 'roadmap' | 'volumes' | 'advisor';
+type TabId = 'live-analytical-center' | 'admin-back-office' | 'dashboard' | 'osint' | 'person-profiler' | 'maps' | 'catalog' | 'license' | 'architecture' | 'gap' | 'roadmap' | 'volumes' | 'advisor' | 'sandbox' | 'media-forensics' | 'data-ingestion' | 'autonomous-factory';
 
 export default function App() {
   const [ecosystem, setEcosystem] = useState<'user' | 'admin'>('user');
-  const [activeTab, setActiveTab] = useState<TabId>('live-analytical-center');
+  const [activeTab, setActiveTab] = useState<TabId>('data-ingestion');
   const [selectedScenario, setSelectedScenario] = useState<string>('business');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isInspectorOpen, setIsInspectorOpen] = useState(true);
@@ -142,7 +146,7 @@ export default function App() {
   const [isAiChatOpen, setIsAiChatOpen] = useState(false);
   const [chatMessage, setChatMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([
-    { sender: 'ai', text: 'Вітаю. Я аналітичний ШІ-асистент PREDATOR. Я можу знайти приховані зв\'язки, написати висновки про компанії або згенерувати SQL-запити до бази.' }
+    { sender: 'ai', text: 'Вітаю. Я аналітичний ШІ-асистент NEXUS. Я можу знайти приховані зв\'язки, написати висновки про компанії або згенерувати SQL-запити до бази.' }
   ]);
 
   // Spotlight / Command Center State
@@ -274,7 +278,7 @@ export default function App() {
     }
     if (lower.includes('ядро') || lower.includes('центр') || lower.includes('live') || lower.includes('шi')) {
       setActiveTab('live-analytical-center');
-      const msg = `Перехід до живого аналітичного ядра PREDATOR`;
+      const msg = `Перехід до живого аналітичного ядра NEXUS`;
       setVoiceFeedback(msg);
       speakText(msg);
       return;
@@ -283,6 +287,13 @@ export default function App() {
       setEcosystem('admin');
       setActiveTab('admin-back-office');
       const msg = `Доступ надано. Перехід у बैक офіс консоль`;
+      setVoiceFeedback(msg);
+      speakText(msg);
+      return;
+    }
+    if (lower.includes('пісочниця') || lower.includes('павутина') || lower.includes('sandbox') || lower.includes('investigation')) {
+      setActiveTab('sandbox');
+      const msg = `Перехід до аналітичної пісочниці Павутина`;
       setVoiceFeedback(msg);
       speakText(msg);
       return;
@@ -391,12 +402,12 @@ export default function App() {
       }
     }
 
-    // 4. Default: Chat with Jarvis
+    // 4. Default: Chat with NEXUS
     setChatHistory(prev => [...prev, { sender: 'user', text: text }]);
     setIsAiChatOpen(true);
     
     setTimeout(() => {
-      let aiResponse = "Голосовий запит опрацьовано ШІ-ядром PREDATOR через Web Speech API. Збігів у базі санкцій не знайдено.";
+      let aiResponse = "Голосовий запит опрацьовано ШІ-ядром NEXUS через Web Speech API. Збігів у базі санкцій не знайдено.";
       
       if (lower.includes('санкції') || lower.includes('рнбо')) {
         aiResponse = "ШІ знайшов критичну загрозу: ТОВ 'СпецТехПостач' (код 38294012) знаходиться під санкціями РНБО з 2026 року через обхід експортних обмежень через турецьких контрагентів.";
@@ -486,6 +497,17 @@ export default function App() {
 
   // Handle key escape and Ctrl/Cmd+K to toggle Spotlight
   useEffect(() => {
+    const handleTabChange = (e: Event) => {
+      const customEvent = e as CustomEvent<TabId>;
+      if (customEvent.detail) {
+        setActiveTab(customEvent.detail);
+      }
+    };
+    window.addEventListener('change-active-tab', handleTabChange);
+    return () => window.removeEventListener('change-active-tab', handleTabChange);
+  }, []);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setIsInspectorOpen(false);
@@ -531,7 +553,7 @@ export default function App() {
       };
     } else {
       const allNavs = [
-        { id: 'live-analytical-center', label: '🛰️ Живе ШІ-Ядро (Спецпроект PREDATOR)', type: 'nav' },
+        { id: 'live-analytical-center', label: '🛰️ Живе ШІ-Ядро (Спецпроект NEXUS)', type: 'nav' },
         { id: 'dashboard', label: '📊 Інтерактивний Дашборд', type: 'nav' },
         { id: 'osint', label: '🔍 Робочий стіл OSINT пошуку', type: 'nav' },
         { id: 'architecture', label: '🕸️ Граф архітектури та залежностей', type: 'nav' },
@@ -542,7 +564,7 @@ export default function App() {
       ];
 
       const allActions = [
-        { id: 'mute-toggle', label: isIphoneMuted ? '🔊 Увімкнути звук коментаря (Jarvis uk-UA)' : '🔇 Вимкнути звук коментаря', type: 'action' },
+        { id: 'mute-toggle', label: isIphoneMuted ? '🔊 Увімкнути звук коментаря (NEXUS uk-UA)' : '🔇 Вимкнути звук коментаря', type: 'action' },
         { id: 'lock-toggle', label: isIphoneLocked ? '🔓 Розблокувати iPhone 15 Pro' : '🔒 Заблокувати iPhone 15 Pro', type: 'action' },
         { id: 'vol-up', label: '🔊 Збільшити гучність симулятора (+10%)', type: 'action' },
         { id: 'vol-down', label: '🔉 Зменшити гучність симулятора (-10%)', type: 'action' },
@@ -658,10 +680,10 @@ export default function App() {
 
   const renderMobileMainContent = () => {
     return (
-      <div className="h-full flex flex-col relative bg-[#020611] text-slate-100 font-sans bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" style={{ backgroundBlendMode: 'color-dodge' }} id="mobile-viewport-root">
+      <div className="h-full flex flex-col relative bg-slate-950 text-slate-100 font-sans " style={{ backgroundBlendMode: 'color-dodge' }} id="mobile-viewport-root">
         
         {/* Compact iOS / Mobile App Header */}
-        <header className="border-b border-indigo-500/5 bg-[#050c18]/90 backdrop-blur-md px-4 py-3 flex items-center justify-between gap-2 sticky top-0 z-40">
+        <header className="border-b border-blue-500/5 bg-slate-900/90 backdrop-blur-md px-4 py-3 flex items-center justify-between gap-2 sticky top-0 z-40">
           <div className="flex items-center gap-2.5">
             <button 
               onClick={() => setMobileMenuOpen(true)}
@@ -670,10 +692,10 @@ export default function App() {
               <Menu className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded bg-indigo-600 flex items-center justify-center font-mono font-black text-xs text-white shadow shadow-indigo-500/20">
+              <div className="w-6 h-6 rounded bg-blue-600 flex items-center justify-center font-mono font-black text-xs text-white shadow shadow-blue-500/20">
                 P
               </div>
-              <span className="text-xs font-black uppercase text-white font-mono tracking-wider">PREDATOR</span>
+              <span className="text-xs font-black uppercase text-white font-mono tracking-wider">NEXUS</span>
             </div>
           </div>
 
@@ -688,7 +710,7 @@ export default function App() {
             {!isRealMobile && (
               <button
                 onClick={() => setDeviceMode('desktop')}
-                className="px-2 py-1 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 rounded-lg text-[8px] font-bold font-mono text-indigo-400 hover:bg-slate-850 transition-all"
+                className="px-2 py-1 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-blue-500/10 rounded-lg text-[8px] font-bold font-mono text-blue-400 hover:bg-slate-850 transition-all"
                 title="Режим Десктоп"
               >
                 ДЕСКТОП 💻
@@ -702,9 +724,9 @@ export default function App() {
           
           {/* Mobile Breadcrumb */}
           <div className="flex items-center gap-1.5 text-[8px] text-slate-500 font-mono uppercase tracking-widest mb-1">
-            <span>PREDATOR OS</span>
+            <span>NEXUS OS</span>
             <span>/</span>
-            <span className="text-indigo-400 font-bold truncate max-w-[150px]">
+            <span className="text-blue-400 font-bold truncate max-w-[150px]">
               {activeTab === 'live-analytical-center' ? 'ЖИВЕ ШІ-ЯДРО' : activeTab.toUpperCase().replace('-', ' ')}
             </span>
           </div>
@@ -767,7 +789,9 @@ export default function App() {
               {activeTab === 'roadmap' && <RoadmapTab />}
               {activeTab === 'volumes' && <VolumesTab />}
               {activeTab === 'advisor' && <AdvisorTab />}
-                {activeTab === 'media-forensics' && <MediaForensicsTab />}
+              {activeTab === 'media-forensics' && <MediaForensicsTab />}
+              {activeTab === 'data-ingestion' && <DataIngestionTab />}
+              {activeTab === 'autonomous-factory' && <AutonomousFactory />}
             </motion.div>
           </AnimatePresence>
         </main>
@@ -791,17 +815,17 @@ export default function App() {
                 animate={{ x: 0 }}
                 exit={{ x: '-100%' }}
                 transition={{ type: 'spring', damping: 26, stiffness: 220 }}
-                className="absolute left-0 top-0 bottom-0 w-[280px] bg-[#050b14] border-r border-indigo-500/5 z-50 flex flex-col justify-between shadow-2xl"
+                className="absolute left-0 top-0 bottom-0 w-[280px] bg-[#050b14] border-r border-blue-500/5 z-50 flex flex-col justify-between shadow-2xl"
               >
                 <div className="p-4 space-y-5 overflow-y-auto flex-1">
                   
                   {/* Header */}
-                  <div className="flex items-center justify-between border-b border-indigo-500/5 pb-3.5">
+                  <div className="flex items-center justify-between border-b border-blue-500/5 pb-3.5">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-mono font-black text-white shadow">P</div>
+                      <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-mono font-black text-white shadow">N</div>
                       <div>
-                        <h2 className="text-xs font-black font-mono tracking-wider uppercase text-white">PREDATOR MOBILE</h2>
-                        <p className="text-[8px] text-indigo-400 font-mono tracking-widest font-semibold">TACTICAL OSINT v2.1</p>
+                        <h2 className="text-xs font-black font-mono tracking-wider uppercase text-white">NEXUS MOBILE</h2>
+                        <p className="text-[8px] text-blue-400 font-mono tracking-widest font-semibold">CORPORATE OSINT v2.1</p>
                       </div>
                     </div>
                     <button
@@ -824,7 +848,7 @@ export default function App() {
                           setActiveTab('live-analytical-center');
                           setMobileMenuOpen(false);
                         }}
-                        className={`py-2 rounded-lg text-[8px] font-black font-mono uppercase tracking-wider transition-all text-center ${ecosystem === 'user' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-300'}`}
+                        className={`py-2 rounded-lg text-[8px] font-black font-mono uppercase tracking-wider transition-all text-center ${ecosystem === 'user' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-300'}`}
                       >
                         🛰️ USER SPACE
                       </button>
@@ -834,7 +858,7 @@ export default function App() {
                           setActiveTab('admin-back-office');
                           setMobileMenuOpen(false);
                         }}
-                        className={`py-2 rounded-lg text-[8px] font-black font-mono uppercase tracking-wider transition-all text-center ${ecosystem === 'admin' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-300'}`}
+                        className={`py-2 rounded-lg text-[8px] font-black font-mono uppercase tracking-wider transition-all text-center ${ecosystem === 'admin' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-300'}`}
                       >
                         ⚙️ ADMIN SPACE
                       </button>
@@ -843,7 +867,7 @@ export default function App() {
 
                   {/* Scenarios / Action tabs list */}
                   <div className="space-y-2">
-                    <span className="text-[8px] text-indigo-400 font-mono font-bold uppercase tracking-widest block px-1">
+                    <span className="text-[8px] text-blue-400 font-mono font-bold uppercase tracking-widest block px-1">
                       {ecosystem === 'user' ? '🔮 СЦЕНАРІЇ ДОСЛІДЖЕННЯ' : '⚙️ АДМІНІСТРУВАННЯ'}
                     </span>
                     
@@ -856,7 +880,7 @@ export default function App() {
                           { id: 'customs', label: 'Митна декларація', icon: Database },
                           { id: 'geography', label: 'Гео-аналітика', icon: Globe },
                           { id: 'analytics', label: 'Прогнозування', icon: TrendingUp },
-                          { id: 'assistant', label: 'ШІ-Асистент Jarvis', icon: Bot },
+                          { id: 'assistant', label: 'ШІ-Асистент NEXUS', icon: Bot },
                           { id: 'partners', label: 'Контрагенти', icon: Users },
                           { id: 'risks', label: 'Рівні ризиків', icon: ShieldAlert },
                         ].map((scen) => {
@@ -870,7 +894,7 @@ export default function App() {
                                 setSelectedScenario(scen.id);
                                 setMobileMenuOpen(false);
                               }}
-                              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[10px] font-semibold transition-all text-left border ${isActive ? 'bg-indigo-600/20 text-indigo-400 border-indigo-500/30 shadow-sm' : 'text-slate-300 border-transparent hover:bg-slate-900/30'}`}
+                              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[10px] font-semibold transition-all text-left border ${isActive ? 'bg-blue-600/20 text-blue-400 border-blue-500/30 shadow-sm' : 'text-slate-300 border-transparent hover:bg-slate-900/30'}`}
                             >
                               <Icon className="w-3.5 h-3.5" />
                               <span>{scen.label}</span>
@@ -895,7 +919,7 @@ export default function App() {
                                 setActiveTab(tab.id as TabId);
                                 setMobileMenuOpen(false);
                               }}
-                              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[10px] font-semibold transition-all text-left border ${isActive ? 'bg-indigo-600/20 text-indigo-400 border-indigo-500/30 shadow-sm' : 'text-slate-300 border-transparent hover:bg-slate-900/30'}`}
+                              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[10px] font-semibold transition-all text-left border ${isActive ? 'bg-blue-600/20 text-blue-400 border-blue-500/30 shadow-sm' : 'text-slate-300 border-transparent hover:bg-slate-900/30'}`}
                             >
                               <Icon className="w-3.5 h-3.5" />
                               <span>{tab.label}</span>
@@ -907,7 +931,7 @@ export default function App() {
                   </div>
 
                   {/* Mobile Stats alert */}
-                  <div className="bg-[#020612] border border-indigo-500/5 p-3 rounded-xl space-y-1.5 text-[9px] font-mono">
+                  <div className="bg-[#020612] border border-blue-500/5 p-3 rounded-xl space-y-1.5 text-[9px] font-mono">
                     <span className="text-[7px] text-slate-500 font-bold uppercase tracking-wider block">СТАТУС З'ЄДНАННЯ</span>
                     <div className="flex justify-between">
                       <span className="text-slate-300">Пінґ Сервера:</span>
@@ -915,13 +939,13 @@ export default function App() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-300">Канали зв'язку:</span>
-                      <span className="text-indigo-400 font-bold">Зашифровано</span>
+                      <span className="text-blue-400 font-bold">Зашифровано</span>
                     </div>
                   </div>
 
                 </div>
 
-                <div className="p-3.5 border-t border-indigo-500/5 text-center text-[8px] text-slate-600 font-mono tracking-widest uppercase">
+                <div className="p-3.5 border-t border-blue-500/5 text-center text-[8px] text-slate-600 font-mono tracking-widest uppercase">
                   Military Crypto v3.5
                 </div>
               </motion.aside>
@@ -948,11 +972,11 @@ export default function App() {
                 animate={{ y: 0 }}
                 exit={{ y: '100%' }}
                 transition={{ type: 'spring', damping: 25, stiffness: 220 }}
-                className="absolute left-0 right-0 bottom-0 h-[72%] bg-[#050b14] border-t border-indigo-500/10 rounded-t-[32px] z-50 flex flex-col shadow-2xl overflow-hidden select-text"
+                className="absolute left-0 right-0 bottom-0 h-[72%] bg-[#050b14] border-t border-blue-500/10 rounded-t-[32px] z-50 flex flex-col shadow-2xl overflow-hidden select-text"
               >
                 {/* Horizontal Drag handle indicator bar */}
                 <div 
-                  className="py-3 flex justify-center items-center cursor-pointer border-b border-indigo-500/5/60 shrink-0 bg-[#050b14]"
+                  className="py-3 flex justify-center items-center cursor-pointer border-b border-blue-500/5/60 shrink-0 bg-[#050b14]"
                   onClick={() => setIsInspectorOpen(false)}
                 >
                   <div className="w-12 h-1 bg-slate-700 hover:bg-slate-500 rounded-full transition-colors" />
@@ -972,12 +996,12 @@ export default function App() {
           )}
         </AnimatePresence>
 
-        {/* Floating AI Jarvis Chat button (Mobile optimized) */}
+        {/* Floating AI NEXUS Chat button (Mobile optimized) */}
         <div className="fixed bottom-18 right-4 z-40">
           <button
             onClick={() => setIsAiChatOpen(!isAiChatOpen)}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white p-3 rounded-full shadow-lg transition-all flex items-center justify-center border border-indigo-400/20"
-            title="AI Jarvis"
+            className="bg-blue-600 hover:bg-blue-500 text-white p-3 rounded-full shadow-lg transition-all flex items-center justify-center border border-blue-400/20"
+            title="AI NEXUS"
           >
             <Bot className="w-5 h-5" />
           </button>
@@ -990,12 +1014,12 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 30 }}
-              className="absolute bottom-18 right-4 left-4 h-[300px] bg-[#050c18] border border-indigo-500/5 rounded-2xl overflow-hidden shadow-2xl flex flex-col z-40 select-text"
+              className="absolute bottom-18 right-4 left-4 h-[300px] bg-slate-900 border border-blue-500/5 rounded-2xl overflow-hidden shadow-2xl flex flex-col z-40 select-text"
             >
               {/* Header */}
-              <div className="p-2.5 bg-indigo-950/20 border-b border-indigo-500/5 flex items-center justify-between">
+              <div className="p-2.5 bg-indigo-950/20 border-b border-blue-500/5 flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+                  <Sparkles className="w-3.5 h-3.5 text-blue-400" />
                   <span className="text-[9px] font-mono font-bold text-white uppercase tracking-wider">JARVIS ШІ</span>
                 </div>
                 <button onClick={() => setIsAiChatOpen(false)} className="text-slate-500 hover:text-slate-300">
@@ -1008,7 +1032,7 @@ export default function App() {
                 {chatHistory.map((msg, i) => (
                   <div 
                     key={i} 
-                    className={`p-2 rounded-xl leading-relaxed max-w-[90%] ${msg.sender === 'user' ? 'bg-indigo-600 text-white ml-auto' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300'}`}
+                    className={`p-2 rounded-xl leading-relaxed max-w-[90%] ${msg.sender === 'user' ? 'bg-blue-600 text-white ml-auto' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300'}`}
                   >
                     {msg.text}
                   </div>
@@ -1016,7 +1040,7 @@ export default function App() {
               </div>
 
               {/* Chat inputs */}
-              <div className="p-1.5 border-t border-indigo-500/5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] flex items-center gap-1">
+              <div className="p-1.5 border-t border-blue-500/5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] flex items-center gap-1">
                 <input
                   type="text"
                   placeholder="Запитайте ШІ про санкції..."
@@ -1025,16 +1049,16 @@ export default function App() {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleSendMessage();
                   }}
-                  className="flex-1 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 rounded-md px-2 py-1.5 text-[11px] focus:outline-none focus:border-indigo-500/40"
+                  className="flex-1 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 rounded-md px-2 py-1.5 text-[11px] focus:outline-none focus:border-blue-500/40"
                 />
                 <button
                   onClick={startVoiceControl}
-                  className={`p-1.5 rounded-md transition-colors flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300 hover:text-indigo-400'}`}
+                  className={`p-1.5 rounded-md transition-colors flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300 hover:text-blue-400'}`}
                   title="Голосовий ввід"
                 >
                   <Mic className="w-3.5 h-3.5" />
                 </button>
-                <button onClick={handleSendMessage} className="bg-indigo-600 hover:bg-indigo-500 text-white p-1.5 rounded-md transition-colors">
+                <button onClick={handleSendMessage} className="bg-blue-600 hover:bg-blue-500 text-white p-1.5 rounded-md transition-colors">
                   <Send className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -1043,7 +1067,7 @@ export default function App() {
         </AnimatePresence>
 
         {/* Bottom iOS Navigation / Tab Bar */}
-        <nav className="border-t border-indigo-500/5 bg-slate-950/95 backdrop-blur-md px-2 py-1.5 flex items-center justify-around shrink-0 relative z-30 pb-5">
+        <nav className="border-t border-blue-500/5 bg-slate-950/95 backdrop-blur-md px-2 py-1.5 flex items-center justify-around shrink-0 relative z-30 pb-5">
           {[
             { id: 'live-analytical-center', label: 'ШІ-Ядро', icon: Compass },
             { id: 'dashboard', label: 'Дашборд', icon: Layers },
@@ -1064,7 +1088,7 @@ export default function App() {
                     setActiveTab(tab.id as TabId);
                   }
                 }}
-                className={`flex flex-col items-center gap-1.5 cursor-pointer py-1 px-3.5 rounded-xl transition-all ${isActive ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'}`}
+                className={`flex flex-col items-center gap-1.5 cursor-pointer py-1 px-3.5 rounded-xl transition-all ${isActive ? 'text-blue-400' : 'text-slate-500 hover:text-slate-300'}`}
               >
                 <Icon className="w-5 h-5" />
                 <span className="text-[8px] font-bold font-mono tracking-wider">{tab.label}</span>
@@ -1094,16 +1118,16 @@ export default function App() {
         <div className="mb-5 flex flex-col items-center text-center gap-1.5 z-10">
           <div className="flex items-center gap-2">
             <h2 className="text-sm font-black tracking-widest text-slate-300 font-mono uppercase">📱 СИМУЛЯТОР IPHONE 15 PRO</h2>
-            <span className="text-[8px] bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 rounded px-1.5 py-0.5 font-bold uppercase tracking-widest font-mono">
+            <span className="text-[8px] bg-blue-500/15 text-blue-400 border border-blue-500/30 rounded px-1.5 py-0.5 font-bold uppercase tracking-widest font-mono">
               ACTIVE EMBED
             </span>
           </div>
           <p className="text-[10px] text-slate-500 max-w-sm font-mono leading-relaxed uppercase tracking-tight">
-            Інтерфейс системи <strong className="text-indigo-400">PREDATOR</strong> повністю адаптований під iOS та сенсорний інтерфейс.
+            Інтерфейс системи <strong className="text-blue-400">NEXUS</strong> повністю адаптований під iOS та сенсорний інтерфейс.
           </p>
           <button
             onClick={() => setDeviceMode('desktop')}
-            className="mt-2 px-3.5 py-1.5 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 hover:bg-slate-850 text-indigo-400 text-[10px] font-bold font-mono tracking-wider rounded-xl transition-all cursor-pointer shadow flex items-center gap-1.5"
+            className="mt-2 px-3.5 py-1.5 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-blue-500/10 hover:bg-slate-850 text-blue-400 text-[10px] font-bold font-mono tracking-wider rounded-xl transition-all cursor-pointer shadow flex items-center gap-1.5"
           >
             💻 ПОВЕРНУТИСЬ НА ДЕСКТОП
           </button>
@@ -1115,22 +1139,22 @@ export default function App() {
           {/* Side Mechanical Buttons - Clickable & Interactive on Desktop */}
           <button 
             onClick={handleActionButton}
-            className="absolute left-[-6px] top-[140px] w-[6px] h-[35px] bg-[#1e293b] hover:bg-indigo-500 active:scale-95 rounded-l border-r border-slate-950 transition-all z-40 cursor-pointer focus:outline-none" 
+            className="absolute left-[-6px] top-[140px] w-[6px] h-[35px] bg-[#1e293b] hover:bg-blue-500 active:scale-95 rounded-l border-r border-slate-950 transition-all z-40 cursor-pointer focus:outline-none" 
             title="Кнопка Дії: Беззвучний режим"
           />
           <button 
             onClick={() => adjustVolume(10)}
-            className="absolute left-[-6px] top-[195px] w-[6px] h-[60px] bg-[#1e293b] hover:bg-indigo-500 active:scale-95 rounded-l border-r border-slate-950 transition-all z-40 cursor-pointer focus:outline-none" 
+            className="absolute left-[-6px] top-[195px] w-[6px] h-[60px] bg-[#1e293b] hover:bg-blue-500 active:scale-95 rounded-l border-r border-slate-950 transition-all z-40 cursor-pointer focus:outline-none" 
             title="Збільшити гучність (+10%)"
           />
           <button 
             onClick={() => adjustVolume(-10)}
-            className="absolute left-[-6px] top-[265px] w-[6px] h-[60px] bg-[#1e293b] hover:bg-indigo-500 active:scale-95 rounded-l border-r border-slate-950 transition-all z-40 cursor-pointer focus:outline-none" 
+            className="absolute left-[-6px] top-[265px] w-[6px] h-[60px] bg-[#1e293b] hover:bg-blue-500 active:scale-95 rounded-l border-r border-slate-950 transition-all z-40 cursor-pointer focus:outline-none" 
             title="Зменшити гучність (-10%)"
           />
           <button 
             onClick={toggleIphonePower}
-            className="absolute right-[-6px] top-[230px] w-[6px] h-[90px] bg-[#1e293b] hover:bg-indigo-500 active:scale-95 rounded-r border-l border-slate-950 transition-all z-40 cursor-pointer focus:outline-none" 
+            className="absolute right-[-6px] top-[230px] w-[6px] h-[90px] bg-[#1e293b] hover:bg-blue-500 active:scale-95 rounded-r border-l border-slate-950 transition-all z-40 cursor-pointer focus:outline-none" 
             title="Кнопка живлення: Блокування екрану"
           />
 
@@ -1146,7 +1170,7 @@ export default function App() {
               >
                 <div className="flex-1 w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-lg overflow-hidden flex flex-col justify-end relative">
                   <motion.div 
-                    className="w-full bg-indigo-500"
+                    className="w-full bg-blue-500"
                     animate={{ height: `${iphoneVolume}%` }}
                     transition={{ duration: 0.1 }}
                   />
@@ -1165,7 +1189,7 @@ export default function App() {
             <motion.div 
               layout
               onClick={handleDynamicIslandClick}
-              className="absolute top-3 left-1/2 -translate-x-1/2 bg-black rounded-[20px] z-50 flex items-center justify-between pointer-events-auto border border-indigo-500/5/80 shadow-2xl cursor-pointer select-none overflow-hidden"
+              className="absolute top-3 left-1/2 -translate-x-1/2 bg-black rounded-[20px] z-50 flex items-center justify-between pointer-events-auto border border-blue-500/5/80 shadow-2xl cursor-pointer select-none overflow-hidden"
               animate={{
                 width: dynamicIslandState === 'expanded' ? 320 : dynamicIslandState === 'voice-listening' ? 240 : dynamicIslandState === 'mute-alert' || dynamicIslandState === 'unmute-alert' ? 150 : 112,
                 height: dynamicIslandState === 'expanded' ? 120 : dynamicIslandState === 'voice-listening' ? 36 : 26,
@@ -1177,10 +1201,10 @@ export default function App() {
             >
               {dynamicIslandState === 'normal' && (
                 <>
-                  <div className="w-2 h-2 bg-indigo-950 rounded-full border border-indigo-500/40 flex items-center justify-center shrink-0">
-                    <div className="w-1 h-1 bg-indigo-400 rounded-full animate-ping"></div>
+                  <div className="w-2 h-2 bg-indigo-950 rounded-full border border-blue-500/40 flex items-center justify-center shrink-0">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full animate-ping"></div>
                   </div>
-                  <span className="text-[7px] text-indigo-400 font-mono font-black tracking-widest uppercase animate-pulse shrink-0">PREDATOR</span>
+                  <span className="text-[7px] text-blue-400 font-mono font-black tracking-widest uppercase animate-pulse shrink-0">NEXUS</span>
                   <div className="w-2 h-2 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-full flex items-center justify-center shrink-0">
                     <div className="w-1 h-1 bg-[#020617] rounded-full"></div>
                   </div>
@@ -1197,11 +1221,11 @@ export default function App() {
                     <span className="text-[7px] uppercase tracking-wider text-red-400 font-bold animate-pulse">Голос</span>
                   </div>
                   <div className="flex items-center gap-0.5 justify-center flex-1 h-3 shrink-0">
-                    <span className="w-0.5 h-2 bg-indigo-400 animate-pulse rounded"></span>
-                    <span className="w-0.5 h-3 bg-indigo-400 animate-pulse rounded delay-75"></span>
-                    <span className="w-0.5 h-1.5 bg-indigo-400 animate-pulse rounded delay-150"></span>
-                    <span className="w-0.5 h-3 bg-indigo-400 animate-pulse rounded delay-200"></span>
-                    <span className="w-0.5 h-1 bg-indigo-400 animate-pulse rounded delay-300"></span>
+                    <span className="w-0.5 h-2 bg-blue-400 animate-pulse rounded"></span>
+                    <span className="w-0.5 h-3 bg-blue-400 animate-pulse rounded delay-75"></span>
+                    <span className="w-0.5 h-1.5 bg-blue-400 animate-pulse rounded delay-150"></span>
+                    <span className="w-0.5 h-3 bg-blue-400 animate-pulse rounded delay-200"></span>
+                    <span className="w-0.5 h-1 bg-blue-400 animate-pulse rounded delay-300"></span>
                   </div>
                   <span className="text-[7px] text-slate-300 truncate max-w-[110px] shrink-0 font-sans italic">
                     {voiceFeedback ? voiceFeedback.replace('Почуто: ', '').replace('Об\'єкт: ', '') : "Слухаю..."}
@@ -1234,10 +1258,10 @@ export default function App() {
                 >
                   <div className="flex justify-between items-center border-b border-white/5 pb-1.5">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-                      <span className="text-[9px] font-mono font-black uppercase text-indigo-400 tracking-wider">PREDATOR INTEL ENGINE</span>
+                      <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                      <span className="text-[9px] font-mono font-black uppercase text-blue-400 tracking-wider">NEXUS INTEL ENGINE</span>
                     </div>
-                    <span className="text-[8px] bg-indigo-500/10 border border-indigo-500/30 px-1.5 py-0.5 rounded text-white font-mono">
+                    <span className="text-[8px] bg-blue-500/10 border border-blue-500/30 px-1.5 py-0.5 rounded text-white font-mono">
                       v2.5
                     </span>
                   </div>
@@ -1249,7 +1273,7 @@ export default function App() {
                     </div>
                     <div className="bg-slate-950/60 p-1.5 rounded-lg border border-white/5 text-center">
                       <p className="text-[7px] text-slate-500 font-mono uppercase">MEM LATENCY</p>
-                      <p className="text-[10px] font-bold text-indigo-400 font-mono">14ms</p>
+                      <p className="text-[10px] font-bold text-blue-400 font-mono">14ms</p>
                     </div>
                     <div className="bg-slate-950/60 p-1.5 rounded-lg border border-white/5 text-center">
                       <p className="text-[7px] text-slate-500 font-mono uppercase">MODELS</p>
@@ -1260,7 +1284,7 @@ export default function App() {
                   <div className="flex items-center justify-between pt-1">
                     <span className="text-[8px] text-slate-300 font-mono flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      Зв'язок захищено (СБУ-VIP)
+                      Зв'язок захищено (ДЕРЖСПЕЦЗВ'ЯЗОК)
                     </span>
                     <button 
                       onClick={(e) => {
@@ -1268,7 +1292,7 @@ export default function App() {
                         setIsAiChatOpen(true);
                         setDynamicIslandState('normal');
                       }}
-                      className="bg-indigo-600 hover:bg-indigo-500 px-2 py-0.5 rounded text-[8px] text-white font-mono font-bold uppercase transition-colors"
+                      className="bg-blue-600 hover:bg-blue-500 px-2 py-0.5 rounded text-[8px] text-white font-mono font-bold uppercase transition-colors"
                     >
                       КЛИК ПО ШІ
                     </button>
@@ -1284,13 +1308,13 @@ export default function App() {
                   initial={{ top: -10, scale: 0.8, opacity: 0 }}
                   animate={{ top: 12, scale: 1, opacity: 1 }}
                   exit={{ top: -10, scale: 0.8, opacity: 0 }}
-                  className="absolute left-1/2 -translate-x-1/2 w-72 bg-black/95 text-white py-2 px-3.5 rounded-full z-50 border border-indigo-500/30 flex items-center justify-between text-[8px] font-mono shadow-2xl pointer-events-auto"
+                  className="absolute left-1/2 -translate-x-1/2 w-72 bg-black/95 text-white py-2 px-3.5 rounded-full z-50 border border-blue-500/30 flex items-center justify-between text-[8px] font-mono shadow-2xl pointer-events-auto"
                 >
                   <div className="flex items-center gap-1.5">
-                    <Sparkles className="w-3 h-3 text-indigo-400 animate-spin" />
+                    <Sparkles className="w-3 h-3 text-blue-400 animate-spin" />
                     <span className="font-bold text-slate-200">JARVIS ШІ: АКТИВНИЙ</span>
                   </div>
-                  <span className="text-[7px] bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded-full font-bold">ОНЛАЙН</span>
+                  <span className="text-[7px] bg-blue-500/20 text-indigo-300 px-1.5 py-0.5 rounded-full font-bold">ОНЛАЙН</span>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -1307,8 +1331,8 @@ export default function App() {
                 <div className="flex gap-[1px] items-end h-2">
                   <div className="w-[1px] h-[3px] bg-slate-400 rounded-full" />
                   <div className="w-[1px] h-[5px] bg-slate-400 rounded-full" />
-                  <div className="w-[1px] h-[7px] bg-indigo-400 rounded-full" />
-                  <div className="w-[1px] h-[9px] bg-indigo-400 rounded-full" />
+                  <div className="w-[1px] h-[7px] bg-blue-400 rounded-full" />
+                  <div className="w-[1px] h-[9px] bg-blue-400 rounded-full" />
                 </div>
                 <span>📶</span>
                 {/* Battery */}
@@ -1333,8 +1357,8 @@ export default function App() {
                   
                   {/* Lock Screen Header */}
                   <div className="relative z-10 flex flex-col items-center mt-12 space-y-1">
-                    <span className="text-[10px] text-indigo-400 font-mono font-bold tracking-[0.25em] uppercase">
-                      🔒 PREDATOR TACTICAL OS
+                    <span className="text-[10px] text-blue-400 font-mono font-bold tracking-[0.25em] uppercase">
+                      🔒 NEXUS CORPORATE OS
                     </span>
                     <h3 className="text-[11px] text-slate-300 font-medium font-sans">
                       {lockscreenDate}
@@ -1359,7 +1383,7 @@ export default function App() {
 
                       {/* System Status */}
                       <div className="bg-white/5 border border-white/10 rounded-2xl p-2.5 flex flex-col items-center justify-center w-[120px] h-[72px]">
-                        <span className="text-[7px] text-indigo-400 font-mono uppercase font-bold tracking-wider">SYSTEM</span>
+                        <span className="text-[7px] text-blue-400 font-mono uppercase font-bold tracking-wider">SYSTEM</span>
                         <div className="text-center mt-1.5 space-y-0.5">
                           <p className="text-[9px] font-bold text-white font-mono">SECURE CHNL</p>
                           <p className="text-[7px] text-slate-500 font-mono">ID: 02894-A</p>
@@ -1401,10 +1425,10 @@ export default function App() {
 
   const renderDesktopLayout = () => {
     return (
-      <div className="min-h-screen bg-transparent text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200" id="predator-hub-app">
+      <div className="min-h-screen bg-transparent text-slate-100 flex flex-col font-sans selection:bg-blue-500/30 selection:text-indigo-200" id="nexus-hub-app">
         
         {/* 1. STICKY HEADER (Section 6) */}
-        <header className="border-b border-indigo-500/5 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-5 py-3.5 flex items-center justify-between gap-4">
+        <header className="border-b border-blue-500/5 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-5 py-3.5 flex items-center justify-between gap-4">
           
           {/* Left: Brand logo & name */}
           <div className="flex items-center gap-3">
@@ -1420,14 +1444,14 @@ export default function App() {
               onClick={() => setActiveTab('dashboard')} 
               className="flex items-center gap-2.5 cursor-pointer"
             >
-              <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center font-mono font-black text-lg tracking-wider text-white shadow-lg shadow-indigo-500/10 border border-indigo-500/30" id="header-logo">
+              <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center font-mono font-black text-lg tracking-wider text-white shadow-lg shadow-blue-500/10 border border-blue-500/30" id="header-logo">
                 P
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className="text-sm font-black tracking-wider uppercase text-white font-mono">PREDATOR Analytics</h1>
-                  <span className="text-[8px] bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 rounded px-1.5 py-0.5 font-bold uppercase tracking-widest font-mono">
-                    MILITARY INTEL
+                  <h1 className="text-sm font-black tracking-wider uppercase text-white font-mono">NEXUS Analytics</h1>
+                  <span className="text-[8px] bg-blue-500/15 text-blue-400 border border-blue-500/30 rounded px-1.5 py-0.5 font-bold uppercase tracking-widest font-mono">
+                    BUSINESS INTEL
                   </span>
                 </div>
                 <p className="text-[10px] text-slate-500 font-semibold font-mono uppercase tracking-tight">
@@ -1441,18 +1465,18 @@ export default function App() {
           <div className="hidden lg:flex items-center gap-2">
             <div 
               onClick={() => setIsSpotlightOpen(true)}
-              className="flex items-center gap-2 bg-slate-900/50 border border-slate-850 hover:border-indigo-500/30 rounded-xl px-3 py-2 cursor-pointer transition-all w-72 select-none group"
+              className="flex items-center gap-2 bg-slate-900/50 border border-slate-850 hover:border-blue-500/30 rounded-xl px-3 py-2 cursor-pointer transition-all w-72 select-none group"
               id="spotlight-header-trigger"
             >
-              <Search className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 transition-colors" />
+              <Search className="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition-colors" />
               <span className="text-slate-300 text-xs flex-1 text-left">Шукати фірму, особу чи гаманець...</span>
-              <span className="text-[9px] bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 text-slate-300 px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">
+              <span className="text-[9px] bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-blue-500/10 text-slate-300 px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">
                 Ctrl+K
               </span>
             </div>
             <button
               onClick={startVoiceControl}
-              className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border-red-500/40 animate-pulse' : 'bg-slate-900/50 text-slate-300 border-slate-850 hover:border-indigo-500/30 hover:text-indigo-400'}`}
+              className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border-red-500/40 animate-pulse' : 'bg-slate-900/50 text-slate-300 border-slate-850 hover:border-blue-500/30 hover:text-blue-400'}`}
               title="Голосовий пошук та команди (Web Speech API)"
               id="voice-header-trigger"
             >
@@ -1468,7 +1492,7 @@ export default function App() {
                   setEcosystem('user');
                   setActiveTab('live-analytical-center');
                 }}
-                className={`px-4 py-2 rounded-lg text-[10px] font-black font-mono tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer ${ecosystem === 'user' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300 hover:text-slate-200 hover:bg-slate-900/30'}`}
+                className={`px-4 py-2 rounded-lg text-[10px] font-black font-mono tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer ${ecosystem === 'user' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-300 hover:text-slate-200 hover:bg-slate-900/30'}`}
               >
                 <Compass className="w-3.5 h-3.5" />
                 <span>🛰️ ЖИВИЙ ЦЕНТР</span>
@@ -1478,7 +1502,7 @@ export default function App() {
                   setEcosystem('admin');
                   setActiveTab('admin-back-office');
                 }}
-                className={`px-4 py-2 rounded-lg text-[10px] font-black font-mono tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer ${ecosystem === 'admin' ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300 hover:text-slate-200 hover:bg-slate-900/30'}`}
+                className={`px-4 py-2 rounded-lg text-[10px] font-black font-mono tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer ${ecosystem === 'admin' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-300 hover:text-slate-200 hover:bg-slate-900/30'}`}
               >
                 <Settings className="w-3.5 h-3.5" />
                 <span>⚙️ BACK OFFICE</span>
@@ -1490,17 +1514,17 @@ export default function App() {
             )}
 
             {!isRealMobile && (
-              <div className="flex bg-slate-950/60 p-0.5 rounded-lg border border-indigo-500/5 gap-1">
+              <div className="flex bg-slate-950/60 p-0.5 rounded-lg border border-blue-500/5 gap-1">
                 <button
                   onClick={() => setDeviceMode('desktop')}
-                  className={`px-2.5 py-1.5 rounded text-[9px] font-black font-mono tracking-wider transition-all flex items-center gap-1 cursor-pointer ${deviceMode === 'desktop' ? 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-indigo-400 border border-indigo-500/10' : 'text-slate-500 hover:text-slate-300'}`}
+                  className={`px-2.5 py-1.5 rounded text-[9px] font-black font-mono tracking-wider transition-all flex items-center gap-1 cursor-pointer ${deviceMode === 'desktop' ? 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-blue-400 border border-blue-500/10' : 'text-slate-500 hover:text-slate-300'}`}
                   title="Режим Десктоп"
                 >
                   💻 ДЕСКТОП
                 </button>
                 <button
                   onClick={() => setDeviceMode('iphone')}
-                  className={`px-2.5 py-1.5 rounded text-[9px] font-black font-mono tracking-wider transition-all flex items-center gap-1 cursor-pointer ${deviceMode === 'iphone' ? 'bg-indigo-600 text-white shadow' : 'text-slate-500 hover:text-slate-300'}`}
+                  className={`px-2.5 py-1.5 rounded text-[9px] font-black font-mono tracking-wider transition-all flex items-center gap-1 cursor-pointer ${deviceMode === 'iphone' ? 'bg-blue-600 text-white shadow' : 'text-slate-500 hover:text-slate-300'}`}
                   title="Режим iPhone 15"
                 >
                   📱 IPHONE
@@ -1515,18 +1539,18 @@ export default function App() {
             {/* Subscription Badge (Section 6) */}
             <div className="hidden lg:flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 px-2.5 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>VIP ENTERPRISE / СБУ</span>
+              <span>ENTERPRISE / ДЕРЖСЕКТОР</span>
             </div>
 
             {/* Quick Status indicators (Section 6) */}
             <div className="hidden sm:flex items-center gap-4 text-slate-300 text-[10px]">
               <span className="flex items-center gap-1">
-                <Activity className="w-3.5 h-3.5 text-indigo-400" />
+                <Activity className="w-3.5 h-3.5 text-blue-400" />
                 API: <strong className="text-slate-200">14ms</strong>
               </span>
               <span className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                State: <strong className="text-emerald-400">Tactical 60 FPS</strong>
+                State: <strong className="text-emerald-400">Synced 60 FPS</strong>
               </span>
             </div>
 
@@ -1538,7 +1562,7 @@ export default function App() {
             </button>
 
             {/* Profile Avatars / Auth Status */}
-            <div className="flex items-center gap-2.5 pl-2 border-l border-indigo-500/5">
+            <div className="flex items-center gap-2.5 pl-2 border-l border-blue-500/5">
               <AuthStatus />
             </div>
 
@@ -1546,11 +1570,11 @@ export default function App() {
 
         </header>
 
-        {/* MILITARY BROADCAST SECURITY NEWS TICKER */}
+        {/* BUSINESS BROADCAST SECURITY NEWS TICKER */}
         {ecosystem === 'user' && (
-          <div className="bg-slate-950/90 border-b border-indigo-500/5/60 h-8 flex items-center overflow-hidden relative select-none z-30 shrink-0">
-            <div className="absolute left-0 top-0 bottom-0 px-3 bg-indigo-950/80 border-r border-indigo-900/40 text-indigo-400 font-mono text-[9px] font-extrabold uppercase tracking-widest flex items-center gap-1.5 z-10 shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+          <div className="bg-slate-950/90 border-b border-blue-500/5/60 h-8 flex items-center overflow-hidden relative select-none z-30 shrink-0">
+            <div className="absolute left-0 top-0 bottom-0 px-3 bg-indigo-950/80 border-r border-indigo-900/40 text-blue-400 font-mono text-[9px] font-extrabold uppercase tracking-widest flex items-center gap-1.5 z-10 shrink-0">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
               <span>ШІ-СЕНСОР</span>
             </div>
 
@@ -1561,20 +1585,20 @@ export default function App() {
                   <span>Виявлено обхід санкцій через Туреччину у ТОВ "СпецТехПостач" (Код: 38294012).</span>
                 </span>
                 <span className="flex items-center gap-1.5 shrink-0">
-                  <span className="text-emerald-500 font-bold">⚡ ШІ PREDATOR:</span>
+                  <span className="text-emerald-500 font-bold">⚡ ШІ NEXUS:</span>
                   <span>Оброблено черговий пакет судових рішень за 14ms (точність комплаєнсу 99.9%).</span>
                 </span>
                 <span className="flex items-center gap-1.5 shrink-0">
-                  <span className="text-indigo-400 font-bold">📡 ГЕО-РАДАР:</span>
+                  <span className="text-blue-400 font-bold">📡 ГЕО-РАДАР:</span>
                   <span>Логістичні ланцюги Шеньчжень → Київ оновлено в реальному часі.</span>
                 </span>
                 <span className="flex items-center gap-1.5 shrink-0">
                   <span className="text-amber-400 font-bold">🔒 СИСТЕМА:</span>
-                  <span>Канал зв'язку захищено алгоритмом СБУ-VIP (RSA-4096).</span>
+                  <span>Канал зв'язку захищено алгоритмом ДЕРЖСПЕЦЗВ'ЯЗОК (RSA-4096).</span>
                 </span>
                 <span className="flex items-center gap-1.5 shrink-0">
-                  <span className="text-indigo-400 font-bold">💡 ПІДКАЗКА:</span>
-                  <span>Натисніть <strong className="text-white bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 px-1 rounded">Ctrl+K</strong> або клікніть "Швидкий пошук" для миттєвих команд.</span>
+                  <span className="text-blue-400 font-bold">💡 ПІДКАЗКА:</span>
+                  <span>Натисніть <strong className="text-white bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-blue-500/10 px-1 rounded">Ctrl+K</strong> або клікніть "Швидкий пошук" для миттєвих команд.</span>
                 </span>
               </div>
             </div>
@@ -1586,7 +1610,7 @@ export default function App() {
           
           {/* LEFT SIDEBAR (Section 7) */}
           <aside 
-            className={`shrink-0 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-r border-indigo-500/5 flex flex-col justify-between transition-all duration-300 ${sidebarCollapsed ? 'w-[72px]' : 'w-[280px]'}`}
+            className={`shrink-0 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-r border-blue-500/5 flex flex-col justify-between transition-all duration-300 ${sidebarCollapsed ? 'w-[72px]' : 'w-[280px]'}`}
             id="tactical-sidebar"
           >
             
@@ -1598,52 +1622,65 @@ export default function App() {
                   {/* User Ecosystem Navigation */}
                   <div className="space-y-1.5">
                     {!sidebarCollapsed && (
-                      <span className="text-[9px] text-indigo-400 font-mono font-bold uppercase tracking-widest block px-2.5 py-1">
+                      <span className="text-[9px] text-blue-400 font-mono font-bold uppercase tracking-widest block px-2.5 py-1">
                         🛰️ АНАЛІТИЧНИЙ ПРОСТІР
                       </span>
                     )}
                     
                     <button 
                       onClick={() => setActiveTab('live-analytical-center')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'live-analytical-center' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'live-analytical-center' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                     >
-                      <Compass className={`w-4 h-4 ${activeTab === 'live-analytical-center' ? 'text-indigo-400' : 'text-slate-500'}`} />
+                      <Compass className={`w-4 h-4 ${activeTab === 'live-analytical-center' ? 'text-blue-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
                         <div className="flex items-center justify-between flex-1">
                           <span>Живе ШІ-Ядро</span>
-                          <span className="text-[8px] bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 px-1.5 py-0.5 rounded font-mono font-bold tracking-widest">CORE</span>
+                          <span className="text-[8px] bg-blue-500/15 text-blue-400 border border-blue-500/30 px-1.5 py-0.5 rounded font-mono font-bold tracking-widest">CORE</span>
+                        </div>
+                      )}
+                    </button>
+                    
+                    <button 
+                      onClick={() => setActiveTab('data-ingestion')}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'data-ingestion' ? 'bg-amber-600/20 text-amber-400 border border-amber-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                    >
+                      <Database className={`w-4 h-4 ${activeTab === 'data-ingestion' ? 'text-amber-400' : 'text-slate-500'}`} />
+                      {!sidebarCollapsed && (
+                        <div className="flex items-center justify-between flex-1">
+                          <span>Intelligence Acquisition</span>
+                          <span className="text-[8px] bg-amber-500/15 text-amber-400 border border-amber-500/30 px-1.5 py-0.5 rounded font-mono font-bold tracking-widest">AGENT</span>
                         </div>
                       )}
                     </button>
 
                     <button 
                       onClick={() => setActiveTab('maps')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'maps' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'maps' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                     >
-                      <Map className={`w-4 h-4 ${activeTab === 'maps' ? 'text-indigo-400' : 'text-slate-500'}`} />
+                      <Map className={`w-4 h-4 ${activeTab === 'maps' ? 'text-blue-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
                         <div className="flex items-center justify-between flex-1">
                           <span>Інтерактивна Карта</span>
-                          <span className="text-[9px] bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 px-1.5 py-0.5 rounded font-mono font-bold">MAP</span>
+                          <span className="text-[9px] bg-blue-500/15 text-blue-400 border border-blue-500/30 px-1.5 py-0.5 rounded font-mono font-bold">MAP</span>
                         </div>
                       )}
                     </button>
           <button 
                       onClick={() => setActiveTab('media-forensics')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'media-forensics' ? 'bg-fuchsia-600/10 text-fuchsia-400 border border-fuchsia-500/20 shadow-[inset_0_0_15px_rgba(217,70,239,0.1)]' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'media-forensics' ? 'bg-fuchsia-600/10 text-sky-400 border border-sky-500/20 shadow-[inset_0_0_15px_rgba(217,70,239,0.1)]' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                       title="Triggers high-load forensic deep-analysis"
                     >
-                      <Camera className={`w-4 h-4 ${activeTab === 'media-forensics' ? 'text-fuchsia-400' : 'text-slate-500'}`} />
+                      <Camera className={`w-4 h-4 ${activeTab === 'media-forensics' ? 'text-sky-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
                         <div className="flex items-center justify-between flex-1">
                           <span>Media Forensics</span>
                           <div className="flex items-center gap-1.5 opacity-80">
                             {/* Animated CSS Waveform */}
                             <div className="flex items-center gap-[2px] h-3">
-                              <div className="w-[2px] bg-fuchsia-500 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.1s] h-1.5" />
-                              <div className="w-[2px] bg-fuchsia-400 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.3s] h-3" />
-                              <div className="w-[2px] bg-fuchsia-500 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.5s] h-1" />
-                              <div className="w-[2px] bg-fuchsia-400 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.2s] h-2" />
+                              <div className="w-[2px] bg-sky-500 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.1s] h-1.5" />
+                              <div className="w-[2px] bg-sky-400 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.3s] h-3" />
+                              <div className="w-[2px] bg-sky-500 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.5s] h-1" />
+                              <div className="w-[2px] bg-sky-400 rounded-full animate-[waveform_1.2s_ease-in-out_infinite_0.2s] h-2" />
                             </div>
                           </div>
                         </div>
@@ -1653,12 +1690,12 @@ export default function App() {
 
                     <button 
                       onClick={() => setActiveTab('dashboard')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'dashboard' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'dashboard' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                     >
-                      <Layers className={`w-4 h-4 ${activeTab === 'dashboard' ? 'text-indigo-400' : 'text-slate-500'}`} />
+                      <Layers className={`w-4 h-4 ${activeTab === 'dashboard' ? 'text-blue-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
                         <div className="flex items-center justify-between flex-1">
-                          <span>Старий Дашборд</span>
+                          <span>Аналітичний Дашборд</span>
                           <span className="text-[9px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono">LIVE</span>
                         </div>
                       )}
@@ -1666,13 +1703,39 @@ export default function App() {
 
                     <button 
                       onClick={() => setActiveTab('osint')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'osint' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'osint' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                     >
-                      <Search className={`w-4 h-4 ${activeTab === 'osint' ? 'text-indigo-400' : 'text-slate-500'}`} />
+                      <Search className={`w-4 h-4 ${activeTab === 'osint' ? 'text-blue-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
                         <div className="flex items-center justify-between flex-1">
-                          <span>Старий Пошук</span>
+                          <span>Розширений OSINT Пошук</span>
                           <span className="text-[9px] bg-rose-500/10 text-rose-400 border border-rose-500/20 px-1.5 py-0.5 rounded font-mono">RISK</span>
+                        </div>
+                      )}
+                    </button>
+
+                    <button 
+                      onClick={() => setActiveTab('person-profiler')}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'person-profiler' ? 'bg-rose-600/20 text-rose-400 border border-rose-500/30' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                    >
+                      <UserCheck className={`w-4 h-4 ${activeTab === 'person-profiler' ? 'text-rose-400' : 'text-slate-500'}`} />
+                      {!sidebarCollapsed && (
+                        <div className="flex items-center justify-between flex-1">
+                          <span>Досьє & Портрет Особи</span>
+                          <span className="text-[9px] bg-rose-500/10 text-rose-400 border border-rose-500/20 px-1.5 py-0.5 rounded font-mono font-bold">НОМІНАЛИ</span>
+                        </div>
+                      )}
+                    </button>
+
+                    <button 
+                      onClick={() => setActiveTab('sandbox')}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'sandbox' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-sm animate-pulse' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                    >
+                      <Network className={`w-4 h-4 ${activeTab === 'sandbox' ? 'text-blue-400' : 'text-slate-500'}`} />
+                      {!sidebarCollapsed && (
+                        <div className="flex items-center justify-between flex-1">
+                          <span>Аналітична Пісочниця</span>
+                          <span className="text-[9px] bg-indigo-500/15 text-indigo-400 border border-indigo-500/20 px-1.5 py-0.5 rounded font-mono font-bold tracking-wider">SANDBOX</span>
                         </div>
                       )}
                     </button>
@@ -1681,7 +1744,7 @@ export default function App() {
                   {/* Group: Scenarios (User Space) */}
                   <div className="space-y-1">
                     {!sidebarCollapsed && (
-                      <span className="text-[9px] text-indigo-400 font-mono font-bold uppercase tracking-widest block px-2.5 py-1">
+                      <span className="text-[9px] text-blue-400 font-mono font-bold uppercase tracking-widest block px-2.5 py-1">
                         🔮 СЦЕНАРІЇ ДОСЛІДЖЕННЯ
                       </span>
                     )}
@@ -1693,7 +1756,7 @@ export default function App() {
                       { id: 'customs', label: 'Митна декларація', icon: Database },
                       { id: 'geography', label: 'Гео-аналітика', icon: Globe },
                       { id: 'analytics', label: 'Прогнозування', icon: TrendingUp },
-                      { id: 'assistant', label: 'ШІ-Асистент Jarvis', icon: Bot },
+                      { id: 'assistant', label: 'ШІ-Асистент NEXUS', icon: Bot },
                       { id: 'partners', label: 'Контрагенти', icon: Users },
                       { id: 'risks', label: 'Рівні ризиків', icon: ShieldAlert },
                     ].map((scen) => {
@@ -1706,9 +1769,9 @@ export default function App() {
                             setActiveTab('live-analytical-center');
                             setSelectedScenario(scen.id);
                           }}
-                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${isActive ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${isActive ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                         >
-                          <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-500'}`} />
+                          <Icon className={`w-4 h-4 ${isActive ? 'text-blue-400' : 'text-slate-500'}`} />
                           {!sidebarCollapsed && <span>{scen.label}</span>}
                         </button>
                       );
@@ -1727,13 +1790,26 @@ export default function App() {
                     
                     <button 
                       onClick={() => setActiveTab('admin-back-office')}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'admin-back-office' ? 'bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'admin-back-office' ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                     >
-                      <Settings className={`w-4 h-4 ${activeTab === 'admin-back-office' ? 'text-indigo-400' : 'text-slate-500'}`} />
+                      <Settings className={`w-4 h-4 ${activeTab === 'admin-back-office' ? 'text-blue-400' : 'text-slate-500'}`} />
                       {!sidebarCollapsed && (
                         <div className="flex items-center justify-between flex-1">
                           <span>Back Office Консоль</span>
                           <span className="text-[8px] bg-amber-500/15 text-amber-400 border border-amber-500/30 px-1.5 py-0.5 rounded font-mono font-bold tracking-widest">ADMIN</span>
+                        </div>
+                      )}
+                    </button>
+
+                    <button 
+                      onClick={() => setActiveTab('autonomous-factory')}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${activeTab === 'autonomous-factory' ? 'bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 shadow-sm' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                    >
+                      <Cpu className={`w-4 h-4 ${activeTab === 'autonomous-factory' ? 'text-cyan-400' : 'text-slate-500'}`} />
+                      {!sidebarCollapsed && (
+                        <div className="flex items-center justify-between flex-1">
+                          <span>Автономна Фабрика</span>
+                          <span className="text-[8px] bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 px-1.5 py-0.5 rounded font-mono font-bold tracking-widest">OODA</span>
                         </div>
                       )}
                     </button>
@@ -1769,9 +1845,9 @@ export default function App() {
                               setSelectedTool(null);
                             }
                           }}
-                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${isActive ? 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-indigo-400 border border-indigo-500/10' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
+                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer ${isActive ? 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] text-blue-400 border border-blue-500/10' : 'text-slate-300 border border-transparent hover:text-slate-200 hover:bg-slate-900/30'}`}
                         >
-                          <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-500'}`} />
+                          <Icon className={`w-4 h-4 ${isActive ? 'text-blue-400' : 'text-slate-500'}`} />
                           {!sidebarCollapsed && <span>{tab.label}</span>}
                         </button>
                       );
@@ -1782,8 +1858,8 @@ export default function App() {
 
               {/* Quick status alerts inside sidebar */}
               {!sidebarCollapsed && (
-                <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 p-3.5 rounded-xl space-y-2 mt-4">
-                  <span className="text-[8px] text-slate-500 font-mono font-bold uppercase tracking-wider block">СТАН СИСТЕМИ PREDATOR</span>
+                <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-blue-500/5 p-3.5 rounded-xl space-y-2 mt-4">
+                  <span className="text-[8px] text-slate-500 font-mono font-bold uppercase tracking-wider block">СТАН СИСТЕМИ NEXUS</span>
                   <div className="space-y-1 text-[10px] text-slate-300 font-mono">
                     <div className="flex justify-between">
                       <span>Kafka Queue:</span>
@@ -1791,7 +1867,7 @@ export default function App() {
                     </div>
                     <div className="flex justify-between">
                       <span>Qdrant:</span>
-                      <span className="text-indigo-400">98% Match</span>
+                      <span className="text-blue-400">98% Match</span>
                     </div>
                   </div>
                 </div>
@@ -1800,7 +1876,7 @@ export default function App() {
             </div>
 
             {/* Collapsed control */}
-            <div className="p-3 border-t border-indigo-500/5 text-center">
+            <div className="p-3 border-t border-blue-500/5 text-center">
               <button 
                 onClick={() => setIsInspectorOpen(!isInspectorOpen)}
                 className="w-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-850 text-slate-300 hover:text-slate-200 py-2 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer"
@@ -1816,18 +1892,18 @@ export default function App() {
             
             {/* Active Navigation Breadcrumbs */}
             <div className="flex items-center gap-2 text-[10px] text-slate-500 font-mono uppercase tracking-wider mb-2">
-              <span>PREDATOR</span>
+              <span>NEXUS</span>
               <span>/</span>
-              <span className="text-indigo-400 font-bold">
+              <span className="text-blue-400 font-bold">
                 {ecosystem === 'user' ? 'КОРИСТУВАЦЬКА ЕКОСИСТЕМА' : 'АДМІНІСТРАТИВНА ЕКОСИСТЕМА'}
               </span>
               <span>/</span>
-              <span className="text-indigo-400 font-bold">
+              <span className="text-blue-400 font-bold">
                 {activeTab === 'live-analytical-center' && 'Живий Аналітичний Центр (ШІ-Ядро)'}
                 {activeTab === 'admin-back-office' && 'Back Office Консоль (ArgoCD & Grafana)'}
-                {activeTab === 'dashboard' && 'Старий Дашборд'}
-                {activeTab === 'osint' && 'Старий Пошук OSINT'}
-                {activeTab === 'maps' && 'Інтерактивна Карта PREDATOR'}
+                {activeTab === 'dashboard' && 'Аналітичний Дашборд'}
+                {activeTab === 'osint' && 'Розширений OSINT Пошук OSINT'}
+                {activeTab === 'maps' && 'Інтерактивна Карта NEXUS'}
                 {activeTab === 'catalog' && 'Каталог рішень'}
                 {activeTab === 'license' && 'Сумісність ліцензій'}
                 {activeTab === 'architecture' && 'Граф залежностей'}
@@ -1836,6 +1912,8 @@ export default function App() {
                 {activeTab === 'volumes' && 'Томи ТЗ'}
                 {activeTab === 'advisor' && 'ШІ-Архітектор'}
                 {activeTab === 'media-forensics' && 'Аналіз Медіа (Forensics)'}
+                {activeTab === 'data-ingestion' && 'AI Intelligence Acquisition'}
+                {activeTab === 'autonomous-factory' && 'Автономна Фабрика Оркестрації'}
               </span>
             </div>
 
@@ -1889,6 +1967,12 @@ export default function App() {
                     }}
                   />
                 )}
+                {activeTab === 'person-profiler' && (
+                  <PersonProfiler />
+                )}
+                {activeTab === 'sandbox' && (
+                  <InvestigationSandbox />
+                )}
                 {activeTab === 'maps' && (
                   <MapsTab 
                     onSelectEntityGlobal={(ent) => {
@@ -1906,6 +1990,9 @@ export default function App() {
                 {activeTab === 'roadmap' && <RoadmapTab />}
                 {activeTab === 'volumes' && <VolumesTab />}
                 {activeTab === 'advisor' && <AdvisorTab />}
+                {activeTab === 'media-forensics' && <MediaForensicsTab />}
+                {activeTab === 'data-ingestion' && <DataIngestionTab />}
+                {activeTab === 'autonomous-factory' && <AutonomousFactory />}
               </motion.div>
             </AnimatePresence>
 
@@ -1940,8 +2027,8 @@ export default function App() {
             {/* Toggle bubble button */}
             <button
               onClick={() => setIsAiChatOpen(!isAiChatOpen)}
-              className="bg-indigo-600 hover:bg-indigo-500 text-white p-3 rounded-full shadow-2xl transition-all cursor-pointer flex items-center justify-center border border-indigo-400/20 group"
-              title="ШІ-Помічник PREDATOR"
+              className="bg-blue-600 hover:bg-blue-500 text-white p-3 rounded-full shadow-2xl transition-all cursor-pointer flex items-center justify-center border border-blue-400/20 group"
+              title="ШІ-Помічник NEXUS"
             >
               <Bot className="w-5.5 h-5.5 group-hover:rotate-12 transition-transform" />
               <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full"></span>
@@ -1954,14 +2041,14 @@ export default function App() {
                   initial={{ opacity: 0, y: 50, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 50, scale: 0.95 }}
-                  className="absolute bottom-14 right-0 w-80 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/5 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-[380px]"
+                  className="absolute bottom-14 right-0 w-80 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-blue-500/5 rounded-2xl overflow-hidden shadow-2xl flex flex-col h-[380px]"
                 >
                   {/* Header */}
-                  <div className="p-3 bg-indigo-950/20 border-b border-indigo-500/5 flex items-center justify-between">
+                  <div className="p-3 bg-indigo-950/20 border-b border-blue-500/5 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-indigo-400" />
+                      <Sparkles className="w-4 h-4 text-blue-400" />
                       <span className="text-[10px] font-mono font-bold text-white uppercase tracking-wider">
-                        PREDATOR ШІ-Асистент
+                        NEXUS ШІ-Асистент
                       </span>
                     </div>
                     <button 
@@ -1977,7 +2064,7 @@ export default function App() {
                     {chatHistory.map((msg, i) => (
                       <div 
                         key={i} 
-                        className={`p-2.5 rounded-xl leading-relaxed max-w-[85%] ${msg.sender === 'user' ? 'bg-indigo-600 text-white ml-auto' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300'}`}
+                        className={`p-2.5 rounded-xl leading-relaxed max-w-[85%] ${msg.sender === 'user' ? 'bg-blue-600 text-white ml-auto' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300'}`}
                       >
                         {msg.text}
                       </div>
@@ -1985,7 +2072,7 @@ export default function App() {
                   </div>
 
                   {/* Input */}
-                  <div className="p-2 border-t border-indigo-500/5 bg-slate-950/80 flex items-center gap-1.5">
+                  <div className="p-2 border-t border-blue-500/5 bg-slate-950/80 flex items-center gap-1.5">
                     <input
                       type="text"
                       placeholder="Запитайте ШІ про санкції чи SQL..."
@@ -1994,18 +2081,18 @@ export default function App() {
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') handleSendMessage();
                       }}
-                      className="flex-1 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 rounded-lg px-2.5 py-2 text-xs focus:outline-none focus:border-indigo-500/40"
+                      className="flex-1 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 rounded-lg px-2.5 py-2 text-xs focus:outline-none focus:border-blue-500/40"
                     />
                     <button
                       onClick={startVoiceControl}
-                      className={`p-2 rounded-lg transition-colors cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300 hover:text-indigo-400'}`}
+                      className={`p-2 rounded-lg transition-colors cursor-pointer flex items-center justify-center ${isVoiceListening ? 'bg-red-500/20 text-red-400 border border-red-500/20 animate-pulse' : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-300 hover:text-blue-400'}`}
                       title="Голосовий ввід"
                     >
                       <Mic className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={handleSendMessage}
-                      className="bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-lg transition-colors cursor-pointer"
+                      className="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-lg transition-colors cursor-pointer"
                     >
                       <Send className="w-3.5 h-3.5" />
                     </button>
@@ -2020,16 +2107,16 @@ export default function App() {
 
         {/* 4. BOTTOM STATUS BAR (Section 10) */}
         {ecosystem === 'admin' ? (
-          <footer className="border-t border-indigo-500/5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] px-5 py-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-[9px] text-slate-500 font-mono uppercase tracking-wider z-40 sticky bottom-0">
+          <footer className="border-t border-blue-500/5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] px-5 py-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-[9px] text-slate-500 font-mono uppercase tracking-wider z-40 sticky bottom-0">
             
             {/* Left indicators */}
             <div className="flex flex-wrap items-center gap-4">
               <span className="flex items-center gap-1.5 text-slate-300 font-bold">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                PREDATOR ENG: ONLINE
+                NEXUS ENG: ONLINE
               </span>
               <span>API: 12ms</span>
-              <span className="text-indigo-400 font-bold">GPU: NVIDIA A100 (42% VRAM)</span>
+              <span className="text-blue-400 font-bold">GPU: NVIDIA A100 (42% VRAM)</span>
               <span>CPU: 18%</span>
               <span>RAM: 14.8 GB / 64 GB</span>
             </div>
@@ -2045,13 +2132,13 @@ export default function App() {
 
           </footer>
         ) : (
-          <footer className="border-t border-indigo-500/5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] px-5 py-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-[9px] text-slate-500 font-mono uppercase tracking-wider z-40 sticky bottom-0">
+          <footer className="border-t border-blue-500/5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] px-5 py-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-[9px] text-slate-500 font-mono uppercase tracking-wider z-40 sticky bottom-0">
             
             {/* Left analytical indicators */}
             <div className="flex flex-wrap items-center gap-4">
-              <span className="flex items-center gap-1.5 text-indigo-400 font-bold">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
-                СЕКТОР: АНАЛІТИКА ТА РОЗСЛІДУВАННЯ (СБУ-VIP)
+              <span className="flex items-center gap-1.5 text-blue-400 font-bold">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                СЕКТОР: АНАЛІТИКА ТА РОЗСЛІДУВАННЯ (ДЕРЖСПЕЦЗВ'ЯЗОК)
               </span>
               <span className="text-slate-300">РЕЄСТРИ: <strong className="text-slate-200">СИНХРОНІЗОВАНО</strong></span>
               <span className="text-emerald-400 font-bold">КЛАС КАНАЛУ: НАДІЙНИЙ (AES-GCM)</span>
@@ -2060,9 +2147,9 @@ export default function App() {
 
             {/* Right analytical indicators */}
             <div className="flex flex-wrap items-center gap-4">
-              <span className="text-indigo-400 font-bold">ПРОТОКОЛ: RSA-4096 (СБУ-VIP)</span>
+              <span className="text-blue-400 font-bold">ПРОТОКОЛ: RSA-4096 (ДЕРЖСПЕЦЗВ'ЯЗОК)</span>
               <span className="text-slate-300">ІНТЕГРАЦІЯ: YOUCONTROL, OPENDATABOT, МИТНИЦЯ, РНБО</span>
-              <span className="text-indigo-400 font-bold">ШІ-ЯДРО: PREDATOR INTEL v3.5</span>
+              <span className="text-blue-400 font-bold">ШІ-ЯДРО: NEXUS INTEL v3.5</span>
             </div>
 
           </footer>
@@ -2087,11 +2174,11 @@ export default function App() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: -10 }}
                 transition={{ duration: 0.15 }}
-                className="relative w-full max-w-2xl bg-[#0a0f1d] border border-indigo-500/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[500px] z-50"
+                className="relative w-full max-w-2xl bg-[#0a0f1d] border border-blue-500/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[500px] z-50"
               >
                 {/* Search input header */}
-                <div className="flex items-center gap-3 px-4 py-3.5 border-b border-indigo-500/5 bg-slate-950/50">
-                  <Search className="w-5 h-5 text-indigo-400 shrink-0" />
+                <div className="flex items-center gap-3 px-4 py-3.5 border-b border-blue-500/5 bg-slate-950/50">
+                  <Search className="w-5 h-5 text-blue-400 shrink-0" />
                   <input
                     type="text"
                     autoFocus
@@ -2100,7 +2187,7 @@ export default function App() {
                     onChange={(e) => setSpotlightQuery(e.target.value)}
                     className="w-full bg-transparent text-white placeholder-slate-500 text-sm focus:outline-none"
                   />
-                  <span className="text-[10px] bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 text-slate-300 px-2 py-0.5 rounded font-mono shrink-0">
+                  <span className="text-[10px] bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-blue-500/10 text-slate-300 px-2 py-0.5 rounded font-mono shrink-0">
                     ESC
                   </span>
                 </div>
@@ -2111,7 +2198,7 @@ export default function App() {
                   {/* Navigation suggestions */}
                   {spotlightResults.navigation.length > 0 && (
                     <div className="space-y-1.5">
-                      <span className="text-[9px] font-mono text-indigo-400 uppercase tracking-widest font-bold block">
+                      <span className="text-[9px] font-mono text-blue-400 uppercase tracking-widest font-bold block">
                         🧭 Навігація та Екосистема
                       </span>
                       <div className="grid grid-cols-1 gap-1">
@@ -2119,10 +2206,10 @@ export default function App() {
                           <button
                             key={n.id}
                             onClick={() => handleSpotlightSelect(n)}
-                            className="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-indigo-600/20 hover:border-indigo-500/40 border border-transparent transition-all duration-300 hover:-translate-y-[1px] hover:shadow-[0_2px_10px_rgba(99,102,241,0.15)] flex items-center justify-between cursor-pointer"
+                            className="w-full text-left px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-blue-600/20 hover:border-blue-500/40 border border-transparent transition-all duration-300 hover:-translate-y-[1px] hover:shadow-[0_2px_10px_rgba(99,102,241,0.15)] flex items-center justify-between cursor-pointer"
                           >
                             <span>{n.label}</span>
-                            <span className="text-[9px] text-indigo-500 font-mono">Перейти →</span>
+                            <span className="text-[9px] text-blue-500 font-mono">Перейти →</span>
                           </button>
                         ))}
                       </div>
@@ -2185,16 +2272,16 @@ export default function App() {
                 </div>
 
                 {/* Spotlight footer */}
-                <div className="px-4 py-2.5 bg-slate-950/80 border-t border-indigo-500/5 flex items-center justify-between text-[10px] text-slate-500 font-mono">
+                <div className="px-4 py-2.5 bg-slate-950/80 border-t border-blue-500/5 flex items-center justify-between text-[10px] text-slate-500 font-mono">
                   <span className="flex items-center gap-1">
                     <span>Швидкі дії:</span>
-                    <strong className="text-slate-300 font-bold bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 px-1.5 py-0.5 rounded">↑↓</strong>
+                    <strong className="text-slate-300 font-bold bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-blue-500/10 px-1.5 py-0.5 rounded">↑↓</strong>
                     <span>для вибору,</span>
-                    <strong className="text-slate-300 font-bold bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 px-1.5 py-0.5 rounded">Enter</strong>
+                    <strong className="text-slate-300 font-bold bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-blue-500/10 px-1.5 py-0.5 rounded">Enter</strong>
                     <span>для запуску</span>
                   </span>
-                  <span className="text-indigo-400 font-bold uppercase tracking-wider">
-                    PREDATOR COMMAND PANEL v2.5
+                  <span className="text-blue-400 font-bold uppercase tracking-wider">
+                    NEXUS COMMAND PANEL v2.5
                   </span>
                 </div>
 
@@ -2228,7 +2315,7 @@ export default function App() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[10px] font-mono font-bold text-red-400 uppercase tracking-widest">
-                🎙️ Голосовий аналізатор PREDATOR активний
+                🎙️ Голосовий аналізатор NEXUS активний
               </p>
               <p className="text-xs text-slate-200 font-medium truncate mt-0.5 font-sans">
                 {voiceFeedback || "Слухаю голос... Назвіть команду навігації чи пошуку"}
@@ -2252,13 +2339,13 @@ export default function App() {
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 10, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className={`fixed top-20 left-1/2 -translate-x-1/2 shadow-[0_15px_40px_rgba(0,0,0,0.5)] rounded-2xl p-4.5 z-50 flex flex-col gap-3 w-[450px] max-w-[90vw] backdrop-blur-md border ${voiceError ? 'bg-red-950/95 border-red-500/40 text-red-200 shadow-red-900/10' : 'bg-slate-950/95 border-indigo-500/40 text-slate-200 shadow-indigo-900/10'}`}
+            className={`fixed top-20 left-1/2 -translate-x-1/2 shadow-[0_15px_40px_rgba(0,0,0,0.5)] rounded-2xl p-4.5 z-50 flex flex-col gap-3 w-[450px] max-w-[90vw] backdrop-blur-md border ${voiceError ? 'bg-red-950/95 border-red-500/40 text-red-200 shadow-red-900/10' : 'bg-slate-950/95 border-blue-500/40 text-slate-200 shadow-indigo-900/10'}`}
           >
             <div className="flex items-start gap-2.5">
               <span className="text-sm shrink-0 mt-0.5">{voiceError ? '⚠️' : '🎙️'}</span>
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-300">
-                  {voiceError ? 'Помилка голосового аналізатора' : 'Аналітичний голос PREDATOR'}
+                  {voiceError ? 'Помилка голосового аналізатора' : 'Аналітичний голос NEXUS'}
                 </p>
                 <p className="text-xs font-semibold tracking-wide leading-relaxed mt-0.5">
                   {voiceError || voiceFeedback}

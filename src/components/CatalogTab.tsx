@@ -90,7 +90,7 @@ export default function CatalogTab() {
       case 'Permissive': return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
       case 'Weak Copyleft': return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
       case 'Strong Copyleft': return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
-      case 'Source Available': return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30';
+      case 'Source Available': return 'bg-blue-500/10 text-blue-400 border-blue-500/30';
       default: return 'bg-rose-500/10 text-rose-400 border-rose-500/20';
     }
   };
@@ -98,10 +98,10 @@ export default function CatalogTab() {
   return (
     <div className="space-y-6" id="catalog-tab-root">
       {/* Header and Explainer */}
-      <div className="bg-slate-900/60 border border-indigo-500/10 rounded-xl p-6 backdrop-blur-md">
+      <div className="bg-slate-900/60 border border-blue-500/10 rounded-xl p-6 backdrop-blur-md">
         <h2 className="text-xl font-semibold text-slate-100 flex items-center gap-2 mb-2">
-          <Layers className="w-5 h-5 text-indigo-400" id="catalog-title-icon" />
-          Глобальний каталог Open Source рішень для PREDATOR Analytics
+          <Layers className="w-5 h-5 text-blue-400" id="catalog-title-icon" />
+          Глобальний каталог Open Source рішень для NEXUS Analytics
         </h2>
         <p className="text-slate-300 text-sm leading-relaxed">
           Професійний каталог перевірених технологій, оптимізованих для K8s-native архітектури та високопродуктивних пайплайнів збору OSINT, векторного пошуку, розпізнавання ШІ та побудови графів зв’язків. Скористайтеся інтерактивними інструментами, щоб оцінити та змоделювати їхню сумісність.
@@ -112,7 +112,7 @@ export default function CatalogTab() {
         {/* Left Side Filters & Dynamic Compatibility Weighting Simulator */}
         <div className="lg:col-span-1 space-y-6">
           {/* Filtering Card */}
-          <div className="bg-slate-900/50 border border-indigo-500/10/80 rounded-xl p-5 space-y-4" id="filters-container">
+          <div className="bg-slate-900/50 border border-blue-500/10/80 rounded-xl p-5 space-y-4" id="filters-container">
             <h3 className="text-sm font-semibold text-slate-200 uppercase tracking-wider">Пошук та Фільтри</h3>
             
             {/* Search Query */}
@@ -124,7 +124,7 @@ export default function CatalogTab() {
                 placeholder="Пошук рішення..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-slate-950/80 border border-indigo-500/10 rounded-lg pl-9 pr-3 py-2 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 placeholder:text-slate-600"
+                className="w-full bg-slate-950/80 border border-blue-500/10 rounded-lg pl-9 pr-3 py-2 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-slate-600"
               />
             </div>
 
@@ -135,7 +135,7 @@ export default function CatalogTab() {
                 id="category-filter-select"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-lg px-3 py-2 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-blue-500/10 rounded-lg px-3 py-2 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
                 <option value="all">Усі домени ({SOLUTIONS.length})</option>
                 {categories.filter(c => c !== 'all').map(cat => (
@@ -151,7 +151,7 @@ export default function CatalogTab() {
                 id="license-filter-select"
                 value={selectedLicenseType}
                 onChange={(e) => setSelectedLicenseType(e.target.value)}
-                className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-lg px-3 py-2 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-blue-500/10 rounded-lg px-3 py-2 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
                 <option value="all">Усі ліцензії</option>
                 {licenseTypes.filter(l => l !== 'all').map(lic => (
@@ -162,7 +162,7 @@ export default function CatalogTab() {
           </div>
 
           {/* Dynamic Weight Simulator Card */}
-          <div className="bg-slate-900/50 border border-indigo-500/10/80 rounded-xl p-5 space-y-4" id="weight-simulator-card">
+          <div className="bg-slate-900/50 border border-blue-500/10/80 rounded-xl p-5 space-y-4" id="weight-simulator-card">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-slate-200 flex items-center gap-1.5 uppercase tracking-wider">
                 <Sliders className="w-4 h-4 text-emerald-400" />
@@ -171,7 +171,7 @@ export default function CatalogTab() {
               <button
                 id="reset-weights-button"
                 onClick={handleResetWeights}
-                className="text-[10px] text-slate-500 hover:text-indigo-400 flex items-center gap-1 transition-colors"
+                className="text-[10px] text-slate-500 hover:text-blue-400 flex items-center gap-1 transition-colors"
                 title="Скинути ваги до стандартних"
               >
                 <RefreshCw className="w-3 h-3" />
@@ -179,7 +179,7 @@ export default function CatalogTab() {
               </button>
             </div>
             <p className="text-[11px] text-slate-300 leading-normal">
-              Змінюйте пріоритет критеріїв оцінки, щоб перерахувати рейтинг сумісності для PREDATOR в реальному часі.
+              Змінюйте пріоритет критеріїв оцінки, щоб перерахувати рейтинг сумісності для NEXUS в реальному часі.
             </p>
 
             <div className="space-y-3 pt-2">
@@ -268,7 +268,7 @@ export default function CatalogTab() {
                 />
               </div>
 
-              <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] rounded-lg p-2.5 text-center text-[11px] border border-indigo-500/10/60">
+              <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] rounded-lg p-2.5 text-center text-[11px] border border-blue-500/10/60">
                 <span className="text-slate-500">Загальна сума коефіцієнтів: </span>
                 <span className="text-slate-300 font-mono font-bold">
                   {weights.functional + weights.security + weights.license + weights.stack + weights.community}%
@@ -282,12 +282,12 @@ export default function CatalogTab() {
         <div className="lg:col-span-3 space-y-4">
           <div className="flex items-center justify-between">
             <p className="text-xs text-slate-300">
-              Знайдено <span className="text-indigo-400 font-mono font-semibold">{filteredSolutions.length}</span> рішень
+              Знайдено <span className="text-blue-400 font-mono font-semibold">{filteredSolutions.length}</span> рішень
             </p>
           </div>
 
           {filteredSolutions.length === 0 ? (
-            <div className="bg-slate-900/20 border border-dashed border-indigo-500/10 rounded-xl p-12 text-center" id="no-results-view">
+            <div className="bg-slate-900/20 border border-dashed border-blue-500/10 rounded-xl p-12 text-center" id="no-results-view">
               <HelpCircle className="w-10 h-10 text-slate-600 mx-auto mb-3" />
               <p className="text-slate-300 text-sm font-medium">Нічого не знайдено</p>
               <p className="text-slate-600 text-xs mt-1">Спробуйте змінити фільтри пошуку або критерії</p>
@@ -301,13 +301,13 @@ export default function CatalogTab() {
                     key={sol.id}
                     layoutId={`sol-card-${sol.id}`}
                     onClick={() => setSelectedSolution(sol)}
-                    className="group bg-slate-900/40 hover:bg-slate-900/80 border border-indigo-500/10/80 hover:border-slate-700/80 rounded-xl p-5 transition-all cursor-pointer flex flex-col justify-between space-y-4"
+                    className="group bg-slate-900/40 hover:bg-slate-900/80 border border-blue-500/10/80 hover:border-slate-700/80 rounded-xl p-5 transition-all cursor-pointer flex flex-col justify-between space-y-4"
                     whileHover={{ y: -2 }}
                   >
                     <div className="space-y-2">
                       <div className="flex items-start justify-between">
                         <div>
-                          <span className="text-[10px] text-indigo-400 font-semibold uppercase tracking-wider bg-indigo-500/10 px-2 py-0.5 rounded-full">
+                          <span className="text-[10px] text-blue-400 font-semibold uppercase tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full">
                             {sol.category}
                           </span>
                           <h3 className="text-base font-bold text-slate-100 group-hover:text-white mt-1.5 flex items-center gap-1.5">
@@ -333,7 +333,7 @@ export default function CatalogTab() {
                       </p>
                     </div>
 
-                    <div className="space-y-2 pt-2 border-t border-indigo-500/10/50">
+                    <div className="space-y-2 pt-2 border-t border-blue-500/10/50">
                       <div className="flex flex-wrap gap-1.5 text-[10px]">
                         <span className={`border px-2 py-0.5 rounded-md ${getLicenseBadgeColor(sol.licenseType)}`}>
                           {sol.license}
@@ -345,7 +345,7 @@ export default function CatalogTab() {
                       
                       <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 group-hover:text-slate-300">
                         <span className="truncate max-w-[200px]">Стек: <code className="text-[10px] text-slate-300 font-mono">{sol.techStack}</code></span>
-                        <span className="text-indigo-400 font-medium group-hover:underline flex items-center gap-0.5 text-xs">
+                        <span className="text-blue-400 font-medium group-hover:underline flex items-center gap-0.5 text-xs">
                           Детальніше &rarr;
                         </span>
                       </div>
@@ -366,14 +366,14 @@ export default function CatalogTab() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-indigo-500/10 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+              className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-blue-500/10 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
-              <div className="px-6 py-5 border-b border-indigo-500/10/80 bg-slate-900/40 flex items-start justify-between">
+              <div className="px-6 py-5 border-b border-blue-500/10/80 bg-slate-900/40 flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider bg-indigo-500/10 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider bg-blue-500/10 px-2 py-0.5 rounded-full">
                       {selectedSolution.category}
                     </span>
                     <span className={`text-[10px] font-bold uppercase tracking-wider border px-2 py-0.5 rounded-full ${getLicenseBadgeColor(selectedSolution.licenseType)}`}>
@@ -382,14 +382,14 @@ export default function CatalogTab() {
                   </div>
                   <h2 className="text-xl font-bold text-white mt-2 flex items-center gap-2">
                     {selectedSolution.name}
-                    <span className="text-xs font-normal text-slate-500 font-mono bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] px-2 py-0.5 rounded border border-indigo-500/10">
+                    <span className="text-xs font-normal text-slate-500 font-mono bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] px-2 py-0.5 rounded border border-blue-500/10">
                       {selectedSolution.license}
                     </span>
                   </h2>
                 </div>
                 <div className="text-right">
                   <span className="text-[10px] text-slate-500 block font-mono">Сум. (з урахуванням ваг)</span>
-                  <span className="text-2xl font-mono font-bold text-indigo-400">
+                  <span className="text-2xl font-mono font-bold text-blue-400">
                     {getDynamicScore(selectedSolution)}
                   </span>
                   <span className="text-xs text-slate-600 font-mono"> /100</span>
@@ -400,22 +400,22 @@ export default function CatalogTab() {
               <div className="p-6 space-y-5 overflow-y-auto text-sm text-slate-300">
                 <div className="space-y-1.5">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1">
-                    <Info className="w-3.5 h-3.5 text-indigo-400" />
+                    <Info className="w-3.5 h-3.5 text-blue-400" />
                     Опис призначення
                   </h4>
-                  <p className="text-slate-300 text-xs leading-relaxed bg-slate-900/40 p-3 rounded-lg border border-indigo-500/5">
+                  <p className="text-slate-300 text-xs leading-relaxed bg-slate-900/40 p-3 rounded-lg border border-blue-500/5">
                     {selectedSolution.description}
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <span className="text-[10px] uppercase text-slate-500 font-medium tracking-wide">Роль у PREDATOR</span>
-                    <p className="text-xs text-slate-200 bg-slate-900/20 p-2.5 rounded border border-indigo-500/5">{selectedSolution.role}</p>
+                    <span className="text-[10px] uppercase text-slate-500 font-medium tracking-wide">Роль у NEXUS</span>
+                    <p className="text-xs text-slate-200 bg-slate-900/20 p-2.5 rounded border border-blue-500/5">{selectedSolution.role}</p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-[10px] uppercase text-slate-500 font-medium tracking-wide">Технічний стек</span>
-                    <p className="text-xs text-slate-200 font-mono bg-slate-900/20 p-2.5 rounded border border-indigo-500/5">{selectedSolution.techStack}</p>
+                    <p className="text-xs text-slate-200 font-mono bg-slate-900/20 p-2.5 rounded border border-blue-500/5">{selectedSolution.techStack}</p>
                   </div>
                 </div>
 
@@ -454,8 +454,8 @@ export default function CatalogTab() {
                 </div>
 
                 {/* Architecture Recommendation based on License / Production Status */}
-                <div className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-indigo-500/10 rounded-xl p-4 space-y-2">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+                <div className="bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-blue-500/10 rounded-xl p-4 space-y-2">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
                     <Cpu className="w-4 h-4" />
                     Рекомендація архітектора
                   </h4>
@@ -478,7 +478,7 @@ export default function CatalogTab() {
               </div>
 
               {/* Modal Footer */}
-              <div className="px-6 py-4 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-t border-indigo-500/10/80 flex justify-end">
+              <div className="px-6 py-4 bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border-t border-blue-500/10/80 flex justify-end">
                 <button
                   id="close-solution-modal-button"
                   onClick={() => setSelectedSolution(null)}

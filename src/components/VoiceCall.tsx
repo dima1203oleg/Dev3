@@ -165,13 +165,13 @@ export function VoiceCall() {
               initial={{ opacity: 0, scale: 0.8, x: 20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.8, x: 20 }}
-              className="bg-slate-950/95 border border-fuchsia-500/30 px-4 py-3 rounded-xl shadow-[0_0_30px_rgba(217,70,239,0.15)] backdrop-blur-md flex items-center gap-3"
+              className="bg-slate-950/95 border border-sky-500/30 px-4 py-3 rounded-xl shadow-[0_0_30px_rgba(217,70,239,0.15)] backdrop-blur-md flex items-center gap-3"
             >
               <div className="relative flex h-3 w-3 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-fuchsia-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-fuchsia-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
               </div>
-              <div className="text-[10px] font-mono font-bold tracking-widest text-fuchsia-400 uppercase">
+              <div className="text-[10px] font-mono font-bold tracking-widest text-sky-400 uppercase">
                 MARIARTI LIVE
               </div>
             </motion.div>
