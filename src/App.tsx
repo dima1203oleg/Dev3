@@ -26,7 +26,7 @@ import { OSINT_ENTITIES, OsintEntity } from "./osintData";
 import { SOLUTIONS } from "./data";
 import {
   Layers,
-  ShieldCheck,
+  ShieldCheck, Shield,
   Network,
   Wrench,
   Calendar,
@@ -1388,18 +1388,18 @@ export default function App() {
                         setEcosystem("user");
                         setActiveTab("live-analytical-center");
                       }}
-                      className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-all text-center ${ecosystem === "user" ? "bg-blue-600 text-white shadow-sm" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
+                      className={`flex-1 py-1.5 px-1 rounded-md text-[10px] font-medium transition-all flex items-center justify-center gap-1 ${ecosystem === "user" ? "bg-blue-600 text-white shadow-sm" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
                     >
-                      Користувач
+                      <User className="w-3.5 h-3.5" /> Користувач
                     </button>
                     <button
                       onClick={() => {
                         setEcosystem("admin");
                         setActiveTab("admin-back-office");
                       }}
-                      className={`flex-1 py-1.5 px-2 rounded-md text-xs font-medium transition-all text-center ${ecosystem === "admin" ? "bg-blue-600 text-white shadow-sm" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
+                      className={`flex-1 py-1.5 px-1 rounded-md text-[10px] font-medium transition-all flex items-center justify-center gap-1 ${ecosystem === "admin" ? "bg-emerald-600 text-white shadow-sm" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
                     >
-                      Адміністратор
+                      <Shield className="w-3.5 h-3.5" /> Адмін
                     </button>
                   </div>
                 </div>
@@ -1419,7 +1419,7 @@ export default function App() {
                       className="w-10 h-10 rounded-lg bg-slate-950/50 border border-slate-800/80 flex items-center justify-center text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
                       title={ecosystem === "user" ? "Switch to Admin" : "Switch to User"}
                     >
-                      {ecosystem === "user" ? "US" : "AD"}
+                      {ecosystem === "user" ? <User className="w-5 h-5" /> : <Shield className="w-5 h-5 text-emerald-400" />}
                     </button>
                 </div>
               )}
