@@ -311,26 +311,26 @@ export function LiveChatBot() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="absolute bottom-20 right-0 w-[380px] h-[550px] bg-slate-950/95 border border-blue-500/30 rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.5)] backdrop-blur-md flex flex-col overflow-hidden"
+            className="absolute bottom-20 right-0 w-[380px] h-[550px] glass-panel-premium border-white/10 border-glow rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.5)] backdrop-blur-md flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="px-4 py-3 bg-slate-900/60 border-b border-blue-500/10 flex items-center justify-between">
+            <div className="px-2 py-1.5 bg-black/30 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Bot className="w-5 h-5 text-blue-400" />
+                <Bot className="w-4 h-4 text-blue-400" />
                 <div>
                   <h3 className="text-xs font-bold text-white uppercase tracking-wider">MARIARTI</h3>
-                  <span className="text-[9px] text-emerald-400 font-mono flex items-center gap-1">
+                  <span className="text-xs text-emerald-400 font-mono flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> ONLINE / VOICE + TEXT
                   </span>
                 </div>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-slate-300 hover:text-white transition-colors">
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-2 space-y-4">
               {messages.length === 0 && (
                 <div className="h-full flex flex-col items-center justify-center text-center space-y-4">
                   <div className="opacity-50 flex flex-col items-center justify-center space-y-2">
@@ -338,7 +338,7 @@ export function LiveChatBot() {
                     <p className="text-xs text-slate-300 font-mono">MARIARTI готовий.<br/>Задайте питання або увімкніть мікрофон.</p>
                   </div>
                   <div className="w-full px-2 pt-2 space-y-1.5 text-left">
-                    <p className="text-[10px] uppercase tracking-wider font-mono text-blue-400/70 font-semibold px-1">Швидкі розслідування:</p>
+                    <p className="text-xs uppercase tracking-wider font-mono text-blue-400/70 font-semibold px-1">Швидкі розслідування:</p>
                     <div className="grid grid-cols-1 gap-1.5">
                       {[
                         "Проаналізуй ТОВ 'СпецТехПостач'",
@@ -351,7 +351,7 @@ export function LiveChatBot() {
                           whileHover={{ scale: 1.01, backgroundColor: "rgba(59, 130, 246, 0.1)" }}
                           whileTap={{ scale: 0.99 }}
                           onClick={() => handleSuggestionClick(item)}
-                          className="w-full text-left p-2.5 rounded-xl border border-blue-500/10 hover:border-blue-500/30 bg-slate-900/40 text-[11px] text-slate-300 font-mono transition-all"
+                          className="w-full text-left p-2.5 rounded-2xl border border-white/10 hover:border-white/10 bg-black/20 text-xs text-slate-300 font-mono transition-all"
                         >
                           ⚡ {item}
                         </motion.button>
@@ -362,7 +362,7 @@ export function LiveChatBot() {
               )}
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] rounded-2xl p-3 text-xs leading-relaxed ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-slate-900/80 border border-blue-500/10 text-slate-300'}`}>
+                  <div className={`max-w-[85%] rounded-2xl p-2 text-xs leading-relaxed ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-black/40 border border-white/10 text-slate-300'}`}>
                     <p className="whitespace-pre-line">{msg.text}</p>
                   </div>
                 </div>
@@ -372,19 +372,19 @@ export function LiveChatBot() {
 
             {/* Error Toast */}
             {error && (
-              <div className="bg-red-950/90 border-t border-red-500/50 text-red-200 px-4 py-2 text-xs font-mono flex items-center gap-2">
+              <div className="bg-red-950/90 border-t border-red-500/50 text-red-200 px-2 py-1.5 text-xs font-mono flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <p className="truncate">{error}</p>
               </div>
             )}
 
             {/* Input Area */}
-            <div className="p-2 bg-slate-900/60 border-t border-blue-500/10">
-              <form onSubmit={handleSendText} className="flex items-center gap-1.5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] p-1.5 rounded-2xl border border-blue-500/10/80">
+            <div className="p-2 bg-slate-900/60 border-t border-white/10">
+              <form onSubmit={handleSendText} className="flex items-center gap-1.5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] p-1.5 rounded-2xl border border-white/10/80">
                 <button
                   type="button"
                   onClick={isActive ? stopMic : startMic}
-                  className={`p-2 rounded-xl transition-all ${
+                  className={`p-2 rounded-2xl transition-all ${
                     isActive 
                       ? 'bg-red-500/20 text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.15)]' 
                       : 'text-slate-300 hover:bg-slate-800 hover:text-slate-200'
@@ -396,7 +396,7 @@ export function LiveChatBot() {
                 <button
                   type="button"
                   onClick={() => setIsTTSMuted(!isTTSMuted)}
-                  className={`p-2 rounded-xl transition-all ${
+                  className={`p-2 rounded-2xl transition-all ${
                     isTTSMuted 
                       ? 'text-slate-500 hover:bg-slate-800 hover:text-slate-300' 
                       : 'text-emerald-400 hover:bg-slate-800 bg-emerald-500/10'
@@ -415,7 +415,7 @@ export function LiveChatBot() {
                 <button
                   type="submit"
                   disabled={!textInput.trim()}
-                  className="p-2 rounded-xl transition-all bg-blue-600 hover:bg-blue-500 disabled:bg-transparent disabled:text-slate-600 text-white"
+                  className="p-2 rounded-2xl transition-all bg-blue-600 hover:bg-blue-500 disabled:bg-transparent disabled:text-slate-600 text-white"
                 >
                   <Send className="w-4 h-4" />
                 </button>
@@ -429,9 +429,9 @@ export function LiveChatBot() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="h-14 w-14 rounded-full flex items-center justify-center shadow-2xl transition-all border bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:bg-slate-800 text-slate-300 border-slate-700 relative"
+        className="h-10 w-14 rounded-full flex items-center justify-center shadow-2xl transition-all border bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-800 text-slate-300 border-white/10 relative"
       >
-        <MessageSquare className="w-6 h-6" />
+        <MessageSquare className="w-5 h-5" />
         {isActive && (
           <span className="absolute top-0 right-0 flex h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>

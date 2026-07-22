@@ -254,33 +254,33 @@ export default function D3HistoricalRiskTrendsWidget({
   };
 
   return (
-    <div className="bg-slate-900/40 border border-blue-500/10 rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] backdrop-blur-md p-5 relative overflow-hidden flex flex-col space-y-4" id="d3-historical-trends-widget">
+    <div className="bg-slate-900/40 border border-white/10 rounded-2xl shadow-[0_4px_40px_rgba(30,58,138,0.15)] backdrop-blur-md p-2 relative overflow-hidden flex flex-col space-y-4" id="d3-historical-trends-widget">
       <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/5 via-transparent to-transparent pointer-events-none" />
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-blue-500/5 pb-3 gap-3 relative z-10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-3 gap-2 relative z-10">
         <div className="flex items-center gap-2">
-          <TrendingUp className="w-5 h-5 text-blue-400" />
+          <TrendingUp className="w-4 h-4 text-blue-400" />
           <div>
             <h4 className="text-xs font-bold uppercase text-slate-100 tracking-wider font-mono flex items-center gap-1.5">
               D3.js Історична Динаміка Ризиків
-              <span className="text-[9px] bg-blue-600/20 text-blue-400 border border-blue-500/30 px-1.5 py-0.5 rounded font-mono uppercase font-normal tracking-normal">
+              <span className="text-xs bg-blue-600/20 text-blue-400 border border-white/10 px-2 py-1 rounded font-mono uppercase font-normal tracking-normal">
                 30 днів
               </span>
             </h4>
-            <p className="text-[10px] text-slate-500 font-mono mt-0.5">
+            <p className="text-xs text-slate-500 font-mono mt-0.5">
               Хронологічний тренд індексу загрози для активних суб'єктів у базі OSINT
             </p>
           </div>
         </div>
 
         {/* Tab Filters */}
-        <div className="flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-blue-500/5/60">
+        <div className="flex items-center gap-1 bg-slate-950/80 p-1 rounded-2xl border border-white/10/60">
           <button
             onClick={() => setActiveTab('all')}
-            className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+            className={`px-2.5 py-1 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
               activeTab === 'all' 
-                ? 'bg-blue-600/20 text-blue-400 border border-blue-500/20 shadow-sm' 
+                ? 'bg-blue-600/20 text-blue-400 border border-white/10 shadow-sm' 
                 : 'text-slate-400 hover:text-slate-300'
             }`}
           >
@@ -288,7 +288,7 @@ export default function D3HistoricalRiskTrendsWidget({
           </button>
           <button
             onClick={() => setActiveTab('critical')}
-            className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+            className={`px-2.5 py-1 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
               activeTab === 'critical' 
                 ? 'bg-red-500/20 text-red-400 border border-red-500/20 shadow-sm' 
                 : 'text-slate-400 hover:text-slate-300'
@@ -298,9 +298,9 @@ export default function D3HistoricalRiskTrendsWidget({
           </button>
           <button
             onClick={() => setActiveTab('suspicious')}
-            className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+            className={`px-2.5 py-1 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
               activeTab === 'suspicious' 
-                ? 'bg-amber-500/20 text-amber-400 border border-amber-500/20 shadow-sm' 
+                ? 'bg-amber-500/20 text-amber-400 border border-white/10 shadow-sm' 
                 : 'text-slate-400 hover:text-slate-300'
             }`}
           >
@@ -310,22 +310,22 @@ export default function D3HistoricalRiskTrendsWidget({
       </div>
 
       {/* Main Grid: Chart & Incident events log */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 relative z-10">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-2 relative z-10">
         
         {/* SVG Chart canvas */}
         <div className="xl:col-span-8 flex flex-col space-y-3">
           <div 
             ref={containerRef}
-            className="relative bg-slate-950/40 border border-blue-500/10 rounded-xl p-2 h-[260px] flex items-center justify-center select-none"
+            className="relative bg-slate-950/40 border border-white/10 rounded-2xl p-2 h-[260px] flex items-center justify-center select-none"
           >
             {/* Horizontal Y-Axis Guideline grid (0%, 20%, 40%, 60%, 80%, 100%) */}
             <div className="absolute inset-0 pointer-events-none flex flex-col justify-between" style={{ paddingBottom: padding.bottom, paddingTop: padding.top }}>
               {[100, 80, 60, 40, 20, 0].map((val) => (
                 <div key={val} className="w-full flex items-center">
-                  <span className="w-10 text-[8px] font-mono text-slate-600 text-right pr-2">
+                  <span className="w-10 text-xs font-mono text-slate-600 text-right pr-2">
                     {val}%
                   </span>
-                  <div className="flex-1 border-t border-slate-800/40 border-dashed" />
+                  <div className="flex-1 border-t border-white/10 border-dashed" />
                 </div>
               ))}
             </div>
@@ -513,7 +513,7 @@ export default function D3HistoricalRiskTrendsWidget({
             </svg>
 
             {/* X-axis labels (rendered cleanly using HTML so they match our font rules perfectly) */}
-            <div className="absolute bottom-0 inset-x-0 flex justify-between px-3 select-none text-[8px] font-mono text-slate-500" style={{ paddingLeft: padding.left + 5, paddingRight: padding.right + 5, height: padding.bottom }}>
+            <div className="absolute bottom-0 inset-x-0 flex justify-between px-3 select-none text-xs font-mono text-slate-500" style={{ paddingLeft: padding.left + 5, paddingRight: padding.right + 5, height: padding.bottom }}>
               <span>20.06 (Початок)</span>
               <span>25.06</span>
               <span>30.06</span>
@@ -530,9 +530,9 @@ export default function D3HistoricalRiskTrendsWidget({
                   initial={{ opacity: 0, scale: 0.95, y: -10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="absolute top-4 left-1/2 -translate-x-1/2 bg-slate-950/95 border border-blue-500/20 p-3 rounded-xl shadow-2xl backdrop-blur-md max-w-[280px] w-full space-y-1.5 pointer-events-none z-20"
+                  className="absolute top-2 left-1/2 -translate-x-1/2 bg-slate-950/95 border border-white/10 p-2 rounded-2xl shadow-2xl backdrop-blur-md max-w-[210px] w-full space-y-1.5 pointer-events-none z-20"
                 >
-                  <div className="flex justify-between items-center text-[10px] font-mono text-slate-400 border-b border-blue-500/10 pb-1">
+                  <div className="flex justify-between items-center text-xs font-mono text-slate-400 border-b border-white/10 pb-1">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-3.5 h-3.5 text-blue-400" />
                       Дата вибірки:
@@ -542,7 +542,7 @@ export default function D3HistoricalRiskTrendsWidget({
 
                   <div className="space-y-1">
                     {visibleEntities.comp1 && activeTab !== 'suspicious' && (
-                      <div className="flex justify-between items-center text-[10px] font-mono">
+                      <div className="flex justify-between items-center text-xs font-mono">
                         <span className="text-slate-400 flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
                           СпецТехПостач:
@@ -551,7 +551,7 @@ export default function D3HistoricalRiskTrendsWidget({
                       </div>
                     )}
                     {visibleEntities.wallet1 && (
-                      <div className="flex justify-between items-center text-[10px] font-mono">
+                      <div className="flex justify-between items-center text-xs font-mono">
                         <span className="text-slate-400 flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
                           BTC Wallet:
@@ -560,7 +560,7 @@ export default function D3HistoricalRiskTrendsWidget({
                       </div>
                     )}
                     {visibleEntities.person1 && (
-                      <div className="flex justify-between items-center text-[10px] font-mono">
+                      <div className="flex justify-between items-center text-xs font-mono">
                         <span className="text-slate-400 flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                           Коваленко І.В.:
@@ -569,7 +569,7 @@ export default function D3HistoricalRiskTrendsWidget({
                       </div>
                     )}
                     {visibleEntities.comp2 && activeTab === 'all' && (
-                      <div className="flex justify-between items-center text-[10px] font-mono">
+                      <div className="flex justify-between items-center text-xs font-mono">
                         <span className="text-slate-400 flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                           Арсенал Сек'юріті:
@@ -591,10 +591,10 @@ export default function D3HistoricalRiskTrendsWidget({
                 <button
                   key={ent.id}
                   onClick={() => toggleEntityVisibility(ent.key)}
-                  className={`px-2.5 py-1.5 rounded-xl border flex items-center gap-2 text-[10px] font-mono transition-all duration-300 cursor-pointer ${
+                  className={`px-2.5 py-1.5 rounded-2xl border flex items-center gap-2 text-xs font-mono transition-all duration-300 cursor-pointer ${
                     isVisible 
                       ? 'bg-slate-950/80 text-slate-100 shadow-sm' 
-                      : 'bg-slate-900/10 border-slate-800/30 text-slate-500 line-through'
+                      : 'bg-slate-900/10 border-white/10 text-slate-500 line-through'
                   }`}
                   style={{ borderColor: isVisible ? `${ent.color}40` : undefined }}
                 >
@@ -608,7 +608,7 @@ export default function D3HistoricalRiskTrendsWidget({
                   />
                   <div className="text-left leading-none">
                     <span className="font-bold block truncate max-w-[120px]">{ent.name}</span>
-                    <span className="text-[8px] text-slate-500 uppercase">{ent.type} · {ent.currentRisk}%</span>
+                    <span className="text-xs text-slate-500 uppercase">{ent.type} · {ent.currentRisk}%</span>
                   </div>
                 </button>
               );
@@ -617,9 +617,9 @@ export default function D3HistoricalRiskTrendsWidget({
         </div>
 
         {/* Right timeline security events logs panel */}
-        <div className="xl:col-span-4 bg-slate-950/30 border border-blue-500/5 rounded-xl p-4 flex flex-col h-[324px] justify-between">
+        <div className="xl:col-span-4 bg-slate-950/30 border border-white/10 rounded-2xl p-2 flex flex-col h-[324px] justify-between">
           <div className="space-y-3 overflow-hidden flex flex-col h-full">
-            <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-wider block border-b border-blue-500/5 pb-1.5 flex items-center gap-1.5">
+            <span className="text-xs text-slate-500 font-mono font-bold uppercase tracking-wider block border-b border-white/10 pb-1.5 flex items-center gap-1.5">
               <ShieldAlert className="w-3.5 h-3.5 text-blue-400" />
               Хроніка Ключових Подій (30 днів)
             </span>
@@ -636,25 +636,25 @@ export default function D3HistoricalRiskTrendsWidget({
                       onSelectEntity(inc.targetEntityId);
                       onSelectTab('volumes');
                     }}
-                    className={`p-2 rounded-lg border text-[10px] cursor-pointer transition-all duration-300 ${
+                    className={`p-2 rounded-2xl border text-xs cursor-pointer transition-all duration-300 ${
                       isSelected 
-                        ? 'bg-blue-950/20 border-blue-500/30 shadow-md scale-102' 
-                        : 'bg-slate-900/30 border-blue-500/5 hover:border-blue-500/10'
+                        ? 'bg-blue-950/20 border-white/10 shadow-xl shadow-black/20 scale-102' 
+                        : 'bg-slate-900/30 border-white/10 hover:border-white/10'
                     }`}
                   >
                     <div className="flex justify-between items-center mb-1 font-mono">
                       <span className="text-blue-400 font-bold">{inc.dateLabel}</span>
-                      <span className={`px-1.5 py-0.5 rounded text-[7.5px] font-bold ${
+                      <span className={`px-2 py-1 rounded text-[7.5px] font-bold ${
                         inc.severity === 'CRITICAL' 
                           ? 'bg-red-500/10 text-red-400 border border-red-500/20' 
-                          : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                          : 'bg-amber-500/10 text-amber-400 border border-white/10'
                       }`}>
                         {inc.severity}
                       </span>
                     </div>
                     <h5 className="font-bold text-slate-200 mb-0.5 truncate">{inc.title}</h5>
-                    <p className="text-[9px] text-slate-400 leading-normal line-clamp-2 mb-1.5">{inc.description}</p>
-                    <div className="text-[8px] font-mono text-slate-500 border-t border-slate-800/40 pt-1 flex justify-between items-center">
+                    <p className="text-xs text-slate-400 leading-normal line-clamp-2 mb-1.5">{inc.description}</p>
+                    <div className="text-xs font-mono text-slate-500 border-t border-white/10 pt-1 flex justify-between items-center">
                       <span className="truncate max-w-[120px]">{inc.entityName}</span>
                       <span className="text-blue-400 font-bold shrink-0">{inc.riskImpact}</span>
                     </div>
@@ -664,7 +664,7 @@ export default function D3HistoricalRiskTrendsWidget({
             </div>
           </div>
 
-          <div className="text-[9px] text-slate-500 font-mono border-t border-blue-500/5 pt-2 mt-2 flex justify-between items-center">
+          <div className="text-xs text-slate-500 font-mono border-t border-white/10 pt-2 mt-2 flex justify-between items-center">
             <span>Аномалії за період:</span>
             <span className="text-slate-300 font-bold">4 вагомих інциденти</span>
           </div>

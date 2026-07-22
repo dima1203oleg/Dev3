@@ -227,11 +227,11 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
   const getSeverityBadgeClass = (severity: RiskAlert['severity']) => {
     switch (severity) {
       case 'CRITICAL':
-        return 'bg-rose-500/10 text-rose-400 border-rose-500/30';
+        return 'bg-rose-500/10 text-rose-400 border-white/10';
       case 'HIGH':
-        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+        return 'bg-amber-500/10 text-amber-400 border-white/10';
       default:
-        return 'bg-blue-500/10 text-blue-400 border-blue-500/30';
+        return 'bg-blue-500/10 text-blue-400 border-white/10';
     }
   };
 
@@ -255,12 +255,12 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
   };
 
   return (
-    <div className="bg-slate-900/60 border border-red-500/10 rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.6)] backdrop-blur-md p-4 space-y-3 relative overflow-hidden" id="risk-alert-ticker-container">
+    <div className="glass-panel-premium border-red-500/20 rounded-2xl p-2 space-y-3 relative overflow-hidden" id="risk-alert-ticker-container">
       {/* Visual pulse glow on left edge */}
       <div className="absolute top-0 bottom-0 left-0 w-1 bg-red-500/60 animate-pulse" />
       
       {/* Top Controls Row */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-blue-500/5 pb-2.5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2.5">
         <div className="flex items-center gap-2">
           <div className="relative flex items-center justify-center">
             <span className="absolute inline-flex h-2 w-2 rounded-full bg-red-500 opacity-75 animate-ping" />
@@ -269,11 +269,11 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
           <div>
             <span className="text-xs font-black uppercase text-slate-100 tracking-widest font-mono flex items-center gap-1.5">
               Live Стрічка Ризик-Сигналів
-              <span className="text-[8px] bg-red-500/10 text-red-400 px-1 rounded uppercase font-bold tracking-normal animate-pulse border border-red-500/20">
+              <span className="text-xs bg-red-500/10 text-red-400 px-1 rounded uppercase font-bold tracking-normal animate-pulse border border-red-500/20">
                 Оновлюється
               </span>
             </span>
-            <p className="text-[9px] text-slate-500 font-mono">
+            <p className="text-xs text-slate-500 font-mono">
               Останній сигнал: {lastAlertTime} · Моніторинг комплаєнсу 24/7
             </p>
           </div>
@@ -282,12 +282,12 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
         {/* Action Controls and Filters */}
         <div className="flex items-center flex-wrap gap-2">
           {/* Severity filter tabs */}
-          <div className="flex items-center gap-0.5 bg-slate-950/80 p-0.5 rounded-lg border border-slate-800">
+          <div className="flex items-center gap-0.5 bg-slate-950/80 p-0.5 rounded-2xl border border-white/5">
             <button
               onClick={() => setSelectedSeverityFilter('ALL')}
-              className={`px-2 py-0.5 text-[8px] font-mono font-bold rounded uppercase cursor-pointer transition-colors ${
+              className={`px-2 py-1 text-xs font-mono font-bold rounded uppercase cursor-pointer transition-colors ${
                 selectedSeverityFilter === 'ALL' 
-                  ? 'bg-blue-600/20 text-blue-400 border border-blue-500/20' 
+                  ? 'bg-blue-600/20 text-blue-400 border border-white/10' 
                   : 'text-slate-500 hover:text-slate-300'
               }`}
             >
@@ -295,9 +295,9 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
             </button>
             <button
               onClick={() => setSelectedSeverityFilter('CRITICAL')}
-              className={`px-2 py-0.5 text-[8px] font-mono font-bold rounded uppercase cursor-pointer transition-colors ${
+              className={`px-2 py-1 text-xs font-mono font-bold rounded uppercase cursor-pointer transition-colors ${
                 selectedSeverityFilter === 'CRITICAL' 
-                  ? 'bg-rose-600/20 text-rose-400 border border-rose-500/20' 
+                  ? 'bg-rose-600/20 text-rose-400 border border-white/10' 
                   : 'text-slate-500 hover:text-slate-300'
               }`}
             >
@@ -305,9 +305,9 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
             </button>
             <button
               onClick={() => setSelectedSeverityFilter('HIGH')}
-              className={`px-2 py-0.5 text-[8px] font-mono font-bold rounded uppercase cursor-pointer transition-colors ${
+              className={`px-2 py-1 text-xs font-mono font-bold rounded uppercase cursor-pointer transition-colors ${
                 selectedSeverityFilter === 'HIGH' 
-                  ? 'bg-amber-600/20 text-amber-400 border border-amber-500/20' 
+                  ? 'bg-amber-600/20 text-amber-400 border border-white/10' 
                   : 'text-slate-500 hover:text-slate-300'
               }`}
             >
@@ -318,10 +318,10 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
           {/* Sound Toggle */}
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
-            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+            className={`p-1.5 rounded-2xl border transition-all cursor-pointer ${
               soundEnabled 
-                ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' 
-                : 'bg-slate-950/80 text-slate-500 border-slate-850 hover:text-slate-300'
+                ? 'bg-rose-500/10 text-rose-400 border-white/10' 
+                : 'bg-slate-950/80 text-slate-500 border-white/10 hover:text-slate-300'
             }`}
             title={soundEnabled ? "Вимкнути звук сповіщень" : "Увімкнути звук сповіщень"}
           >
@@ -331,10 +331,10 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
           {/* Play/Pause */}
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+            className={`p-1.5 rounded-2xl border transition-all cursor-pointer ${
               isPlaying 
-                ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' 
-                : 'bg-slate-950/80 text-slate-500 border-slate-850'
+                ? 'bg-blue-500/10 text-blue-400 border-white/10' 
+                : 'bg-slate-950/80 text-slate-500 border-white/10'
             }`}
             title={isPlaying ? "Пауза трансляції" : "Продовжити трансляцію"}
           >
@@ -346,17 +346,17 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
             <button
               onClick={handlePrev}
               disabled={filteredAlerts.length <= 1}
-              className="p-1.5 bg-slate-950/80 border border-slate-850 rounded-lg text-slate-400 hover:text-slate-200 disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+              className="p-1.5 bg-slate-950/80 border border-white/10 rounded-2xl text-slate-400 hover:text-slate-200 disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
-            <span className="text-[9px] font-mono font-bold text-slate-400 px-1">
+            <span className="text-xs font-mono font-bold text-slate-400 px-1">
               {filteredAlerts.length > 0 ? `${currentIndex + 1}/${filteredAlerts.length}` : '0/0'}
             </span>
             <button
               onClick={handleNext}
               disabled={filteredAlerts.length <= 1}
-              className="p-1.5 bg-slate-950/80 border border-slate-850 rounded-lg text-slate-400 hover:text-slate-200 disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+              className="p-1.5 bg-slate-950/80 border border-white/10 rounded-2xl text-slate-400 hover:text-slate-200 disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
             >
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
@@ -365,9 +365,9 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
       </div>
 
       {/* Main Ticker Area with interactive item */}
-      <div className="bg-slate-950/50 rounded-xl p-3 border border-slate-850 min-h-[76px] flex items-center justify-between gap-4">
+      <div className="bg-black/30 rounded-2xl p-2 border border-white/10 min-h-[76px] flex items-center justify-between gap-2">
         {filteredAlerts.length === 0 ? (
-          <div className="flex items-center justify-center w-full py-4 text-slate-500 font-mono text-[10px]">
+          <div className="flex items-center justify-center w-full py-2 text-slate-500 font-mono text-xs">
             <Info className="w-4 h-4 mr-1.5 text-slate-600" />
             Немає сигналів, що відповідають фільтру
           </div>
@@ -379,17 +379,17 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.35, ease: 'easeInOut' }}
-              className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-3"
+              className="flex-1 flex flex-col md:flex-row md:items-center justify-between gap-2"
             >
               <div className="space-y-1">
                 <div className="flex items-center flex-wrap gap-1.5">
-                  <span className={`px-1.5 py-0.5 rounded text-[8px] font-bold border ${getSeverityBadgeClass(activeAlert.severity)}`}>
+                  <span className={`px-2 py-1 rounded text-xs font-bold border ${getSeverityBadgeClass(activeAlert.severity)}`}>
                     {activeAlert.severity}
                   </span>
-                  <span className="text-[8px] font-mono bg-slate-900 border border-slate-800 text-slate-400 px-1 py-0.5 rounded font-bold">
+                  <span className="text-xs font-mono bg-slate-900/40 backdrop-blur-md border border-white/5 text-slate-400 px-1 py-0.5 rounded font-bold">
                     {getTypeLabel(activeAlert.type)}
                   </span>
-                  <span className="text-[9px] text-slate-500 font-mono">
+                  <span className="text-xs text-slate-500 font-mono">
                     {new Date(activeAlert.timestamp).toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                   </span>
                 </div>
@@ -397,13 +397,13 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
                 <h4 className="text-xs font-bold text-slate-100 flex items-center gap-1.5">
                   {activeAlert.title}
                   {activeAlert.newScore && (
-                    <span className="text-rose-400 text-[10px] font-black font-mono">
+                    <span className="text-rose-400 text-xs font-black font-mono">
                       ({activeAlert.newScore}%)
                     </span>
                   )}
                 </h4>
                 
-                <p className="text-[10px] text-slate-300 leading-relaxed font-sans line-clamp-1">
+                <p className="text-xs text-slate-300 leading-relaxed font-sans line-clamp-1">
                   {activeAlert.text}
                 </p>
               </div>
@@ -412,7 +412,7 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
               {activeAlert.entityId && (
                 <div className="shrink-0 flex items-center gap-2 self-end md:self-auto">
                   {activeAlert.oldScore && activeAlert.newScore && (
-                    <div className="flex items-center gap-1 font-mono text-[9px] bg-red-950/10 border border-red-500/20 px-2 py-1 rounded-lg">
+                    <div className="flex items-center gap-1 font-mono text-xs bg-red-950/10 border border-red-500/20 px-2 py-1 rounded-2xl">
                       <TrendingUp className="w-3.5 h-3.5 text-red-400" />
                       <span className="text-slate-400">{activeAlert.oldScore}%</span>
                       <span className="text-slate-500">&rarr;</span>
@@ -427,7 +427,7 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
                         if (onSelectTab) onSelectTab('volumes'); // switch to details or appropriate view
                       }
                     }}
-                    className="flex items-center gap-1 text-[10px] font-mono font-bold bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 border border-blue-500/30 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer"
+                    className="flex items-center gap-1 text-xs font-mono font-bold bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 border border-white/10 px-2.5 py-1.5 rounded-2xl transition-all cursor-pointer"
                   >
                     Дослідити
                     <ArrowUpRight className="w-3 h-3" />
@@ -446,18 +446,18 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="absolute bottom-4 right-4 left-4 bg-rose-950/95 border border-red-500/30 rounded-xl p-3 shadow-2xl flex items-center gap-3 z-50 backdrop-blur-md"
+            className="absolute bottom-4 right-4 left-4 bg-rose-950/95 border border-red-500/30 rounded-2xl p-2 shadow-2xl flex items-center gap-2 z-50 backdrop-blur-md"
           >
-            <div className="p-2 bg-red-500/20 border border-red-500/40 rounded-lg text-red-400 animate-pulse shrink-0">
-              <ShieldAlert className="w-5 h-5" />
+            <div className="p-2 bg-red-500/20 border border-red-500/40 rounded-2xl text-red-400 animate-pulse shrink-0">
+              <ShieldAlert className="w-4 h-4" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className="text-[8px] bg-red-600 text-white font-bold px-1 rounded uppercase tracking-wider animate-ping">LIVE</span>
-                <span className="text-[9px] font-bold text-red-400 font-mono">ШІ СИГНАЛ ТРИВОГИ</span>
+                <span className="text-xs bg-red-600 text-white font-bold px-1 rounded uppercase tracking-wider animate-ping">LIVE</span>
+                <span className="text-xs font-bold text-red-400 font-mono">ШІ СИГНАЛ ТРИВОГИ</span>
               </div>
-              <h5 className="text-[11px] font-bold text-white truncate">{showToast.title}</h5>
-              <p className="text-[9px] text-slate-300 line-clamp-1">{showToast.text}</p>
+              <h5 className="text-xs font-bold text-white truncate">{showToast.title}</h5>
+              <p className="text-xs text-slate-300 line-clamp-1">{showToast.text}</p>
             </div>
             <button
               onClick={() => {
@@ -467,7 +467,7 @@ export default function RiskAlertTicker({ entities, onSelectEntity, onSelectTab 
                 }
                 setShowToast(null);
               }}
-              className="shrink-0 bg-red-600 hover:bg-red-500 text-white font-bold text-[9px] uppercase px-2.5 py-1.5 rounded-lg transition-all cursor-pointer font-mono"
+              className="shrink-0 bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase px-2.5 py-1.5 rounded-2xl transition-all cursor-pointer font-mono"
             >
               Переглянути
             </button>

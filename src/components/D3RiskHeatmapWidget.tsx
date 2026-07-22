@@ -95,32 +95,32 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
   }, [cells]);
 
   return (
-    <div className="bg-slate-900/40 border border-blue-500/10 rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] backdrop-blur-md p-5 relative overflow-hidden" id="d3-risk-heatmap-widget">
+    <div className="bg-slate-900/40 border border-white/10 rounded-2xl shadow-[0_4px_40px_rgba(30,58,138,0.15)] backdrop-blur-md p-2 relative overflow-hidden" id="d3-risk-heatmap-widget">
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-transparent pointer-events-none" />
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-blue-500/5 pb-4 gap-3 relative z-10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-4 gap-2 relative z-10">
         <div className="flex items-center gap-2">
-          <Activity className="w-5 h-5 text-rose-500 animate-pulse" />
+          <Activity className="w-4 h-4 text-rose-500 animate-pulse" />
           <div>
             <h4 className="text-xs font-bold uppercase text-slate-100 tracking-wider font-mono">
               D3 Кластеризація Загроз & Теплокарта Ризиків
             </h4>
-            <p className="text-[10px] text-slate-500 font-mono mt-0.5">
+            <p className="text-xs text-slate-500 font-mono mt-0.5">
               Аналітична матриця: Кількість зв'язків (X-axis) проти Рівня загрози (Y-axis)
             </p>
           </div>
         </div>
 
         {/* Filter controls */}
-        <div className="flex items-center gap-1 bg-slate-950/80 p-1 rounded-xl border border-blue-500/5/60">
+        <div className="flex items-center gap-1 bg-slate-950/80 p-1 rounded-2xl border border-white/10/60">
           {(['all', 'company', 'person', 'cryptowallet'] as const).map((type) => (
             <button
               key={type}
               onClick={() => setSelectedType(type)}
-              className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+              className={`px-2.5 py-1 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 selectedType === type 
-                  ? 'bg-blue-600/20 text-blue-400 border border-blue-500/20 shadow-sm' 
+                  ? 'bg-blue-600/20 text-blue-400 border border-white/10 shadow-sm' 
                   : 'text-slate-400 hover:text-slate-300'
               }`}
             >
@@ -131,13 +131,13 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
       </div>
 
       {/* Main Grid View */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-4 relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 pt-4 relative z-10">
         {/* The Matrix Canvas */}
         <div className="lg:col-span-8 flex flex-col">
-          <div className="relative flex-1 bg-slate-950/40 border border-blue-500/10 rounded-xl p-4 min-h-[300px] flex">
+          <div className="relative flex-1 bg-slate-950/40 border border-white/10 rounded-2xl p-2 min-h-[300px] flex">
             
             {/* Y Axis Labels (Risk score) */}
-            <div className="flex flex-col justify-between text-[8px] font-mono text-slate-500 select-none pr-3 w-16 border-r border-slate-800/40">
+            <div className="flex flex-col justify-between text-xs font-mono text-slate-500 select-none pr-3 w-16 border-r border-white/10">
               <span className="text-rose-500/90 font-bold">80-100% КРИТ</span>
               <span className="text-rose-400/80">60-80% ВИСОК</span>
               <span className="text-amber-400/80">40-60% СЕРЕД</span>
@@ -153,18 +153,18 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
                 const densityPercent = cell.density / maxDensity;
                 
                 // Color determined by risk category and density
-                let cellColor = 'bg-slate-900/10 border-slate-800/20';
-                let activeBorder = 'hover:border-blue-500/40';
+                let cellColor = 'bg-slate-900/10 border-white/10';
+                let activeBorder = 'hover:border-white/10';
 
                 if (cell.density > 0) {
                   if (cell.yRange[0] >= 80) {
-                    cellColor = 'bg-rose-500/30 text-rose-400 border-rose-500/30';
+                    cellColor = 'bg-rose-500/30 text-rose-400 border-white/10';
                     activeBorder = 'hover:border-rose-400';
                   } else if (cell.yRange[0] >= 40) {
-                    cellColor = 'bg-amber-500/20 text-amber-400 border-amber-500/20';
+                    cellColor = 'bg-amber-500/20 text-amber-400 border-white/10';
                     activeBorder = 'hover:border-amber-400';
                   } else {
-                    cellColor = 'bg-emerald-500/20 text-emerald-400 border-emerald-500/20';
+                    cellColor = 'bg-emerald-500/20 text-emerald-400 border-white/10';
                     activeBorder = 'hover:border-emerald-400';
                   }
                 }
@@ -172,7 +172,7 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
                 return (
                   <motion.div
                     key={`cell-${cell.rIndex}-${cell.cIndex}`}
-                    className={`relative rounded-lg p-2 border flex flex-col justify-between transition-all duration-300 cursor-crosshair min-h-[50px] ${cellColor} ${activeBorder} ${
+                    className={`relative rounded-2xl p-2 border flex flex-col justify-between transition-all duration-300 cursor-crosshair min-h-[50px] ${cellColor} ${activeBorder} ${
                       isHovered ? 'scale-102 ring-1 ring-blue-400/50 z-10' : ''
                     }`}
                     onMouseEnter={() => setHoveredCell({
@@ -190,7 +190,7 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
                     {/* Background density overlay */}
                     {cell.density > 0 && (
                       <div 
-                        className="absolute inset-0 rounded-lg opacity-40 mix-blend-color-dodge transition-opacity duration-300 pointer-events-none"
+                        className="absolute inset-0 rounded-2xl opacity-40 mix-blend-color-dodge transition-opacity duration-300 pointer-events-none"
                         style={{
                           background: `radial-gradient(circle, ${
                             cell.yRange[0] >= 80 ? '#ef4444' : cell.yRange[0] >= 40 ? '#f59e0b' : '#10b981'
@@ -206,7 +206,7 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
                         [{cell.cIndex},{cell.rIndex}]
                       </span>
                       {cell.density > 0 && (
-                        <span className="px-1.5 py-0.5 rounded bg-slate-950/80 border border-blue-500/10 text-[9px] font-bold font-mono text-slate-100">
+                        <span className="px-2 py-1 rounded bg-slate-950/80 border border-white/10 text-xs font-bold font-mono text-slate-100">
                           {cell.density}
                         </span>
                       )}
@@ -224,7 +224,7 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
                         />
                       ))}
                       {cell.entities.length > 4 && (
-                        <span className="text-[7px] text-slate-400 font-mono">+{cell.entities.length - 4}</span>
+                        <span className="text-xs text-slate-400 font-mono">+{cell.entities.length - 4}</span>
                       )}
                     </div>
                   </motion.div>
@@ -234,7 +234,7 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
           </div>
 
           {/* X Axis Labels */}
-          <div className="flex justify-between text-[8px] font-mono text-slate-500 border-t border-slate-800/40 pt-2 ml-20 select-none">
+          <div className="flex justify-between text-xs font-mono text-slate-500 border-t border-white/10 pt-2 ml-20 select-none">
             <span>0 зв'язків</span>
             <span>1 зв'язок</span>
             <span>2 зв'язки</span>
@@ -244,9 +244,9 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
         </div>
 
         {/* Dynamic Detail Card Panels */}
-        <div className="lg:col-span-4 bg-slate-950/30 border border-blue-500/5 rounded-xl p-4 flex flex-col justify-between min-h-[300px]">
+        <div className="lg:col-span-4 bg-slate-950/30 border border-white/10 rounded-2xl p-2 flex flex-col justify-between min-h-[300px]">
           <div className="space-y-3">
-            <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-wider block border-b border-blue-500/5 pb-1.5 flex items-center gap-1.5">
+            <span className="text-xs text-slate-500 font-mono font-bold uppercase tracking-wider block border-b border-white/10 pb-1.5 flex items-center gap-1.5">
               <ShieldAlert className="w-3.5 h-3.5 text-blue-400" />
               Аналітична вибірка за кластером
             </span>
@@ -260,17 +260,17 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
                   className="space-y-3"
                   key={`${hoveredCell.xIndex}-${hoveredCell.yIndex}`}
                 >
-                  <div className="bg-slate-900/60 border border-blue-500/10 p-3 rounded-lg space-y-2">
-                    <div className="flex justify-between items-center text-[10px] font-mono">
+                  <div className="bg-slate-900/60 border border-white/10 p-2 rounded-2xl space-y-2">
+                    <div className="flex justify-between items-center text-xs font-mono">
                       <span className="text-slate-400">Ранг загрози:</span>
                       <span className="text-slate-200 font-bold">{hoveredCell.yRange[0]} - {hoveredCell.yRange[1]}%</span>
                     </div>
-                    <div className="flex justify-between items-center text-[10px] font-mono">
+                    <div className="flex justify-between items-center text-xs font-mono">
                       <span className="text-slate-400">Ступінь зв'язків:</span>
                       <span className="text-slate-200 font-bold">{hoveredCell.xRange[0]} {hoveredCell.xRange[1] === 10 ? 'або більше' : `до ${hoveredCell.xRange[1]}`}</span>
                     </div>
-                    <div className="border-t border-slate-800 my-1"></div>
-                    <div className="flex justify-between items-center text-[11px] font-mono">
+                    <div className="border-t border-white/5 my-1"></div>
+                    <div className="flex justify-between items-center text-xs font-mono">
                       <span className="text-slate-400">Середній ризик:</span>
                       <span className={`font-bold ${
                         hoveredCell.avgRisk >= 80 ? 'text-rose-400' : hoveredCell.avgRisk >= 50 ? 'text-amber-400' : 'text-emerald-400'
@@ -279,7 +279,7 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
                   </div>
 
                   <div className="space-y-1.5 max-h-[140px] overflow-y-auto pr-1 custom-scrollbar">
-                    <p className="text-[8px] text-slate-500 font-mono uppercase tracking-widest px-1">Об'єкти у кластері:</p>
+                    <p className="text-xs text-slate-500 font-mono uppercase tracking-widest px-1">Об'єкти у кластері:</p>
                     {hoveredCell.entities.map((ent) => (
                       <div
                         key={ent.id}
@@ -287,7 +287,7 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
                           onSelectEntity(ent.id);
                           onSelectTab('volumes');
                         }}
-                        className="bg-slate-950/80 hover:bg-slate-900/80 border border-blue-500/5 rounded-lg p-2 flex items-center justify-between text-[10px] cursor-pointer transition-colors"
+                        className="bg-slate-950/80 hover:bg-slate-900/80 border border-white/10 rounded-2xl p-2 flex items-center justify-between text-xs cursor-pointer transition-colors"
                       >
                         <div className="flex items-center gap-1.5 truncate">
                           <span className={`w-1.5 h-1.5 rounded-full ${
@@ -304,7 +304,7 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
                 <motion.div 
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-center py-12 text-slate-500 font-mono text-[10px] space-y-2"
+                  className="text-center py-12 text-slate-500 font-mono text-xs space-y-2"
                 >
                   <Activity className="w-8 h-8 text-slate-700 mx-auto animate-pulse" />
                   <p>Наведіть курсор на заповнені зони теплокарти, щоб переглянути детальний розріз та склад ризиків.</p>
@@ -313,7 +313,7 @@ export default function D3RiskHeatmapWidget({ entities, onSelectEntity, onSelect
             </AnimatePresence>
           </div>
 
-          <div className="text-[9px] text-slate-500 font-mono border-t border-blue-500/5 pt-2 mt-2">
+          <div className="text-xs text-slate-500 font-mono border-t border-white/10 pt-2 mt-2">
             Загальна загроза: <span className="text-slate-300 font-bold">{filteredList.length} об'єктів</span> з середнім показником <span className="text-slate-300 font-bold">{Math.round(filteredList.reduce((acc, x) => acc + x.riskScore, 0) / (filteredList.length || 1))}%</span>.
           </div>
         </div>

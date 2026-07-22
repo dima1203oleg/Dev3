@@ -568,14 +568,14 @@ export default function InvestigationSandbox() {
     <div className="space-y-6" id="investigation-sandbox-panel">
       
       {/* 1. TOP HEADER & METRIC CARDS */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-blue-500/5 p-5 rounded-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 bg-slate-900/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-white/10 p-2 rounded-2xl">
         <div>
           <div className="flex items-center gap-2">
-            <Network className="w-5 h-5 text-blue-400 animate-pulse" />
-            <h1 className="text-xl font-black font-mono tracking-wider text-white uppercase">
+            <Network className="w-4 h-4 text-blue-400 animate-pulse" />
+            <h1 className="text-lg font-black font-mono tracking-wider text-white uppercase">
               Служба розслідувань "Павутина"
             </h1>
-            <span className="text-[9px] bg-indigo-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded font-mono font-bold uppercase tracking-widest">
+            <span className="text-xs bg-indigo-500/10 text-blue-400 border border-white/10 px-2 py-1 rounded font-mono font-bold uppercase tracking-widest">
               Palantir Sandbox Engine
             </span>
           </div>
@@ -584,17 +584,17 @@ export default function InvestigationSandbox() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <button 
             onClick={() => setShowAddNodeModal(true)}
-            className="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold font-mono tracking-wider flex items-center gap-1.5 cursor-pointer shadow transition-all"
+            className="px-3.5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-bold font-mono tracking-wider flex items-center gap-1.5 cursor-pointer shadow transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>+ ДОДАТИ СУБ'ЄКТ</span>
           </button>
           <button 
             onClick={() => setShowAddLinkModal(true)}
-            className="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold font-mono tracking-wider flex items-center gap-1.5 cursor-pointer transition-all"
+            className="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-white/10 rounded-2xl text-xs font-bold font-mono tracking-wider flex items-center gap-1.5 cursor-pointer transition-all"
           >
             <Zap className="w-4 h-4 text-amber-400" />
             <span>ВСТАНОВИТИ ЗВ'ЯЗОК</span>
@@ -603,66 +603,66 @@ export default function InvestigationSandbox() {
       </div>
 
       {/* Mini Stats Banner */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-slate-900/40 border border-blue-500/5 p-3.5 rounded-xl flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold font-mono text-xs">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        <div className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex items-center gap-2">
+          <div className="w-8 h-8 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold font-mono text-xs">
             {nodes.length}
           </div>
           <div>
-            <p className="text-[9px] text-slate-500 font-mono uppercase">АКТИВНІ ВУЗЛИ</p>
-            <p className="text-sm font-bold text-slate-200">{nodes.length} суб'єктів</p>
+            <p className="text-xs text-slate-500 font-mono uppercase">АКТИВНІ ВУЗЛИ</p>
+            <p className="text-xs font-bold text-slate-200">{nodes.length} суб'єктів</p>
           </div>
         </div>
 
-        <div className="bg-slate-900/40 border border-blue-500/5 p-3.5 rounded-xl flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-bold font-mono text-xs">
+        <div className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex items-center gap-2">
+          <div className="w-8 h-8 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-bold font-mono text-xs">
             {links.length}
           </div>
           <div>
-            <p className="text-[9px] text-slate-500 font-mono uppercase">ВСТАНОВЛЕНІ ЗВ'ЯЗКИ</p>
-            <p className="text-sm font-bold text-slate-200">{links.length} зв'язків</p>
+            <p className="text-xs text-slate-500 font-mono uppercase">ВСТАНОВЛЕНІ ЗВ'ЯЗКИ</p>
+            <p className="text-xs font-bold text-slate-200">{links.length} зв'язків</p>
           </div>
         </div>
 
-        <div className="bg-slate-900/40 border border-blue-500/5 p-3.5 rounded-xl flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 font-bold font-mono text-xs">
+        <div className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex items-center gap-2">
+          <div className="w-8 h-8 rounded-2xl bg-rose-500/10 flex items-center justify-center text-rose-400 font-bold font-mono text-xs">
             {activeEcosystemStats.highRiskCount}
           </div>
           <div>
-            <p className="text-[9px] text-slate-500 font-mono uppercase">ВИСОКИЙ РИЗИК (≥75)</p>
-            <p className="text-sm font-bold text-rose-400">{activeEcosystemStats.highRiskCount} об'єктів</p>
+            <p className="text-xs text-slate-500 font-mono uppercase">ВИСОКИЙ РИЗИК (≥75)</p>
+            <p className="text-xs font-bold text-rose-400">{activeEcosystemStats.highRiskCount} об'єктів</p>
           </div>
         </div>
 
-        <div className="bg-slate-900/40 border border-blue-500/5 p-3.5 rounded-xl flex items-center gap-3">
-          <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold font-mono text-xs ${activeEcosystemStats.avgRisk >= 70 ? 'bg-rose-500/15 text-rose-400' : activeEcosystemStats.avgRisk >= 40 ? 'bg-amber-500/15 text-amber-400' : 'bg-emerald-500/15 text-emerald-400'}`}>
+        <div className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex items-center gap-2">
+          <div className={`w-8 h-8 rounded-2xl flex items-center justify-center font-bold font-mono text-xs ${activeEcosystemStats.avgRisk >= 70 ? 'bg-rose-500/15 text-rose-400' : activeEcosystemStats.avgRisk >= 40 ? 'bg-amber-500/15 text-amber-400' : 'bg-emerald-500/15 text-emerald-400'}`}>
             {activeEcosystemStats.avgRisk}%
           </div>
           <div>
-            <p className="text-[9px] text-slate-500 font-mono uppercase">СЕРЕДНІЙ РИЗИК СИСТЕМИ</p>
-            <p className="text-sm font-bold text-slate-200">{activeEcosystemStats.avgRisk}%</p>
+            <p className="text-xs text-slate-500 font-mono uppercase">СЕРЕДНІЙ РИЗИК СИСТЕМИ</p>
+            <p className="text-xs font-bold text-slate-200">{activeEcosystemStats.avgRisk}%</p>
           </div>
         </div>
       </div>
 
       {/* 2. MAIN WORKING INTERACTIVE GRID AND CONTROLS */}
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-2 items-start">
         
         {/* The Sandbox Area Canvas */}
-        <div className="xl:col-span-3 bg-slate-950 border border-blue-500/5 rounded-2xl overflow-hidden relative shadow-inner flex flex-col h-[600px] select-none">
+        <div className="xl:col-span-3 bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden relative shadow-inner flex flex-col h-[600px] select-none">
           
           {/* Canvas Floating Utilities Panel */}
-          <div className="absolute top-4 left-4 z-20 bg-slate-950/80 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-blue-500/10 p-2.5 rounded-xl flex items-center gap-2">
+          <div className="absolute top-2 left-4 z-20 bg-slate-950/80 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-white/10 p-2.5 rounded-2xl flex items-center gap-2">
             <button 
               onClick={() => setZoomScale(prev => Math.min(1.5, prev + 0.1))} 
-              className="p-1.5 bg-slate-900/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg cursor-pointer transition-colors"
+              className="p-1.5 bg-slate-900/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-2xl cursor-pointer transition-colors"
               title="Збільшити"
             >
               <ZoomIn className="w-4 h-4" />
             </button>
             <button 
               onClick={() => setZoomScale(prev => Math.max(0.6, prev - 0.1))} 
-              className="p-1.5 bg-slate-900/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg cursor-pointer transition-colors"
+              className="p-1.5 bg-slate-900/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-2xl cursor-pointer transition-colors"
               title="Зменшити"
             >
               <ZoomOut className="w-4 h-4" />
@@ -670,14 +670,14 @@ export default function InvestigationSandbox() {
             <div className="h-4 w-[1px] bg-slate-800" />
             <button 
               onClick={() => { setZoomScale(1.0); setPanOffset({ x: 0, y: 0 }); }} 
-              className="p-1.5 bg-slate-900/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg cursor-pointer transition-colors"
+              className="p-1.5 bg-slate-900/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-2xl cursor-pointer transition-colors"
               title="Скинути зум"
             >
               <RotateCcw className="w-4 h-4" />
             </button>
             <button 
               onClick={applyCircleLayout} 
-              className="p-1.5 bg-slate-900/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg cursor-pointer transition-colors flex items-center gap-1 text-[10px] font-mono font-bold"
+              className="p-1.5 bg-slate-900/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-2xl cursor-pointer transition-colors flex items-center gap-1 text-xs font-mono font-bold"
               title="Авто-вирівнювання вузлів по колу"
             >
               <Layers className="w-4 h-4 text-blue-400" />
@@ -685,14 +685,14 @@ export default function InvestigationSandbox() {
             </button>
             <button 
               onClick={resetSandbox} 
-              className="p-1.5 bg-slate-900/50 hover:bg-rose-500/20 text-rose-400 rounded-lg cursor-pointer transition-colors"
+              className="p-1.5 bg-slate-900/50 hover:bg-rose-500/20 text-rose-400 rounded-2xl cursor-pointer transition-colors"
               title="Скинути схему до дефолтної"
             >
               <Trash2 className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="absolute top-4 right-4 z-20 text-[9px] font-mono bg-blue-600/10 text-blue-400 border border-blue-500/20 px-2 py-1 rounded">
+          <div className="absolute top-2 right-4 z-20 text-xs font-mono bg-blue-600/10 text-blue-400 border border-white/10 px-2 py-1 rounded">
             ЗУМ: {Math.round(zoomScale * 100)}% | ПЕРЕТЯГНІТЬ ЛІВОЮ КНОПКОЮ МИШІ ДЛЯ НАВІГАЦІЇ
           </div>
 
@@ -861,15 +861,15 @@ export default function InvestigationSandbox() {
                     }}
                   >
                     <motion.div 
-                      className={`p-3 rounded-xl border flex flex-col bg-slate-950/95 shadow-lg relative select-none ${isSelected ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)] ring-1 ring-blue-500' : 'border-slate-800 hover:border-slate-700'}`}
+                      className={`p-2 rounded-2xl border flex flex-col bg-slate-950/95 shadow-2xl shadow-black/40 relative select-none ${isSelected ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)] ring-1 ring-blue-500' : 'border-white/5 hover:border-white/10'}`}
                     >
                       {/* Outer cascading risk border rings */}
                       {node.cascadedRisk > node.baseRisk && (
-                        <div className="absolute -inset-1 border border-dashed border-rose-500/35 rounded-2xl animate-ping opacity-60 pointer-events-none" />
+                        <div className="absolute -inset-1 border border-dashed border-white/10 rounded-2xl animate-ping opacity-60 pointer-events-none" />
                       )}
 
                       {/* Top bar with entity type icon & risk score */}
-                      <div className="flex items-center justify-between gap-1.5 border-b border-slate-900 pb-1.5 mb-1.5">
+                      <div className="flex items-center justify-between gap-1.5 border-b border-white/10 pb-1.5 mb-1.5">
                         <div className="flex items-center gap-1 text-slate-400">
                           <TypeIcon className="w-3.5 h-3.5 text-blue-400" />
                           <span className="text-[7.5px] uppercase font-mono tracking-wider text-slate-500">
@@ -879,7 +879,7 @@ export default function InvestigationSandbox() {
                         
                         {/* Risk Indicator badge */}
                         <div className="flex items-center gap-1">
-                          <span className={`text-[9px] font-mono font-extrabold px-1 py-0.5 rounded ${hasHighRisk ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30' : hasMedRisk ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' : 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'}`}>
+                          <span className={`text-xs font-mono font-extrabold px-1 py-0.5 rounded ${hasHighRisk ? 'bg-rose-500/15 text-rose-400 border border-white/10' : hasMedRisk ? 'bg-amber-500/15 text-amber-400 border border-white/10' : 'bg-emerald-500/15 text-emerald-400 border border-white/10'}`}>
                             R: {node.cascadedRisk}%
                           </span>
                         </div>
@@ -891,12 +891,12 @@ export default function InvestigationSandbox() {
                       </p>
 
                       {/* Secondary identifier code / USREOU */}
-                      <p className="text-[8px] font-mono text-slate-500 mt-0.5">
+                      <p className="text-xs font-mono text-slate-500 mt-0.5">
                         ЄДРПОУ/PEP: {node.code}
                       </p>
 
                       {/* Micro risk progress bar */}
-                      <div className="w-full bg-slate-900 rounded-full h-1 mt-2 overflow-hidden">
+                      <div className="w-full bg-slate-900/40 backdrop-blur-md rounded-full h-1 mt-2 overflow-hidden">
                         <div 
                           className={`h-full rounded-full ${hasHighRisk ? 'bg-rose-500' : hasMedRisk ? 'bg-amber-500' : 'bg-emerald-500'}`}
                           style={{ width: `${node.cascadedRisk}%` }}
@@ -905,7 +905,7 @@ export default function InvestigationSandbox() {
 
                       {/* Display warning if risk was elevated due to cascade propagation */}
                       {node.cascadedRisk > node.baseRisk && (
-                        <span className="text-[7px] font-mono text-rose-400 font-extrabold uppercase mt-1.5 flex items-center gap-0.5 animate-pulse">
+                        <span className="text-xs font-mono text-rose-400 font-extrabold uppercase mt-1.5 flex items-center gap-0.5 animate-pulse">
                           ⚠️ КАСКАДНИЙ РИЗИК (+{node.cascadedRisk - node.baseRisk}%)
                         </span>
                       )}
@@ -920,14 +920,14 @@ export default function InvestigationSandbox() {
         </div>
 
         {/* Dynamic Sandbox Inspector Panel */}
-        <div className="bg-slate-900/40 backdrop-blur-md border border-blue-500/5 p-4 rounded-2xl flex flex-col space-y-4 h-[600px] overflow-y-auto">
+        <div className="bg-slate-900/40 backdrop-blur-md border border-white/10 p-2 rounded-2xl flex flex-col space-y-4 h-[600px] overflow-y-auto">
           
-          <div className="border-b border-slate-800 pb-3">
+          <div className="border-b border-white/5 pb-3">
             <h3 className="text-xs font-black font-mono tracking-wider text-slate-300 uppercase flex items-center gap-2">
               <Sliders className="w-4 h-4 text-blue-400" />
               <span>Інспектор Елементів</span>
             </h3>
-            <p className="text-[10px] text-slate-500 font-mono uppercase mt-1">
+            <p className="text-xs text-slate-500 font-mono uppercase mt-1">
               Оберіть суб'єкт або зв'язок на карті
             </p>
           </div>
@@ -939,25 +939,25 @@ export default function InvestigationSandbox() {
                 {/* Node details */}
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[8px] uppercase tracking-wider font-mono font-bold bg-blue-600/10 text-blue-400 px-1.5 py-0.5 rounded">
+                    <span className="text-xs uppercase tracking-wider font-mono font-bold bg-blue-600/10 text-blue-400 px-2 py-1 rounded">
                       {selectedNode.type}
                     </span>
-                    <span className={`text-[8px] uppercase tracking-wider font-mono font-bold px-1.5 py-0.5 rounded ${selectedNode.status === 'SANCTIONED' ? 'bg-rose-600/15 text-rose-400 border border-rose-500/20' : 'bg-slate-800 text-slate-400'}`}>
+                    <span className={`text-xs uppercase tracking-wider font-mono font-bold px-2 py-1 rounded ${selectedNode.status === 'SANCTIONED' ? 'bg-rose-600/15 text-rose-400 border border-white/10' : 'bg-slate-800 text-slate-400'}`}>
                       {selectedNode.status}
                     </span>
                   </div>
-                  <h4 className="text-sm font-bold text-slate-100 pt-1">
+                  <h4 className="text-xs font-bold text-slate-100 pt-1">
                     {selectedNode.name}
                   </h4>
-                  <p className="text-[10px] font-mono text-slate-500">
+                  <p className="text-xs font-mono text-slate-500">
                     Ідентифікатор: {selectedNode.code}
                   </p>
                 </div>
 
                 {/* Base Risk Configuration */}
-                <div className="space-y-2 bg-slate-950/60 p-3 rounded-xl border border-white/5">
+                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-white/5">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-400 font-mono text-[10px]">БАЗОВИЙ РИЗИК СУБ'ЄКТА</span>
+                    <span className="text-slate-400 font-mono text-xs">БАЗОВИЙ РИЗИК СУБ'ЄКТА</span>
                     <span className="font-mono font-bold text-slate-200">{selectedNode.baseRisk}%</span>
                   </div>
                   <input 
@@ -971,15 +971,15 @@ export default function InvestigationSandbox() {
                     }}
                     className="w-full accent-blue-500"
                   />
-                  <p className="text-[9px] text-slate-500 leading-relaxed">
+                  <p className="text-xs text-slate-500 leading-relaxed">
                     Базовий комплаєнс-ризик визначається на основі офіційних реєстрів.
                   </p>
                 </div>
 
                 {/* Desc */}
                 <div className="space-y-1">
-                  <span className="text-[9px] font-mono text-slate-500 uppercase block">АНАЛІТИЧНИЙ ОПИС</span>
-                  <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/40 p-2.5 rounded-lg border border-slate-850">
+                  <span className="text-xs font-mono text-slate-500 uppercase block">АНАЛІТИЧНИЙ ОПИС</span>
+                  <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/40 p-2.5 rounded-2xl border border-white/10">
                     {selectedNode.description}
                   </p>
                 </div>
@@ -988,12 +988,12 @@ export default function InvestigationSandbox() {
                 <div className="pt-2">
                   <button 
                     onClick={() => handleAutoDiscover(selectedNode.id)}
-                    className="w-full py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-[10px] font-black font-mono tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer shadow-lg"
+                    className="w-full py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-2xl text-xs font-black font-mono tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer shadow-2xl shadow-black/40"
                   >
                     <Sparkles className="w-3.5 h-3.5 animate-spin" />
                     <span>ШІ-АВТОПОШУК ЗВ'ЯЗКІВ (ЄДРПОУ)</span>
                   </button>
-                  <p className="text-[8px] text-slate-500 font-mono mt-1 text-center">
+                  <p className="text-xs text-slate-500 font-mono mt-1 text-center">
                     Аналізує реєстри та автоматично додає засновників у пісочницю.
                   </p>
                 </div>
@@ -1002,7 +1002,7 @@ export default function InvestigationSandbox() {
               {/* Delete button */}
               <button 
                 onClick={() => handleDeleteNode(selectedNode.id)}
-                className="w-full py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded-xl text-[10px] font-black font-mono tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                className="w-full py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-white/10 rounded-2xl text-xs font-black font-mono tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>ВИДАЛИТИ СУБ'ЄКТ</span>
@@ -1014,21 +1014,21 @@ export default function InvestigationSandbox() {
               
               <div className="space-y-4">
                 <div className="space-y-1">
-                  <span className="text-[8px] uppercase tracking-wider font-mono font-bold bg-indigo-600/10 text-indigo-400 px-1.5 py-0.5 rounded">
+                  <span className="text-xs uppercase tracking-wider font-mono font-bold bg-indigo-600/10 text-indigo-400 px-2 py-1 rounded">
                     ЗВ'ЯЗОК СУБ'ЄКТІВ
                   </span>
-                  <h4 className="text-sm font-bold text-slate-100 pt-1">
+                  <h4 className="text-xs font-bold text-slate-100 pt-1">
                     {selectedLink.label}
                   </h4>
-                  <p className="text-[9px] font-mono text-slate-500">
+                  <p className="text-xs font-mono text-slate-500">
                     ID Зв'язку: {selectedLink.id}
                   </p>
                 </div>
 
                 {/* Multiplier weight config */}
-                <div className="space-y-2 bg-slate-950/60 p-3 rounded-xl border border-white/5">
+                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-white/5">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-400 font-mono text-[10px]">ВАГА ЗВ'ЯЗКУ (ВПЛИВ)</span>
+                    <span className="text-slate-400 font-mono text-xs">ВАГА ЗВ'ЯЗКУ (ВПЛИВ)</span>
                     <span className="font-mono font-bold text-indigo-300">{selectedLink.multiplier}</span>
                   </div>
                   <input 
@@ -1043,14 +1043,14 @@ export default function InvestigationSandbox() {
                     }}
                     className="w-full accent-indigo-500"
                   />
-                  <p className="text-[9px] text-slate-500 leading-relaxed">
+                  <p className="text-xs text-slate-500 leading-relaxed">
                     Визначає коефіцієнт передачі та поширення каскадного ризику від одного об'єкта до іншого.
                   </p>
                 </div>
 
                 {/* Flow direction selector */}
                 <div className="space-y-1">
-                  <span className="text-[9px] font-mono text-slate-500 uppercase block">НАПРЯМ ПОТОКУ</span>
+                  <span className="text-xs font-mono text-slate-500 uppercase block">НАПРЯМ ПОТОКУ</span>
                   <div className="grid grid-cols-3 gap-1">
                     {[
                       { id: 'forward', label: 'Прямий' },
@@ -1062,7 +1062,7 @@ export default function InvestigationSandbox() {
                         onClick={() => {
                           setLinks(prev => prev.map(l => l.id === selectedLinkId ? { ...l, flowDirection: f.id as any } : l));
                         }}
-                        className={`py-1 text-[8px] font-bold font-mono tracking-wider uppercase border rounded-lg transition-colors cursor-pointer ${selectedLink.flowDirection === f.id ? 'bg-indigo-600/10 text-indigo-400 border-indigo-500/30' : 'bg-slate-900 border-transparent text-slate-400 hover:text-slate-200'}`}
+                        className={`py-1 text-xs font-bold font-mono tracking-wider uppercase border rounded-2xl transition-colors cursor-pointer ${selectedLink.flowDirection === f.id ? 'bg-indigo-600/10 text-indigo-400 border-white/10' : 'bg-slate-900/40 backdrop-blur-md border-transparent text-slate-400 hover:text-slate-200'}`}
                       >
                         {f.label}
                       </button>
@@ -1071,7 +1071,7 @@ export default function InvestigationSandbox() {
                 </div>
 
                 {/* Connection entities debug info */}
-                <div className="bg-slate-950/40 border border-slate-850 p-2.5 rounded-lg text-[9px] font-mono space-y-1">
+                <div className="bg-slate-950/40 border border-white/10 p-2.5 rounded-2xl text-xs font-mono space-y-1">
                   <p className="text-slate-400">Вузол А: {nodes.find(n => n.id === selectedLink.source)?.name || 'Невідомо'}</p>
                   <p className="text-slate-400">Вузол B: {nodes.find(n => n.id === selectedLink.target)?.name || 'Невідомо'}</p>
                 </div>
@@ -1080,7 +1080,7 @@ export default function InvestigationSandbox() {
               {/* Delete link */}
               <button 
                 onClick={() => handleDeleteLink(selectedLink.id)}
-                className="w-full py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded-xl text-[10px] font-black font-mono tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                className="w-full py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-white/10 rounded-2xl text-xs font-black font-mono tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>ВИДАЛИТИ ЗВ'ЯЗОК</span>
@@ -1088,12 +1088,12 @@ export default function InvestigationSandbox() {
 
             </div>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
-              <div className="w-12 h-12 rounded-full bg-slate-900/50 border border-blue-500/5 flex items-center justify-center text-slate-500 mb-3">
-                <HelpCircle className="w-6 h-6" />
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-2">
+              <div className="w-12 h-12 rounded-full bg-slate-900/50 border border-white/10 flex items-center justify-center text-slate-500 mb-3">
+                <HelpCircle className="w-5 h-5" />
               </div>
               <p className="text-xs font-bold text-slate-300">Вузол не обрано</p>
-              <p className="text-[10px] text-slate-500 max-w-xs mt-1.5 leading-relaxed font-mono uppercase">
+              <p className="text-xs text-slate-500 max-w-xs mt-1.5 leading-relaxed font-mono uppercase">
                 Клікніть по карті на об'єкт або зв'язок для налаштування ризиків та отримання детальної аналітики.
               </p>
             </div>
@@ -1108,7 +1108,7 @@ export default function InvestigationSandbox() {
       {/* ADD NODE MODAL */}
       <AnimatePresence>
         {showAddNodeModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-2">
             <motion.div 
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }} 
@@ -1121,10 +1121,10 @@ export default function InvestigationSandbox() {
               initial={{ scale: 0.95, opacity: 0 }} 
               animate={{ scale: 1, opacity: 1 }} 
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-slate-900 border border-blue-500/10 p-6 rounded-2xl max-w-md w-full relative z-10 shadow-2xl"
+              className="bg-slate-900/40 backdrop-blur-md border border-white/10 p-2 rounded-2xl max-w-md w-full relative z-10 shadow-2xl"
             >
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
-                <h3 className="text-sm font-black font-mono tracking-wider text-white uppercase">
+              <div className="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
+                <h3 className="text-xs font-black font-mono tracking-wider text-white uppercase">
                   + Додати новий об'єкт
                 </h3>
                 <button onClick={() => setShowAddNodeModal(false)} className="text-slate-500 hover:text-white">
@@ -1134,23 +1134,23 @@ export default function InvestigationSandbox() {
 
               <div className="space-y-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-slate-500 uppercase font-bold">Назва об'єкта / ПІБ</label>
+                  <label className="text-xs font-mono text-slate-500 uppercase font-bold">Назва об'єкта / ПІБ</label>
                   <input 
                     type="text" 
                     placeholder="Наприклад, ТОВ 'Київпром'"
                     value={newNodeName}
                     onChange={(e) => setNewNodeName(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                    className="input-premium"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-mono text-slate-500 uppercase font-bold">Тип суб'єкта</label>
+                    <label className="text-xs font-mono text-slate-500 uppercase font-bold">Тип суб'єкта</label>
                     <select 
                       value={newNodeType}
                       onChange={(e: any) => setNewNodeType(e.target.value)}
-                      className="w-full bg-slate-950/80 border border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-300 focus:outline-none focus:border-blue-500"
+                      className="input-premium"
                     >
                       <option value="company">Компанія</option>
                       <option value="person">Фізична особа</option>
@@ -1160,23 +1160,23 @@ export default function InvestigationSandbox() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[10px] font-mono text-slate-500 uppercase font-bold">Код (ЄДРПОУ/ІПН)</label>
+                    <label className="text-xs font-mono text-slate-500 uppercase font-bold">Код (ЄДРПОУ/ІПН)</label>
                     <input 
                       type="text" 
                       placeholder="8-значний код"
                       value={newNodeCode}
                       onChange={(e) => setNewNodeCode(e.target.value)}
-                      className="w-full bg-slate-950/80 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                      className="input-premium"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-slate-500 uppercase font-bold">Статус діяльності</label>
+                  <label className="text-xs font-mono text-slate-500 uppercase font-bold">Статус діяльності</label>
                   <select 
                     value={newNodeStatus}
                     onChange={(e: any) => setNewNodeStatus(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-300 focus:outline-none focus:border-blue-500"
+                    className="input-premium"
                   >
                     <option value="ACTIVE">Діючий (ACTIVE)</option>
                     <option value="SUSPICIOUS">Підозрілий (SUSPICIOUS)</option>
@@ -1184,9 +1184,9 @@ export default function InvestigationSandbox() {
                   </select>
                 </div>
 
-                <div className="space-y-2 bg-slate-950/60 p-3 rounded-xl border border-white/5">
+                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-white/5">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-400 font-mono text-[9px]">ПОЧАТКОВИЙ БАЗОВИЙ РИЗИК (%)</span>
+                    <span className="text-slate-400 font-mono text-xs">ПОЧАТКОВИЙ БАЗОВИЙ РИЗИК (%)</span>
                     <span className="font-mono font-bold text-slate-200">{newNodeRisk}%</span>
                   </div>
                   <input 
@@ -1200,26 +1200,26 @@ export default function InvestigationSandbox() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-slate-500 uppercase font-bold">Короткий опис / Нотатки</label>
+                  <label className="text-xs font-mono text-slate-500 uppercase font-bold">Короткий опис / Нотатки</label>
                   <textarea 
                     rows={2}
                     placeholder="Додаткова інформація щодо об'єкта розслідування..."
                     value={newNodeDesc}
                     onChange={(e) => setNewNodeDesc(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                    className="input-premium"
                   />
                 </div>
 
                 <div className="flex justify-end gap-2 pt-2">
                   <button 
                     onClick={() => setShowAddNodeModal(false)} 
-                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold font-mono uppercase cursor-pointer"
+                    className="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-2xl text-xs font-bold font-mono uppercase cursor-pointer"
                   >
                     Скасувати
                   </button>
                   <button 
                     onClick={handleAddNode}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold font-mono uppercase cursor-pointer"
+                    className="px-2 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-bold font-mono uppercase cursor-pointer"
                   >
                     Створити
                   </button>
@@ -1233,7 +1233,7 @@ export default function InvestigationSandbox() {
       {/* ADD LINK MODAL */}
       <AnimatePresence>
         {showAddLinkModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-2">
             <motion.div 
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }} 
@@ -1246,10 +1246,10 @@ export default function InvestigationSandbox() {
               initial={{ scale: 0.95, opacity: 0 }} 
               animate={{ scale: 1, opacity: 1 }} 
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-slate-900 border border-blue-500/10 p-6 rounded-2xl max-w-md w-full relative z-10 shadow-2xl"
+              className="bg-slate-900/40 backdrop-blur-md border border-white/10 p-2 rounded-2xl max-w-md w-full relative z-10 shadow-2xl"
             >
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
-                <h3 className="text-sm font-black font-mono tracking-wider text-white uppercase">
+              <div className="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
+                <h3 className="text-xs font-black font-mono tracking-wider text-white uppercase">
                   ⚡ Встановити новий зв'язок
                 </h3>
                 <button onClick={() => setShowAddLinkModal(false)} className="text-slate-500 hover:text-white">
@@ -1259,11 +1259,11 @@ export default function InvestigationSandbox() {
 
               <div className="space-y-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-slate-500 uppercase font-bold">Вихідний вузол (Джерело / Source)</label>
+                  <label className="text-xs font-mono text-slate-500 uppercase font-bold">Вихідний вузол (Джерело / Source)</label>
                   <select 
                     value={newLinkSource}
                     onChange={(e) => setNewLinkSource(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-300 focus:outline-none focus:border-blue-500"
+                    className="input-premium"
                   >
                     <option value="">-- Оберіть суб'єкт --</option>
                     {nodes.map(n => (
@@ -1273,11 +1273,11 @@ export default function InvestigationSandbox() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-slate-500 uppercase font-bold">Цільовий вузол (Target)</label>
+                  <label className="text-xs font-mono text-slate-500 uppercase font-bold">Цільовий вузол (Target)</label>
                   <select 
                     value={newLinkTarget}
                     onChange={(e) => setNewLinkTarget(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-300 focus:outline-none focus:border-blue-500"
+                    className="input-premium"
                   >
                     <option value="">-- Оберіть суб'єкт --</option>
                     {nodes.map(n => (
@@ -1287,19 +1287,19 @@ export default function InvestigationSandbox() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-slate-500 uppercase font-bold">Тип відношення / Опис зв'язку</label>
+                  <label className="text-xs font-mono text-slate-500 uppercase font-bold">Тип відношення / Опис зв'язку</label>
                   <input 
                     type="text" 
                     placeholder="Наприклад, 'Виведення капіталу' або 'Засновник'"
                     value={newLinkLabel}
                     onChange={(e) => setNewLinkLabel(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
+                    className="input-premium"
                   />
                 </div>
 
-                <div className="space-y-2 bg-slate-950/60 p-3 rounded-xl border border-white/5">
+                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-white/5">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-400 font-mono text-[9px]">КОЕФІЦІЄНТ КАСКАДУ РИЗИКУ (0.1 - 1.0)</span>
+                    <span className="text-slate-400 font-mono text-xs">КОЕФІЦІЄНТ КАСКАДУ РИЗИКУ (0.1 - 1.0)</span>
                     <span className="font-mono font-bold text-indigo-300">{newLinkMultiplier}</span>
                   </div>
                   <input 
@@ -1314,11 +1314,11 @@ export default function InvestigationSandbox() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-mono text-slate-500 uppercase font-bold">Напрямок зв'язку</label>
+                  <label className="text-xs font-mono text-slate-500 uppercase font-bold">Напрямок зв'язку</label>
                   <select 
                     value={newLinkFlow}
                     onChange={(e: any) => setNewLinkFlow(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-slate-800 rounded-lg px-2 py-2 text-xs text-slate-300 focus:outline-none focus:border-blue-500"
+                    className="input-premium"
                   >
                     <option value="forward">Прямий (Source → Target)</option>
                     <option value="backward">Зворотний (Target → Source)</option>
@@ -1329,13 +1329,13 @@ export default function InvestigationSandbox() {
                 <div className="flex justify-end gap-2 pt-2">
                   <button 
                     onClick={() => setShowAddLinkModal(false)} 
-                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold font-mono uppercase cursor-pointer"
+                    className="px-2 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-2xl text-xs font-bold font-mono uppercase cursor-pointer"
                   >
                     Скасувати
                   </button>
                   <button 
                     onClick={handleAddLink}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold font-mono uppercase cursor-pointer"
+                    className="px-2 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-bold font-mono uppercase cursor-pointer"
                   >
                     Встановити зв'язок
                   </button>

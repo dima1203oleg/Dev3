@@ -63,13 +63,13 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
 
 
   return (
-    <div className="h-full flex flex-col bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border-l border-blue-500/5 w-full" id="inspector-panel-container">
+    <div className="h-full flex flex-col glass-panel-premium border-l-0 rounded-l-2xl w-full" id="inspector-panel-container">
       
       {/* Panel Header */}
-      <div className="p-4 border-b border-blue-500/5 flex flex-wrap gap-2 items-center justify-between bg-slate-950/80 sticky top-0 z-10">
+      <div className="p-2 border-b border-white/10 flex flex-wrap gap-2 items-center justify-between bg-slate-950/80 sticky top-0 z-10">
         <div className="flex items-center gap-2">
           <Terminal className="w-4 h-4 text-blue-400" />
-          <span className="text-[10px] text-slate-300 font-mono font-bold uppercase tracking-widest">
+          <span className="text-xs text-slate-300 font-mono font-bold uppercase tracking-widest">
             Inspector Panel (Аналіз)
           </span>
         </div>
@@ -79,7 +79,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
             <select 
               value={riskFilter}
               onChange={(e) => setRiskFilter(e.target.value)}
-              className="bg-slate-900/50 border border-blue-500/20 text-slate-300 text-[10px] font-mono rounded px-2 py-1 outline-none focus:border-blue-500/50 cursor-pointer"
+              className="bg-slate-900/50 border border-white/10 text-slate-300 text-xs font-mono rounded px-2 py-1 outline-none focus:border-white/10 cursor-pointer"
             >
               <option value="ALL">Всі ризики (All)</option>
               <option value="CRITICAL">Критичний (Critical)</option>
@@ -117,7 +117,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                   downloadAnchorNode.remove();
                 }
               }}
-              className="flex items-center gap-1.5 bg-blue-600/20 hover:bg-blue-600/40 border border-blue-500/30 text-blue-300 hover:text-white font-mono text-[10px] font-bold px-2 py-1 rounded transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 bg-blue-600/20 hover:bg-blue-600/40 border border-white/10 text-blue-300 hover:text-white font-mono text-xs font-bold px-2 py-1 rounded transition-colors cursor-pointer"
               title="Експорт JSON"
             >
               <Download className="w-3 h-3" />
@@ -126,7 +126,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
           )}
           <button 
             onClick={onClose}
-            className="text-slate-500 hover:text-slate-300 font-mono text-[11px] px-2 py-1 rounded hover:bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] transition-colors cursor-pointer"
+            className="text-slate-500 hover:text-slate-300 font-mono text-xs px-2 py-1 rounded hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] transition-colors cursor-pointer"
           >
             Згорнути [ESC]
           </button>
@@ -142,16 +142,16 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="p-5 space-y-6"
+            className="p-2 space-y-6"
           >
             {!hasSelection ? (
-          <div className="h-full flex flex-col items-center justify-center text-center py-12 px-4 space-y-4">
-            <div className="p-4 rounded-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.3)] border border-slate-850 text-slate-600 animate-pulse">
+          <div className="h-full flex flex-col items-center justify-center text-center py-12 px-3 space-y-4">
+            <div className="p-2 rounded-full bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-white/10 text-slate-600 animate-pulse">
               <Network className="w-8 h-8" />
             </div>
             <div>
               <p className="text-xs font-bold text-slate-300 uppercase tracking-wider">Очікування вибору об'єкта</p>
-              <p className="text-[10px] text-slate-600 max-w-xs mt-1.5 leading-relaxed font-sans">
+              <p className="text-xs text-slate-600 max-w-xs mt-1.5 leading-relaxed font-sans">
                 Клікніть на будь-яку компанію, засновника, відкриту бібліотеку або вузол графа залежностей для миттєвого інспектування метаданих.
               </p>
             </div>
@@ -166,15 +166,15 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                 {/* Header overview */}
                 <div className="space-y-2">
                   <div className="flex justify-between items-start">
-                    <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-blue-500/10 text-blue-400 border border-blue-500/30">
+                    <span className="px-2 py-1 rounded text-xs font-mono font-bold uppercase bg-blue-500/10 text-blue-400 border border-white/10">
                       OSINT {selectedEntity.type}
                     </span>
-                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${selectedEntity.riskScore > 75 ? 'text-red-400 border-red-500/20 bg-red-500/5' : 'text-slate-300 border-blue-500/10'}`}>
+                    <span className={`text-xs font-mono font-bold px-2 py-1 rounded border ${selectedEntity.riskScore > 75 ? 'text-red-400 border-red-500/20 bg-red-500/5' : 'text-slate-300 border-white/10'}`}>
                       Ризик: {selectedEntity.riskScore}%
                     </span>
                   </div>
-                  <h3 className="text-sm font-bold text-white tracking-tight">{selectedEntity.name}</h3>
-                  <p className="text-[10px] font-mono text-slate-500">Код: {selectedEntity.code}</p>
+                  <h3 className="text-xs font-bold text-white tracking-tight">{selectedEntity.name}</h3>
+                  <p className="text-xs font-mono text-slate-500">Код: {selectedEntity.code}</p>
                 </div>
 
                 <div className="pt-1 pb-1">
@@ -188,7 +188,7 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                       downloadAnchorNode.click();
                       downloadAnchorNode.remove();
                     }}
-                    className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-blue-400 border border-blue-500/30 font-bold py-2 px-4 rounded-lg text-xs transition-colors cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-blue-400 border border-white/10 font-bold py-2 px-3 rounded-2xl text-xs transition-colors cursor-pointer"
                   >
                     <FileText className="w-3.5 h-3.5" /> Експорт Звіту (JSON)
                   </button>
@@ -196,8 +196,8 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
 
                 {/* Metadata Grid (Section 9) */}
                 <div className="space-y-1.5">
-                  <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Метадані об'єкта</span>
-                  <div className="bg-slate-900/40 border border-blue-500/5 rounded-xl p-3 space-y-1.5 font-mono text-[10px] text-slate-300">
+                  <span className="text-xs text-slate-500 font-mono font-bold uppercase tracking-widest block">Метадані об'єкта</span>
+                  <div className="bg-black/30 border border-white/10 rounded-2xl p-2 space-y-1.5 font-mono text-xs text-slate-300">
                     <div className="flex justify-between">
                       <span className="text-slate-500">Адреса:</span>
                       <span className="text-slate-200 text-right max-w-[160px] truncate" title={selectedEntity.address}>{selectedEntity.address}</span>
@@ -215,30 +215,30 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
 
                 {/* Related links / connected objects (Section 9) */}
                 <div className="space-y-2">
-                  <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Пов'язані об'єкти з БД OSINT (Connected Entities)</span>
+                  <span className="text-xs text-slate-500 font-mono font-bold uppercase tracking-widest block">Пов'язані об'єкти з БД OSINT (Connected Entities)</span>
                   <div className="space-y-2">
                     {connectedEntities.length === 0 ? (
-                      <div className="text-[10px] text-slate-500 font-mono p-2 bg-slate-900/20 rounded-lg border border-slate-800">Не знайдено пов'язаних об'єктів у базі</div>
+                      <div className="text-xs text-slate-500 font-mono p-2 bg-slate-900/20 rounded-2xl border border-white/5">Не знайдено пов'язаних об'єктів у базі</div>
                     ) : (
                       connectedEntities.map((conn, idx) => (
-                        <div key={idx} className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-blue-500/10 p-3 rounded-lg flex items-center justify-between text-[11px] hover:border-blue-500/30 transition-all cursor-default">
-                          <div className="flex items-center gap-3">
+                        <div key={idx} className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-white/10 p-2 rounded-2xl flex items-center justify-between text-xs hover:border-white/10 hover:shadow-[0_0_15px_rgba(59,130,246,0.15)] transition-all duration-300 transition-all cursor-default">
+                          <div className="flex items-center gap-2">
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${conn.entity.type === 'company' ? 'bg-blue-500/10 text-blue-400' : conn.entity.type === 'person' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}`}>
                               <Network className="w-4 h-4" />
                             </div>
                             <div>
                               <p className="font-bold text-slate-200">{conn.entity.name}</p>
                               <div className="flex items-center gap-1.5 mt-1">
-                                <span className="text-[8px] text-blue-400 font-mono uppercase bg-blue-500/10 px-1 rounded">{conn.direction === 'outgoing' ? 'Вихідний' : 'Вхідний'}</span>
-                                <span className="text-[9px] text-slate-400 font-mono truncate max-w-[120px]">{conn.type}</span>
+                                <span className="text-xs text-blue-400 font-mono uppercase bg-blue-500/10 px-1 rounded">{conn.direction === 'outgoing' ? 'Вихідний' : 'Вхідний'}</span>
+                                <span className="text-xs text-slate-400 font-mono truncate max-w-[120px]">{conn.type}</span>
                               </div>
                             </div>
                           </div>
                           <div className="flex flex-col items-end gap-1">
-                            <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded border ${conn.risk === 'HIGH' ? 'text-red-400 bg-red-500/5 border-red-500/15' : 'text-slate-300 bg-slate-900/50 border-blue-500/10'}`}>
+                            <span className={`text-xs font-bold px-2 py-1 rounded border ${conn.risk === 'HIGH' ? 'text-red-400 bg-red-500/5 border-red-500/15' : 'text-slate-300 bg-slate-900/50 border-white/10'}`}>
                               {conn.risk}
                             </span>
-                            <span className="text-[8px] text-slate-500 font-mono">Score: {conn.entity.riskScore}</span>
+                            <span className="text-xs text-slate-500 font-mono">Score: {conn.entity.riskScore}</span>
                           </div>
                         </div>
                       ))
@@ -248,24 +248,24 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
 
                 
                 {/* AI Recommendations (Section 9) */}
-                <div className="bg-indigo-950/15 border border-indigo-900/30 rounded-xl p-4 space-y-2">
+                <div className="bg-indigo-950/15 border border-indigo-900/30 rounded-2xl p-2 space-y-2">
                   <div className="flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-                    <span className="text-[9px] text-blue-400 font-mono font-bold uppercase tracking-widest">ШІ-РЕКОМЕНДАЦІЇ NEXUS</span>
+                    <span className="text-xs text-blue-400 font-mono font-bold uppercase tracking-widest">ШІ-РЕКОМЕНДАЦІЇ NEXUS</span>
                   </div>
-                  <p className="text-slate-300 leading-relaxed text-[11px] whitespace-pre-line">
+                  <p className="text-slate-300 leading-relaxed text-xs whitespace-pre-line">
                     {selectedEntity.aiRecommendations}
                   </p>
                 </div>
 
                 {/* Raw Context / Fetched OSINT Data */}
                 {selectedEntity.rawContext && (
-                  <div className="space-y-2 pt-2 border-t border-blue-500/5">
-                    <span className="text-[9px] text-emerald-500 font-mono font-bold uppercase tracking-widest block flex items-center gap-1.5">
+                  <div className="space-y-2 pt-2 border-t border-white/10">
+                    <span className="text-xs text-emerald-500 font-mono font-bold uppercase tracking-widest block flex items-center gap-1.5">
                       <Network className="w-3 h-3" />
                       Сирі дані інтеграцій (Data Lake)
                     </span>
-                    <div className="bg-slate-950/50 border border-blue-500/5 rounded-lg p-3 space-y-3 text-[10px] text-slate-300 font-mono overflow-hidden">
+                    <div className="bg-slate-950/50 border border-white/10 rounded-2xl p-2 space-y-3 text-xs text-slate-300 font-mono overflow-hidden">
                       {selectedEntity.rawContext.wikipedia && selectedEntity.rawContext.wikipedia.length > 0 && (
                         <div>
                           <span className="text-slate-300 font-bold block mb-1">Wikipedia (UK):</span>
@@ -330,20 +330,20 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                 
                 {/* Header */}
                 <div className="space-y-2">
-                  <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2 py-1 rounded text-xs font-mono font-bold uppercase bg-emerald-500/10 text-emerald-400 border border-white/10">
                     OpenSource {selectedTool.category}
                   </span>
-                  <h3 className="text-sm font-bold text-white tracking-tight">{selectedTool.name}</h3>
-                  <p className="text-[10px] text-slate-500 font-mono">Стек: {selectedTool.techStack}</p>
+                  <h3 className="text-xs font-bold text-white tracking-tight">{selectedTool.name}</h3>
+                  <p className="text-xs text-slate-500 font-mono">Стек: {selectedTool.techStack}</p>
                 </div>
 
                 {/* Compatibility Rating */}
-                <div className="bg-slate-900/40 border border-blue-500/5 p-3 rounded-xl space-y-2">
-                  <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Сумісність з ТЗ</span>
-                  <div className="flex items-center gap-3">
+                <div className="bg-black/30 border border-white/10 p-2 rounded-2xl space-y-2">
+                  <span className="text-xs text-slate-500 font-mono font-bold uppercase tracking-widest block">Сумісність з ТЗ</span>
+                  <div className="flex items-center gap-2">
                     <span className="text-2xl font-bold font-mono text-blue-400">{selectedTool.compatibilityScore}%</span>
                     <div className="flex-1">
-                      <div className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] rounded-full h-1.5">
+                      <div className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-full h-1.5">
                         <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${selectedTool.compatibilityScore}%` }}></div>
                       </div>
                     </div>
@@ -353,15 +353,15 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                 {/* Advantages vs Disadvantages */}
                 <div className="space-y-3">
                   <div className="space-y-1.5">
-                    <span className="text-[9px] text-emerald-400 font-mono font-bold uppercase tracking-widest block">Переваги інтеграції</span>
-                    <ul className="space-y-1 text-slate-300 list-disc list-inside pl-1 text-[11px]">
+                    <span className="text-xs text-emerald-400 font-mono font-bold uppercase tracking-widest block">Переваги інтеграції</span>
+                    <ul className="space-y-1 text-slate-300 list-disc list-inside pl-1 text-xs">
                       {selectedTool.advantages.map((adv, i) => <li key={i} className="leading-relaxed">{adv}</li>)}
                     </ul>
                   </div>
 
                   <div className="space-y-1.5">
-                    <span className="text-[9px] text-red-400 font-mono font-bold uppercase tracking-widest block">Недоліки / Ризики ліцензування</span>
-                    <ul className="space-y-1 text-slate-300 list-disc list-inside pl-1 text-[11px]">
+                    <span className="text-xs text-red-400 font-mono font-bold uppercase tracking-widest block">Недоліки / Ризики ліцензування</span>
+                    <ul className="space-y-1 text-slate-300 list-disc list-inside pl-1 text-xs">
                       {selectedTool.disadvantages.map((dis, i) => <li key={i} className="leading-relaxed">{dis}</li>)}
                     </ul>
                   </div>
@@ -369,8 +369,8 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
 
                 {/* Technical Description */}
                 <div className="space-y-1.5">
-                  <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Опис архітектурної ролі</span>
-                  <p className="text-slate-300 leading-relaxed text-[11px] p-3 rounded-xl bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-blue-500/5 font-sans">
+                  <span className="text-xs text-slate-500 font-mono font-bold uppercase tracking-widest block">Опис архітектурної ролі</span>
+                  <p className="text-slate-300 leading-relaxed text-xs p-2 rounded-2xl bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-white/10 font-sans">
                     {selectedTool.role}
                   </p>
                 </div>
@@ -384,16 +384,16 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
                 
                 {/* Header */}
                 <div className="space-y-2">
-                  <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-blue-500/10 text-blue-400 border border-blue-500/30">
+                  <span className="px-2 py-1 rounded text-xs font-mono font-bold uppercase bg-blue-500/10 text-blue-400 border border-white/10">
                     Вузол інфраструктури: {selectedNode.group}
                   </span>
-                  <h3 className="text-sm font-bold text-white tracking-tight">{selectedNode.label}</h3>
-                  <p className="text-[10px] font-mono text-slate-500">ID системи: {selectedNode.id}</p>
+                  <h3 className="text-xs font-bold text-white tracking-tight">{selectedNode.label}</h3>
+                  <p className="text-xs font-mono text-slate-500">ID системи: {selectedNode.id}</p>
                 </div>
 
                 {/* Status metrics */}
-                <div className="bg-slate-900/40 border border-blue-500/5 p-3 rounded-xl space-y-2 font-mono text-[10px]">
-                  <span className="text-[9px] text-slate-500 font-bold uppercase tracking-widest block">Метрики контейнера</span>
+                <div className="bg-black/30 border border-white/10 p-2 rounded-2xl space-y-2 font-mono text-xs">
+                  <span className="text-xs text-slate-500 font-bold uppercase tracking-widest block">Метрики контейнера</span>
                   <div className="space-y-1 text-slate-300">
                     <div className="flex justify-between">
                       <span>Стан:</span>
@@ -412,16 +412,16 @@ export default function InspectorPanel({ selectedEntity, selectedTool, selectedN
 
                 {/* Details / description */}
                 <div className="space-y-1.5">
-                  <span className="text-[9px] text-slate-500 font-mono font-bold uppercase tracking-widest block">Призначення за архітектурою</span>
-                  <p className="text-slate-300 leading-relaxed text-[11px] p-3 rounded-xl bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-blue-500/5">
+                  <span className="text-xs text-slate-500 font-mono font-bold uppercase tracking-widest block">Призначення за архітектурою</span>
+                  <p className="text-slate-300 leading-relaxed text-xs p-2 rounded-2xl bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-white/10">
                     {selectedNode.details || "Цей контейнер забезпечує автоматизоване завантаження, первинну фільтрацію та індексування великих масивів даних судових ухвал та митних декларацій."}
                   </p>
                 </div>
 
                 {/* Port bindings, logs preview */}
                 <div className="space-y-1.5 font-mono">
-                  <span className="text-[9px] text-slate-500 font-bold uppercase tracking-widest block">Порти та обв'язка</span>
-                  <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.5)] border border-blue-500/5 p-3 rounded-xl text-[10px] text-slate-300 space-y-1">
+                  <span className="text-xs text-slate-500 font-bold uppercase tracking-widest block">Порти та обв'язка</span>
+                  <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-white/10 p-2 rounded-2xl text-xs text-slate-300 space-y-1">
                     <p>PORT: <span className="text-slate-200">3000 / internal TCP</span></p>
                     <p>CONTAINER: <span className="text-slate-200">Docker CloudRun Node v18</span></p>
                     <p>LOGS: <span className="text-slate-500">Listening on 0.0.0.0:3000... success</span></p>
