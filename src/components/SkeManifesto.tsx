@@ -292,19 +292,19 @@ export default function SkeManifesto() {
   }, [isVortexActive]);
 
   return (
-    <div className="space-y-8 bg-[#050507] text-slate-100 min-h-screen p-1 md:p-2 rounded-3xl border border-white/10 relative overflow-hidden" id="ske-manifesto-root">
+    <div className="space-y-8 bg-[#050507] text-slate-200 min-h-screen p-1 md:p-2 rounded-3xl border border-slate-800 relative overflow-hidden" id="ske-manifesto-root">
       
       {/* Background space grid pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#1e1b4b_1px,transparent_1px)] [background-size:16px_16px] opacity-15 pointer-events-none" />
       
       {/* Header Info */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/10 pb-6 gap-2">
+      <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-6 gap-2">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="p-1 px-2 text-xs bg-sky-500/10 border border-white/10 text-sky-400 font-mono rounded font-black uppercase tracking-wider">
+            <span className="p-1 px-2 text-xs bg-sky-500/10 border border-slate-800 text-sky-400 font-mono rounded font-black uppercase tracking-wider">
               ✦ SYNTHETIC KNOWLEDGE ENVIRONMENT
             </span>
-            <span className="p-1 px-2 text-xs bg-cyan-500/10 border border-white/10 text-cyan-400 font-mono rounded font-black uppercase tracking-wider">
+            <span className="p-1 px-2 text-xs bg-cyan-500/10 border border-slate-800 text-cyan-400 font-mono rounded font-black uppercase tracking-wider">
               NEXUS OS v3.5
             </span>
           </div>
@@ -318,7 +318,7 @@ export default function SkeManifesto() {
 
         <div className="flex items-center gap-2">
           {/* Neon Pulse indicator */}
-          <div className="bg-slate-900/80 border border-white/10 px-2 py-1.5 rounded-2xl flex items-center gap-2 font-mono">
+          <div className="bg-slate-900/80 border border-slate-800 px-2 py-1.5 rounded-2xl flex items-center gap-2 font-mono">
             <div className="flex flex-col">
               <span className="text-xs text-slate-500 uppercase font-black">OpenSearch API Pulse</span>
               <div className="flex items-center gap-1.5 mt-0.5">
@@ -330,7 +330,7 @@ export default function SkeManifesto() {
             </div>
             <div className="w-[1px] h-8 bg-slate-800" />
             <div className="flex flex-col">
-              <span className="text-xs text-slate-500 uppercase font-black">latency</span>
+              <span className="text-xs text-slate-500 uppercase font-black">затримка</span>
               <span className="text-xs font-black text-cyan-400 mt-0.5">{latency} ms</span>
             </div>
           </div>
@@ -341,7 +341,7 @@ export default function SkeManifesto() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-2">
         
         {/* Left Column: The Genesis Canvas Simulator (Singularity Core) */}
-        <div className="lg:col-span-5 flex flex-col items-center justify-between bg-slate-950/80 border border-white/10 rounded-2xl p-2 relative min-h-[580px] overflow-hidden">
+        <div className="lg:col-span-5 flex flex-col items-center justify-between bg-slate-950/80 border border-slate-800 rounded-2xl p-2 relative min-h-[580px] overflow-hidden">
           
           <div className="absolute top-2 left-4 z-10">
             <span className="text-xs font-mono text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
@@ -359,7 +359,7 @@ export default function SkeManifesto() {
           <div className="flex-1 w-full flex items-center justify-center relative my-4">
             
             {/* The Singularity WebGL Canvas */}
-            <div ref={containerRef} className="w-[300px] h-[300px] md:w-[320px] md:h-[320px] cursor-pointer" title="The Singularity Sphere. Натисніть для збудження гравітації" onClick={() => setIsVortexActive(!isVortexActive)} />
+            <div ref={containerRef} className="w-[300px] h-[300px] md:w-[320px] md:h-[320px] cursor-pointer" title="Сфера Сингулярності. Натисніть для збудження гравітації" onClick={() => setIsVortexActive(!isVortexActive)} />
             
             <AnimatePresence>
               {isVortexActive && (
@@ -369,7 +369,7 @@ export default function SkeManifesto() {
                   exit={{ opacity: 0 }}
                   className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none bg-black/10 backdrop-blur-[2px] rounded-full"
                 >
-                  <span className="text-xs font-mono text-cyan-400 tracking-wider bg-slate-950/90 border border-white/10 px-3 py-1.5 rounded-full uppercase font-black animate-pulse shadow-2xl shadow-black/40">
+                  <span className="text-xs font-mono text-cyan-400 tracking-wider bg-slate-950/90 border border-slate-800 px-3 py-1.5 rounded-full uppercase font-black animate-pulse shadow-2xl shadow-black/40">
                     ⚡ ГРАВІТАЦІЙНИЙ ВИХОР АКТИВНИЙ
                   </span>
                 </motion.div>
@@ -392,7 +392,7 @@ export default function SkeManifesto() {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="Введіть гіпотезу (напр. 'Митні аномалії Lex Corp та санкційні зв'язки в Neo4j')"
-                className="w-full bg-[#050507] border border-white/10 rounded-2xl py-2 pl-10 pr-24 text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20 transition-all shadow-inner"
+                className="w-full bg-[#050507] border border-slate-800 rounded-2xl py-2 pl-10 pr-24 text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20 transition-all shadow-inner"
               />
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
               
@@ -420,14 +420,14 @@ export default function SkeManifesto() {
         <div className="lg:col-span-7 space-y-6">
           
           {/* Cognitive Wake & Reasoning Pipeline */}
-          <div className="bg-slate-950/80 border border-white/10 rounded-2xl p-2 relative overflow-hidden">
+          <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-2 relative overflow-hidden">
             <span className="text-xs font-mono text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-4">
               <Cpu className="w-3.5 h-3.5 text-blue-400" />
               2. THE COGNITIVE WAKE (КОГНІТИВНИЙ ШЛЕЙФ)
             </span>
 
             {/* Steps Timeline */}
-            <div className="relative space-y-3 pl-4 border-l border-white/5">
+            <div className="relative space-y-3 pl-4 border-l border-slate-800/60">
               {pipelineSteps.map((step, idx) => {
                 const isActive = step.status === 'active';
                 const isSuccess = step.status === 'success';
@@ -441,13 +441,13 @@ export default function SkeManifesto() {
                       ) : null}
                       <span className={`w-2 h-2 rounded-full border transition-all duration-300 ${
                         isSuccess ? 'bg-emerald-500 border-emerald-400' : 
-                        isActive ? 'bg-cyan-400 border-cyan-300' : 'bg-slate-900/40 backdrop-blur-md border-white/5'
+                        isActive ? 'bg-cyan-400 border-cyan-300' : 'bg-slate-900/40 backdrop-blur-md border-slate-800/60'
                       }`} />
                     </div>
 
                     <div className={`p-2.5 rounded-2xl border transition-all duration-300 ${
-                      isActive ? 'bg-blue-500/5 border-white/10 shadow-[0_0_15px_rgba(99,102,241,0.05)]' :
-                      isSuccess ? 'bg-slate-900/40 border-white/10' : 'bg-transparent border-transparent opacity-40'
+                      isActive ? 'bg-blue-500/5 border-slate-800 shadow-[0_0_15px_rgba(99,102,241,0.05)]' :
+                      isSuccess ? 'bg-slate-900/40 border-slate-800' : 'bg-transparent border-transparent opacity-40'
                     }`}>
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-black font-mono tracking-wide" style={{ color: step.color }}>
@@ -465,14 +465,14 @@ export default function SkeManifesto() {
           </div>
 
           {/* Infinite Fluid Canvas Preview */}
-          <div className="bg-slate-950/80 border border-white/10 rounded-2xl p-2 relative overflow-hidden">
+          <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-2 relative overflow-hidden">
             <span className="text-xs font-mono text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-4">
               <Layers className="w-3.5 h-3.5 text-blue-400" />
               3. INFINITE FLUID CANVAS (ДИНАМІЧНА КРИСТАЛІЗАЦІЯ)
             </span>
 
             {activeStep === 0 ? (
-              <div className="h-44 flex flex-col justify-center items-center text-center p-2 border border-dashed border-white/5 rounded-2xl font-mono text-xs text-slate-500 space-y-2">
+              <div className="h-44 flex flex-col justify-center items-center text-center p-2 border border-dashed border-slate-800/60 rounded-2xl font-mono text-xs text-slate-500 space-y-2">
                 <Play className="w-8 h-8 text-blue-500/40 animate-pulse" />
                 <span>Будь ласка, введіть гіпотезу зліва та натисніть кнопку &laquo;Шукати&raquo;</span>
                 <span className="text-xs text-slate-600">Це запустить векторну траєкторію та матеріалізацію сутностей</span>
@@ -481,7 +481,7 @@ export default function SkeManifesto() {
               <div className="space-y-4">
                 
                 {/* Metric Catalyst Panel */}
-                <div className="p-2 bg-slate-900/60 border border-white/10 rounded-2xl font-mono relative overflow-hidden">
+                <div className="p-2 bg-slate-900/60 border border-slate-800 rounded-2xl font-mono relative overflow-hidden">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
                       <Activity className="w-3.5 h-3.5 text-rose-500" />
@@ -489,7 +489,7 @@ export default function SkeManifesto() {
                     </span>
                     <span className="text-xs font-black text-rose-400">Divergence Score: 72%</span>
                   </div>
-                  <div className="flex items-center gap-1 h-3.5 bg-[#020617]/80 backdrop-blur-xl rounded border border-white/10 px-1 relative">
+                  <div className="flex items-center gap-1 h-3.5 bg-slate-950/80 backdrop-blur-xl rounded border border-slate-800 px-1 relative">
                     <div className="h-2 rounded bg-gradient-to-r from-emerald-500 via-amber-500 to-rose-500" style={{ width: '72%' }} />
                     <span className="absolute left-[72%] top-0 bottom-0 w-[2px] bg-white animate-pulse" />
                   </div>
@@ -507,7 +507,7 @@ export default function SkeManifesto() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ delay: 0.2 }}
                     className={`p-2.5 rounded-2xl border font-mono transition-all duration-300 ${
-                      selectedEntityId === 'co-1' ? 'border-cyan-400 bg-cyan-950/20 shadow-[0_0_15px_rgba(0,240,255,0.08)]' : 'border-white/10 bg-slate-900/40 hover:border-white/10'
+                      selectedEntityId === 'co-1' ? 'border-cyan-400 bg-cyan-950/20 shadow-[0_0_15px_rgba(0,240,255,0.08)]' : 'border-slate-800 bg-slate-900/40 hover:border-slate-800'
                     } cursor-pointer`}
                     onClick={() => setSelectedEntityId('co-1')}
                   >
@@ -516,7 +516,7 @@ export default function SkeManifesto() {
                         <div className="w-2.5 h-2.5 rounded bg-amber-500" />
                         <span className="text-xs font-bold text-slate-200">ТОВ &laquo;Lex Corp&raquo;</span>
                       </div>
-                      <span className="text-xs bg-amber-500/10 text-amber-400 border border-white/10 px-2 py-1 rounded uppercase font-black">
+                      <span className="text-xs bg-amber-500/10 text-amber-400 border border-slate-800 px-2 py-1 rounded uppercase font-black">
                         Medium Risk
                       </span>
                     </div>
@@ -543,7 +543,7 @@ export default function SkeManifesto() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ delay: 0.4 }}
                     className={`p-2.5 rounded-2xl border font-mono transition-all duration-300 ${
-                      selectedEntityId === 'conn-1' ? 'border-sky-400 bg-fuchsia-950/20 shadow-[0_0_15px_rgba(168,85,247,0.08)]' : 'border-white/10 bg-slate-900/40 hover:border-white/10'
+                      selectedEntityId === 'conn-1' ? 'border-sky-400 bg-fuchsia-950/20 shadow-[0_0_15px_rgba(168,85,247,0.08)]' : 'border-slate-800 bg-slate-900/40 hover:border-slate-800'
                     } cursor-pointer`}
                     onClick={() => setSelectedEntityId('conn-1')}
                   >
@@ -552,7 +552,7 @@ export default function SkeManifesto() {
                         <div className="w-2.5 h-2.5 rounded bg-sky-500" />
                         <span className="text-xs font-bold text-slate-200">Олігархічний контур</span>
                       </div>
-                      <span className="text-xs bg-sky-500/10 text-sky-400 border border-white/10 px-2 py-1 rounded uppercase font-black">
+                      <span className="text-xs bg-sky-500/10 text-sky-400 border border-slate-800 px-2 py-1 rounded uppercase font-black">
                         3 Графові кроки
                       </span>
                     </div>
@@ -589,20 +589,20 @@ export default function SkeManifesto() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 font-mono relative overflow-hidden"
+            className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-2 font-mono relative overflow-hidden"
           >
             {/* Parallax Depth simulator */}
             <div className="absolute right-4 top-2">
               <button 
                 onClick={() => setSelectedEntityId(null)}
-                className="text-xs text-slate-500 hover:text-white border border-white/5 hover:border-slate-600 px-3 py-1 rounded-2xl cursor-pointer"
+                className="text-xs text-slate-500 hover:text-white border border-slate-800/60 hover:border-slate-600 px-3 py-1 rounded-2xl cursor-pointer"
               >
                 Закрити панель глубинного аналізу [Esc]
               </button>
             </div>
 
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-xs font-bold text-cyan-400 bg-cyan-500/10 border border-white/10 px-2 py-1 rounded uppercase tracking-wider">
+              <span className="text-xs font-bold text-cyan-400 bg-cyan-500/10 border border-slate-800 px-2 py-1 rounded uppercase tracking-wider">
                 З-вісь: Depth 4 (Паралакс)
               </span>
               <span className="text-xs text-slate-400">Глубинне судове сканування та розпізнавання сутностей</span>
@@ -610,31 +610,31 @@ export default function SkeManifesto() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
               
-              <div className="md:col-span-1 p-2 bg-slate-900/60 rounded-2xl border border-white/10 space-y-3">
+              <div className="md:col-span-1 p-2 bg-slate-900/60 rounded-2xl border border-slate-800 space-y-3">
                 <span className="text-xs text-slate-500 font-bold uppercase tracking-widest block">Аналітичний ДНК сутності</span>
                 <div className="space-y-2 text-xs">
-                  <div className="p-2 bg-[#020617]/80 backdrop-blur-xl rounded flex justify-between">
+                  <div className="p-2 bg-slate-950/80 backdrop-blur-xl rounded flex justify-between">
                     <span className="text-slate-400">Тип:</span>
                     <span className="text-slate-200 font-bold">Офшорна холдингова компанія</span>
                   </div>
-                  <div className="p-2 bg-[#020617]/80 backdrop-blur-xl rounded flex justify-between">
+                  <div className="p-2 bg-slate-950/80 backdrop-blur-xl rounded flex justify-between">
                     <span className="text-slate-400">Митниця:</span>
                     <span className="text-emerald-400 font-bold">Спільний склад Одеса №12</span>
                   </div>
-                  <div className="p-2 bg-[#020617]/80 backdrop-blur-xl rounded flex justify-between">
+                  <div className="p-2 bg-slate-950/80 backdrop-blur-xl rounded flex justify-between">
                     <span className="text-slate-400">Суди (Full-text):</span>
                     <span className="text-slate-200">12 судових справ</span>
                   </div>
                 </div>
               </div>
 
-              <div className="md:col-span-2 p-2 bg-slate-900/60 rounded-2xl border border-white/10 relative">
+              <div className="md:col-span-2 p-2 bg-slate-900/60 rounded-2xl border border-slate-800 relative">
                 <span className="text-xs text-slate-500 font-bold uppercase tracking-widest block mb-2.5">
                   Судові рішення (Синтаксичні сувої OpenSearch + MinIO)
                 </span>
                 
                 <div className="space-y-2 text-xs text-slate-300 leading-relaxed max-h-36 overflow-y-auto pr-2">
-                  <div className="p-2.5 bg-[#050507] rounded-2xl border border-white/10 relative overflow-hidden">
+                  <div className="p-2.5 bg-[#050507] rounded-2xl border border-slate-800 relative overflow-hidden">
                     {/* Glowing Synaptic Spark effect */}
                     <div className="absolute top-0 right-0 p-1 bg-yellow-500/10 border-l border-b border-yellow-500/20 text-xs text-yellow-400 uppercase font-black tracking-widest">
                       ✦ Synaptic Spark (Збіг)
@@ -644,7 +644,7 @@ export default function SkeManifesto() {
                     </p>
                   </div>
 
-                  <div className="p-2.5 bg-[#050507] rounded-2xl border border-white/10">
+                  <div className="p-2.5 bg-[#050507] rounded-2xl border border-slate-800">
                     <p>
                       &quot;...у судовому засіданні встановлено зв&apos;язки з бенефіціаром <span className="text-yellow-400 font-bold underline decoration-yellow-400/30">Коваленко О.М.</span> через офшорний контур Vanguard...&quot;
                     </p>
@@ -658,7 +658,7 @@ export default function SkeManifesto() {
       </AnimatePresence>
 
       {/* Encyclopedia: 12 Core Manifesto Points (Visual Guide Grid) */}
-      <div className="space-y-4 pt-4 border-t border-white/10">
+      <div className="space-y-4 pt-4 border-t border-slate-800">
         <h3 className="text-xs font-mono font-black text-slate-400 uppercase tracking-widest pl-1 flex items-center gap-2">
           <HelpCircle className="w-4 h-4 text-slate-400" />
           ФУНДАМЕНТАЛЬНІ СПЕЦИФІКАЦІЇ SYNTHETIC KNOWLEDGE ENVIRONMENT (SKE)
@@ -667,7 +667,7 @@ export default function SkeManifesto() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
           
           {/* Card 1 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">1. Genesis Canvas</span>
               <span className="text-xs font-mono text-slate-600">✦ Concept</span>
@@ -679,7 +679,7 @@ export default function SkeManifesto() {
           </div>
 
           {/* Card 2 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">2. Reasoning Pipeline</span>
               <span className="text-xs font-mono text-slate-600">✦ Flow</span>
@@ -691,7 +691,7 @@ export default function SkeManifesto() {
           </div>
 
           {/* Card 3 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">3. Infinite Fluid Canvas</span>
               <span className="text-xs font-mono text-slate-600">✦ UI/UX</span>
@@ -703,7 +703,7 @@ export default function SkeManifesto() {
           </div>
 
           {/* Card 4 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">4. OpenSearch Camouflage</span>
               <span className="text-xs font-mono text-slate-600">✦ Search</span>
@@ -715,7 +715,7 @@ export default function SkeManifesto() {
           </div>
 
           {/* Card 5 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">5. Motion Design</span>
               <span className="text-xs font-mono text-slate-600">✦ Physics</span>
@@ -727,7 +727,7 @@ export default function SkeManifesto() {
           </div>
 
           {/* Card 6 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">6. AI Neuro-Synthesis</span>
               <span className="text-xs font-mono text-slate-600">✦ AI Visual</span>
@@ -739,7 +739,7 @@ export default function SkeManifesto() {
           </div>
 
           {/* Card 7 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">7. Core Entities DNA</span>
               <span className="text-xs font-mono text-slate-600">✦ Database</span>
@@ -751,7 +751,7 @@ export default function SkeManifesto() {
           </div>
 
           {/* Card 8 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">8. Matrix Catalyst</span>
               <span className="text-xs font-mono text-slate-600">✦ Dashboard</span>
@@ -775,7 +775,7 @@ export default function SkeManifesto() {
           </div>
 
           {/* Card 10 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">10. Intelligence Experience</span>
               <span className="text-xs font-mono text-slate-600">✦ IX Profile</span>
@@ -787,7 +787,7 @@ export default function SkeManifesto() {
           </div>
 
           {/* Card 11 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">11. Spatial Resonance</span>
               <span className="text-xs font-mono text-slate-600">✦ Future 2035</span>
@@ -799,7 +799,7 @@ export default function SkeManifesto() {
           </div>
 
           {/* Card 12 */}
-          <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
+          <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2.5 relative group hover:border-cyan-400/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase">12. Architecture</span>
               <span className="text-xs font-mono text-slate-600">✦ PAE Integration</span>

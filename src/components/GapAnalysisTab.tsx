@@ -31,9 +31,9 @@ export default function GapAnalysisTab() {
 
   const getComplexityColor = (val: number) => {
     switch (val) {
-      case 1: return 'text-emerald-400 bg-emerald-500/10 border-white/10';
-      case 2: return 'text-blue-400 bg-blue-500/10 border-white/10';
-      case 3: return 'text-amber-400 bg-amber-500/10 border-white/10';
+      case 1: return 'text-emerald-400 bg-emerald-500/10 border-slate-800';
+      case 2: return 'text-blue-400 bg-blue-500/10 border-slate-800';
+      case 3: return 'text-amber-400 bg-amber-500/10 border-slate-800';
       default: return 'text-red-400 bg-red-500/10 border-red-500/20';
     }
   };
@@ -84,9 +84,9 @@ export default function GapAnalysisTab() {
 
   const getDifficultyColor = (diff: string) => {
     switch (diff) {
-      case 'Легка': return 'bg-emerald-500/10 text-emerald-400 border-white/10';
-      case 'Середня': return 'bg-blue-500/10 text-blue-400 border-white/10';
-      case 'Висока': return 'bg-amber-500/10 text-amber-400 border-white/10';
+      case 'Легка': return 'bg-emerald-500/10 text-emerald-400 border-slate-800';
+      case 'Середня': return 'bg-blue-500/10 text-blue-400 border-slate-800';
+      case 'Висока': return 'bg-amber-500/10 text-amber-400 border-slate-800';
       default: return 'bg-red-500/10 text-red-400 border-red-500/20';
     }
   };
@@ -94,8 +94,8 @@ export default function GapAnalysisTab() {
   return (
     <div className="space-y-6" id="gap-analysis-tab-root">
       {/* Intro section */}
-      <div className="glass-panel-premium border-white/10 rounded-2xl p-2 backdrop-blur-md">
-        <h2 className="text-lg font-semibold text-slate-100 flex items-center gap-2 mb-2">
+      <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 backdrop-blur-md">
+        <h2 className="text-lg font-semibold text-slate-200 flex items-center gap-2 mb-2">
           <Wrench className="w-4 h-4 text-amber-400" id="gap-title-icon" />
           Gap Analysis (Аналіз прогалин та кастомна розробка)
         </h2>
@@ -109,34 +109,34 @@ export default function GapAnalysisTab() {
         {/* Left column: Categories & Dynamic Cost Estimator */}
         <div className="lg:col-span-1 space-y-6">
           {/* Action Category Filters */}
-          <div className="bg-slate-900/40 border border-white/10 rounded-2xl p-2 space-y-3" id="gap-filters">
+          <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-2 space-y-3" id="gap-filters">
             <h3 className="text-xs font-semibold text-slate-200 uppercase tracking-wider">Категорії інтеграції</h3>
             <div className="space-y-1.5 text-xs">
               <button
                 id="gap-all-filter"
                 onClick={() => setSelectedCategory('all')}
-                className={`w-full text-left px-2 py-1.5 rounded-2xl border transition-all flex items-center justify-between ${selectedCategory === 'all' ? 'bg-blue-500/10 border-white/10 text-indigo-300 font-semibold' : 'bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-white/10 text-slate-300 hover:text-slate-200'}`}
+                className={`w-full text-left px-2 py-1.5 rounded-2xl border transition-all flex items-center justify-between ${selectedCategory === 'all' ? 'bg-blue-500/10 border-slate-800 text-indigo-300 font-semibold' : 'bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-slate-800 text-slate-300 hover:text-slate-200'}`}
               >
                 <span>Усі категорії ({GAP_ITEMS.length})</span>
-                <span className="text-xs bg-black/40 backdrop-blur-md px-2 py-1 rounded border border-white/10">Все</span>
+                <span className="text-xs bg-black/40 backdrop-blur-md px-2 py-1 rounded border border-slate-800">Все</span>
               </button>
               {GAP_ITEMS.map(item => (
                 <button
                   key={item.id}
                   id={`gap-filter-${item.id}`}
                   onClick={() => setSelectedCategory(item.category)}
-                  className={`w-full text-left px-2 py-1.5 rounded-2xl border transition-all flex items-center justify-between ${selectedCategory === item.category ? 'bg-blue-500/10 border-white/10 text-indigo-300 font-semibold' : 'bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-white/10 text-slate-300 hover:text-slate-200'}`}
+                  className={`w-full text-left px-2 py-1.5 rounded-2xl border transition-all flex items-center justify-between ${selectedCategory === item.category ? 'bg-blue-500/10 border-slate-800 text-indigo-300 font-semibold' : 'bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-slate-800 text-slate-300 hover:text-slate-200'}`}
                 >
                   <span className="truncate">{item.categoryLabel}</span>
-                  <span className="text-xs bg-black/40 backdrop-blur-md px-2 py-1 rounded border border-white/10 uppercase font-mono">{item.difficulty}</span>
+                  <span className="text-xs bg-black/40 backdrop-blur-md px-2 py-1 rounded border border-slate-800 uppercase font-mono">{item.difficulty}</span>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Dynamic Estimator Card */}
-          <div className="bg-slate-900/40 border border-white/10 rounded-2xl p-2 space-y-5" id="dynamic-estimator">
-            <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+          <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-2 space-y-5" id="dynamic-estimator">
+            <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
               <Calculator className="w-4 h-4 text-emerald-400" />
               <h3 className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
                 Калькулятор власної розробки
@@ -207,7 +207,7 @@ export default function GapAnalysisTab() {
               </div>
 
               {/* Team Size */}
-              <div className="space-y-1 pt-2 border-t border-white/10/60">
+              <div className="space-y-1 pt-2 border-t border-slate-800/60">
                 <div className="flex justify-between text-xs">
                   <span className="text-slate-300">Кількість розробників</span>
                   <span className="text-blue-400 font-bold font-mono">{teamSize} чол.</span>
@@ -243,24 +243,24 @@ export default function GapAnalysisTab() {
             </div>
 
             {/* DYNAMIC CALCULATIONS RESULT PANEL */}
-            <div className="bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl p-2 border border-white/10 space-y-3" id="estimator-results">
+            <div className="bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl p-2 border border-slate-800 space-y-3" id="estimator-results">
               <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest text-center">Результати моделювання</h4>
               
               <div className="grid grid-cols-2 gap-2 text-center">
-                <div className="bg-slate-900/60 p-2 rounded-2xl border border-white/10">
+                <div className="bg-slate-900/60 p-2 rounded-2xl border border-slate-800">
                   <Clock className="w-4 h-4 text-blue-400 mx-auto mb-1" />
                   <span className="text-xs text-slate-500 uppercase block">Робота команди</span>
                   <span className="text-xs font-mono font-bold text-slate-200">{estimates.devMonths} л/м</span>
                 </div>
 
-                <div className="bg-slate-900/60 p-2 rounded-2xl border border-white/10">
+                <div className="bg-slate-900/60 p-2 rounded-2xl border border-slate-800">
                   <Calendar className="w-4 h-4 text-teal-400 mx-auto mb-1" />
                   <span className="text-xs text-slate-500 uppercase block">Термін (Time-to-market)</span>
                   <span className="text-xs font-mono font-bold text-slate-200">{estimates.calendarMonths} міс.</span>
                 </div>
               </div>
 
-              <div className="bg-emerald-500/5 border border-white/10 p-2 rounded-2xl text-center">
+              <div className="bg-emerald-500/5 border border-slate-800 p-2 rounded-2xl text-center">
                 <DollarSign className="w-4 h-4 text-emerald-400 mx-auto mb-1" />
                 <span className="text-xs text-slate-500 uppercase block">Бюджет розробки</span>
                 <span className="text-xs font-mono font-bold text-emerald-400">
@@ -285,16 +285,16 @@ export default function GapAnalysisTab() {
             {filteredGapItems.map(item => (
               <div
                 key={item.id}
-                className="bg-black/30 border border-white/10/80 rounded-2xl p-2 space-y-4 hover:border-white/10/60 transition-colors"
+                className="bg-black/30 border border-slate-800/80 rounded-2xl p-2 space-y-4 hover:border-slate-800/60 transition-colors"
               >
                 {/* Card Title Header */}
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="p-2 bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl border border-white/10">
+                    <div className="p-2 bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl border border-slate-800">
                       {getCategoryIcon(item.category)}
                     </div>
                     <div>
-                      <h4 className="text-xs font-bold text-slate-100">{item.title}</h4>
+                      <h4 className="text-xs font-bold text-slate-200">{item.title}</h4>
                       <span className="text-xs text-slate-500 font-mono">Категорія: {item.categoryLabel}</span>
                     </div>
                   </div>
@@ -308,7 +308,7 @@ export default function GapAnalysisTab() {
                 </div>
 
                 {/* Card Description */}
-                <p className="text-xs text-slate-300 leading-relaxed bg-black/40 p-2 rounded-2xl border border-white/10/60">
+                <p className="text-xs text-slate-300 leading-relaxed bg-black/40 p-2 rounded-2xl border border-slate-800/60">
                   {item.description}
                 </p>
 
@@ -319,7 +319,7 @@ export default function GapAnalysisTab() {
                     {item.actionItems.map((action, idx) => (
                       <div
                         key={idx}
-                        className="bg-slate-950/80 border border-white/10 p-2.5 rounded-2xl flex items-start gap-2.5"
+                        className="bg-slate-950/80 border border-slate-800 p-2.5 rounded-2xl flex items-start gap-2.5"
                       >
                         <span className="text-blue-500 font-bold text-xs mt-0.5">[{idx + 1}]</span>
                         <p className="text-xs text-slate-300 leading-normal">{action}</p>

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useToast } from './ToastProvider';
+import React, { useContext,  useState, useEffect, useRef } from "react";
 import {
   Database,
   Server,
@@ -371,6 +372,7 @@ const initialSources: IngestSource[] = [
 ];
 
 export default function DataIngestionTab() {
+  const { showToast } = useToast();
   const [sources, setSources] = useState<IngestSource[]>(initialSources);
   const [activeTab, setActiveTab] = useState<
     | "stages"
@@ -481,27 +483,27 @@ export default function DataIngestionTab() {
     setRealtimeLogs([
       {
         time: "15:30:05",
-        text: "PREDATOR ADIP Engine: Central scheduler active.",
+        text: "PREDATOR ADIP Engine: Центральний планувальник активний.",
         type: "info",
       },
       {
         time: "15:30:12",
-        text: "API Intelligence: Swagger parsed for OpenSanctions v4.",
+        text: "API Розвідка: Swagger проаналізовано для OpenSanctions v4.",
         type: "success",
       },
       {
         time: "15:30:18",
-        text: "MinIO landing zone: Wrote 15,000 incremental records to S3.",
+        text: "Зона MinIO: Записано 15,000 інкрементних записів у S3.",
         type: "info",
       },
       {
         time: "15:30:22",
-        text: "Deduplication AI: Cleaned 12 anomalies from EDRPOU datasets.",
+        text: "ШІ Дедуплікації: Очищено 12 аномалій з наборів даних ЄДРПОУ.",
         type: "success",
       },
       {
         time: "15:30:29",
-        text: "Qdrant Vector database: Generated Ukrainian embeddings.",
+        text: "Векторна БД Qdrant: Згенеровано українські ембединги.",
         type: "ai",
       },
     ]);
@@ -559,7 +561,7 @@ export default function DataIngestionTab() {
       category: "CRAWLER",
       status: "OPERATIONAL",
       desc: "Автоматичний обхід вебресурсів, пошук відкритих API, державних та міжнародних реєстрів, CKAN, OData.",
-      output: "SUCCESS: Identified 84 sources. Crawler bots: Active.",
+      output: "УСПІШНО: Ідентифіковано 84 джерела. Боти-сканери: Активні.",
     },
     {
       number: 2,
@@ -567,7 +569,7 @@ export default function DataIngestionTab() {
       category: "DISCOVERY",
       status: "OPERATIONAL",
       desc: "Перевірка доступності, формату (JSON, XML, Parquet) та базової структури джерела.",
-      output: "Endpoints verified. Ping latency: < 50ms.",
+      output: "Кінцеві точки перевірено. Затримка Ping: < 50ms.",
     },
     {
       number: 3,
@@ -575,7 +577,7 @@ export default function DataIngestionTab() {
       category: "DISCOVERY",
       status: "OPERATIONAL",
       desc: "Автоматичне визначення тематики (закупівлі, суди, фінанси, санкції) та призначення тегів.",
-      output: "Classified as: State Procurement API. Sector: Government.",
+      output: "Класифіковано як: API Державних закупівель. Сектор: Уряд.",
     },
     {
       number: 4,
@@ -583,7 +585,7 @@ export default function DataIngestionTab() {
       category: "DISCOVERY",
       status: "OPERATIONAL",
       desc: "Аналіз ліцензій, надійності провайдера, стабільності та безпекових ризиків.",
-      output: "License: Open Data (MIT-equivalent). Risk: Low.",
+      output: "Ліцензія: Відкриті дані (еквівалент MIT). Ризик: Низький.",
     },
     {
       number: 5,
@@ -591,7 +593,7 @@ export default function DataIngestionTab() {
       category: "ANALYSIS",
       status: "OPERATIONAL",
       desc: "Вилучення обсягів, частоти оновлень, версій та наявності історичних зрізів.",
-      output: "Volume: ~20GB. Update frequency: Real-time (Webhooks).",
+      output: "Об'єм: ~20GB. Частота оновлень: У реальному часі (Webhooks).",
     },
     {
       number: 6,
@@ -599,7 +601,7 @@ export default function DataIngestionTab() {
       category: "ANALYSIS",
       status: "OPERATIONAL",
       desc: "Авто-аналіз Swagger/OpenAPI, побудова Pydantic моделей та SQL DDL міграцій.",
-      output: "Schema generated. Pydantic models: 45. DB Migrations ready.",
+      output: "Схему згенеровано. Pydantic моделі: 45. Міграції БД готові.",
     },
     {
       number: 7,
@@ -607,7 +609,7 @@ export default function DataIngestionTab() {
       category: "ANALYSIS",
       status: "OPERATIONAL",
       desc: "Розпізнавання сутностей (Company, Person, Tender, Address) для мапінгу.",
-      output: "Entities mapped: (Company), (Tender), (Contract).",
+      output: "Сутності зіставлено: (Company), (Tender), (Contract).",
     },
     {
       number: 8,
@@ -615,7 +617,7 @@ export default function DataIngestionTab() {
       category: "ANALYSIS",
       status: "OPERATIONAL",
       desc: "Визначення PK/FK, зв'язків між сутностями для побудови Knowledge Graph.",
-      output: "Relationships detected: 14 edge types. Graph ready.",
+      output: "Зв'язки виявлено: 14 типів ребер. Граф готовий.",
     },
     {
       number: 9,
@@ -623,7 +625,7 @@ export default function DataIngestionTab() {
       category: "INTELLIGENCE",
       status: "OPERATIONAL",
       desc: "Розрахунок рейтингу (цінність, унікальність, потенціал збагачення інших даних).",
-      output: "Priority Score: 98.4/100 (CRITICAL). Approved for integration.",
+      output: "Оцінка пріоритету: 98.4/100 (КРИТИЧНО). Схвалено для інтеграції.",
     },
     {
       number: 10,
@@ -631,7 +633,7 @@ export default function DataIngestionTab() {
       category: "CODEGEN",
       status: "OPERATIONAL",
       desc: "Генерація клієнтського Python коду, ETL логіки та аутентифікації без людини.",
-      output: "Generated Python Client: connectors/prozorro_client.py",
+      output: "Згенеровано Python клієнт: connectors/prozorro_client.py",
     },
     {
       number: 11,
@@ -639,7 +641,7 @@ export default function DataIngestionTab() {
       category: "CODEGEN",
       status: "OPERATIONAL",
       desc: "Генерація та запуск Unit/Integration/Contract тестів. Chaos Engineering.",
-      output: "Test coverage: 99.1%. Contract tests: PASSED.",
+      output: "Покриття тестами: 99.1%. Контрактні тести: ПРОЙДЕНО.",
     },
     {
       number: 12,
@@ -647,7 +649,7 @@ export default function DataIngestionTab() {
       category: "DEPLOY",
       status: "OPERATIONAL",
       desc: "Створення Pull Request, Code Review ШІ-агентом, реліз через ArgoCD/Kubernetes.",
-      output: "PR merged. ArgoCD Sync: Healthy. Pods: Running.",
+      output: "PR злито. Синхронізація ArgoCD: У нормі. Поди: Працюють.",
     },
     {
       number: 13,
@@ -655,7 +657,7 @@ export default function DataIngestionTab() {
       category: "MONITORING",
       status: "STANDBY",
       desc: "Відстеження затримок, throughput, SLA, та якості даних (Data Quality).",
-      output: "OpenTelemetry active. Latency alerts configured.",
+      output: "OpenTelemetry активна. Налаштовано сповіщення про затримку.",
     },
     {
       number: 14,
@@ -663,7 +665,7 @@ export default function DataIngestionTab() {
       category: "EVOLUTION",
       status: "STANDBY",
       desc: "Автономний ремонт коду у разі Schema Drift або зміни API провайдером.",
-      output: "Drift monitor: Active. Self-healing agent: Standby.",
+      output: "Монітор відхилень: Активний. Агент самовідновлення: У режимі очікування.",
     },
     {
       number: 15,
@@ -671,7 +673,7 @@ export default function DataIngestionTab() {
       category: "EVOLUTION",
       status: "SYNCING",
       desc: "Накопичення знань про інтеграцію, оновлення шаблонів, правил графів та виправлення помилок.",
-      output: "Template libraray updated. Error catalog synced.",
+      output: "Бібліотеку шаблонів оновлено. Каталог помилок синхронізовано.",
     },
     {
       number: 16,
@@ -688,7 +690,7 @@ export default function DataIngestionTab() {
       category: "RESEARCH",
       status: "OPERATIONAL",
       desc: "Постійний аналіз нових відкритих форматів, стандартів та релізів для вдосконалення фабрики.",
-      output: "Intelligence Scan: Complete. New formats detected: Parquet v2.",
+      output: "Розвідувальне сканування: Завершено. Виявлено нові формати: Parquet v2.",
     },
   ];
 
@@ -828,7 +830,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
         `test_connection_health (passed) - Reachable: Yes`,
         `test_auth_headers_generation (passed) - Method: ${selectedSource.authMethod}`,
         `test_pydantic_schema_validation (passed) - Confidence matches: ${selectedSource.confidence}%`,
-        `[SUCCESS] 3/3 tests passed. Autogenerated Client library is production-ready!`,
+        `[УСПІХ] 3/3 тести пройдено. Автозгенерована клієнтська бібліотека готова до використання в продакшені!`,
       ]);
       setIsTestingCode(false);
     }, 3200);
@@ -936,11 +938,11 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
       },
       {
         delay: 1500,
-        text: "🤖 [AI ENGAGED] Activating Google Antigravity autonomous Self-Healing cycle for Spending.gov.ua.",
+        text: "🤖 [ШІ ЗАДІЯНО] Активація автономного циклу самовідновлення Google Antigravity для Spending.gov.ua.",
       },
       {
         delay: 3000,
-        text: "🔍 [DISCOVERY] Fetching latest Swagger / OpenAPI v2 specifications from public-api endpoint...",
+        text: "🔍 [ВИЯВЛЕННЯ] Отримання останніх специфікацій Swagger / OpenAPI v2 з кінцевої точки public-api...",
       },
       {
         delay: 4500,
@@ -948,7 +950,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
       },
       {
         delay: 6000,
-        text: "⚙️ [CODEGEN] Re-generating client files. patched connectors/spending.py client and updated pydantic model in schemas.py.",
+        text: "⚙️ [ГЕНЕРАЦІЯ КОДУ] Перегенерація файлів клієнта. Оновлено клієнт connectors/spending.py та модель pydantic у schemas.py.",
       },
       {
         delay: 7500,
@@ -956,15 +958,15 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
       },
       {
         delay: 9000,
-        text: "🧪 [REGRESSION] Executing 14 regression test cases inside temporary Docker stack...",
+        text: "🧪 [РЕГРЕСІЯ] Виконання 14 регресійних тест-кейсів у тимчасовому стеку Docker...",
       },
       {
         delay: 10500,
-        text: "✅ [TESTS PASSED] 14/14 tests verified. Auto-generating documentation changelog docs/spending_migration.md.",
+        text: "✅ [ТЕСТИ ПРОЙДЕНО] Перевірено 14/14 тестів. Автогенерація журналу змін у документації docs/spending_migration.md.",
       },
       {
         delay: 12000,
-        text: "🚀 [DEPLOY] Pushed hotfix PR, bypassed CI to local sandbox production. Connection status: АКТИВНИЙ.",
+        text: "🚀 [РОЗГОРТАННЯ] Надіслано хотфікс PR, обхід CI до локального пісочного продакшену. Статус підключення: АКТИВНИЙ.",
       },
     ];
 
@@ -986,9 +988,9 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
       <div className="absolute bottom-[-100px] right-[20%] w-[500px] h-[500px] bg-rose-950/10 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Header bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-white/10 pb-3 mb-4 gap-2 z-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-3 mb-4 gap-2 z-10">
         <div className="flex items-center gap-2">
-          <div className="p-2 bg-gradient-to-br from-amber-600/20 to-blue-600/10 border border-white/10 rounded-2xl shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+          <div className="p-2 bg-gradient-to-br from-amber-600/20 to-blue-600/10 border border-slate-800 rounded-2xl shadow-[0_0_15px_rgba(245,158,11,0.15)]">
             <Database className="w-5 h-5 text-amber-400 animate-pulse" />
           </div>
           <div>
@@ -1007,17 +1009,17 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
 
         {/* Realtime stats tracker */}
         <div className="flex items-center gap-2 text-xs font-mono">
-          <div className="hidden lg:flex flex-col items-end border-r border-white/10 pr-4">
+          <div className="hidden lg:flex flex-col items-end border-r border-slate-800 pr-4">
             <span className="text-slate-500">АВТОНОМНИХ АГЕНТІВ</span>
             <span className="text-amber-400 font-bold text-xs">4 активні</span>
           </div>
-          <div className="hidden lg:flex flex-col items-end border-r border-white/10 pr-4">
+          <div className="hidden lg:flex flex-col items-end border-r border-slate-800 pr-4">
             <span className="text-slate-500">ПІДКЛЮЧЕНО API</span>
             <span className="text-slate-200 font-bold text-xs">
               84 / 84 реєстрів
             </span>
           </div>
-          <div className="hidden sm:flex flex-col items-end border-r border-white/10 pr-4">
+          <div className="hidden sm:flex flex-col items-end border-r border-slate-800 pr-4">
             <span className="text-slate-500">ГЕНЕРАЦІЯ КОДУ</span>
             <span className="text-cyan-400 font-bold text-xs">
               100% без людини
@@ -1032,7 +1034,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
           <div className="flex items-center gap-2 pl-3">
             <button
               onClick={() => setIsSimulating(!isSimulating)}
-              className={`px-3 py-1.5 rounded border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 ${isSimulating ? "bg-emerald-950/20 border-white/10 text-emerald-400" : "bg-slate-900/40 backdrop-blur-md border-white/5 text-slate-400"}`}
+              className={`px-3 py-1.5 rounded border text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 ${isSimulating ? "bg-emerald-950/20 border-slate-800 text-emerald-400" : "bg-slate-900/40 backdrop-blur-md border-slate-800/60 text-slate-400"}`}
             >
               <RefreshCw
                 className={`w-3 h-3 ${isSimulating ? "animate-spin" : ""}`}
@@ -1044,7 +1046,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex border-b border-white/10 mb-4 gap-2 z-10 overflow-x-auto custom-scrollbar flex-shrink-0">
+      <div className="flex border-b border-slate-800 mb-4 gap-2 z-10 overflow-x-auto custom-scrollbar flex-shrink-0">
         {[
           { id: "stages", label: "Source Discovery Pipeline", icon: Network },
           { id: "catalog", label: "Global Discovery Engine", icon: Globe },
@@ -1076,7 +1078,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
             <tb.icon className="w-3.5 h-3.5" />
             <span>{tb.label}</span>
             {tb.badge && (
-              <span className="text-xs bg-rose-500/15 text-rose-400 border border-white/10 px-1 py-0.5 rounded font-mono font-bold">
+              <span className="text-xs bg-rose-500/15 text-rose-400 border border-slate-800 px-1 py-0.5 rounded font-mono font-bold">
                 {tb.badge}
               </span>
             )}
@@ -1090,26 +1092,26 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
         {activeTab === "stages" && (
           <div className="grid grid-cols-12 gap-2 flex-1 min-h-0">
             {/* Visual Process Flow Map */}
-            <div className="col-span-12 lg:col-span-8 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px] relative overflow-hidden">
+            <div className="col-span-12 lg:col-span-8 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-blue-500/40 via-amber-500/30 to-transparent" />
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-amber-400" />
                   SOURCE DISCOVERY PIPELINE (END-TO-END AUTOMATION)
                 </span>
-                <span className="text-xs bg-blue-500/15 text-blue-400 border border-white/10 px-2 py-1 rounded font-mono font-bold">
+                <span className="text-xs bg-blue-500/15 text-blue-400 border border-slate-800 px-2 py-1 rounded font-mono font-bold">
                   17 АКТИВНИХ API
                 </span>
               </div>
 
               {/* Graphical Network mapping */}
-              <div className="flex-1 relative border border-white/10 bg-black/40 rounded-2xl flex flex-col justify-between p-2 overflow-hidden">
+              <div className="flex-1 relative border border-slate-800 bg-black/40 rounded-2xl flex flex-col justify-between p-2 overflow-hidden">
                 <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
                 <div className="relative w-full h-full flex flex-col justify-between py-2 z-10 text-center">
                   {/* Row 1: Source Groups */}
                   <div className="flex justify-around items-center">
-                    <div className="bg-slate-900/90 border border-white/5 p-2 rounded-2xl w-32 shadow-sm">
+                    <div className="bg-slate-900/90 border border-slate-800/60 p-2 rounded-2xl w-32 shadow-sm">
                       <Globe className="w-4 h-4 text-blue-400 mx-auto mb-1" />
                       <span className="text-xs font-bold text-slate-200 block">
                         ДЕРЖРЕЄСТРИ УА
@@ -1118,9 +1120,9 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         ProZorro, НАЗК, НБУ, ВРУ
                       </span>
                     </div>
-                    <div className="w-12 h-[1px] bg-dashed-animation border-t border-white/5 border-dashed" />
+                    <div className="w-12 h-[1px] bg-dashed-animation border-t border-slate-800/60 border-dashed" />
 
-                    <div className="bg-slate-900/90 border border-white/5 p-2 rounded-2xl w-32 shadow-sm">
+                    <div className="bg-slate-900/90 border border-slate-800/60 p-2 rounded-2xl w-32 shadow-sm">
                       <Network className="w-4 h-4 text-indigo-400 mx-auto mb-1" />
                       <span className="text-xs font-bold text-slate-200 block">
                         МІЖНАРОДНІ БАЗИ
@@ -1129,9 +1131,9 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         OpenSanctions, CourtListener
                       </span>
                     </div>
-                    <div className="w-12 h-[1px] bg-dashed-animation border-t border-white/5 border-dashed" />
+                    <div className="w-12 h-[1px] bg-dashed-animation border-t border-slate-800/60 border-dashed" />
 
-                    <div className="bg-slate-900/90 border border-white/5 p-2 rounded-2xl w-32 shadow-sm">
+                    <div className="bg-slate-900/90 border border-slate-800/60 p-2 rounded-2xl w-32 shadow-sm">
                       <Search className="w-4 h-4 text-emerald-400 mx-auto mb-1" />
                       <span className="text-xs font-bold text-slate-200 block">
                         OSINT / Threat Intel
@@ -1144,14 +1146,14 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
 
                   {/* Flow Arrow to landing zone */}
                   <div className="flex justify-center items-center text-slate-700 font-mono text-xs">
-                    <div className="w-[80%] border-t border-b border-dashed border-white/5 py-1.5 rounded-2xl text-amber-500">
+                    <div className="w-[80%] border-t border-b border-dashed border-slate-800/60 py-1.5 rounded-2xl text-amber-500">
                       DISCOVERY ENGINE & AUTO-CODEGEN PIPELINE
                     </div>
                   </div>
 
                   {/* Row 2: Landing Zone & Normalisation */}
                   <div className="flex justify-center gap-16 items-center">
-                    <div className="flex flex-col items-center gap-1.5 bg-slate-900/90 border border-white/10 p-2.5 rounded-2xl w-48 shadow-2xl shadow-black/40 relative">
+                    <div className="flex flex-col items-center gap-1.5 bg-slate-900/90 border border-slate-800 p-2.5 rounded-2xl w-48 shadow-2xl shadow-black/40 relative">
                       <span className="absolute -top-2 left-2 bg-amber-500 text-[#02050a] text-[6px] font-black px-1 rounded">
                         STAGE 7: RAW
                       </span>
@@ -1168,7 +1170,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       <ArrowRight className="w-5 h-5" />
                     </div>
 
-                    <div className="flex flex-col items-center gap-1.5 bg-slate-900/90 border border-white/10 p-2.5 rounded-2xl w-48 shadow-2xl shadow-black/40 relative">
+                    <div className="flex flex-col items-center gap-1.5 bg-slate-900/90 border border-slate-800 p-2.5 rounded-2xl w-48 shadow-2xl shadow-black/40 relative">
                       <span className="absolute -top-2 left-2 bg-cyan-500 text-[#02050a] text-[6px] font-black px-1 rounded">
                         STAGE 11: NORMALIZER
                       </span>
@@ -1184,14 +1186,14 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
 
                   {/* Distribution arrow */}
                   <div className="flex justify-center items-center text-slate-700 font-mono text-xs">
-                    <div className="w-[90%] border-t border-b border-dashed border-white/5 py-1 rounded-2xl text-cyan-400">
+                    <div className="w-[90%] border-t border-b border-dashed border-slate-800/60 py-1 rounded-2xl text-cyan-400">
                       INTELLIGENT STORAGE TARGET ROUTER
                     </div>
                   </div>
 
                   {/* Row 3: MultiDB Targeting */}
                   <div className="grid grid-cols-5 gap-2 text-center">
-                    <div className="bg-slate-900/60 border border-white/5 p-1.5 rounded-2xl">
+                    <div className="bg-slate-900/60 border border-slate-800/60 p-1.5 rounded-2xl">
                       <Database className="w-4 h-4 text-indigo-400 mx-auto mb-1" />
                       <span className="text-xs font-black text-slate-300 block">
                         POSTGRESQL
@@ -1200,7 +1202,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         Sovereign Master
                       </span>
                     </div>
-                    <div className="bg-slate-900/60 border border-white/5 p-1.5 rounded-2xl">
+                    <div className="bg-slate-900/60 border border-slate-800/60 p-1.5 rounded-2xl">
                       <Server className="w-4 h-4 text-emerald-400 mx-auto mb-1" />
                       <span className="text-xs font-black text-slate-300 block">
                         CLICKHOUSE
@@ -1209,7 +1211,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         Analytical Stream
                       </span>
                     </div>
-                    <div className="bg-slate-900/60 border border-white/5 p-1.5 rounded-2xl">
+                    <div className="bg-slate-900/60 border border-slate-800/60 p-1.5 rounded-2xl">
                       <Network className="w-4 h-4 text-amber-400 mx-auto mb-1" />
                       <span className="text-xs font-black text-slate-300 block">
                         NEO4J GRAPH
@@ -1218,7 +1220,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         Control/Ownership
                       </span>
                     </div>
-                    <div className="bg-slate-900/60 border border-white/5 p-1.5 rounded-2xl">
+                    <div className="bg-slate-900/60 border border-slate-800/60 p-1.5 rounded-2xl">
                       <Search className="w-4 h-4 text-cyan-400 mx-auto mb-1" />
                       <span className="text-xs font-black text-slate-300 block">
                         OPENSEARCH
@@ -1227,7 +1229,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         Full-Text Ingest
                       </span>
                     </div>
-                    <div className="bg-slate-900/60 border border-white/5 p-1.5 rounded-2xl">
+                    <div className="bg-slate-900/60 border border-slate-800/60 p-1.5 rounded-2xl">
                       <Cpu className="w-4 h-4 text-rose-400 mx-auto mb-1" />
                       <span className="text-xs font-black text-slate-300 block">
                         QDRANT VECTOR
@@ -1243,8 +1245,8 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
 
             {/* Ingestion Stream Console */}
             <div className="col-span-12 lg:col-span-4 flex flex-col gap-2">
-              <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 flex flex-col h-[400px] relative overflow-hidden font-mono text-xs">
-                <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-white/10">
+              <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] relative overflow-hidden font-mono text-xs">
+                <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-slate-800">
                   <span className="text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
                     <Terminal className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
                     ТЕРМІНАЛ ETL-ПОДІЙ PREDATOR ADIP
@@ -1274,7 +1276,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                   ))}
                 </div>
 
-                <div className="border-t border-white/10 pt-3 text-xs text-slate-500 flex justify-between items-center">
+                <div className="border-t border-slate-800 pt-3 text-xs text-slate-500 flex justify-between items-center">
                   <span>Обробляється рядків: {totalRows.toLocaleString()}</span>
                   <span>Швидкість: {globalSpeed.toFixed(1)} MB/s</span>
                 </div>
@@ -1283,7 +1285,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
 
             {/* Stage Interactive Bento-Grid */}
             <div className="col-span-12">
-              <div className="text-xs font-black text-slate-100 uppercase tracking-widest mb-3 flex items-center gap-2">
+              <div className="text-xs font-black text-slate-200 uppercase tracking-widest mb-3 flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-cyan-400" />
                 17 АВТОНОМНИХ ЕТАПІВ ПЛАТФОРМИ (ADIP ENGINE SPEC)
               </div>
@@ -1291,7 +1293,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 {platformStages.map((stg) => (
                   <div
                     key={stg.number}
-                    className="bg-black/40 border border-white/10 hover:border-white/5 p-2 rounded-2xl flex flex-col justify-between min-h-[140px] relative overflow-hidden group"
+                    className="bg-black/40 border border-slate-800 hover:border-slate-800/60 p-2 rounded-2xl flex flex-col justify-between min-h-[140px] relative overflow-hidden group"
                   >
                     <div className="absolute top-0 right-0 p-1 font-mono text-[16px] font-black text-slate-900 group-hover:text-amber-500/10 transition-all">
                       {String(stg.number).padStart(2, "0")}
@@ -1309,7 +1311,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       </p>
                     </div>
 
-                    <div className="border-t border-white/10/60 pt-2 mt-2 font-mono text-xs text-emerald-400 truncate">
+                    <div className="border-t border-slate-800/60 pt-2 mt-2 font-mono text-xs text-emerald-400 truncate">
                       {stg.output}
                     </div>
                   </div>
@@ -1323,15 +1325,15 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
         {activeTab === "catalog" && (
           <div className="grid grid-cols-12 gap-2 flex-1 min-h-0">
             {/* List of Registries */}
-            <div className="col-span-12 xl:col-span-6 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px]">
-              <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-3">
+            <div className="col-span-12 xl:col-span-6 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px]">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800 mb-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
                   <Globe className="w-4 h-4 text-pink-400 animate-pulse" />
                   GLOBAL DISCOVERY CRAWLER
                 </span>
                 <button
                   onClick={() => setIsCreatingSource(true)}
-                  className="px-2.5 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-white/10 rounded text-xs font-mono transition-all cursor-pointer flex items-center gap-1"
+                  className="px-2.5 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-slate-800 rounded text-xs font-mono transition-all cursor-pointer flex items-center gap-1"
                 >
                   <span>ІНІЦІЮВАТИ DEEP SCAN</span>
                 </button>
@@ -1347,7 +1349,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         setSelectedSourceId(src.id);
                         setIsCreatingSource(false);
                       }}
-                      className={`p-2.5 rounded-2xl border transition-all cursor-pointer flex justify-between items-center ${isSelected ? "bg-amber-600/10 border-white/10 shadow" : "bg-slate-900/40 border-white/10 hover:border-white/5"}`}
+                      className={`p-2.5 rounded-2xl border transition-all cursor-pointer flex justify-between items-center ${isSelected ? "bg-amber-600/10 border-slate-800 shadow" : "bg-slate-900/40 border-slate-800 hover:border-slate-800/60"}`}
                     >
                       <div className="flex items-center gap-2.5">
                         <span className="text-xs">{src.flag}</span>
@@ -1390,11 +1392,11 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
 
             {/* Registry Technical Profile or Creator Form */}
             {!isCreatingSource ? (
-              <div className="col-span-12 xl:col-span-6 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
+              <div className="col-span-12 xl:col-span-6 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/5 blur-2xl pointer-events-none" />
 
                 <div>
-                  <div className="flex justify-between items-center pb-2 border-b border-white/10 mb-4">
+                  <div className="flex justify-between items-center pb-2 border-b border-slate-800 mb-4">
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
                       <Bot className="w-4 h-4 text-amber-400" />
                       АВТОМАТИЗОВАНИЙ ПРОФІЛЬ РОЗВІДКИ
@@ -1404,10 +1406,10 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     </span>
                   </div>
 
-                  <div className="bg-black/30 p-2 rounded-2xl border border-white/10 space-y-3 mb-4">
+                  <div className="bg-black/30 p-2 rounded-2xl border border-slate-800 space-y-3 mb-4">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h4 className="text-xs font-black text-slate-100 flex items-center gap-1.5">
+                        <h4 className="text-xs font-black text-slate-200 flex items-center gap-1.5">
                           <span>{selectedSource.flag}</span>
                           <span>{selectedSource.name}</span>
                         </h4>
@@ -1415,12 +1417,12 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           Офіційний власник: {selectedSource.owner}
                         </p>
                       </div>
-                      <span className="text-xs bg-emerald-950/50 text-emerald-400 border border-white/10 px-2 py-1 rounded font-mono uppercase font-black">
+                      <span className="text-xs bg-emerald-950/50 text-emerald-400 border border-slate-800 px-2 py-1 rounded font-mono uppercase font-black">
                         {selectedSource.status}
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2 text-xs font-mono pt-2 border-t border-white/10">
+                    <div className="grid grid-cols-2 gap-2 text-xs font-mono pt-2 border-t border-slate-800">
                       <div>
                         <span className="text-slate-500 block">
                           ENDPOINT API:
@@ -1478,7 +1480,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       ].map((st, idx) => (
                         <div
                           key={idx}
-                          className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded border border-white/10 text-slate-400"
+                          className="bg-slate-950/80 backdrop-blur-xl p-2 rounded border border-slate-800 text-slate-400"
                         >
                           <span className="text-emerald-400 font-bold block">
                             ✓ Done
@@ -1489,7 +1491,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2 text-xs font-mono pt-3 border-t border-white/10 bg-[#020617]/80 backdrop-blur-xl p-2 rounded-2xl">
+                  <div className="grid grid-cols-3 gap-2 text-xs font-mono pt-3 border-t border-slate-800 bg-slate-950/80 backdrop-blur-xl p-2 rounded-2xl">
                     <div>
                       <span className="text-slate-500 block">
                         QUALITY SCORE
@@ -1499,7 +1501,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       </span>
                     </div>
                     <div>
-                      <span className="text-slate-500 block">CONFIDENCE</span>
+                      <span className="text-slate-500 block">ВІРОГІДНІСТЬ</span>
                       <span className="text-cyan-400 font-black text-xs">
                         {selectedSource.confidence}%
                       </span>
@@ -1515,7 +1517,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                   </div>
                 </div>
 
-                <div className="flex justify-end gap-2 border-t border-white/10 pt-3">
+                <div className="flex justify-end gap-2 border-t border-slate-800 pt-3">
                   {!initialSources.some((s) => s.id === selectedSource.id) && (
                     <button
                       onClick={async () => {
@@ -1552,7 +1554,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                   )}
                   <button
                     onClick={() => setActiveTab("codegen")}
-                    className="px-3 py-1.5 cursor-pointer bg-slate-900/40 backdrop-blur-md hover:bg-slate-800 text-slate-300 border border-white/5 rounded font-mono text-xs font-bold uppercase transition-all"
+                    className="px-3 py-1.5 cursor-pointer bg-slate-900/40 backdrop-blur-md hover:bg-slate-800 text-slate-300 border border-slate-800/60 rounded font-mono text-xs font-bold uppercase transition-all"
                   >
                     Деталі API
                   </button>
@@ -1577,11 +1579,11 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
               </div>
             ) : (
-              <div className="col-span-12 xl:col-span-6 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
+              <div className="col-span-12 xl:col-span-6 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 blur-2xl pointer-events-none" />
 
                 <div className="flex-1 overflow-y-auto custom-scrollbar pr-1">
-                  <div className="flex justify-between items-center pb-2 border-b border-white/10 mb-4">
+                  <div className="flex justify-between items-center pb-2 border-b border-slate-800 mb-4">
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-amber-400" />
                       DISCOVERY ЗАПИТ НА ПОШУК ТА ПАРСИНГ НОВОГО API
@@ -1604,7 +1606,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         placeholder="Наприклад: Державний реєстр виноробства"
                         value={newSourceName}
                         onChange={(e) => setNewSourceName(e.target.value)}
-                        className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 focus:border-white/10 rounded p-2 text-xs text-slate-100 font-bold focus:outline-none transition-all"
+                        className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 focus:border-slate-800 rounded p-2 text-xs text-slate-200 font-bold focus:outline-none transition-all"
                       />
                     </div>
 
@@ -1616,7 +1618,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         <select
                           value={newSourceCat}
                           onChange={(e: any) => setNewSourceCat(e.target.value)}
-                          className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 focus:border-white/10 rounded p-2 text-xs text-slate-300 focus:outline-none transition-all"
+                          className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 focus:border-slate-800 rounded p-2 text-xs text-slate-300 focus:outline-none transition-all"
                         >
                           <option value="UA_STATE">
                             🇺🇦 Державний реєстр України
@@ -1639,7 +1641,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           placeholder="Наприклад: 🍷 або 🔌"
                           value={newSourceEmoji}
                           onChange={(e) => setNewSourceEmoji(e.target.value)}
-                          className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 focus:border-white/10 rounded p-2 text-xs text-slate-100 focus:outline-none transition-all"
+                          className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 focus:border-slate-800 rounded p-2 text-xs text-slate-200 focus:outline-none transition-all"
                         />
                       </div>
                     </div>
@@ -1653,7 +1655,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         placeholder="Наприклад: https://api.wine.gov.ua/v1/registry"
                         value={newSourceEndpoint}
                         onChange={(e) => setNewSourceEndpoint(e.target.value)}
-                        className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 focus:border-white/10 rounded p-2 text-xs text-slate-300 font-mono focus:outline-none transition-all"
+                        className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 focus:border-slate-800 rounded p-2 text-xs text-slate-300 font-mono focus:outline-none transition-all"
                       />
                     </div>
 
@@ -1667,7 +1669,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           onChange={(e: any) =>
                             setNewSourceAuth(e.target.value)
                           }
-                          className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 focus:border-white/10 rounded p-2 text-xs text-slate-300 focus:outline-none transition-all"
+                          className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 focus:border-slate-800 rounded p-2 text-xs text-slate-300 focus:outline-none transition-all"
                         >
                           <option value="None">
                             Відкритий API (Без авторизації)
@@ -1686,7 +1688,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           placeholder="Мінагрополітики України"
                           value={newSourceOwner}
                           onChange={(e) => setNewSourceOwner(e.target.value)}
-                          className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 focus:border-white/10 rounded p-2 text-xs text-slate-300 focus:outline-none transition-all"
+                          className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 focus:border-slate-800 rounded p-2 text-xs text-slate-300 focus:outline-none transition-all"
                         />
                       </div>
                     </div>
@@ -1701,7 +1703,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           placeholder="Напр. 120 req/min"
                           value={newSourceRate}
                           onChange={(e) => setNewSourceRate(e.target.value)}
-                          className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 focus:border-white/10 rounded p-2 text-xs text-slate-300 focus:outline-none transition-all"
+                          className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 focus:border-slate-800 rounded p-2 text-xs text-slate-300 focus:outline-none transition-all"
                         />
                       </div>
 
@@ -1714,18 +1716,18 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           placeholder="Напр. Інкрементально кожні 6 год"
                           value={newSourceSched}
                           onChange={(e) => setNewSourceSched(e.target.value)}
-                          className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 focus:border-white/10 rounded p-2 text-xs text-slate-300 focus:outline-none transition-all"
+                          className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 focus:border-slate-800 rounded p-2 text-xs text-slate-300 focus:outline-none transition-all"
                         />
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex justify-end gap-2 border-t border-white/10 pt-3">
+                <div className="flex justify-end gap-2 border-t border-slate-800 pt-3">
                   <button
                     type="button"
                     onClick={() => setIsCreatingSource(false)}
-                    className="px-3 py-1.5 cursor-pointer bg-slate-900/40 backdrop-blur-md hover:bg-slate-800 text-slate-300 border border-white/5 rounded font-mono text-xs font-bold uppercase transition-all"
+                    className="px-3 py-1.5 cursor-pointer bg-slate-900/40 backdrop-blur-md hover:bg-slate-800 text-slate-300 border border-slate-800/60 rounded font-mono text-xs font-bold uppercase transition-all"
                   >
                     Скасувати
                   </button>
@@ -1734,7 +1736,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     disabled={isSavingSource}
                     onClick={async () => {
                       if (!newSourceName || !newSourceEndpoint) {
-                        alert("Заповніть назву та API-endpoint!");
+                        showToast("Заповніть назву та API-endpoint!");
                         return;
                       }
                       setIsSavingSource(true);
@@ -1831,8 +1833,8 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
         {activeTab === "codegen" && (
           <div className="grid grid-cols-12 gap-2 flex-1 min-h-0">
             {/* File explorer panel */}
-            <div className="col-span-12 lg:col-span-4 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px]">
-              <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-3">
+            <div className="col-span-12 lg:col-span-4 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px]">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800 mb-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
                   АВТОНОМНА ГЕНЕРАЦІЯ (AI CODEGEN ENGINE)
                 </span>
@@ -1841,7 +1843,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </span>
               </div>
 
-              <div className="p-2.5 bg-amber-950/10 border border-white/10 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4 font-mono">
+              <div className="p-2.5 bg-amber-950/10 border border-slate-800 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4 font-mono">
                 <strong className="text-amber-400">
                   ШІ Генератор клієнтського коду:
                 </strong>{" "}
@@ -1862,7 +1864,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 <select
                   value={selectedSourceId}
                   onChange={(e) => setSelectedSourceId(e.target.value)}
-                  className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded p-2 text-xs font-mono text-slate-300 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded p-2 text-xs font-mono text-slate-300 focus:outline-none focus:border-amber-500"
                 >
                   {sources.map((s) => (
                     <option key={s.id} value={s.id}>
@@ -1881,7 +1883,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                   <div
                     key={file}
                     onClick={() => setSelectedFile(file)}
-                    className={`p-2 rounded border cursor-pointer flex items-center gap-2 ${selectedFile === file ? "bg-amber-600/15 border-white/10 text-amber-400" : "bg-slate-900/40 border-white/10 hover:border-white/5 text-slate-400"}`}
+                    className={`p-2 rounded border cursor-pointer flex items-center gap-2 ${selectedFile === file ? "bg-amber-600/15 border-slate-800 text-amber-400" : "bg-slate-900/40 border-slate-800 hover:border-slate-800/60 text-slate-400"}`}
                   >
                     <Code className="w-3.5 h-3.5" />
                     <span>{file}</span>
@@ -1891,11 +1893,11 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
             </div>
 
             {/* Code Viewer and Sandbox terminal */}
-            <div className="col-span-12 lg:col-span-8 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
+            <div className="col-span-12 lg:col-span-8 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-amber-500/40 to-transparent" />
 
               {/* Generation Pipeline Status */}
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10/50">
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800/50">
                 <div className="flex gap-2 text-xs font-mono">
                   <div className="flex items-center gap-1.5 text-emerald-400">
                     <CheckCircle className="w-3.5 h-3.5" />
@@ -1917,7 +1919,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     <span>4. SAST Validation</span>
                   </div>
                 </div>
-                <div className="text-xs font-mono bg-amber-500/10 text-amber-500 px-2 py-1 rounded border border-white/10">
+                <div className="text-xs font-mono bg-amber-500/10 text-amber-500 px-2 py-1 rounded border border-slate-800">
                   AGENT RUN: ACTIVE
                 </div>
               </div>
@@ -1931,17 +1933,17 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     </span>
                   </div>
                   <div className="flex gap-2">
-                    <span className="text-xs bg-blue-500/10 text-blue-400 border border-white/10 px-2 py-1 rounded">
+                    <span className="text-xs bg-blue-500/10 text-blue-400 border border-slate-800 px-2 py-1 rounded">
                       AUTO-GENERATED
                     </span>
-                    <span className="text-xs border border-white/5 px-2 py-1 rounded uppercase">
+                    <span className="text-xs border border-slate-800/60 px-2 py-1 rounded uppercase">
                       Python
                     </span>
                   </div>
                 </div>
 
-                <div className="flex-1 min-h-0 border border-white/10 rounded-2xl bg-[#020617]/80 backdrop-blur-xl relative overflow-hidden flex flex-col">
-                  <pre className="flex-1 p-2 overflow-auto custom-scrollbar font-mono text-xs text-slate-300 select-all leading-relaxed bg-[#020617]/80 backdrop-blur-xl rounded-2xl">
+                <div className="flex-1 min-h-0 border border-slate-800 rounded-2xl bg-slate-950/80 backdrop-blur-xl relative overflow-hidden flex flex-col">
+                  <pre className="flex-1 p-2 overflow-auto custom-scrollbar font-mono text-xs text-slate-300 select-all leading-relaxed bg-slate-950/80 backdrop-blur-xl rounded-2xl">
                     <code>
                       {generatePythonCode(selectedFile, selectedSource)}
                     </code>
@@ -1949,8 +1951,8 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
 
                 {/* Console simulator */}
-                <div className="h-40 border border-white/10 rounded-2xl bg-[#020617]/80 backdrop-blur-xl p-2 flex flex-col justify-between flex-shrink-0 font-mono">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-white/10">
+                <div className="h-40 border border-slate-800 rounded-2xl bg-slate-950/80 backdrop-blur-xl p-2 flex flex-col justify-between flex-shrink-0 font-mono">
+                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-800">
                     <span className="text-xs text-slate-500 flex items-center gap-1.5">
                       <Terminal className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
                       VIRTUAL TEST SHELL (workdir: /home/predator-platform)
@@ -1959,7 +1961,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     <button
                       disabled={isTestingCode}
                       onClick={handleTestRun}
-                      className="px-2.5 py-1 cursor-pointer bg-amber-600/20 hover:bg-amber-600 hover:text-[#02050a] text-amber-400 border border-white/10 rounded text-xs font-bold uppercase transition-all"
+                      className="px-2.5 py-1 cursor-pointer bg-amber-600/20 hover:bg-amber-600 hover:text-[#02050a] text-amber-400 border border-slate-800 rounded text-xs font-bold uppercase transition-all"
                     >
                       {isTestingCode ? "Тестування..." : "Запустити юніт-тести"}
                     </button>
@@ -1977,7 +1979,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         <div
                           key={idx}
                           className={
-                            log.includes("[SUCCESS]")
+                            log.includes("[УСПІХ]")
                               ? "text-emerald-400"
                               : log.includes("passed")
                                 ? "text-cyan-400"
@@ -1999,8 +2001,8 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
         {activeTab === "etl-workbench" && (
           <div className="grid grid-cols-12 gap-2 flex-1 min-h-0">
             {/* ETL Stage Pipeline Layout */}
-            <div className="col-span-12 lg:col-span-4 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px]">
-              <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-3">
+            <div className="col-span-12 lg:col-span-4 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px]">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800 mb-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
                   <Layers className="w-4 h-4 text-cyan-400" />
                   ETL FACTORY PIPELINE SEQUENCE (S6)
@@ -2060,7 +2062,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 ].map((step, idx) => (
                   <div
                     key={idx}
-                    className="bg-[#020617]/80 backdrop-blur-xl p-2.5 rounded-2xl border border-white/10"
+                    className="bg-slate-950/80 backdrop-blur-xl p-2.5 rounded-2xl border border-slate-800"
                   >
                     <span className={`font-bold block ${step.col}`}>
                       {step.name}
@@ -2074,21 +2076,21 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
             </div>
 
             {/* Entity Resolution Workbench */}
-            <div className="col-span-12 lg:col-span-8 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
+            <div className="col-span-12 lg:col-span-8 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-3xl pointer-events-none" />
 
               <div>
-                <div className="flex justify-between items-center pb-2 border-b border-white/10 mb-4">
+                <div className="flex justify-between items-center pb-2 border-b border-slate-800 mb-4">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
                     <Cpu className="w-4 h-4 text-amber-400" />
                     РОЗДІЛ 11: ШІ РОБОЧЕ МІСЦЕ ENTITY RESOLUTION (УНІФІКАЦІЯ)
                   </span>
-                  <span className="text-xs bg-cyan-950 text-cyan-400 border border-white/10 px-2 py-1 rounded font-mono uppercase font-bold">
+                  <span className="text-xs bg-cyan-950 text-cyan-400 border border-slate-800 px-2 py-1 rounded font-mono uppercase font-bold">
                     ONLINE
                   </span>
                 </div>
 
-                <div className="p-2 bg-cyan-950/10 border border-white/10 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4 font-mono">
+                <div className="p-2 bg-cyan-950/10 border border-slate-800 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4 font-mono">
                   <strong className="text-cyan-400">
                     Технологія Entity Resolution:
                   </strong>{" "}
@@ -2132,7 +2134,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                             setErInput(t.sample);
                             setErResult(null);
                           }}
-                          className={`p-2 rounded border text-left cursor-pointer transition-all ${erType === t.id ? "bg-amber-600/10 border-white/10 text-amber-400 font-bold" : "bg-[#020617]/80 backdrop-blur-xl border-white/10 text-slate-400 hover:border-white/5"}`}
+                          className={`p-2 rounded border text-left cursor-pointer transition-all ${erType === t.id ? "bg-amber-600/10 border-slate-800 text-amber-400 font-bold" : "bg-slate-950/80 backdrop-blur-xl border-slate-800 text-slate-400 hover:border-slate-800/60"}`}
                         >
                           {t.label}
                         </button>
@@ -2147,7 +2149,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     <textarea
                       value={erInput}
                       onChange={(e) => setErInput(e.target.value)}
-                      className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded p-2.5 text-xs text-slate-200 h-24 focus:outline-none focus:border-amber-500 font-mono"
+                      className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded p-2.5 text-xs text-slate-200 h-24 focus:outline-none focus:border-amber-500 font-mono"
                     />
 
                     <button
@@ -2171,8 +2173,8 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                   )}
 
                   {erResult && (
-                    <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl space-y-3">
-                      <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                    <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 p-2 rounded-2xl space-y-3">
+                      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
                         <span className="text-emerald-400 font-bold uppercase flex items-center gap-1.5">
                           <CheckCircle2 className="w-3.5 h-3.5" />
                           СУТНІСТЬ УСПІШНО УНІФІКОВАНО
@@ -2187,7 +2189,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           <span className="text-slate-500 block text-xs">
                             НОРМАЛІЗОВАНА НАЗВА ПЛАТФОРМИ:
                           </span>
-                          <span className="text-slate-100 font-bold block mt-0.5">
+                          <span className="text-slate-200 font-bold block mt-0.5">
                             {erResult.normalized_name}
                           </span>
                         </div>
@@ -2201,11 +2203,11 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         </div>
                       </div>
 
-                      <div className="pt-2 border-t border-white/10/60">
+                      <div className="pt-2 border-t border-slate-800/60">
                         <span className="text-slate-500 block text-xs mb-1">
                           ЗБЕРЕЖЕНІ ПАРАМЕТРИ ПРЕДАТОР ПОРТРЕТА:
                         </span>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs bg-black/30 p-2 rounded border border-white/10">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs bg-black/30 p-2 rounded border border-slate-800">
                           {Object.entries(erResult.attributes).map(([k, v]) => (
                             <div key={k}>
                               <span className="text-slate-500 block font-mono uppercase">
@@ -2223,7 +2225,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
               </div>
 
-              <div className="text-xs text-slate-500 font-mono border-t border-white/10 pt-2 flex justify-between">
+              <div className="text-xs text-slate-500 font-mono border-t border-slate-800 pt-2 flex justify-between">
                 <span>
                   Алгоритм: Jaro-Winkler + Cosine Embedding threshold (0.85)
                 </span>
@@ -2240,8 +2242,8 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
         {activeTab === "graph-vectors" && (
           <div className="grid grid-cols-12 gap-2 flex-1 min-h-0">
             {/* Neo4j Schema Visualisation */}
-            <div className="col-span-12 lg:col-span-5 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px]">
-              <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-3">
+            <div className="col-span-12 lg:col-span-5 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px]">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800 mb-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
                   <Network className="w-4 h-4 text-indigo-400 animate-pulse" />
                   РОЗДІЛ 12: КАРТА ЗВ'ЯЗКІВ (NEO4J SCHEMA)
@@ -2251,7 +2253,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </span>
               </div>
 
-              <div className="p-2 bg-indigo-950/10 border border-white/10 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4 font-mono">
+              <div className="p-2 bg-indigo-950/10 border border-slate-800 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4 font-mono">
                 <strong className="text-indigo-400">
                   Графова модель зв'язків:
                 </strong>{" "}
@@ -2259,13 +2261,13 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 глибину до 10 рівнів.
               </div>
 
-              <div className="flex-1 bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 flex flex-col justify-between font-mono text-xs">
+              <div className="flex-1 bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-2 flex flex-col justify-between font-mono text-xs">
                 <div className="space-y-2">
                   <span className="text-slate-500 block uppercase font-bold">
                     АКТИВНІ ТИПИ РЕБЕР (NEO4J CYC):
                   </span>
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-slate-900/60 p-2 rounded border border-white/5 flex justify-between">
+                    <div className="bg-slate-900/60 p-2 rounded border border-slate-800/60 flex justify-between">
                       <span className="text-slate-400">
                         [:BENEFICIARY] (Бенефіціар)
                       </span>
@@ -2273,7 +2275,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         124K links
                       </span>
                     </div>
-                    <div className="bg-slate-900/60 p-2 rounded border border-white/5 flex justify-between">
+                    <div className="bg-slate-900/60 p-2 rounded border border-slate-800/60 flex justify-between">
                       <span className="text-slate-400">
                         [:DIRECTOR_OF] (Директор)
                       </span>
@@ -2281,7 +2283,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         98K links
                       </span>
                     </div>
-                    <div className="bg-slate-900/60 p-2 rounded border border-white/5 flex justify-between">
+                    <div className="bg-slate-900/60 p-2 rounded border border-slate-800/60 flex justify-between">
                       <span className="text-slate-400">
                         [:RELATIVE_OF] (Родич)
                       </span>
@@ -2289,7 +2291,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         15K links
                       </span>
                     </div>
-                    <div className="bg-slate-900/60 p-2 rounded border border-white/5 flex justify-between">
+                    <div className="bg-slate-900/60 p-2 rounded border border-slate-800/60 flex justify-between">
                       <span className="text-slate-400">
                         [:WINNER_OF] (Переможець)
                       </span>
@@ -2301,10 +2303,10 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
 
                 {/* Graph visualization box */}
-                <div className="my-4 border border-white/10 p-2 rounded bg-[#020617]/80 backdrop-blur-xl flex items-center justify-center relative overflow-hidden">
+                <div className="my-4 border border-slate-800 p-2 rounded bg-slate-950/80 backdrop-blur-xl flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:16px_16px]" />
                   <div className="relative z-10 flex items-center gap-2 text-center">
-                    <div className="bg-slate-900/40 backdrop-blur-md border border-white/10 p-1.5 rounded text-xs w-24">
+                    <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-1.5 rounded text-xs w-24">
                       <span className="font-bold block text-slate-200">
                         Козаченко А.М.
                       </span>
@@ -2313,12 +2315,12 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       </span>
                     </div>
                     <div className="flex flex-col items-center">
-                      <span className="text-xs bg-cyan-950 text-cyan-400 border border-white/10 px-1 py-0.2 rounded mb-1">
+                      <span className="text-xs bg-cyan-950 text-cyan-400 border border-slate-800 px-1 py-0.2 rounded mb-1">
                         DirectorOf
                       </span>
                       <div className="w-16 h-[1px] bg-gradient-to-r from-amber-500 to-indigo-500" />
                     </div>
-                    <div className="bg-slate-900/40 backdrop-blur-md border border-white/10 p-1.5 rounded text-xs w-24">
+                    <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-1.5 rounded text-xs w-24">
                       <span className="font-bold block text-slate-200">
                         ТОВ "СПЕЦТЕХ"
                       </span>
@@ -2329,7 +2331,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center text-xs text-slate-500 border-t border-white/10 pt-2">
+                <div className="flex justify-between items-center text-xs text-slate-500 border-t border-slate-800 pt-2">
                   <span>
                     Cypher Query: MATCH
                     (p:Person)-[r:DIRECTOR_OF]-&gt;(c:Company) RETURN p,r,c
@@ -2343,11 +2345,11 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
             </div>
 
             {/* Qdrant Vector Cosine Calculator */}
-            <div className="col-span-12 lg:col-span-7 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
+            <div className="col-span-12 lg:col-span-7 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-500/5 blur-2xl pointer-events-none" />
 
               <div>
-                <div className="flex justify-between items-center pb-2 border-b border-white/10 mb-3">
+                <div className="flex justify-between items-center pb-2 border-b border-slate-800 mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-cyan-400" />
                     РОЗДІЛ 12-13: ШІ СЕМАНТИЧНИЙ ПОШУК ТА СЕМАНТИЧНА ПОДІБНІСТЬ
@@ -2358,7 +2360,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                   </span>
                 </div>
 
-                <div className="p-2 bg-cyan-950/10 border border-white/10 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4 font-mono">
+                <div className="p-2 bg-cyan-950/10 border border-slate-800 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4 font-mono">
                   <strong className="text-cyan-400">
                     Генерація векторних embeddings у Qdrant (768-dim):
                   </strong>{" "}
@@ -2376,7 +2378,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       type="text"
                       value={textA}
                       onChange={(e) => setTextA(e.target.value)}
-                      className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                      className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
                     />
                   </div>
 
@@ -2388,7 +2390,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       type="text"
                       value={textB}
                       onChange={(e) => setTextB(e.target.value)}
-                      className="w-full bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                      className="w-full bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded p-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
                     />
                   </div>
 
@@ -2412,7 +2414,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                   )}
 
                   {similarity !== null && (
-                    <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl space-y-3">
+                    <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 p-2 rounded-2xl space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="text-cyan-400 font-bold uppercase">
                           КОСИНУСНА ПОДІБНІСТЬ EMBEDDINGS
@@ -2441,7 +2443,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                         </div>
                       </div>
 
-                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-white/10/60">
+                      <p className="text-xs text-slate-400 leading-relaxed pt-2 border-t border-slate-800/60">
                         {similarity > 80
                           ? "✓ Виявлено критично високу схожість за змістом. ШІ рекомендує злити сутності Козаченко А.М. у єдиний унікальний профіль для запобігання дублювання."
                           : "Низький рівень збігу. Сутності класифікуються як різні."}
@@ -2451,7 +2453,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
               </div>
 
-              <div className="text-xs text-slate-500 font-mono border-t border-white/10 pt-2">
+              <div className="text-xs text-slate-500 font-mono border-t border-slate-800 pt-2">
                 <span>
                   Векторний двигун: Qdrant Server (v1.8) | Модель:
                   Multilingual-E5-Large (768-dim)
@@ -2464,21 +2466,21 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
         {/* TAB 6: Self-Healing Cockpit */}
         {activeTab === "healing" && (
           <div className="grid grid-cols-12 gap-2 flex-1 min-h-0">
-            <div className="col-span-12 lg:col-span-6 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
+            <div className="col-span-12 lg:col-span-6 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] justify-between relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-red-500/40 via-amber-500/30 to-transparent" />
 
               <div>
-                <div className="flex justify-between items-center pb-2 border-b border-white/10 mb-3">
+                <div className="flex justify-between items-center pb-2 border-b border-slate-800 mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
                     <Shield className="w-4 h-4 text-rose-500 animate-pulse" />
                     SELF-HEALING ENGINE & GITOPS ORCHESTRATION
                   </span>
-                  <span className="text-xs bg-rose-500/15 text-rose-400 border border-white/10 px-2 py-1 rounded font-mono font-bold animate-pulse">
+                  <span className="text-xs bg-rose-500/15 text-rose-400 border border-slate-800 px-2 py-1 rounded font-mono font-bold animate-pulse">
                     MONITOR ACTIVE
                   </span>
                 </div>
 
-                <div className="p-2 bg-rose-950/10 border border-white/10 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4 font-mono">
+                <div className="p-2 bg-rose-950/10 border border-slate-800 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4 font-mono">
                   <strong className="text-rose-400">
                     Автономний Ремонт (Self-Healing):
                   </strong>{" "}
@@ -2490,7 +2492,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
 
                 {/* Simulated Logs terminal */}
-                <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 h-64 overflow-y-auto custom-scrollbar font-mono text-xs space-y-1.5 pr-1">
+                <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-2 h-64 overflow-y-auto custom-scrollbar font-mono text-xs space-y-1.5 pr-1">
                   {healingLogs.length === 0 ? (
                     <div className="text-slate-600 text-center py-16">
                       <AlertCircle className="w-8 h-8 mx-auto text-slate-700 mb-2 animate-pulse" />
@@ -2521,7 +2523,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
               </div>
 
-              <div className="space-y-3 pt-3 border-t border-white/10">
+              <div className="space-y-3 pt-3 border-t border-slate-800">
                 {isHealing && (
                   <div className="space-y-1 font-mono text-xs text-slate-500">
                     <div className="flex justify-between">
@@ -2540,7 +2542,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 <button
                   disabled={isHealing}
                   onClick={runSelfHealingSimulator}
-                  className={`w-full py-2.5 rounded-2xl font-mono font-bold text-xs uppercase transition-all flex items-center justify-center gap-2 ${isHealing ? "bg-slate-900/40 backdrop-blur-md text-slate-600 cursor-not-allowed border border-white/5" : "bg-rose-600 hover:bg-rose-500 text-white shadow shadow-rose-950/20 cursor-pointer active:scale-95"}`}
+                  className={`w-full py-2.5 rounded-2xl font-mono font-bold text-xs uppercase transition-all flex items-center justify-center gap-2 ${isHealing ? "bg-slate-900/40 backdrop-blur-md text-slate-600 cursor-not-allowed border border-slate-800/60" : "bg-rose-600 hover:bg-rose-500 text-white shadow shadow-rose-950/20 cursor-pointer active:scale-95"}`}
                 >
                   <AlertTriangle className="w-4 h-4 animate-pulse" />
                   ТРИГЕРУВАТИ API FAILURE (ЗМІНУ СХЕМИ) ТА АВТО-РЕМОНТ
@@ -2549,14 +2551,14 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
             </div>
 
             {/* Regression PR status right box */}
-            <div className="col-span-12 lg:col-span-6 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px] justify-between font-mono">
+            <div className="col-span-12 lg:col-span-6 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] justify-between font-mono">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-200 block pb-2 border-b border-white/10 mb-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-200 block pb-2 border-b border-slate-800 mb-3">
                   АНАЛІЗ РЕГРЕСІЇ ТА PULL REQUEST НА ДЕПЛОЙ
                 </span>
 
                 <div className="space-y-3 text-xs">
-                  <div className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded-2xl border border-white/10">
+                  <div className="bg-slate-950/80 backdrop-blur-xl p-2 rounded-2xl border border-slate-800">
                     <span className="text-slate-500 block">
                       GEN PR #142 (BRANCH: AUTO-HEAL-SCHEMA-DRIFT):
                     </span>
@@ -2569,7 +2571,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     </span>
                   </div>
 
-                  <div className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded-2xl border border-white/10 space-y-2">
+                  <div className="bg-slate-950/80 backdrop-blur-xl p-2 rounded-2xl border border-slate-800 space-y-2">
                     <span className="text-slate-500 block">
                       DIFF OVERVIEW (АВТОМАТИЧНА РЕГЕНЕРАЦІЯ ШІ):
                     </span>
@@ -2587,7 +2589,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     </div>
                   </div>
 
-                  <div className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded-2xl border border-white/10">
+                  <div className="bg-slate-950/80 backdrop-blur-xl p-2 rounded-2xl border border-slate-800">
                     <span className="text-slate-500 block">
                       QA VALIDATION PIPELINE (CI/CD STATUS):
                     </span>
@@ -2609,7 +2611,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
               </div>
 
-              <div className="bg-slate-900/60 p-2 rounded-2xl border border-white/5 text-xs text-slate-400 leading-relaxed">
+              <div className="bg-slate-900/60 p-2 rounded-2xl border border-slate-800/60 text-xs text-slate-400 leading-relaxed">
                 <span className="text-amber-400 font-bold block mb-1">
                   ГЛОБАЛЬНИЙ СТАТУС ВІДНОВЛЕННЯ:
                 </span>
@@ -2625,14 +2627,14 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
         {activeTab === "observability" && (
           <div className="grid grid-cols-12 gap-2 flex-1 min-h-0">
             {/* Realtime Metrics */}
-            <div className="col-span-12 lg:col-span-7 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px] justify-between">
+            <div className="col-span-12 lg:col-span-7 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] justify-between">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-200 block pb-2 border-b border-white/10 mb-4">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-200 block pb-2 border-b border-slate-800 mb-4">
                   РОЗДІЛ 14: ЖИВИЙ МОНІТОРИНГ ПЛАТФОРМИ (OPENTELEMETRY TRACES)
                 </span>
 
                 <div className="grid grid-cols-2 gap-2 text-center font-mono">
-                  <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl">
+                  <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 p-2 rounded-2xl">
                     <span className="text-slate-500 text-xs block">
                       THROUGHPUT (РЯДКІВ / СЕК)
                     </span>
@@ -2643,7 +2645,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       Streaming active
                     </span>
                   </div>
-                  <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl">
+                  <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 p-2 rounded-2xl">
                     <span className="text-slate-500 text-xs block">
                       СЕРЕДНЯ ЗАТРИМКА (LATENCY)
                     </span>
@@ -2654,7 +2656,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       17 active APIs
                     </span>
                   </div>
-                  <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl">
+                  <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 p-2 rounded-2xl">
                     <span className="text-slate-500 text-xs block">
                       SLA AVAILABILITY (ДОСТУПНІСТЬ)
                     </span>
@@ -2665,9 +2667,9 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       Sovereign Cluster Up
                     </span>
                   </div>
-                  <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl">
+                  <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 p-2 rounded-2xl">
                     <span className="text-slate-500 text-xs block">
-                      ERROR RATE (РІВЕНЬ ПОМИЛОК)
+                      ПОМИЛКА RATE (РІВЕНЬ ПОМИЛОК)
                     </span>
                     <span className="text-slate-300 text-base font-black block mt-1">
                       0.00%
@@ -2712,7 +2714,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                   ].map((tr, i) => (
                     <div
                       key={i}
-                      className="flex justify-between items-center bg-[#020617]/80 backdrop-blur-xl p-2 rounded border border-white/10"
+                      className="flex justify-between items-center bg-slate-950/80 backdrop-blur-xl p-2 rounded border border-slate-800"
                     >
                       <span className="text-slate-300">{tr.name}</span>
                       <div className="space-x-3">
@@ -2735,13 +2737,13 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
             </div>
 
             {/* AI Security Auditor reports */}
-            <div className="col-span-12 lg:col-span-5 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[400px] justify-between font-mono">
+            <div className="col-span-12 lg:col-span-5 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[400px] justify-between font-mono">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-200 block pb-2 border-b border-white/10 mb-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-200 block pb-2 border-b border-slate-800 mb-3">
                   РОЗДІЛ 14: ШІ СЕКЮРІТІ АУДИТОР (SECURITY AUDIT)
                 </span>
 
-                <div className="p-2 bg-emerald-950/15 border border-white/10 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4">
+                <div className="p-2 bg-emerald-950/15 border border-slate-800 rounded-2xl text-xs leading-relaxed text-slate-400 mb-4">
                   <strong className="text-emerald-400">
                     ШІ Аудит Безпеки Коду:
                   </strong>{" "}
@@ -2751,7 +2753,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
 
                 <div className="space-y-3 text-xs">
-                  <div className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded border border-white/10">
+                  <div className="bg-slate-950/80 backdrop-blur-xl p-2 rounded border border-slate-800">
                     <span className="text-slate-500 block text-xs">
                       BANDIT (CODE SECURITY SCANNER):
                     </span>
@@ -2761,7 +2763,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     </span>
                   </div>
 
-                  <div className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded border border-white/10">
+                  <div className="bg-slate-950/80 backdrop-blur-xl p-2 rounded border border-slate-800">
                     <span className="text-slate-500 block text-xs">
                       SEMGREP (OWASP CORES AUDIT):
                     </span>
@@ -2771,7 +2773,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     </span>
                   </div>
 
-                  <div className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded border border-white/10">
+                  <div className="bg-slate-950/80 backdrop-blur-xl p-2 rounded border border-slate-800">
                     <span className="text-slate-500 block text-xs">
                       LICENSE AUDITOR:
                     </span>
@@ -2783,7 +2785,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
               </div>
 
-              <div className="bg-slate-900/60 p-2 rounded-2xl border border-white/5 text-xs text-slate-400 leading-relaxed">
+              <div className="bg-slate-900/60 p-2 rounded-2xl border border-slate-800/60 text-xs text-slate-400 leading-relaxed">
                 <span className="text-cyan-400 font-bold block mb-1">
                   САМОЗАДОВОЛЕННЯ КРИТЕРІЇВ:
                 </span>
@@ -2798,7 +2800,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
         {activeTab === "docs" && (
           <div className="col-span-12 flex flex-col gap-2 flex-1 min-h-0">
             {/* Sub tab navigation */}
-            <div className="flex glass-panel-premium border-white/10 p-1 rounded-2xl gap-2 self-start z-10">
+            <div className="flex glass-panel-premium border-slate-800 p-1 rounded-2xl gap-2 self-start z-10">
               <button
                 onClick={() => setDocSubTab("blueprint")}
                 className={`px-3 py-1.5 text-xs font-bold uppercase rounded cursor-pointer transition-all flex items-center gap-1.5 ${docSubTab === "blueprint" ? "bg-amber-600 text-[#02050a]" : "text-slate-400 hover:text-slate-200 hover:bg-black/30"}`}
@@ -2818,8 +2820,8 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
             {docSubTab === "blueprint" ? (
               <div className="grid grid-cols-12 gap-2 flex-1 min-h-0">
                 {/* Chapters list sidebar */}
-                <div className="col-span-12 lg:col-span-4 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[360px]">
-                  <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-3">
+                <div className="col-span-12 lg:col-span-4 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[360px]">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-800 mb-3">
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                       ГЛАВИ АРХІТЕКТУРНОГО ПЛАНУ PREDATOR
                     </span>
@@ -2859,7 +2861,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       <div
                         key={ch.id}
                         onClick={() => setSelectedBlueprintSection(ch.id)}
-                        className={`p-2.5 rounded border cursor-pointer transition-all flex flex-col gap-0.5 ${selectedBlueprintSection === ch.id ? "bg-amber-600/10 border-white/10 text-amber-400" : "bg-slate-900/40 border-white/10 hover:border-white/5 text-slate-400"}`}
+                        className={`p-2.5 rounded border cursor-pointer transition-all flex flex-col gap-0.5 ${selectedBlueprintSection === ch.id ? "bg-amber-600/10 border-slate-800 text-amber-400" : "bg-slate-900/40 border-slate-800 hover:border-slate-800/60 text-slate-400"}`}
                       >
                         <span className="font-bold">{ch.title}</span>
                         <span className="text-xs text-slate-500 truncate">
@@ -2871,13 +2873,13 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
 
                 {/* Chapter contents */}
-                <div className="col-span-12 lg:col-span-8 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[360px] justify-between relative overflow-hidden">
+                <div className="col-span-12 lg:col-span-8 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[360px] justify-between relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-3xl pointer-events-none" />
 
                   <div className="flex-1 overflow-y-auto custom-scrollbar space-y-4 pr-1">
                     {selectedBlueprintSection === 0 && (
                       <div className="space-y-4">
-                        <div className="border-b border-white/10 pb-2">
+                        <div className="border-b border-slate-800 pb-2">
                           <h4 className="text-xs font-black text-slate-200 uppercase">
                             ГЛАВА 1: ПЛАТФОРМА ЗБОРУ ЗНАНЬ (AI INTELLIGENCE
                             ACQUISITION)
@@ -2909,7 +2911,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           схеми, будує графи сутностей та граф джерел (Knowledge
                           Graph of Sources).
                         </p>
-                        <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl font-mono text-xs text-amber-400 space-y-1">
+                        <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 p-2 rounded-2xl font-mono text-xs text-amber-400 space-y-1">
                           <span className="font-bold block text-slate-400 text-xs uppercase">
                             GLOBAL DISCOVERY ENGINE ТА ЖИТТЄВИЙ ЦИКЛ:
                           </span>
@@ -2955,7 +2957,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
 
                     {selectedBlueprintSection === 1 && (
                       <div className="space-y-4">
-                        <div className="border-b border-white/10 pb-2">
+                        <div className="border-b border-slate-800 pb-2">
                           <h4 className="text-xs font-black text-slate-200 uppercase">
                             ГЛАВА 2: ІНТЕГРАЦІЯ З ДЕРЖАВНИМИ ІНФОРМАЦІЙНИМИ
                             СИСТЕМАМИ УКРАЇНИ
@@ -2976,7 +2978,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                               пагінації конвеєр використовує унікальний об'єкт{" "}
                               <code>next_page</code>:
                             </p>
-                            <table className="w-full text-left font-mono text-xs text-slate-400 border border-white/10 rounded bg-[#020617]/80 backdrop-blur-xl mt-1.5">
+                            <table className="w-full text-left font-mono text-xs text-slate-400 border border-slate-800 rounded bg-slate-950/80 backdrop-blur-xl mt-1.5">
                               <thead>
                                 <tr className="bg-slate-900/40 backdrop-blur-md text-slate-300">
                                   <th className="p-1">Властивість next_page</th>
@@ -2985,7 +2987,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr className="border-t border-white/10">
+                                <tr className="border-t border-slate-800">
                                   <td className="p-1 text-cyan-400 font-bold">
                                     offset
                                   </td>
@@ -2997,7 +2999,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                                     БД стану для відновлення після збоїв.
                                   </td>
                                 </tr>
-                                <tr className="border-t border-white/10">
+                                <tr className="border-t border-slate-800">
                                   <td className="p-1 text-cyan-400 font-bold">
                                     path
                                   </td>
@@ -3007,7 +3009,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                                     проксі-сервери або шлюзи.
                                   </td>
                                 </tr>
-                                <tr className="border-t border-white/10">
+                                <tr className="border-t border-slate-800">
                                   <td className="p-1 text-cyan-400 font-bold">
                                     uri
                                   </td>
@@ -3033,7 +3035,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                             </p>
                           </div>
 
-                          <div className="space-y-1 border-t border-white/10/60 pt-2">
+                          <div className="space-y-1 border-t border-slate-800/60 pt-2">
                             <span className="text-amber-400 font-bold block uppercase text-xs">
                               2. Портал публічних коштів (Spending.gov.ua):
                             </span>
@@ -3047,7 +3049,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                             </p>
                           </div>
 
-                          <div className="space-y-1 border-t border-white/10/60 pt-2">
+                          <div className="space-y-1 border-t border-slate-800/60 pt-2">
                             <span className="text-amber-400 font-bold block uppercase text-xs">
                               3. Єдиний державний реєстр декларацій (НАЗК):
                             </span>
@@ -3064,7 +3066,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                             </p>
                           </div>
 
-                          <div className="space-y-1 border-t border-white/10/60 pt-2">
+                          <div className="space-y-1 border-t border-slate-800/60 pt-2">
                             <span className="text-amber-400 font-bold block uppercase text-xs">
                               4. Національний портал відкритих даних
                               (data.gov.ua / CKAN):
@@ -3080,7 +3082,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                             </p>
                           </div>
 
-                          <div className="space-y-1 border-t border-white/10/60 pt-2">
+                          <div className="space-y-1 border-t border-slate-800/60 pt-2">
                             <span className="text-amber-400 font-bold block uppercase text-xs">
                               5. НБУ (Фінмоніторинг) та ВРУ (Законодавство):
                             </span>
@@ -3098,7 +3100,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
 
                     {selectedBlueprintSection === 2 && (
                       <div className="space-y-4">
-                        <div className="border-b border-white/10 pb-2">
+                        <div className="border-b border-slate-800 pb-2">
                           <h4 className="text-xs font-black text-slate-200 uppercase">
                             ГЛАВА 3: ІНТЕГРАЦІЯ МІЖНАРОДНИХ БАЗ ДАНИХ, САНКЦІЙ
                             ТА КОРПОРАТИВНИХ РЕЄСТРІВ
@@ -3131,7 +3133,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                               OpenSanctions Entities Scraper). Основні
                               конфігураційні параметри:
                             </p>
-                            <table className="w-full text-left font-mono text-xs text-slate-400 border border-white/10 rounded bg-[#020617]/80 backdrop-blur-xl mt-1.5">
+                            <table className="w-full text-left font-mono text-xs text-slate-400 border border-slate-800 rounded bg-slate-950/80 backdrop-blur-xl mt-1.5">
                               <thead>
                                 <tr className="bg-slate-900/40 backdrop-blur-md text-slate-300">
                                   <th className="p-1">
@@ -3144,7 +3146,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr className="border-t border-white/10">
+                                <tr className="border-t border-slate-800">
                                   <td className="p-1 text-cyan-400 font-bold">
                                     datasetSlug
                                   </td>
@@ -3152,10 +3154,10 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                                   <td className="p-1">
                                     Вибір конкретного джерела (наприклад,{" "}
                                     <code>us_ofac_sdn</code>, або{" "}
-                                    <code>default</code> для повного набору).
+                                    <code>за замовчуванням</code> для повного набору).
                                   </td>
                                 </tr>
-                                <tr className="border-t border-white/10">
+                                <tr className="border-t border-slate-800">
                                   <td className="p-1 text-cyan-400 font-bold">
                                     exportUrl
                                   </td>
@@ -3165,7 +3167,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                                     експорту OpenSanctions.
                                   </td>
                                 </tr>
-                                <tr className="border-t border-white/10">
+                                <tr className="border-t border-slate-800">
                                   <td className="p-1 text-cyan-400 font-bold">
                                     maxScanLines
                                   </td>
@@ -3176,7 +3178,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                                     оптимізації пам'яті.
                                   </td>
                                 </tr>
-                                <tr className="border-t border-white/10">
+                                <tr className="border-t border-slate-800">
                                   <td className="p-1 text-cyan-400 font-bold">
                                     maxItems
                                   </td>
@@ -3186,7 +3188,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                                     кількість сутностей.
                                   </td>
                                 </tr>
-                                <tr className="border-t border-white/10">
+                                <tr className="border-t border-slate-800">
                                   <td className="p-1 text-cyan-400 font-bold">
                                     schemas / topics
                                   </td>
@@ -3212,7 +3214,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                             </p>
                           </div>
 
-                          <div className="space-y-1 border-t border-white/10/60 pt-2">
+                          <div className="space-y-1 border-t border-slate-800/60 pt-2">
                             <span className="text-cyan-400 font-bold block uppercase text-xs">
                               2. OpenCorporates, SEC EDGAR та CourtListener:
                             </span>
@@ -3237,7 +3239,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
 
                     {selectedBlueprintSection === 3 && (
                       <div className="space-y-4">
-                        <div className="border-b border-white/10 pb-2">
+                        <div className="border-b border-slate-800 pb-2">
                           <h4 className="text-xs font-black text-slate-200 uppercase">
                             ГЛАВА 4: НАУКОМЕТРІЯ, ГЕОПОЛІТИКА ТА API
                             КІБЕРБЕЗПЕКИ (GIS)
@@ -3266,7 +3268,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                             </p>
                           </div>
 
-                          <div className="space-y-1 border-t border-white/10/60 pt-2">
+                          <div className="space-y-1 border-t border-slate-800/60 pt-2">
                             <span className="text-indigo-400 font-bold block uppercase text-xs">
                               2. GDELT Project 2.0: Геополітичний моніторинг
                               новин:
@@ -3281,7 +3283,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                             </p>
                           </div>
 
-                          <div className="space-y-1 border-t border-white/10/60 pt-2">
+                          <div className="space-y-1 border-t border-slate-800/60 pt-2">
                             <span className="text-indigo-400 font-bold block uppercase text-xs">
                               3. API кібербезпеки: AlienVault OTX, CISA KEV та
                               MITRE ATT&CK:
@@ -3308,7 +3310,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                             </div>
                           </div>
 
-                          <div className="space-y-1 border-t border-white/10/60 pt-2">
+                          <div className="space-y-1 border-t border-slate-800/60 pt-2">
                             <span className="text-indigo-400 font-bold block uppercase text-xs">
                               4. OpenStreetMap / Nominatim: Геокодування адрес:
                             </span>
@@ -3317,7 +3319,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                               відрізняється найбільш суворою політикою
                               експлуатації:
                             </p>
-                            <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 p-2 text-xs font-mono text-rose-400 space-y-1">
+                            <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 p-2 text-xs font-mono text-rose-400 space-y-1">
                               <div>
                                 1. Жорсткий ліміт частоти запитів: рівно 1 запит
                                 на секунду. Побудова паралельних запитів
@@ -3347,7 +3349,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
 
                     {selectedBlueprintSection === 4 && (
                       <div className="space-y-4">
-                        <div className="border-b border-white/10 pb-2">
+                        <div className="border-b border-slate-800 pb-2">
                           <h4 className="text-xs font-black text-slate-200 uppercase">
                             ГЛАВА 5: KNOWLEDGE GRAPH BUILDER ТА ENTITY
                             RESOLUTION
@@ -3363,7 +3365,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           джерел (Swagger, CSV, GraphQL) і автоматично витягує
                           сутності. Немає потреби писати Cypher-запити вручну.
                         </p>
-                        <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl space-y-2">
+                        <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 p-2 rounded-2xl space-y-2">
                           <span className="font-bold block text-emerald-400 text-xs uppercase">
                             БАЗОВІ ВУЗЛИ (NODES), ЩО АВТОМАТИЧНО ЕКСТРАГУЮТЬСЯ:
                           </span>
@@ -3383,7 +3385,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                             Geospatial, Communication, Risk.
                           </div>
                         </div>
-                        <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 p-2 rounded-2xl space-y-2 mt-2">
+                        <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 p-2 rounded-2xl space-y-2 mt-2">
                           <span className="font-bold block text-pink-400 text-xs uppercase">
                             AI DATA VALIDATION ТА EMBEDDINGS:
                           </span>
@@ -3416,7 +3418,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     )}
                   </div>
 
-                  <div className="border-t border-white/10 pt-3 flex justify-between items-center mt-4">
+                  <div className="border-t border-slate-800 pt-3 flex justify-between items-center mt-4">
                     <span className="text-xs text-slate-500 font-mono">
                       Генеральний план PREDATOR • Google Antigravity Engine
                     </span>
@@ -3432,7 +3434,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           },
                         ]);
                       }}
-                      className="px-2.5 py-1.5 cursor-pointer bg-[#020617]/80 backdrop-blur-xl hover:bg-slate-900/40 backdrop-blur-md text-slate-300 border border-white/5 text-xs font-mono font-bold uppercase transition-all rounded flex items-center gap-1.5"
+                      className="px-2.5 py-1.5 cursor-pointer bg-slate-950/80 backdrop-blur-xl hover:bg-slate-900/40 backdrop-blur-md text-slate-300 border border-slate-800/60 text-xs font-mono font-bold uppercase transition-all rounded flex items-center gap-1.5"
                     >
                       <Download className="w-3 h-3" />
                       Зберегти .md розділ архітектури
@@ -3443,8 +3445,8 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
             ) : (
               <div className="grid grid-cols-12 gap-2 flex-1 min-h-0">
                 {/* List of ADRs */}
-                <div className="col-span-12 lg:col-span-5 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[360px]">
-                  <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-3">
+                <div className="col-span-12 lg:col-span-5 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[360px]">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-800 mb-3">
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
                       ARCHITECTURAL DECISION RECORDS (ADR 1-10)
                     </span>
@@ -3512,7 +3514,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                       <div
                         key={adr.id}
                         onClick={() => setSelectedAdr(adr.id)}
-                        className={`p-2.5 rounded border cursor-pointer flex justify-between items-center ${selectedAdr === adr.id ? "bg-cyan-950/30 border-white/10 text-cyan-400" : "bg-slate-900/40 border-white/10 hover:border-white/5 text-slate-400"}`}
+                        className={`p-2.5 rounded border cursor-pointer flex justify-between items-center ${selectedAdr === adr.id ? "bg-cyan-950/30 border-slate-800 text-cyan-400" : "bg-slate-900/40 border-slate-800 hover:border-slate-800/60 text-slate-400"}`}
                       >
                         <span>{adr.title}</span>
                         <span className="text-xs bg-emerald-950 text-emerald-400 px-1 py-0.5 rounded font-bold">
@@ -3524,11 +3526,11 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                 </div>
 
                 {/* ADR Content */}
-                <div className="col-span-12 lg:col-span-7 glass-panel-premium border-white/10 rounded-2xl p-2 flex flex-col h-[360px] justify-between relative overflow-hidden">
+                <div className="col-span-12 lg:col-span-7 glass-panel-premium border-slate-800 rounded-2xl p-2 flex flex-col h-[360px] justify-between relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/5 blur-3xl pointer-events-none" />
 
                   <div className="space-y-4 font-mono text-xs leading-relaxed">
-                    <div className="border-b border-white/10 pb-2">
+                    <div className="border-b border-slate-800 pb-2">
                       <h4 className="text-xs font-black text-slate-200">
                         ADR-00{selectedAdr}: ARCHITECTURAL CHOICE OVERVIEW
                       </h4>
@@ -3582,7 +3584,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                     </div>
                   </div>
 
-                  <div className="border-t border-white/10 pt-3 flex justify-between items-center mt-4">
+                  <div className="border-t border-slate-800 pt-3 flex justify-between items-center mt-4">
                     <span className="text-xs text-slate-500 font-mono">
                       Згенеровано ШІ-агентом Google Antigravity Coder
                     </span>
@@ -3598,7 +3600,7 @@ class ${src.id.charAt(0).toUpperCase() + src.id.slice(1)}EntityModel(BaseModel):
                           },
                         ]);
                       }}
-                      className="px-2.5 py-1.5 cursor-pointer bg-[#020617]/80 backdrop-blur-xl hover:bg-slate-900/40 backdrop-blur-md text-slate-300 border border-white/5 text-xs font-mono font-bold uppercase transition-all rounded flex items-center gap-1.5"
+                      className="px-2.5 py-1.5 cursor-pointer bg-slate-950/80 backdrop-blur-xl hover:bg-slate-900/40 backdrop-blur-md text-slate-300 border border-slate-800/60 text-xs font-mono font-bold uppercase transition-all rounded flex items-center gap-1.5"
                     >
                       <Download className="w-3 h-3" />
                       Експорт .md ADR документа

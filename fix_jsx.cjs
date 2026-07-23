@@ -1,4 +1,0 @@
-const fs = require('fs');
-let content = fs.readFileSync('src/App.tsx', 'utf8');
-content = content.replace(/<\/div><\/div><\/>\) : \(/g, '</div>\n                  </div>\n                </>\n              ) : (');
-fs.writeFileSync('src/App.tsx', content);

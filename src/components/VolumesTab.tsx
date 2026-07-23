@@ -533,11 +533,11 @@ export default function VolumesTab() {
   return (
     <div className="space-y-6" id="volumes-tab-root">
       {/* Intro Header banner */}
-      <div className="glass-panel-premium border-white/10 rounded-2xl p-2 backdrop-blur-md relative overflow-hidden">
+      <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 backdrop-blur-md relative overflow-hidden">
         <div className="absolute right-0 top-0 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
           <div>
-            <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2 mb-2">
+            <h2 className="text-lg font-bold text-slate-200 flex items-center gap-2 mb-2">
               <BookOpen className="w-4 h-4 text-blue-400" />
               Комплект документації NEXUS Analytics Enterprise
             </h2>
@@ -547,7 +547,7 @@ export default function VolumesTab() {
             </p>
           </div>
           
-          <div className="flex items-center gap-2 text-xs font-mono bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-white/10 px-2 py-1.5 rounded-2xl shrink-0">
+          <div className="flex items-center gap-2 text-xs font-mono bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-slate-800 px-2 py-1.5 rounded-2xl shrink-0">
             <div>
               <span className="text-slate-500 block">ТОМИ ТЗ</span>
               <span className="text-blue-400 font-bold text-sm">16</span>
@@ -567,7 +567,7 @@ export default function VolumesTab() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-slate-900/30 border border-white/10 rounded-2xl p-2 flex flex-col md:flex-row items-center justify-between gap-2">
+      <div className="bg-slate-900/30 border border-slate-800 rounded-2xl p-2 flex flex-col md:flex-row items-center justify-between gap-2">
         {/* Category Pill Filters */}
         <div className="flex flex-wrap gap-1.5 items-center w-full md:w-auto" id="volume-category-filters">
           <Filter className="w-4 h-4 text-slate-500 mr-1 shrink-0" />
@@ -589,7 +589,7 @@ export default function VolumesTab() {
             placeholder="Шукати у 16 томах..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-white/10 rounded-2xl pl-9 pr-4 py-2 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-slate-500"
+            className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-slate-800 rounded-2xl pl-9 pr-4 py-2 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-slate-500"
           />
           <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
         </div>
@@ -610,7 +610,7 @@ export default function VolumesTab() {
                   setActiveVolume(vol.id);
                   setExpandedChapter(null);
                 }}
-                className={`w-full text-left p-2.5 rounded-2xl border transition-all text-xs flex items-start gap-2.5 relative cursor-pointer ${isActive ? 'bg-blue-500/10 border-white/10 text-white shadow-2xl shadow-black/40 shadow-blue-500/5' : 'bg-slate-900/40 border-white/10/80 text-slate-300 hover:text-slate-200 hover:border-white/10'}`}
+                className={`w-full text-left p-2.5 rounded-2xl border transition-all text-xs flex items-start gap-2.5 relative cursor-pointer ${isActive ? 'bg-blue-500/10 border-slate-800 text-white shadow-2xl shadow-black/40 shadow-blue-500/5' : 'bg-slate-900/40 border-slate-800/80 text-slate-300 hover:text-slate-200 hover:border-slate-800'}`}
               >
                 <div className={`p-2 rounded-2xl shrink-0 ${isActive ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] text-slate-500'}`}>
                   <Icon className="w-4 h-4" />
@@ -638,17 +638,17 @@ export default function VolumesTab() {
             );
           })}
           {filteredVolumes.length === 0 && (
-            <div className="p-4 text-center text-slate-500 text-xs border border-dashed border-white/10 rounded-2xl">
+            <div className="p-4 text-center text-slate-500 text-xs border border-dashed border-slate-800 rounded-2xl">
               Нічого не знайдено за вказаними параметрами пошуку.
             </div>
           )}
         </div>
 
         {/* Right Column: Detailed Chapter Browser */}
-        <div className="lg:col-span-8 space-y-5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-white/10 rounded-2xl p-2" id="volume-details-workspace">
+        <div className="lg:col-span-8 space-y-5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-slate-800 rounded-2xl p-2" id="volume-details-workspace">
           
           {/* Active Volume Header */}
-          <div className="border-b border-white/10 pb-5">
+          <div className="border-b border-slate-800 pb-5">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xs bg-blue-500/10 text-blue-400 font-mono font-bold uppercase tracking-widest px-2.5 py-0.5 rounded">
                 {currentVolumeObj.category} специфікація
@@ -673,7 +673,7 @@ export default function VolumesTab() {
               return (
                 <div 
                   key={idx}
-                  className={`border rounded-2xl transition-all ${isOpen ? 'bg-slate-900/40 border-white/10' : 'bg-slate-900/10 border-white/10 hover:border-white/10'}`}
+                  className={`border rounded-2xl transition-all ${isOpen ? 'bg-slate-900/40 border-slate-800' : 'bg-slate-900/10 border-slate-800 hover:border-slate-800'}`}
                 >
                   {/* Title Toggle bar */}
                   <button
@@ -703,7 +703,7 @@ export default function VolumesTab() {
                         transition={{ duration: 0.15 }}
                         className="overflow-hidden"
                       >
-                        <div className="px-3 pb-5 pt-1 border-t border-white/10 space-y-4 text-xs">
+                        <div className="px-3 pb-5 pt-1 border-t border-slate-800 space-y-4 text-xs">
                           
                           {/* Core Description */}
                           <div className="space-y-1">
@@ -715,7 +715,7 @@ export default function VolumesTab() {
 
                           {/* Technical details (if exists) */}
                           {ch.technicalDetails && (
-                            <div className="bg-slate-950/60 border border-white/10/40 rounded-2xl p-2 space-y-1">
+                            <div className="bg-slate-950/60 border border-slate-800/40 rounded-2xl p-2 space-y-1">
                               <span className="text-xs text-amber-400 font-mono uppercase tracking-widest block font-bold">Архітектурні особливості:</span>
                               <p className="text-slate-300 text-xs leading-relaxed">
                                 {ch.technicalDetails}
@@ -732,7 +732,7 @@ export default function VolumesTab() {
                                 </span>
                                 <button
                                   onClick={() => handleCopyCode(ch.codeSnippet!.code)}
-                                  className="text-xs text-blue-400 hover:text-indigo-300 flex items-center gap-1 cursor-pointer font-mono bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] px-2 py-1 rounded border border-white/10"
+                                  className="text-xs text-blue-400 hover:text-indigo-300 flex items-center gap-1 cursor-pointer font-mono bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] px-2 py-1 rounded border border-slate-800"
                                 >
                                   {copiedText === ch.codeSnippet.code ? (
                                     <>
@@ -747,7 +747,7 @@ export default function VolumesTab() {
                                   )}
                                 </button>
                               </div>
-                              <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl p-2.5 border border-white/10 overflow-x-auto">
+                              <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl p-2.5 border border-slate-800 overflow-x-auto">
                                 <pre className="text-xs font-mono text-indigo-300 leading-relaxed">
                                   <code>{ch.codeSnippet.code}</code>
                                 </pre>
@@ -765,7 +765,7 @@ export default function VolumesTab() {
                                 {ch.requirements.map((req, rIdx) => (
                                   <div 
                                     key={rIdx}
-                                    className="bg-slate-950/40 border border-white/10 rounded-2xl p-2.5 flex items-start gap-2 text-xs text-slate-300"
+                                    className="bg-slate-950/40 border border-slate-800 rounded-2xl p-2.5 flex items-start gap-2 text-xs text-slate-300"
                                   >
                                     <CheckCircle className="w-3.5 h-3.5 text-blue-500 shrink-0 mt-0.5" />
                                     <span className="leading-tight">{req}</span>
@@ -785,7 +785,7 @@ export default function VolumesTab() {
           </div>
 
           {/* Quick Informational Box */}
-          <div className="bg-slate-900/20 border border-white/10 rounded-2xl p-2 flex items-start gap-2 text-xs">
+          <div className="bg-slate-900/20 border border-slate-800 rounded-2xl p-2 flex items-start gap-2 text-xs">
             <Info className="w-4.5 h-4.5 text-blue-400 shrink-0 mt-0.5" />
             <div className="space-y-1">
               <span className="font-bold text-slate-200">Довідка розробника:</span>

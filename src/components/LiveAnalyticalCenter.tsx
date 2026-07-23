@@ -719,7 +719,7 @@ export default function LiveAnalyticalCenter({
       onMouseMove={handleMouseMove}
     >
       {/* Jarvis Voice Indicator Panel & Startup Progress (Points 1, 4) */}
-      <div className="absolute top-0 left-0 right-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-white/10 px-2 py-1.5 flex items-center justify-between text-xs font-mono">
+      <div className="absolute top-0 left-0 right-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800 px-2 py-1.5 flex items-center justify-between text-xs font-mono">
         <div className="flex items-center gap-2">
           <button
             onClick={() => {
@@ -733,7 +733,7 @@ export default function LiveAnalyticalCenter({
                 );
               }
             }}
-            className={`p-2 rounded-2xl flex items-center gap-2 border transition-all cursor-pointer ${!isMuted ? "bg-blue-600/20 border-white/10 text-blue-400" : "bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border-white/10 text-slate-500"}`}
+            className={`p-2 rounded-2xl flex items-center gap-2 border transition-all cursor-pointer ${!isMuted ? "bg-blue-600/20 border-slate-800 text-blue-400" : "bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border-slate-800 text-slate-500"}`}
             title={isMuted ? "Увімкнути голосовий супровід" : "Вимкнути голос"}
           >
             {!isMuted ? (
@@ -751,7 +751,7 @@ export default function LiveAnalyticalCenter({
               <span className="text-amber-500 font-bold animate-pulse">
                 BOOT SEQUENCE: {bootProgress}%
               </span>
-              <div className="w-32 bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] h-1 rounded-full overflow-hidden border border-white/10">
+              <div className="w-32 bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] h-1 rounded-full overflow-hidden border border-slate-800">
                 <div
                   className="bg-amber-500 h-full transition-all duration-100"
                   style={{ width: `${bootProgress}%` }}
@@ -788,7 +788,7 @@ export default function LiveAnalyticalCenter({
             <button
               key={m.id}
               onClick={() => handleWorkModeChange(m.id as any)}
-              className={`px-2 py-1 rounded text-xs font-bold border transition-all cursor-pointer ${workMode === m.id ? "bg-blue-600/20 border-white/10 text-blue-400 shadow-[0_0_10px_rgba(99,102,241,0.2)]" : "bg-slate-900/40 border-transparent text-slate-300 hover:text-slate-200 hover:bg-slate-800/40"}`}
+              className={`px-2 py-1 rounded text-xs font-bold border transition-all cursor-pointer ${workMode === m.id ? "bg-blue-600/20 border-slate-800 text-blue-400 shadow-[0_0_10px_rgba(99,102,241,0.2)]" : "bg-slate-900/40 border-transparent text-slate-300 hover:text-slate-200 hover:bg-slate-800/40"}`}
             >
               {m.label}
             </button>
@@ -803,10 +803,10 @@ export default function LiveAnalyticalCenter({
           className="lg:col-span-3 space-y-4 flex flex-col justify-between"
           id="copilot-inputs-panel"
         >
-          <div className="glass-panel-premium border-white/10 p-2 rounded-2xl space-y-4 shadow-2xl shadow-black/40 backdrop-blur-sm">
-            <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+          <div className="glass-panel-premium border-slate-800 p-2 rounded-2xl space-y-4 shadow-2xl shadow-black/40 backdrop-blur-sm">
+            <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
               <Bot className="w-4 h-4 text-blue-400 animate-bounce" />
-              <h3 className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+              <h3 className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                 Що ви хочете знайти?
               </h3>
             </div>
@@ -856,7 +856,7 @@ export default function LiveAnalyticalCenter({
                     setSearchQuery(act.prompt);
                     handleSearchTrigger(act.prompt);
                   }}
-                  className="w-full text-left bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 border border-white/10 text-slate-300 p-2.5 rounded-2xl transition-all flex items-center justify-between cursor-pointer group"
+                  className="w-full text-left bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 border border-slate-800 text-slate-300 p-2.5 rounded-2xl transition-all flex items-center justify-between cursor-pointer group"
                 >
                   <span>{act.text}</span>
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all" />
@@ -880,7 +880,7 @@ export default function LiveAnalyticalCenter({
 
         {/* Center Column: The Living AI Brain Core & Galaxy canvas (Point 1, 6, 10) */}
         <div
-          className="lg:col-span-6 glass-panel-premium border-white/10 rounded-3xl p-2 flex flex-col justify-between relative overflow-hidden min-h-[380px] shadow-2xl"
+          className="lg:col-span-6 glass-panel-premium border-slate-800 rounded-3xl p-2 flex flex-col justify-between relative overflow-hidden min-h-[380px] shadow-2xl"
           id="living-brain-canvas-zone"
         >
           {/* Proactive AI Alert (Point 7) */}
@@ -890,17 +890,17 @@ export default function LiveAnalyticalCenter({
                 initial={{ opacity: 0, y: -20, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                className="absolute top-2 left-4 right-4 z-40 bg-indigo-950 border border-white/10 p-2.5 rounded-2xl flex items-center justify-between shadow-2xl gap-2"
+                className="absolute top-2 left-4 right-4 z-40 bg-indigo-950 border border-slate-800 p-2.5 rounded-2xl flex items-center justify-between shadow-2xl gap-2"
               >
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-blue-600/20 border border-white/10 flex items-center justify-center text-blue-400 shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-blue-600/20 border border-slate-800 flex items-center justify-center text-blue-400 shrink-0">
                     <Sparkles className="w-4 h-4 animate-spin" />
                   </div>
                   <div>
                     <span className="text-xs font-mono font-black text-blue-400 block tracking-widest uppercase">
                       ШІ АКТИВНІСТЬ
                     </span>
-                    <p className="text-xs font-semibold text-slate-100">
+                    <p className="text-xs font-semibold text-slate-200">
                       Я знайшов три цікаві закономірності у зв'язках об'єкта.
                     </p>
                   </div>
@@ -930,7 +930,7 @@ export default function LiveAnalyticalCenter({
                   </button>
                   <button
                     onClick={() => setSuggestionState("dismissed")}
-                    className="bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 border border-white/10 text-slate-300 px-3 py-1.5 rounded-2xl transition-colors cursor-pointer"
+                    className="bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 border border-slate-800 text-slate-300 px-3 py-1.5 rounded-2xl transition-colors cursor-pointer"
                   >
                     Пізніше
                   </button>
@@ -940,7 +940,7 @@ export default function LiveAnalyticalCenter({
           </AnimatePresence>
 
           {/* Core mode state controller HUD inside canvas */}
-          <div className="flex justify-center gap-1 bg-slate-900/60 border border-white/10 p-1 rounded-2xl self-center z-30 font-mono text-xs font-bold">
+          <div className="flex justify-center gap-1 bg-slate-900/60 border border-slate-800 p-1 rounded-2xl self-center z-30 font-mono text-xs font-bold">
             {[
               { id: "idle", label: "Спокій" },
               { id: "learning", label: "Навчання" },
@@ -1150,7 +1150,7 @@ export default function LiveAnalyticalCenter({
                           initial={{ opacity: 0, scale: 0.8, y: -10 }}
                           animate={{ opacity: 1, scale: 1, y: 0 }}
                           exit={{ opacity: 0, scale: 0.8, y: -10 }}
-                          className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 bg-slate-900/90 border border-white/10 text-xs font-mono text-indigo-300 px-3 py-1.5 rounded-2xl whitespace-nowrap shadow-2xl max-w-xs text-center leading-snug"
+                          className="absolute bottom-full mb-4 left-1/2 -translate-x-1/2 bg-slate-900/90 border border-slate-800 text-xs font-mono text-indigo-300 px-3 py-1.5 rounded-2xl whitespace-nowrap shadow-2xl max-w-xs text-center leading-snug"
                         >
                           <span className="text-emerald-400 font-bold block text-xs uppercase tracking-widest mb-0.5">
                             JARVIS: SPEAKING
@@ -1210,7 +1210,7 @@ export default function LiveAnalyticalCenter({
                     </motion.div>
 
                     {/* Activity flag below orb */}
-                    <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 text-xs font-mono font-bold text-blue-400 bg-indigo-950/50 px-2 py-1 rounded-full border border-white/10 whitespace-nowrap">
+                    <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 text-xs font-mono font-bold text-blue-400 bg-indigo-950/50 px-2 py-1 rounded-full border border-slate-800 whitespace-nowrap">
                       🧠 AI BRAIN: REACTIVE
                     </span>
                   </div>
@@ -1229,10 +1229,10 @@ export default function LiveAnalyticalCenter({
                   <div
                     className={`p-2 rounded-2xl border flex items-center gap-2 max-w-[170px] bg-slate-950/90 backdrop-blur-md transition-all ${
                       node.risk === "HIGH"
-                        ? "border-white/10 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.15)]"
+                        ? "border-slate-800 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.15)]"
                         : node.risk === "MEDIUM"
-                          ? "border-white/10 text-amber-400"
-                          : "border-white/10 text-blue-400"
+                          ? "border-slate-800 text-amber-400"
+                          : "border-slate-800 text-blue-400"
                     } ${selectedNode?.id === node.id ? "ring-1 ring-blue-400 ring-offset-2 ring-offset-slate-950" : ""}`}
                   >
                     <div
@@ -1276,7 +1276,7 @@ export default function LiveAnalyticalCenter({
 
           {/* Search box built in the center page (Point 3) */}
           <div className="w-full max-w-lg mx-auto relative z-30">
-            <div className="bg-slate-950/95 border border-white/10 rounded-2xl flex items-center p-1.5 shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
+            <div className="bg-slate-950/95 border border-slate-800 rounded-2xl flex items-center p-1.5 shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
               <div className="pl-3 text-slate-500">
                 <Search className="w-4 h-4" />
               </div>
@@ -1288,7 +1288,7 @@ export default function LiveAnalyticalCenter({
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleSearchTrigger(searchQuery);
                 }}
-                className="w-full bg-transparent px-2 py-1.5 text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none"
+                className="w-full bg-transparent px-2 py-1.5 text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none"
               />
               {searchQuery && (
                 <button
@@ -1314,7 +1314,7 @@ export default function LiveAnalyticalCenter({
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
-                  className="absolute left-0 right-0 mt-1.5 glass-panel-premium border-white/10 rounded-2xl overflow-hidden shadow-2xl divide-y divide-slate-900/60 z-50 text-left"
+                  className="absolute left-0 right-0 mt-1.5 glass-panel-premium border-slate-800 rounded-2xl overflow-hidden shadow-2xl divide-y divide-slate-900/60 z-50 text-left"
                 >
                   {searchSuggestions.slice(0, 3).map((ent) => (
                     <button
@@ -1349,38 +1349,38 @@ export default function LiveAnalyticalCenter({
           id="ai-health-metrics-panel"
         >
           {/* AI Qualitative Readiness & Parameters (Point 2) */}
-          <div className="glass-panel-premium border-white/10 p-2 rounded-2xl space-y-4 shadow-2xl shadow-black/40 backdrop-blur-sm text-left">
-            <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+          <div className="glass-panel-premium border-slate-800 p-2 rounded-2xl space-y-4 shadow-2xl shadow-black/40 backdrop-blur-sm text-left">
+            <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
               <Sparkles className="w-4.5 h-4.5 text-blue-400 animate-spin" />
-              <h3 className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+              <h3 className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                 Параметри Системи
               </h3>
             </div>
 
             <div className="space-y-3 font-mono text-xs">
-              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-white/10/50">
+              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-slate-800/50">
                 <span className="text-slate-300">🟢 AI готовність</span>
                 <span className="text-emerald-400 font-black">99.8% READY</span>
               </div>
-              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-white/10/50">
+              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-slate-800/50">
                 <span className="text-slate-300">🧠 Рівень аналізу</span>
                 <span className="text-blue-400 font-black">ГЛИБОКИЙ ШІ</span>
               </div>
-              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-white/10/50">
+              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-slate-800/50">
                 <span className="text-slate-300">📈 Достовірність</span>
                 <span className="text-emerald-400 font-black">98.4% HIGH</span>
               </div>
-              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-white/10/50">
+              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-slate-800/50">
                 <span className="text-slate-300">⚡ Швидкість відповіді</span>
                 <span className="text-blue-400 font-black">1.2 СЕКУНДИ</span>
               </div>
-              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-white/10/50">
+              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-slate-800/50">
                 <span className="text-slate-300">🔍 Активність</span>
                 <span className="text-blue-400 font-black">
                   АКТИВНИЙ СКРИНІНГ
                 </span>
               </div>
-              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-white/10/50">
+              <div className="flex justify-between items-center bg-black/40 p-2 rounded-2xl border border-slate-800/50">
                 <span className="text-slate-300">🎯 Якість прогнозу</span>
                 <span className="text-emerald-400 font-black">КЛАС А++</span>
               </div>
@@ -1388,7 +1388,7 @@ export default function LiveAnalyticalCenter({
           </div>
 
           {/* AI Health Dashboard Widget (Point 8) */}
-          <div className="bg-slate-900/40 border border-white/10 p-2 rounded-2xl space-y-3 shadow-xl shadow-black/20 text-left">
+          <div className="bg-slate-900/40 border border-slate-800 p-2 rounded-2xl space-y-3 shadow-xl shadow-black/20 text-left">
             <span className="text-xs font-mono font-bold uppercase tracking-widest text-slate-500 block">
               ЗДОРОВ'Я ШІ (AI HEALTH)
             </span>
@@ -1430,15 +1430,15 @@ export default function LiveAnalyticalCenter({
       {/* Slide-out Info-Panel, Documents, Maps, Timelines */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-2 mt-6 items-start relative z-10 w-full text-left">
         {/* Left half: AI briefing */}
-        <div className="xl:col-span-8 glass-panel-premium border-white/10 rounded-2xl p-2 space-y-3 shadow-xl shadow-black/20">
-          <div className="flex items-center justify-between border-b border-white/10 pb-2">
+        <div className="xl:col-span-8 glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-3 shadow-xl shadow-black/20">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-blue-400 animate-spin" />
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
                 ШІ-Стислий аналітичний висновок Jarvis
               </span>
             </div>
-            <div className="flex items-center gap-1 text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-white/10">
+            <div className="flex items-center gap-1 text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-slate-800">
               <Check className="w-3 h-3" />
               Оновлено в реальному часі
             </div>
@@ -1450,7 +1450,7 @@ export default function LiveAnalyticalCenter({
               "Оберіть будь-який сценарій або вузол на інтерактивному ШІ-графі вище, щоб моментально вивести контекст комплаєнсу, ризики закордонного імпорту або судові приписи."}
           </p>
 
-          <div className="pt-2 flex items-center justify-between text-xs text-slate-500 font-mono border-t border-white/10/60">
+          <div className="pt-2 flex items-center justify-between text-xs text-slate-500 font-mono border-t border-slate-800/60">
             <span>
               Вплив санкцій:{" "}
               <strong
@@ -1474,13 +1474,13 @@ export default function LiveAnalyticalCenter({
         </div>
 
         {/* Right half: Detailed interactive actions card */}
-        <div className="xl:col-span-4 bg-slate-900/40 border border-white/10 rounded-2xl p-2 space-y-4 shadow-2xl shadow-black/40">
+        <div className="xl:col-span-4 bg-slate-900/40 border border-slate-800 rounded-2xl p-2 space-y-4 shadow-2xl shadow-black/40">
           <div className="flex justify-between items-start">
             <div>
               <span className="text-xs text-blue-400 font-mono font-bold uppercase tracking-widest block">
                 АКТИВНИЙ ОБ'ЄКТ
               </span>
-              <h3 className="text-xs font-black text-slate-100 tracking-tight mt-0.5 truncate max-w-[200px]">
+              <h3 className="text-xs font-black text-slate-200 tracking-tight mt-0.5 truncate max-w-[200px]">
                 {activeEntity?.name || "Не обрано"}
               </h3>
               <p className="text-xs text-slate-500 font-mono mt-0.5">
@@ -1489,7 +1489,7 @@ export default function LiveAnalyticalCenter({
             </div>
 
             <div
-              className={`px-2 py-1 rounded-2xl border text-center ${activeEntity?.riskScore && activeEntity.riskScore >= 80 ? "border-white/10 bg-rose-500/5 text-rose-500" : "border-white/10 bg-blue-500/5 text-blue-400"}`}
+              className={`px-2 py-1 rounded-2xl border text-center ${activeEntity?.riskScore && activeEntity.riskScore >= 80 ? "border-slate-800 bg-rose-500/5 text-rose-500" : "border-slate-800 bg-blue-500/5 text-blue-400"}`}
             >
               <span className="text-xs font-mono block font-bold leading-none uppercase">
                 РИЗИК
@@ -1500,7 +1500,7 @@ export default function LiveAnalyticalCenter({
             </div>
           </div>
 
-          <div className="space-y-2 border-y border-white/10 py-2 text-xs font-sans">
+          <div className="space-y-2 border-y border-slate-800 py-2 text-xs font-sans">
             <div className="flex justify-between">
               <span className="text-slate-500">Адреса:</span>
               <span className="text-slate-300 truncate max-w-[160px] text-right font-medium">
@@ -1510,7 +1510,7 @@ export default function LiveAnalyticalCenter({
             <div className="flex justify-between">
               <span className="text-slate-500">Статус:</span>
               <span
-                className={`font-mono text-xs font-bold ${activeEntity?.status === "SANCTIONED" ? "text-red-400 bg-red-500/10 px-2 py-1 rounded border border-red-500/20" : "text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-white/10"}`}
+                className={`font-mono text-xs font-bold ${activeEntity?.status === "SANCTIONED" ? "text-red-400 bg-red-500/10 px-2 py-1 rounded border border-red-500/20" : "text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-slate-800"}`}
               >
                 {activeEntity?.status || "—"}
               </span>
@@ -1534,7 +1534,7 @@ export default function LiveAnalyticalCenter({
                   "Завантажую повний аналітичний PDF-звіт на 16 томів.",
                 );
               }}
-              className="bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 border border-white/10 text-slate-300 py-2 rounded-2xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              className="bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 border border-slate-800 text-slate-300 py-2 rounded-2xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
             >
               <FileText className="w-3.5 h-3.5 text-blue-400" />
               Звіт (PDF)
@@ -1549,7 +1549,7 @@ export default function LiveAnalyticalCenter({
                   "Перемикаю на тактичну географічну карту постачання.",
                 );
               }}
-              className="bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 border border-white/10 text-slate-300 py-2 rounded-2xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              className="bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 border border-slate-800 text-slate-300 py-2 rounded-2xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
             >
               <Map className="w-3.5 h-3.5 text-emerald-400" />
               Гео-Карта
@@ -1562,7 +1562,7 @@ export default function LiveAnalyticalCenter({
                   "Візуалізую історичний хронологічний таймлайн подій.",
                 );
               }}
-              className="bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 border border-white/10 text-slate-300 py-2.5 rounded-2xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer col-span-2"
+              className="bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 border border-slate-800 text-slate-300 py-2.5 rounded-2xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer col-span-2"
             >
               <Clock className="w-3.5 h-3.5 text-amber-400" />
               Історичний Таймлайн (Timeline)
@@ -1578,9 +1578,9 @@ export default function LiveAnalyticalCenter({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="border-t border-white/10 bg-slate-950/95 backdrop-blur-md p-2 rounded-t-2xl mt-4 space-y-3.5 z-30 relative text-left"
+            className="border-t border-slate-800 bg-slate-950/95 backdrop-blur-md p-2 rounded-t-2xl mt-4 space-y-3.5 z-30 relative text-left"
           >
-            <div className="flex justify-between items-center border-b border-white/10 pb-2">
+            <div className="flex justify-between items-center border-b border-slate-800 pb-2">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-amber-400" />
                 <h4 className="text-xs font-bold font-mono uppercase text-slate-200">
@@ -1630,7 +1630,7 @@ export default function LiveAnalyticalCenter({
               ].map((evt, idx) => (
                 <div
                   key={idx}
-                  className={`p-2 rounded-2xl border bg-slate-900/50 space-y-1 relative ${evt.risk === "HIGH" ? "border-white/10" : "border-white/10"}`}
+                  className={`p-2 rounded-2xl border bg-slate-900/50 space-y-1 relative ${evt.risk === "HIGH" ? "border-slate-800" : "border-slate-800"}`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-mono font-bold text-blue-400">
@@ -1663,10 +1663,10 @@ export default function LiveAnalyticalCenter({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 20, stiffness: 100 }}
-            className="fixed top-[68px] right-0 bottom-[36px] w-full max-w-lg bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-l border-white/10 shadow-2xl p-2 overflow-y-auto z-45 flex flex-col justify-between text-left font-sans"
+            className="fixed top-[68px] right-0 bottom-[36px] w-full max-w-lg bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-l border-slate-800 shadow-2xl p-2 overflow-y-auto z-45 flex flex-col justify-between text-left font-sans"
           >
             <div>
-              <div className="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+              <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
                 <div className="flex items-center gap-2">
                   <FileText className="w-4.5 h-4.5 text-rose-500" />
                   <span className="text-xs font-black font-mono tracking-widest uppercase text-white">
@@ -1675,13 +1675,13 @@ export default function LiveAnalyticalCenter({
                 </div>
                 <button
                   onClick={() => setShowPdfDrawer(false)}
-                  className="bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 border border-white/10 text-slate-300 hover:text-slate-200 px-2.5 py-1 rounded text-xs font-mono font-bold"
+                  className="bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-slate-200 px-2.5 py-1 rounded text-xs font-mono font-bold"
                 >
                   ЗАКРИТИ [X]
                 </button>
               </div>
 
-              <div className="border border-dashed border-white/10 bg-rose-500/5 p-2 rounded-2xl text-center space-y-1 mb-5">
+              <div className="border border-dashed border-slate-800 bg-rose-500/5 p-2 rounded-2xl text-center space-y-1 mb-5">
                 <span className="text-xs font-mono font-black tracking-widest text-rose-500 uppercase">
                   ЦІЛКОМ ТАЄМНО / CLASSIFIED
                 </span>
@@ -1699,25 +1699,25 @@ export default function LiveAnalyticalCenter({
                   <div className="bg-slate-900/50 rounded-2xl p-2 space-y-1.5 font-mono text-xs">
                     <div className="flex justify-between">
                       <span>Назва:</span>
-                      <strong className="text-slate-100">
+                      <strong className="text-slate-200">
                         {activeEntity?.name}
                       </strong>
                     </div>
                     <div className="flex justify-between">
                       <span>Код ЄДРПОУ:</span>
-                      <strong className="text-slate-100">
+                      <strong className="text-slate-200">
                         {activeEntity?.code}
                       </strong>
                     </div>
                     <div className="flex justify-between">
                       <span>Адреса:</span>
-                      <strong className="text-slate-100">
+                      <strong className="text-slate-200">
                         {activeEntity?.address}
                       </strong>
                     </div>
                     <div className="flex justify-between">
                       <span>Бенефіціар:</span>
-                      <strong className="text-slate-100">
+                      <strong className="text-slate-200">
                         {activeEntity?.founders?.[0]?.name || "—"}
                       </strong>
                     </div>
@@ -1734,11 +1734,11 @@ export default function LiveAnalyticalCenter({
                       томами вимог комплаєнсу експортного контролю ЄС:
                     </p>
                     <div className="grid grid-cols-2 gap-2 text-xs font-mono font-bold">
-                      <div className="bg-rose-500/10 border border-white/10 text-rose-400 p-2 rounded flex items-center gap-1.5">
+                      <div className="bg-rose-500/10 border border-slate-800 text-rose-400 p-2 rounded flex items-center gap-1.5">
                         <ShieldX className="w-3.5 h-3.5" />
                         Том 3: Порушено
                       </div>
-                      <div className="bg-emerald-500/10 border border-white/10 text-emerald-400 p-2 rounded flex items-center gap-1.5">
+                      <div className="bg-emerald-500/10 border border-slate-800 text-emerald-400 p-2 rounded flex items-center gap-1.5">
                         <ShieldCheck className="w-3.5 h-3.5" />
                         Том 8: Бездоганно
                       </div>
@@ -1757,14 +1757,14 @@ export default function LiveAnalyticalCenter({
               </div>
             </div>
 
-            <div className="border-t border-white/10 pt-3 mt-4 flex items-center gap-2">
+            <div className="border-t border-slate-800 pt-3 mt-4 flex items-center gap-2">
               <button className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-mono font-bold text-xs uppercase py-2.5 rounded-2xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-2xl shadow-black/40 shadow-blue-500/15">
                 <Download className="w-4 h-4" />
                 Завантажити PDF
               </button>
               <button
                 onClick={() => setShowPdfDrawer(false)}
-                className="bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 border border-white/10 text-slate-300 py-2.5 px-3 rounded-2xl text-xs font-mono font-bold cursor-pointer"
+                className="bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 border border-slate-800 text-slate-300 py-2.5 px-3 rounded-2xl text-xs font-mono font-bold cursor-pointer"
               >
                 Закрити
               </button>
@@ -1780,10 +1780,10 @@ export default function LiveAnalyticalCenter({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 20, stiffness: 100 }}
-            className="fixed top-[68px] right-0 bottom-[36px] w-full max-w-lg bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-l border-white/10 shadow-2xl p-2 overflow-y-auto z-45 flex flex-col justify-between text-left font-sans"
+            className="fixed top-[68px] right-0 bottom-[36px] w-full max-w-lg bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-l border-slate-800 shadow-2xl p-2 overflow-y-auto z-45 flex flex-col justify-between text-left font-sans"
           >
             <div>
-              <div className="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
+              <div className="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
                 <div className="flex items-center gap-2">
                   <Map className="w-4.5 h-4.5 text-emerald-400" />
                   <span className="text-xs font-black font-mono tracking-widest uppercase text-white">
@@ -1792,13 +1792,13 @@ export default function LiveAnalyticalCenter({
                 </div>
                 <button
                   onClick={() => setShowMapDrawer(false)}
-                  className="bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 border border-white/10 text-slate-300 hover:text-slate-200 px-2.5 py-1 rounded text-xs font-mono font-bold"
+                  className="bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-slate-200 px-2.5 py-1 rounded text-xs font-mono font-bold"
                 >
                   ЗАКРИТИ [X]
                 </button>
               </div>
 
-              <div className="w-full h-[240px] bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-white/10 rounded-2xl relative overflow-hidden flex items-center justify-center mb-4">
+              <div className="w-full h-[240px] bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-slate-800 rounded-2xl relative overflow-hidden flex items-center justify-center mb-4">
                 <svg
                   className="absolute inset-0 w-full h-full opacity-45"
                   viewBox="0 0 300 200"
@@ -1860,8 +1860,8 @@ export default function LiveAnalyticalCenter({
                 <h4 className="text-xs font-mono font-black text-blue-400 uppercase tracking-wider">
                   ГЕОГРАФІЧНІ КООРДИНАТИ ТРАНЗИТУ
                 </h4>
-                <div className="bg-slate-900/40 border border-white/10 rounded-2xl p-2.5 space-y-2 font-mono text-xs">
-                  <div className="flex justify-between border-b border-white/10/60 pb-1.5">
+                <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-2.5 space-y-2 font-mono text-xs">
+                  <div className="flex justify-between border-b border-slate-800/60 pb-1.5">
                     <span className="text-slate-500">
                       Пункт вильоту / Порт:
                     </span>
@@ -1869,7 +1869,7 @@ export default function LiveAnalyticalCenter({
                       Гонконг Термінал 4
                     </strong>
                   </div>
-                  <div className="flex justify-between border-b border-white/10/60 pb-1.5">
+                  <div className="flex justify-between border-b border-slate-800/60 pb-1.5">
                     <span className="text-slate-500">Транзитний хаб:</span>
                     <strong className="text-amber-400">Стамбул (TR)</strong>
                   </div>
@@ -1883,7 +1883,7 @@ export default function LiveAnalyticalCenter({
               </div>
             </div>
 
-            <div className="border-t border-white/10 pt-3 mt-4 flex items-center gap-2">
+            <div className="border-t border-slate-800 pt-3 mt-4 flex items-center gap-2">
               <button
                 onClick={() => setShowMapDrawer(false)}
                 className="w-full bg-blue-600 hover:bg-blue-500 text-white font-mono font-bold text-xs uppercase py-2.5 rounded-2xl transition-all cursor-pointer shadow-2xl shadow-black/40 shadow-blue-500/15"

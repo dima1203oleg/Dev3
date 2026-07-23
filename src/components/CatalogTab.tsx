@@ -78,28 +78,28 @@ export default function CatalogTab() {
 
   const getSecurityBadgeColor = (rating: 'A' | 'B' | 'C' | 'D') => {
     switch (rating) {
-      case 'A': return 'bg-emerald-500/10 text-emerald-400 border-white/10';
-      case 'B': return 'bg-blue-500/10 text-blue-400 border-white/10';
-      case 'C': return 'bg-amber-500/10 text-amber-400 border-white/10';
+      case 'A': return 'bg-emerald-500/10 text-emerald-400 border-slate-800';
+      case 'B': return 'bg-blue-500/10 text-blue-400 border-slate-800';
+      case 'C': return 'bg-amber-500/10 text-amber-400 border-slate-800';
       default: return 'bg-red-500/10 text-red-400 border-red-500/20';
     }
   };
 
   const getLicenseBadgeColor = (type: string) => {
     switch (type) {
-      case 'Permissive': return 'bg-emerald-500/10 text-emerald-400 border-white/10';
-      case 'Weak Copyleft': return 'bg-blue-500/10 text-blue-400 border-white/10';
-      case 'Strong Copyleft': return 'bg-amber-500/10 text-amber-400 border-white/10';
-      case 'Source Available': return 'bg-blue-500/10 text-blue-400 border-white/10';
-      default: return 'bg-rose-500/10 text-rose-400 border-white/10';
+      case 'Permissive': return 'bg-emerald-500/10 text-emerald-400 border-slate-800';
+      case 'Weak Copyleft': return 'bg-blue-500/10 text-blue-400 border-slate-800';
+      case 'Strong Copyleft': return 'bg-amber-500/10 text-amber-400 border-slate-800';
+      case 'Source Available': return 'bg-blue-500/10 text-blue-400 border-slate-800';
+      default: return 'bg-rose-500/10 text-rose-400 border-slate-800';
     }
   };
 
   return (
     <div className="space-y-6" id="catalog-tab-root">
       {/* Header and Explainer */}
-      <div className="glass-panel-premium border-white/10 rounded-2xl p-2 backdrop-blur-md">
-        <h2 className="text-lg font-semibold text-slate-100 flex items-center gap-2 mb-2">
+      <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 backdrop-blur-md">
+        <h2 className="text-lg font-semibold text-slate-200 flex items-center gap-2 mb-2">
           <Layers className="w-4 h-4 text-blue-400" id="catalog-title-icon" />
           Глобальний каталог Open Source рішень для NEXUS Analytics
         </h2>
@@ -112,7 +112,7 @@ export default function CatalogTab() {
         {/* Left Side Filters & Dynamic Compatibility Weighting Simulator */}
         <div className="lg:col-span-1 space-y-6">
           {/* Filtering Card */}
-          <div className="glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4" id="filters-container">
+          <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4" id="filters-container">
             <h3 className="text-xs font-semibold text-slate-200 uppercase tracking-wider">Пошук та Фільтри</h3>
             
             {/* Search Query */}
@@ -162,7 +162,7 @@ export default function CatalogTab() {
           </div>
 
           {/* Dynamic Weight Simulator Card */}
-          <div className="glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4" id="weight-simulator-card">
+          <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4" id="weight-simulator-card">
             <div className="flex items-center justify-between">
               <h3 className="text-xs font-semibold text-slate-200 flex items-center gap-1.5 uppercase tracking-wider">
                 <Sliders className="w-4 h-4 text-emerald-400" />
@@ -268,7 +268,7 @@ export default function CatalogTab() {
                 />
               </div>
 
-              <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl p-2.5 text-center text-xs border border-white/10/60">
+              <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl p-2.5 text-center text-xs border border-slate-800/60">
                 <span className="text-slate-500">Загальна сума коефіцієнтів: </span>
                 <span className="text-slate-300 font-mono font-bold">
                   {weights.functional + weights.security + weights.license + weights.stack + weights.community}%
@@ -287,7 +287,7 @@ export default function CatalogTab() {
           </div>
 
           {filteredSolutions.length === 0 ? (
-            <div className="bg-slate-900/20 border border-dashed border-white/10 rounded-2xl p-12 text-center" id="no-results-view">
+            <div className="bg-slate-900/20 border border-dashed border-slate-800 rounded-2xl p-12 text-center" id="no-results-view">
               <HelpCircle className="w-10 h-10 text-slate-600 mx-auto mb-3" />
               <p className="text-slate-300 text-xs font-medium">Нічого не знайдено</p>
               <p className="text-slate-600 text-xs mt-1">Спробуйте змінити фільтри пошуку або критерії</p>
@@ -301,7 +301,7 @@ export default function CatalogTab() {
                     key={sol.id}
                     layoutId={`sol-card-${sol.id}`}
                     onClick={() => setSelectedSolution(sol)}
-                    className="group bg-slate-900/40 hover:bg-slate-900/80 border border-white/10/80 hover:border-white/10/80 rounded-2xl p-2 transition-all cursor-pointer flex flex-col justify-between space-y-4"
+                    className="group bg-slate-900/40 hover:bg-slate-900/80 border border-slate-800/80 hover:border-slate-800/80 rounded-2xl p-2 transition-all cursor-pointer flex flex-col justify-between space-y-4"
                     whileHover={{ y: -2 }}
                   >
                     <div className="space-y-2">
@@ -310,10 +310,10 @@ export default function CatalogTab() {
                           <span className="text-xs text-blue-400 font-semibold uppercase tracking-wider bg-blue-500/10 px-2 py-1 rounded-full">
                             {sol.category}
                           </span>
-                          <h3 className="text-sm font-bold text-slate-100 group-hover:text-white mt-1.5 flex items-center gap-1.5">
+                          <h3 className="text-sm font-bold text-slate-200 group-hover:text-white mt-1.5 flex items-center gap-1.5">
                             {sol.name}
                             {sol.productionReady.startsWith('Tak') && (
-                              <CheckCircle2 className="w-4 h-4 text-emerald-500" title="Production Ready" />
+                              <CheckCircle2 className="w-4 h-4 text-emerald-500" title="Готово до виробництва" />
                             )}
                           </h3>
                         </div>
@@ -333,7 +333,7 @@ export default function CatalogTab() {
                       </p>
                     </div>
 
-                    <div className="space-y-2 pt-2 border-t border-white/10/50">
+                    <div className="space-y-2 pt-2 border-t border-slate-800/50">
                       <div className="flex flex-wrap gap-1.5 text-xs">
                         <span className={`border px-2 py-1 rounded-md ${getLicenseBadgeColor(sol.licenseType)}`}>
                           {sol.license}
@@ -366,11 +366,11 @@ export default function CatalogTab() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-black/30 border border-white/10 backdrop-blur-md rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+              className="bg-black/30 border border-slate-800 backdrop-blur-md rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
-              <div className="px-2 py-1.5 border-b border-white/10/80 bg-slate-900/40 flex items-start justify-between">
+              <div className="px-2 py-1.5 border-b border-slate-800/80 bg-slate-900/40 flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-blue-400 uppercase tracking-wider bg-blue-500/10 px-2 py-1 rounded-full">
@@ -382,7 +382,7 @@ export default function CatalogTab() {
                   </div>
                   <h2 className="text-lg font-bold text-white mt-2 flex items-center gap-2">
                     {selectedSolution.name}
-                    <span className="text-xs font-normal text-slate-500 font-mono bg-black/40 backdrop-blur-md px-2 py-1 rounded border border-white/10">
+                    <span className="text-xs font-normal text-slate-500 font-mono bg-black/40 backdrop-blur-md px-2 py-1 rounded border border-slate-800">
                       {selectedSolution.license}
                     </span>
                   </h2>
@@ -403,7 +403,7 @@ export default function CatalogTab() {
                     <Info className="w-3.5 h-3.5 text-blue-400" />
                     Опис призначення
                   </h4>
-                  <p className="text-slate-300 text-xs leading-relaxed bg-slate-900/40 p-2 rounded-2xl border border-white/10">
+                  <p className="text-slate-300 text-xs leading-relaxed bg-slate-900/40 p-2 rounded-2xl border border-slate-800">
                     {selectedSolution.description}
                   </p>
                 </div>
@@ -411,17 +411,17 @@ export default function CatalogTab() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   <div className="space-y-1">
                     <span className="text-xs uppercase text-slate-500 font-medium tracking-wide">Роль у NEXUS</span>
-                    <p className="text-xs text-slate-200 bg-slate-900/20 p-2.5 rounded border border-white/10">{selectedSolution.role}</p>
+                    <p className="text-xs text-slate-200 bg-slate-900/20 p-2.5 rounded border border-slate-800">{selectedSolution.role}</p>
                   </div>
                   <div className="space-y-1">
                     <span className="text-xs uppercase text-slate-500 font-medium tracking-wide">Технічний стек</span>
-                    <p className="text-xs text-slate-200 font-mono bg-slate-900/20 p-2.5 rounded border border-white/10">{selectedSolution.techStack}</p>
+                    <p className="text-xs text-slate-200 font-mono bg-slate-900/20 p-2.5 rounded border border-slate-800">{selectedSolution.techStack}</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {/* Advantages List */}
-                  <div className="space-y-2 bg-emerald-500/5 border border-white/10 rounded-2xl p-2">
+                  <div className="space-y-2 bg-emerald-500/5 border border-slate-800 rounded-2xl p-2">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       Переваги / Плюси
@@ -437,7 +437,7 @@ export default function CatalogTab() {
                   </div>
 
                   {/* Disadvantages / Risks List */}
-                  <div className="space-y-2 bg-rose-500/5 border border-white/10 rounded-2xl p-2">
+                  <div className="space-y-2 bg-rose-500/5 border border-slate-800 rounded-2xl p-2">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
                       <AlertTriangle className="w-3.5 h-3.5" />
                       Ризики & Недоліки
@@ -454,7 +454,7 @@ export default function CatalogTab() {
                 </div>
 
                 {/* Architecture Recommendation based on License / Production Status */}
-                <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2 space-y-2">
+                <div className="bg-black/40 backdrop-blur-md border border-slate-800 rounded-2xl p-2 space-y-2">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
                     <Cpu className="w-4 h-4" />
                     Рекомендація архітектора
@@ -478,7 +478,7 @@ export default function CatalogTab() {
               </div>
 
               {/* Modal Footer */}
-              <div className="px-2 py-1.5 bg-black/40 backdrop-blur-md border-t border-white/10/80 flex justify-end">
+              <div className="px-2 py-1.5 bg-black/40 backdrop-blur-md border-t border-slate-800/80 flex justify-end">
                 <button
                   id="close-solution-modal-button"
                   onClick={() => setSelectedSolution(null)}

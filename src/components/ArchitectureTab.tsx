@@ -225,9 +225,9 @@ export default function ArchitectureTab() {
   return (
     <div className="space-y-6" id="architecture-tab-root">
       {/* Intro Header */}
-      <div className="glass-panel-premium border-white/10 rounded-2xl p-2 backdrop-blur-md flex flex-col lg:flex-row lg:items-center justify-between gap-2">
+      <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 backdrop-blur-md flex flex-col lg:flex-row lg:items-center justify-between gap-2">
         <div className="space-y-1">
-          <h2 className="text-lg font-semibold text-slate-100 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-slate-200 flex items-center gap-2">
             <Network className="w-4 h-4 text-blue-400" id="arch-title-icon" />
             Архітектура та Можливості Платформи NEXUS
           </h2>
@@ -237,17 +237,17 @@ export default function ArchitectureTab() {
         </div>
 
         {/* View Mode Switcher */}
-        <div className="flex bg-slate-950/80 p-1.5 rounded-2xl border border-white/10 self-start lg:self-center">
+        <div className="flex bg-slate-950/80 p-1.5 rounded-2xl border border-slate-800 self-start lg:self-center">
           <button
             onClick={() => setActiveSubView('diagram')}
-            className={`px-2 py-1.5 rounded-2xl text-xs font-semibold tracking-wide transition-all flex items-center gap-2 ${activeSubView === 'diagram' ? 'bg-blue-600/20 border border-white/10 text-blue-400' : 'text-slate-400 border-transparent hover:text-slate-200'}`}
+            className={`px-2 py-1.5 rounded-2xl text-xs font-semibold tracking-wide transition-all flex items-center gap-2 ${activeSubView === 'diagram' ? 'bg-blue-600/20 border border-slate-800 text-blue-400' : 'text-slate-400 border-transparent hover:text-slate-200'}`}
           >
             <Network className="w-4 h-4" />
             Граф залежностей
           </button>
           <button
             onClick={() => setActiveSubView('capabilities')}
-            className={`px-2 py-1.5 rounded-2xl text-xs font-semibold tracking-wide transition-all flex items-center gap-2 ${activeSubView === 'capabilities' ? 'bg-blue-600/20 border border-white/10 text-blue-400' : 'text-slate-400 border-transparent hover:text-slate-200'}`}
+            className={`px-2 py-1.5 rounded-2xl text-xs font-semibold tracking-wide transition-all flex items-center gap-2 ${activeSubView === 'capabilities' ? 'bg-blue-600/20 border border-slate-800 text-blue-400' : 'text-slate-400 border-transparent hover:text-slate-200'}`}
           >
             <Layers className="w-4 h-4" />
             Три рівні функціоналу
@@ -266,41 +266,41 @@ export default function ArchitectureTab() {
             className="space-y-6"
           >
             {/* Quick Filters */}
-            <div className="flex flex-wrap gap-2 bg-slate-900/40 p-2 rounded-2xl border border-white/10 items-center justify-between">
+            <div className="flex flex-wrap gap-2 bg-slate-900/40 p-2 rounded-2xl border border-slate-800 items-center justify-between">
               <span className="text-xs text-slate-400 font-mono">Фільтрація шарів архітектури:</span>
               <div className="flex flex-wrap gap-2">
                 <button
                   id="layer-all-btn"
                   onClick={() => setActiveLayer('all')}
-                  className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'all' ? 'bg-blue-500/15 border-white/10 text-indigo-300 font-medium' : 'bg-slate-900/50 border-white/10 text-slate-300 hover:text-slate-200'}`}
+                  className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'all' ? 'bg-blue-500/15 border-slate-800 text-indigo-300 font-medium' : 'bg-slate-900/50 border-slate-800 text-slate-300 hover:text-slate-200'}`}
                 >
                   Уся мережа
                 </button>
                 <button
                   id="layer-data-btn"
                   onClick={() => setActiveLayer('data')}
-                  className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'data' ? 'bg-emerald-500/15 border-white/10 text-emerald-300 font-medium' : 'bg-slate-900/50 border-white/10 text-slate-300 hover:text-emerald-300'}`}
+                  className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'data' ? 'bg-emerald-500/15 border-slate-800 text-emerald-300 font-medium' : 'bg-slate-900/50 border-slate-800 text-slate-300 hover:text-emerald-300'}`}
                 >
                   Сховища / БД
                 </button>
                 <button
                   id="layer-ai-btn"
                   onClick={() => setActiveLayer('ai')}
-                  className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'ai' ? 'bg-teal-500/15 border-teal-500/40 text-teal-300 font-medium' : 'bg-slate-900/50 border-white/10 text-slate-300 hover:text-teal-300'}`}
+                  className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'ai' ? 'bg-teal-500/15 border-teal-500/40 text-teal-300 font-medium' : 'bg-slate-900/50 border-slate-800 text-slate-300 hover:text-teal-300'}`}
                 >
                   Штучний інтелект
                 </button>
                 <button
                   id="layer-event-btn"
                   onClick={() => setActiveLayer('event')}
-                  className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'event' ? 'bg-amber-500/15 border-white/10 text-amber-300 font-medium' : 'bg-slate-900/50 border-white/10 text-slate-300 hover:text-amber-300'}`}
+                  className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'event' ? 'bg-amber-500/15 border-slate-800 text-amber-300 font-medium' : 'bg-slate-900/50 border-slate-800 text-slate-300 hover:text-amber-300'}`}
                 >
                   Шина & Воркери
                 </button>
                 <button
                   id="layer-edge-btn"
                   onClick={() => setActiveLayer('edge')}
-                  className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'edge' ? 'bg-sky-500/15 border-white/10 text-sky-300 font-medium' : 'bg-slate-900/50 border-white/10 text-slate-300 hover:text-sky-300'}`}
+                  className={`px-3 py-1 text-xs rounded-full border transition-all ${activeLayer === 'edge' ? 'bg-sky-500/15 border-slate-800 text-sky-300 font-medium' : 'bg-slate-900/50 border-slate-800 text-slate-300 hover:text-sky-300'}`}
                 >
                   Ядро & Клієнт
                 </button>
@@ -311,7 +311,7 @@ export default function ArchitectureTab() {
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-2">
               
               {/* Interactive SVG Diagram */}
-              <div className="xl:col-span-3 bg-slate-950/80 border border-white/10 rounded-2xl p-2 overflow-x-auto relative flex justify-center" id="svg-canvas-container">
+              <div className="xl:col-span-3 bg-slate-950/80 border border-slate-800 rounded-2xl p-2 overflow-x-auto relative flex justify-center" id="svg-canvas-container">
                 <div className="min-w-[1000px] w-full aspect-[1000/680] relative">
                   <svg
                     className="w-full h-full select-none"
@@ -338,10 +338,10 @@ export default function ArchitectureTab() {
 
                     {/* Subgraph Boundary Labels */}
                     <rect x="25" y="40" width="220" height="580" fill="#312e81" fillOpacity="0.02" stroke="#312e81" strokeWidth="1" strokeDasharray="5 5" rx="10" />
-                    <text x="35" y="65" fill="#6366f1" fontSize="10" fontWeight="bold" letterSpacing="1">PIPELINE CORE</text>
+                    <text x="35" y="65" fill="#6366f1" fontSize="10" fontWeight="bold" letterSpacing="1">ЯДРО КОНВЕЄРУ</text>
 
                     <rect x="270" y="40" width="210" height="580" fill="#065f46" fillOpacity="0.02" stroke="#065f46" strokeWidth="1" strokeDasharray="5 5" rx="10" />
-                    <text x="280" y="65" fill="#34d399" fontSize="10" fontWeight="bold" letterSpacing="1">DATA STORAGE LAYER</text>
+                    <text x="280" y="65" fill="#34d399" fontSize="10" fontWeight="bold" letterSpacing="1">ШАР ЗБЕРІГАННЯ ДАНИХ</text>
 
                     <rect x="660" y="40" width="335" height="580" fill="#9d174d" fillOpacity="0.015" stroke="#9d174d" strokeWidth="1" strokeDasharray="5 5" rx="10" />
                     <text x="670" y="65" fill="#f43f5e" fontSize="10" fontWeight="bold" letterSpacing="1">AI SUBSYSTEM & EXTERNAL</text>
@@ -463,7 +463,7 @@ export default function ArchitectureTab() {
                   </svg>
 
                   {/* Quick Map Legend Overlay */}
-                  <div className="absolute bottom-3 left-3 bg-slate-950/95 border border-white/10 rounded-2xl p-2 grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-slate-300 font-mono shadow-2xl shadow-black/40">
+                  <div className="absolute bottom-3 left-3 bg-slate-950/95 border border-slate-800 rounded-2xl p-2 grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-slate-300 font-mono shadow-2xl shadow-black/40">
                     <div className="flex items-center gap-1.5">
                       <span className="w-2.5 h-2.5 rounded-full bg-sky-400"></span> Клієнтський рівень
                     </div>
@@ -488,9 +488,9 @@ export default function ArchitectureTab() {
 
               {/* Selected Component Specification Sidebar */}
               <div className="xl:col-span-1 flex flex-col justify-between" id="architecture-sidebar">
-                <div className="bg-slate-900/40 border border-white/10 rounded-2xl p-2 space-y-4 h-full flex flex-col justify-between">
+                <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-2 space-y-4 h-full flex flex-col justify-between">
                   <div className="space-y-4">
-                    <div className="border-b border-white/10 pb-3">
+                    <div className="border-b border-slate-800 pb-3">
                       <span className="text-xs text-blue-400 uppercase tracking-widest font-bold block font-mono">
                         {getGroupTitleUkrainian(selectedNode.group)}
                       </span>
@@ -506,7 +506,7 @@ export default function ArchitectureTab() {
                         <Info className="w-3.5 h-3.5 text-blue-400" />
                         Призначення мікросервісу
                       </span>
-                      <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/60 p-2 rounded-2xl border border-white/10">
+                      <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/60 p-2 rounded-2xl border border-slate-800">
                         {selectedNode.description}
                       </p>
                       <p className="text-xs text-slate-300 italic">
@@ -520,7 +520,7 @@ export default function ArchitectureTab() {
                         <Cpu className="w-3.5 h-3.5 text-emerald-400" />
                         Технологічний стек
                       </span>
-                      <code className="block text-xs font-mono bg-slate-950/40 p-2 rounded-2xl border border-white/10 text-slate-300">
+                      <code className="block text-xs font-mono bg-slate-950/40 p-2 rounded-2xl border border-slate-800 text-slate-300">
                         {selectedNode.tech}
                       </code>
                     </div>
@@ -531,7 +531,7 @@ export default function ArchitectureTab() {
                         <Shield className="w-3.5 h-3.5 text-rose-400" />
                         Рівень безпеки & Контур
                       </span>
-                      <p className="text-xs text-slate-300 bg-slate-950/40 p-2.5 rounded-2xl border border-white/10 text-xs">
+                      <p className="text-xs text-slate-300 bg-slate-950/40 p-2.5 rounded-2xl border border-slate-800 text-xs">
                         {selectedNode.security}
                       </p>
                     </div>
@@ -542,13 +542,13 @@ export default function ArchitectureTab() {
                         <Activity className="w-3.5 h-3.5 text-amber-400" />
                         Масштабування в K8s
                       </span>
-                      <p className="text-xs text-slate-300 bg-slate-950/40 p-2.5 rounded-2xl border border-white/10 text-xs">
+                      <p className="text-xs text-slate-300 bg-slate-950/40 p-2.5 rounded-2xl border border-slate-800 text-xs">
                         {selectedNode.scaling}
                       </p>
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-white/10/80 bg-slate-900/10 text-center">
+                  <div className="pt-4 border-t border-slate-800/80 bg-slate-900/10 text-center">
                     <span className="text-xs text-slate-500 block font-mono">Апаратна архітектура</span>
                     <span className="text-xs font-bold text-slate-300">Kubernetes High-Availability Cluster</span>
                   </div>
@@ -567,7 +567,7 @@ export default function ArchitectureTab() {
             className="space-y-6"
           >
             {/* Search Bar for capabilities */}
-            <div className="bg-slate-900/40 border border-white/10 rounded-2xl p-2 flex flex-col md:flex-row md:items-center justify-between gap-2">
+            <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-2 flex flex-col md:flex-row md:items-center justify-between gap-2">
               <div className="space-y-0.5">
                 <span className="text-xs font-bold text-blue-400 uppercase tracking-widest font-mono">Матриця сумісності</span>
                 <h3 className="text-xs font-bold text-slate-200">Пошук та фільтрація повноважень</h3>
@@ -588,7 +588,7 @@ export default function ArchitectureTab() {
             {/* Render Three Levels */}
             <div className="space-y-6">
               {filteredLevels.length === 0 ? (
-                <div className="bg-slate-900/20 border border-dashed border-white/10 rounded-2xl p-12 text-center">
+                <div className="bg-slate-900/20 border border-dashed border-slate-800 rounded-2xl p-12 text-center">
                   <HelpCircle className="w-10 h-10 text-slate-600 mx-auto mb-3" />
                   <p className="text-slate-300 text-xs font-medium">Співпадінь не знайдено</p>
                   <p className="text-slate-600 text-xs mt-1">Спробуйте змінити пошуковий запит</p>
@@ -600,23 +600,23 @@ export default function ArchitectureTab() {
                   const isAmber = lvl.color === 'amber';
                   const isRose = lvl.color === 'rose';
 
-                  let levelBorderColor = "border-white/10";
+                  let levelBorderColor = "border-slate-800";
                   let levelBgColor = "bg-slate-900/40";
                   let badgeColor = "bg-blue-500/10 text-blue-400";
                   let iconColor = "text-blue-400";
 
                   if (isEmerald) {
-                    levelBorderColor = "border-white/10 hover:border-white/10";
+                    levelBorderColor = "border-slate-800 hover:border-slate-800";
                     levelBgColor = "bg-emerald-950/5";
                     badgeColor = "bg-emerald-500/10 text-emerald-400";
                     iconColor = "text-emerald-400";
                   } else if (isAmber) {
-                    levelBorderColor = "border-white/10 hover:border-white/10";
+                    levelBorderColor = "border-slate-800 hover:border-slate-800";
                     levelBgColor = "bg-amber-950/5";
                     badgeColor = "bg-amber-500/10 text-amber-400";
                     iconColor = "text-amber-400";
                   } else if (isRose) {
-                    levelBorderColor = "border-white/10 hover:border-white/10";
+                    levelBorderColor = "border-slate-800 hover:border-slate-800";
                     levelBgColor = "bg-rose-950/5";
                     badgeColor = "bg-rose-500/10 text-rose-400";
                     iconColor = "text-rose-400";
@@ -640,7 +640,7 @@ export default function ArchitectureTab() {
                           
                           <div>
                             <div className="flex items-center gap-2.5">
-                              <h3 className="text-sm font-bold text-slate-100">{lvl.title}</h3>
+                              <h3 className="text-sm font-bold text-slate-200">{lvl.title}</h3>
                               <span className={`text-xs font-mono px-2 py-1 rounded ${badgeColor}`}>
                                 {lvl.badge}
                               </span>
@@ -664,7 +664,7 @@ export default function ArchitectureTab() {
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.2 }}
-                            className="overflow-hidden mt-4 pt-4 border-t border-white/10 space-y-4 text-xs"
+                            className="overflow-hidden mt-4 pt-4 border-t border-slate-800 space-y-4 text-xs"
                           >
                             <p className="text-slate-300 leading-relaxed text-xs">
                               {lvl.purpose}
@@ -673,7 +673,7 @@ export default function ArchitectureTab() {
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                               {/* Left Column: Data Sources or allowed vectors */}
                               <div className="space-y-2">
-                                <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 border-b border-white/10 pb-1">
+                                <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800 pb-1">
                                   {isEmerald && <Database className="w-3.5 h-3.5 text-emerald-400" />}
                                   {isAmber && <Terminal className="w-3.5 h-3.5 text-amber-400" />}
                                   {isRose && <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />}
@@ -698,7 +698,7 @@ export default function ArchitectureTab() {
 
                               {/* Right Column: Functions / Sandbox specs */}
                               <div className="space-y-2">
-                                <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 border-b border-white/10 pb-1">
+                                <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800 pb-1">
                                   {isEmerald && <Activity className="w-3.5 h-3.5 text-emerald-400" />}
                                   {isAmber && <Cpu className="w-3.5 h-3.5 text-amber-400" />}
                                   {isRose && <BookOpen className="w-3.5 h-3.5 text-rose-400" />}
@@ -723,7 +723,7 @@ export default function ArchitectureTab() {
                             </div>
 
                             {/* Practical Case Example */}
-                            <div className="bg-slate-950/60 p-2 rounded-2xl border border-white/10 mt-4">
+                            <div className="bg-slate-950/60 p-2 rounded-2xl border border-slate-800 mt-4">
                               <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Приклад практичного застосування</span>
                               <p className="text-slate-200 italic leading-relaxed">
                                 &ldquo;{lvl.example}&rdquo;

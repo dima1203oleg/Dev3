@@ -163,7 +163,7 @@ export default function AdvisorTab() {
     <div className="space-y-6" id="advisor-tab-root">
       
       {/* Sub navigation buttons */}
-      <div className="flex border-b border-white/10 pb-1 gap-1" id="advisor-subnav">
+      <div className="flex border-b border-slate-800 pb-1 gap-1" id="advisor-subnav">
         <button
           type="button"
           onClick={() => setActiveTab('ske')}
@@ -209,8 +209,8 @@ export default function AdvisorTab() {
             className="space-y-6"
           >
             {/* Intro Header */}
-            <div className="glass-panel-premium border-white/10 rounded-2xl p-2 backdrop-blur-md">
-              <h2 className="text-lg font-semibold text-slate-100 flex items-center gap-2 mb-2">
+            <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 backdrop-blur-md">
+              <h2 className="text-lg font-semibold text-slate-200 flex items-center gap-2 mb-2">
                 <Bot className="w-4 h-4 text-blue-400" id="advisor-title-icon" />
                 Інтерактивний ШІ-Архітектор NEXUS
               </h2>
@@ -236,7 +236,7 @@ export default function AdvisorTab() {
                         id={`faq-item-btn-${idx}`}
                         type="button"
                         onClick={() => handleSelectPredefined(item)}
-                        className={`w-full text-left p-2 rounded-2xl border transition-all text-xs flex flex-col justify-between space-y-3 ${isSelected ? 'bg-blue-500/10 border-white/10 shadow-[0_0_15px_rgba(99,102,241,0.04)] text-white' : 'bg-slate-900/40 border-white/10 hover:border-white/10 text-slate-300'}`}
+                        className={`w-full text-left p-2 rounded-2xl border transition-all text-xs flex flex-col justify-between space-y-3 ${isSelected ? 'bg-blue-500/10 border-slate-800 shadow-[0_0_15px_rgba(99,102,241,0.04)] text-white' : 'bg-slate-900/40 border-slate-800 hover:border-slate-800 text-slate-300'}`}
                       >
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-blue-400 uppercase tracking-wider font-mono bg-blue-500/10 px-2 py-1 rounded">
@@ -255,7 +255,7 @@ export default function AdvisorTab() {
               </div>
 
               {/* Right Column: Conversational Advisor Console */}
-              <div className="lg:col-span-2 flex flex-col justify-center items-center bg-black/30 border border-white/10 backdrop-blur-md rounded-2xl p-10 text-center h-[620px]">
+              <div className="lg:col-span-2 flex flex-col justify-center items-center bg-black/30 border border-slate-800 backdrop-blur-md rounded-2xl p-10 text-center h-[620px]">
                 <Bot className="w-16 h-12 text-blue-400/50 mb-4" />
                 <h3 className="text-base font-bold text-slate-200 mb-2">Глобальний ШІ-Асистент MARIARTI</h3>
                 <p className="text-xs text-slate-300 max-w-md">

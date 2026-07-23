@@ -1,9 +1,10 @@
+import { useToast } from './ToastProvider';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useContext,  useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   User,
@@ -365,6 +366,7 @@ const PROFILER_ASSETS: ProfilerAsset[] = [
 ];
 
 export default function PersonProfiler() {
+  const { showToast } = useToast();
   const [selectedPersonId, setSelectedPersonId] = useState<string>('kovalenko-ihor');
   const [activeTab, setActiveTab] = useState<'profile' | 'assets' | 'nominees' | 'audit'>('profile');
   const [auditLog, setAuditLog] = useState<string[]>([]);
@@ -483,7 +485,7 @@ export default function PersonProfiler() {
       `[RECORDS] Сканування судового реєстру та санкційних списків РНБО/OFAC...`,
       `[LINK_ANALYSIS] Побудова первинного графу зв'язків з бенефіціарами та засновниками компаній...`,
       `[SYNTHESIS] Аналіз завершено. Створено динамічний профіль у реєстрі OSINT Workbench.`,
-      `[SUCCESS] Профіль особи "${customSearchName}" успішно завантажено в інтерактивний профайлер.`
+      `[УСПІХ] Профіль особи "${customSearchName}" успішно завантажено в інтерактивний профайлер.`
     ];
 
     let currentStep = 0;
@@ -567,11 +569,11 @@ export default function PersonProfiler() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-2 bg-slate-950/80 backdrop-blur-sm"
           >
-            <div className="glass-panel-premium border border-white/10 p-4 rounded-2xl max-w-md w-full shadow-2xl space-y-6 relative overflow-hidden">
+            <div className="glass-panel-premium border border-slate-800 p-4 rounded-2xl max-w-md w-full shadow-2xl space-y-6 relative overflow-hidden">
               <div className="absolute top-0 left-0 h-1 bg-indigo-500 transition-all duration-300" style={{ width: `${dossierProgress}%` }} />
               
               <div className="flex flex-col items-center justify-center text-center space-y-4">
-                <div className="w-16 h-12 rounded-full bg-indigo-500/20 border border-white/10 flex items-center justify-center animate-pulse">
+                <div className="w-16 h-12 rounded-full bg-indigo-500/20 border border-slate-800 flex items-center justify-center animate-pulse">
                   <Database className="w-8 h-8 text-indigo-400" />
                 </div>
                 
@@ -610,10 +612,10 @@ export default function PersonProfiler() {
 
       
       {/* Top Banner: Navigation / Target Selection */}
-      <div className="bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-white/10 p-2 rounded-2xl">
+      <div className="bg-black/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-slate-800 p-2 rounded-2xl">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2">
           <div>
-            <h3 className="text-xs font-bold text-slate-100 flex items-center gap-2 uppercase tracking-wider font-sans">
+            <h3 className="text-xs font-bold text-slate-200 flex items-center gap-2 uppercase tracking-wider font-sans">
               <Users className="w-4 h-4 text-blue-400" />
               <span>Центр Глибокого Профілювання & Трасування Номіналів</span>
             </h3>
@@ -624,14 +626,22 @@ export default function PersonProfiler() {
 
           <button
             onClick={handleGenerateDossier} disabled={isGeneratingDossier}
-            className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-indigo-600/20 hover:bg-indigo-600/40 border border-white/10 text-xs font-bold text-indigo-300 hover:text-white font-mono uppercase tracking-wider cursor-pointer transition-all shrink-0"
+            className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-indigo-600/20 hover:bg-indigo-600/40 border border-slate-800 text-xs font-bold text-indigo-300 hover:text-white font-mono uppercase tracking-wider cursor-pointer transition-all shrink-0"
           >
             <Download className="w-3.5 h-3.5" />
             {isGeneratingDossier ? <span>Генерація... {Math.round(dossierProgress)}%</span> : <span>Все про особу (OSINT + Реєстри)</span>}
           </button>
           
+          <button
+            onClick={() => showToast('Запуск глибинного пошуку компрометуючих матеріалів...', 'info')}
+            className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-rose-600/20 hover:bg-rose-600 border border-slate-800 text-xs font-bold text-rose-400 hover:text-white font-mono uppercase tracking-wider cursor-pointer transition-all shrink-0 shadow-lg shadow-rose-950/20"
+          >
+            <AlertTriangle className="w-3.5 h-3.5" />
+            <span>Компромат</span>
+          </button>
+          
           {/* AI Search input for custom people lookup */}
-          <form onSubmit={handleCustomSearch} className="flex items-center gap-2 bg-slate-900/60 p-1 rounded-2xl border border-white/10 max-w-md w-full">
+          <form onSubmit={handleCustomSearch} className="flex items-center gap-2 bg-slate-900/60 p-1 rounded-2xl border border-slate-800 max-w-md w-full">
             <Search className="w-3.5 h-3.5 text-slate-500 ml-2.5 shrink-0" />
             <input
               type="text"
@@ -655,22 +665,22 @@ export default function PersonProfiler() {
         <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
           {PROFILER_PEOPLE.map((p) => {
             const isSelected = p.id === selectedPersonId;
-            const riskColor = p.riskScore >= 75 ? 'text-rose-400 border-white/10 bg-rose-500/5' : p.riskScore >= 50 ? 'text-amber-400 border-white/10 bg-amber-500/5' : 'text-emerald-400 border-white/10 bg-emerald-500/5';
+            const riskColor = p.riskScore >= 75 ? 'text-rose-400 border-slate-800 bg-rose-500/5' : p.riskScore >= 50 ? 'text-amber-400 border-slate-800 bg-amber-500/5' : 'text-emerald-400 border-slate-800 bg-emerald-500/5';
             return (
               <button
                 key={p.id}
                 onClick={() => setSelectedPersonId(p.id)}
                 className={`flex flex-col text-left p-2.5 rounded-2xl border transition-all duration-300 relative overflow-hidden cursor-pointer ${
                   isSelected 
-                    ? 'border-white/10 bg-blue-500/10 shadow-2xl shadow-black/40 shadow-blue-950/40 scale-[1.02]' 
-                    : 'border-white/5 bg-black/30 hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 hover:border-white/10'
+                    ? 'border-slate-800 bg-blue-500/10 shadow-2xl shadow-black/40 shadow-blue-950/40 scale-[1.02]' 
+                    : 'border-slate-800/60 bg-black/30 hover:bg-black/40 hover:shadow-2xl shadow-black/40 transition-all duration-300 hover:border-slate-800'
                 }`}
               >
                 {isSelected && (
                   <span className="absolute left-0 top-2 bottom-3 w-1 rounded-r bg-blue-500" />
                 )}
                 <div className="flex items-center justify-between gap-1.5 mb-2">
-                  <div className="p-1.5 rounded-2xl bg-slate-950/60 border border-white/10 text-slate-400">
+                  <div className="p-1.5 rounded-2xl bg-slate-950/60 border border-slate-800 text-slate-400">
                     <User className="w-3.5 h-3.5" />
                   </div>
                   <span className={`text-xs font-mono font-bold px-2 py-1 rounded border ${riskColor}`}>
@@ -705,8 +715,8 @@ export default function PersonProfiler() {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl font-mono text-xs space-y-1 bg-gradient-to-br from-slate-950 to-slate-900">
-              <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2">
+            <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-2 shadow-2xl font-mono text-xs space-y-1 bg-gradient-to-br from-slate-950 to-slate-900">
+              <div className="flex items-center justify-between border-b border-slate-800/60 pb-2 mb-2">
                 <span className="text-blue-400 font-bold flex items-center gap-1.5">
                   <Terminal className="w-3.5 h-3.5 animate-spin" />
                   SHI-OSINT SCAN IN PROGRESS...
@@ -734,7 +744,7 @@ export default function PersonProfiler() {
         <div className="xl:col-span-7 space-y-6">
           
           {/* Section Selector */}
-          <div className="flex items-center gap-1.5 border-b border-white/5 pb-px">
+          <div className="flex items-center gap-1.5 border-b border-slate-800/60 pb-px">
             {(['profile', 'assets', 'nominees', 'audit'] as const).map((tab) => (
               <button
                 key={tab}
@@ -764,12 +774,12 @@ export default function PersonProfiler() {
                 className="space-y-6"
               >
                 {/* Profile Card & Info */}
-                <div className="bg-slate-900/40 border border-white/5 rounded-2xl p-2 relative overflow-hidden">
+                <div className="bg-slate-900/40 border border-slate-800/60 rounded-2xl p-2 relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-500/5 to-transparent blur-3xl pointer-events-none rounded-full" />
                   
-                  <div className="flex flex-col sm:flex-row sm:items-start gap-2 justify-between border-b border-white/5 pb-4 mb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-2 justify-between border-b border-slate-800/60 pb-4 mb-4">
                     <div className="flex items-start gap-2.5">
-                      <div className="p-2 bg-slate-950/80 border border-white/10 rounded-2xl text-blue-400">
+                      <div className="p-2 bg-slate-950/80 border border-slate-800 rounded-2xl text-blue-400">
                         <User className="w-5 h-5" />
                       </div>
                       <div>
@@ -779,13 +789,13 @@ export default function PersonProfiler() {
                     </div>
                     <div className="flex items-center gap-2">
                       {selectedPerson.isNomineeProxy && (
-                        <span className="px-2.5 py-1 bg-amber-500/10 border border-white/10 text-amber-500 text-xs font-bold uppercase tracking-wider rounded-2xl flex items-center gap-1">
+                        <span className="px-2.5 py-1 bg-amber-500/10 border border-slate-800 text-amber-500 text-xs font-bold uppercase tracking-wider rounded-2xl flex items-center gap-1">
                           <AlertTriangle className="w-3.5 h-3.5" />
                           <span>НОМІНАЛ / ПРОКСІ</span>
                         </span>
                       )}
                       <span className={`px-2.5 py-1 rounded-2xl border text-xs font-mono font-bold uppercase tracking-wider ${
-                        selectedPerson.riskScore >= 75 ? 'text-rose-400 border-white/10 bg-rose-500/10' : 'text-amber-400 border-white/10 bg-amber-500/10'
+                        selectedPerson.riskScore >= 75 ? 'text-rose-400 border-slate-800 bg-rose-500/10' : 'text-amber-400 border-slate-800 bg-amber-500/10'
                       }`}>
                         RISK: {selectedPerson.riskScore}/100
                       </span>
@@ -794,12 +804,12 @@ export default function PersonProfiler() {
 
                   {/* Personal Metadata */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-mono">
-                    <div className="bg-black/40 border border-white/10 p-2 rounded-2xl space-y-2">
-                      <div className="flex justify-between border-b border-white/10 pb-1.5 text-xs">
+                    <div className="bg-black/40 border border-slate-800 p-2 rounded-2xl space-y-2">
+                      <div className="flex justify-between border-b border-slate-800 pb-1.5 text-xs">
                         <span className="text-slate-500">Дата народження:</span>
                         <span className="text-slate-300 font-bold">{selectedPerson.dob} ({selectedPerson.age} років)</span>
                       </div>
-                      <div className="flex justify-between border-b border-white/10 pb-1.5 text-xs">
+                      <div className="flex justify-between border-b border-slate-800 pb-1.5 text-xs">
                         <span className="text-slate-500">Індивідуальний код (ІПН):</span>
                         <span className="text-slate-300 font-bold">{selectedPerson.taxId}</span>
                       </div>
@@ -809,12 +819,12 @@ export default function PersonProfiler() {
                       </div>
                     </div>
 
-                    <div className="bg-black/40 border border-white/10 p-2 rounded-2xl space-y-2">
-                      <div className="flex justify-between border-b border-white/10 pb-1.5 text-xs">
+                    <div className="bg-black/40 border border-slate-800 p-2 rounded-2xl space-y-2">
+                      <div className="flex justify-between border-b border-slate-800 pb-1.5 text-xs">
                         <span className="text-slate-500">Контактний телефон:</span>
                         <span className="text-slate-300 font-bold">{selectedPerson.phone}</span>
                       </div>
-                      <div className="flex justify-between border-b border-white/10 pb-1.5 text-xs">
+                      <div className="flex justify-between border-b border-slate-800 pb-1.5 text-xs">
                         <span className="text-slate-500">Електронна пошта:</span>
                         <span className="text-slate-300 font-bold">{selectedPerson.email}</span>
                       </div>
@@ -828,7 +838,7 @@ export default function PersonProfiler() {
                   {/* Biography Narrative */}
                   <div className="mt-4 space-y-1">
                     <span className="text-xs text-slate-500 font-mono font-bold uppercase tracking-widest block">Оперативне досьє / ШІ-Оцінка</span>
-                    <p className="text-slate-300 text-xs leading-relaxed bg-black/40 p-2.5 rounded-2xl border border-white/10">
+                    <p className="text-slate-300 text-xs leading-relaxed bg-black/40 p-2.5 rounded-2xl border border-slate-800">
                       {selectedPerson.narrative}
                     </p>
                   </div>
@@ -838,8 +848,8 @@ export default function PersonProfiler() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   
                   {/* Behavioral profile card */}
-                  <div className="bg-slate-900/40 border border-white/5 rounded-2xl p-2 space-y-4">
-                    <div className="flex items-center gap-2 border-b border-white/5 pb-3">
+                  <div className="bg-slate-900/40 border border-slate-800/60 rounded-2xl p-2 space-y-4">
+                    <div className="flex items-center gap-2 border-b border-slate-800/60 pb-3">
                       <Activity className="w-4.5 h-4.5 text-blue-400" />
                       <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider">Психолого-поведінковий портрет</h4>
                     </div>
@@ -860,31 +870,31 @@ export default function PersonProfiler() {
                   </div>
 
                   {/* Financial Disparity Audit */}
-                  <div className="bg-slate-900/40 border border-white/5 rounded-2xl p-2 space-y-4">
-                    <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                  <div className="bg-slate-900/40 border border-slate-800/60 rounded-2xl p-2 space-y-4">
+                    <div className="flex items-center justify-between border-b border-slate-800/60 pb-3">
                       <div className="flex items-center gap-2">
                         <Coins className="w-4.5 h-4.5 text-rose-400" />
                         <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wider">Джерела Доходів vs Активи</h4>
                       </div>
-                      <span className="text-xs font-mono font-bold text-rose-400 px-2 py-1 bg-rose-500/10 border border-white/10 rounded">
+                      <span className="text-xs font-mono font-bold text-rose-400 px-2 py-1 bg-rose-500/10 border border-slate-800 rounded">
                         НЕЗБІГ: {selectedPerson.psychoProfile.unexplainedWealthRatio}%
                       </span>
                     </div>
 
                     <div className="space-y-3 text-xs font-mono">
-                      <div className="bg-slate-950/60 p-2 rounded-2xl border border-white/10 flex justify-between items-center text-xs">
+                      <div className="bg-slate-950/60 p-2 rounded-2xl border border-slate-800 flex justify-between items-center text-xs">
                         <span className="text-slate-500">Офіційна з/п (Декларація):</span>
                         <span className="text-emerald-400 font-bold">{selectedPerson.sourcesOfWealth.officialSalary}</span>
                       </div>
-                      <div className="bg-slate-950/60 p-2 rounded-2xl border border-white/10 flex justify-between items-center text-xs">
+                      <div className="bg-slate-950/60 p-2 rounded-2xl border border-slate-800 flex justify-between items-center text-xs">
                         <span className="text-slate-500">Тіньові надходження (ШІ-Оцінка):</span>
                         <span className="text-rose-400 font-bold">{selectedPerson.sourcesOfWealth.unofficialIncomeEst}</span>
                       </div>
-                      <div className="bg-slate-950/60 p-2 rounded-2xl border border-white/10 flex justify-between items-center text-xs">
+                      <div className="bg-slate-950/60 p-2 rounded-2xl border border-slate-800 flex justify-between items-center text-xs">
                         <span className="text-slate-500">Дивіденди (Офшори):</span>
                         <span className="text-blue-400 font-bold">{selectedPerson.sourcesOfWealth.dividends}</span>
                       </div>
-                      <div className="bg-slate-950/60 p-2 rounded-2xl border border-white/10 flex justify-between items-start text-xs">
+                      <div className="bg-slate-950/60 p-2 rounded-2xl border border-slate-800 flex justify-between items-start text-xs">
                         <span className="text-slate-500 shrink-0">Перекази з-за кордону:</span>
                         <span className="text-slate-300 font-bold text-right truncate w-[140px]" title={selectedPerson.sourcesOfWealth.foreignTransfers}>{selectedPerson.sourcesOfWealth.foreignTransfers}</span>
                       </div>
@@ -906,21 +916,21 @@ export default function PersonProfiler() {
               >
                 {/* Aggregate Asset Statistics */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <div className="bg-slate-950/60 border border-white/10 rounded-2xl p-2">
+                  <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-2">
                     <span className="text-xs text-slate-500 font-mono uppercase block mb-1">Зареєстровано Прямо</span>
-                    <p className="text-base font-bold text-slate-100">${totalDirectValue.toLocaleString()}</p>
+                    <p className="text-base font-bold text-slate-200">${totalDirectValue.toLocaleString()}</p>
                     <span className="text-xs font-mono text-emerald-400 flex items-center gap-1 mt-1">
                       <CheckCircle className="w-2.5 h-2.5" /> Легальний титул
                     </span>
                   </div>
-                  <div className="bg-slate-950/60 border border-white/10 rounded-2xl p-2">
+                  <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-2">
                     <span className="text-xs text-slate-500 font-mono uppercase block mb-1">Зареєстровано на Номіналів (Проксі)</span>
                     <p className="text-base font-bold text-amber-500">${totalNomineeValue.toLocaleString()}</p>
                     <span className="text-xs font-mono text-rose-400 flex items-center gap-1 mt-1 animate-pulse">
                       <AlertTriangle className="w-2.5 h-2.5" /> Ризик приховування капіталу
                     </span>
                   </div>
-                  <div className="bg-slate-950/60 border border-white/10 rounded-2xl p-2">
+                  <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-2">
                     <span className="text-xs text-slate-500 font-mono uppercase block mb-1">Сукупна Ринкова Вартість (Активи)</span>
                     <p className="text-base font-bold text-blue-400">${totalAggregateValue.toLocaleString()}</p>
                     <span className="text-xs font-mono text-slate-400 block mt-1">З точністю ШІ-моделювання 97.4%</span>
@@ -946,18 +956,18 @@ export default function PersonProfiler() {
                         <div 
                           key={asset.id} 
                           className={`bg-slate-900/40 border rounded-2xl p-2 flex flex-col md:flex-row md:items-center justify-between gap-2 transition-all hover:bg-black/40 transition-colors ${
-                            asset.isNominee ? 'border-white/10' : 'border-white/5'
+                            asset.isNominee ? 'border-slate-800' : 'border-slate-800/60'
                           }`}
                         >
                           <div className="flex items-start gap-2">
-                            <div className="p-2.5 bg-slate-950/80 rounded-2xl border border-white/10">
+                            <div className="p-2.5 bg-slate-950/80 rounded-2xl border border-slate-800">
                               {assetIcon}
                             </div>
                             <div className="space-y-1">
-                              <h5 className="text-xs font-bold text-slate-100 flex items-center gap-2">
+                              <h5 className="text-xs font-bold text-slate-200 flex items-center gap-2">
                                 <span>{asset.name}</span>
                                 {asset.isNominee && (
-                                  <span className="text-xs font-mono font-bold px-2 py-1 bg-amber-500/10 text-amber-500 border border-white/10 rounded uppercase">
+                                  <span className="text-xs font-mono font-bold px-2 py-1 bg-amber-500/10 text-amber-500 border border-slate-800 rounded uppercase">
                                     Номінальний утримувач
                                   </span>
                                 )}
@@ -995,9 +1005,9 @@ export default function PersonProfiler() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="space-y-5 bg-slate-900/40 border border-white/5 rounded-2xl p-2"
+                className="space-y-5 bg-slate-900/40 border border-slate-800/60 rounded-2xl p-2"
               >
-                <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-800/60 pb-3">
                   <div className="flex items-center gap-2">
                     <ArrowRightLeft className="w-4.5 h-4.5 text-blue-400 animate-pulse" />
                     <div>
@@ -1018,16 +1028,16 @@ export default function PersonProfiler() {
                     const totalAssetVal = assetsRegistered.reduce((sum, a) => sum + a.valueNum, 0);
 
                     return (
-                      <div key={rel.id} className="bg-black/40 border border-white/10 rounded-2xl p-2 space-y-3.5">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2.5">
+                      <div key={rel.id} className="bg-black/40 border border-slate-800 rounded-2xl p-2 space-y-3.5">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
                           <div className="flex items-center gap-2.5">
-                            <div className="p-1.5 bg-slate-900/40 backdrop-blur-md border border-white/5 rounded-2xl text-slate-400">
+                            <div className="p-1.5 bg-slate-900/40 backdrop-blur-md border border-slate-800/60 rounded-2xl text-slate-400">
                               <User className="w-4 h-4" />
                             </div>
                             <div>
                               <h5 className="text-xs font-bold text-white flex items-center gap-2">
                                 <span>{rel.name}</span>
-                                <span className="text-xs font-mono font-bold bg-amber-500/10 text-amber-500 border border-white/10 px-2 py-1 rounded uppercase">
+                                <span className="text-xs font-mono font-bold bg-amber-500/10 text-amber-500 border border-slate-800 px-2 py-1 rounded uppercase">
                                   {rel.role.split('/')[1]?.trim() || 'НОМІНАЛ'}
                                 </span>
                               </h5>
@@ -1040,7 +1050,7 @@ export default function PersonProfiler() {
                               <span className="text-slate-500 uppercase block text-xs">Активи на суму:</span>
                               <strong className="text-amber-500 font-bold">${totalAssetVal.toLocaleString()}</strong>
                             </div>
-                            <div className="px-2 py-1 bg-rose-500/10 border border-white/10 rounded text-rose-400 font-bold flex flex-col items-center">
+                            <div className="px-2 py-1 bg-rose-500/10 border border-slate-800 rounded text-rose-400 font-bold flex flex-col items-center">
                               <span className="text-xs text-rose-500/80 uppercase font-mono tracking-widest leading-none mb-0.5">Незбіг</span>
                               <span className="leading-none">{rel.psychoProfile.unexplainedWealthRatio}%</span>
                             </div>
@@ -1052,7 +1062,7 @@ export default function PersonProfiler() {
                           <span className="text-xs text-slate-500 font-mono font-bold uppercase tracking-widest block">Оформлене майно:</span>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
                             {assetsRegistered.map((a) => (
-                              <div key={a.id} className="bg-black/30 border border-white/10/60 p-2 rounded-2xl flex items-center justify-between gap-1">
+                              <div key={a.id} className="bg-black/30 border border-slate-800/60 p-2 rounded-2xl flex items-center justify-between gap-1">
                                 <span className="text-slate-300 truncate w-[160px]" title={a.name}>{a.name}</span>
                                 <strong className="text-white shrink-0">{a.value}</strong>
                               </div>
@@ -1061,7 +1071,7 @@ export default function PersonProfiler() {
                         </div>
 
                         {/* Disparity Justification */}
-                        <div className="bg-rose-500/5 border border-white/10 rounded-2xl p-2.5 flex items-start gap-2.5 text-xs leading-relaxed">
+                        <div className="bg-rose-500/5 border border-slate-800 rounded-2xl p-2.5 flex items-start gap-2.5 text-xs leading-relaxed">
                           <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5 animate-pulse" />
                           <div>
                             <span className="text-rose-400 font-bold uppercase block text-xs mb-0.5 font-mono">ШІ-Дисбаланс & Номінальний аналіз:</span>
@@ -1084,9 +1094,9 @@ export default function PersonProfiler() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="space-y-5 bg-slate-900/40 border border-white/5 rounded-2xl p-2"
+                className="space-y-5 bg-slate-900/40 border border-slate-800/60 rounded-2xl p-2"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/5 pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/60 pb-3">
                   <div className="flex items-center gap-2">
                     <Terminal className="w-4.5 h-4.5 text-blue-400 animate-pulse" />
                     <div>
@@ -1126,7 +1136,7 @@ export default function PersonProfiler() {
                 )}
 
                 {/* Audit Terminal Log */}
-                <div className="bg-slate-950/80 border border-white/10 rounded-2xl p-2 font-mono text-xs h-[260px] overflow-y-auto custom-scrollbar flex flex-col gap-1.5 bg-gradient-to-b from-slate-950 to-slate-900 relative">
+                <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-2 font-mono text-xs h-[260px] overflow-y-auto custom-scrollbar flex flex-col gap-1.5 bg-gradient-to-b from-slate-950 to-slate-900 relative">
                   {auditLog.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-slate-600 text-center space-y-2">
                       <Terminal className="w-8 h-8 text-slate-800" />
@@ -1140,7 +1150,7 @@ export default function PersonProfiler() {
                         let colorClass = 'text-slate-400';
                         if (log.includes('[ALERT]')) colorClass = 'text-rose-400 font-bold';
                         else if (log.includes('[CONCLUSION]')) colorClass = 'text-emerald-400 font-bold';
-                        else if (log.includes('[INIT]')) colorClass = 'text-blue-400 font-bold border-b border-white/10 pb-1 mb-1';
+                        else if (log.includes('[INIT]')) colorClass = 'text-blue-400 font-bold border-b border-slate-800 pb-1 mb-1';
                         else if (log.includes('[RECOMMENDATION]')) colorClass = 'text-blue-300 font-bold mt-1';
                         
                         return (
@@ -1157,14 +1167,14 @@ export default function PersonProfiler() {
 
                 {/* Download PDF Audit Report toolbar */}
                 {auditLog.length > 0 && !isAuditing && (
-                  <div className="bg-black/40 border border-white/10 rounded-2xl p-2 flex items-center justify-between text-xs font-mono">
+                  <div className="bg-black/40 border border-slate-800 rounded-2xl p-2 flex items-center justify-between text-xs font-mono">
                     <span className="text-emerald-400 font-bold uppercase flex items-center gap-1.5">
                       <CheckCircle className="w-3.5 h-3.5" />
                       АУДИТ УСПІШНО ЗГЕНЕРОВАНО (S-091)
                     </span>
                     <button
-                      onClick={() => alert('Формується PDF-досьє фізичної особи із повним графом номінальних тримачів...')}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white border border-white/10 rounded-2xl text-xs font-bold uppercase transition-all duration-300"
+                      onClick={() => showToast('Формується PDF-досьє фізичної особи із повним графом номінальних тримачів...')}
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white border border-slate-800 rounded-2xl text-xs font-bold uppercase transition-all duration-300"
                     >
                       <FileDown className="w-3.5 h-3.5" />
                       Скачати досьє (PDF)
@@ -1181,21 +1191,21 @@ export default function PersonProfiler() {
         <div className="xl:col-span-5 space-y-6">
           
           {/* SVG Connection Graph specifically mapping Kovalenko and Nominees */}
-          <div className="bg-black/40 backdrop-blur-md border border-white/5 rounded-2xl p-2 shadow-xl space-y-4">
-            <div className="flex items-center justify-between border-b border-white/5 pb-3">
+          <div className="bg-black/40 backdrop-blur-md border border-slate-800/60 rounded-2xl p-2 shadow-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-800/60 pb-3">
               <div className="flex items-center gap-2">
                 <ArrowRightLeft className="w-4.5 h-4.5 text-blue-400" />
-                <h4 className="text-xs font-bold text-slate-100 uppercase tracking-widest">
+                <h4 className="text-xs font-bold text-slate-200 uppercase tracking-widest">
                   Схема номіналів та приховування майна
                 </h4>
               </div>
-              <span className="px-2 py-1 bg-slate-900/40 backdrop-blur-md border border-white/10 rounded text-xs font-mono text-slate-500">
+              <span className="px-2 py-1 bg-slate-900/40 backdrop-blur-md border border-slate-800 rounded text-xs font-mono text-slate-500">
                 2D Interactive Map
               </span>
             </div>
 
             {/* Interactive SVG Network mapping exact nominee relationships */}
-            <div className="relative w-full h-[360px] bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden flex items-center justify-center" style={{ backgroundImage: 'radial-gradient(#1e293b 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
+            <div className="relative w-full h-[360px] bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded-2xl overflow-hidden flex items-center justify-center" style={{ backgroundImage: 'radial-gradient(#1e293b 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
               
               <svg className="w-full h-full" viewBox="0 0 500 360">
                 {/* Connective lines with risk markers */}
@@ -1229,41 +1239,41 @@ export default function PersonProfiler() {
                 {/* Central main Node (Ihor Kovalenko) */}
                 <g className="cursor-pointer" onClick={() => setSelectedPersonId('kovalenko-ihor')}>
                   <circle cx="250" cy="180" r="26" fill="#020617" stroke="#3b82f6" strokeWidth="2.5" className={selectedPersonId === 'kovalenko-ihor' ? 'stroke-blue-400' : 'opacity-80'} />
-                  <text x="250" y="183" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold" fontFamily="monospace">PEP</text>
+                  <text x="250" y="183" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold" fontFamily="monospace">ПЕП</text>
                   <text x="250" y="220" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="bold">І. В. Коваленко</text>
                 </g>
 
                 {/* Wife Olga Node */}
                 <g className="cursor-pointer" onClick={() => setSelectedPersonId('petrenko-olha')}>
                   <circle cx="110" cy="90" r="18" fill="#020617" stroke="#f59e0b" strokeWidth="2" className={selectedPersonId === 'petrenko-olha' ? 'stroke-amber-400' : 'opacity-80'} />
-                  <text x="110" y="93" textAnchor="middle" fill="#fbbf24" fontSize="7" fontWeight="bold" fontFamily="monospace">WIFE</text>
+                  <text x="110" y="93" textAnchor="middle" fill="#fbbf24" fontSize="7" fontWeight="bold" fontFamily="monospace">ДРУЖИНА</text>
                   <text x="110" y="120" textAnchor="middle" fill="#94a3b8" fontSize="8" fontWeight="bold">О. С. Петренко</text>
                 </g>
 
                 {/* Father-in-law Sergiy Node */}
                 <g className="cursor-pointer" onClick={() => setSelectedPersonId('petrenko-serhiy')}>
                   <circle cx="110" cy="270" r="18" fill="#020617" stroke="#3b82f6" strokeWidth="2" className={selectedPersonId === 'petrenko-serhiy' ? 'stroke-blue-400' : 'opacity-80'} />
-                  <text x="110" y="273" textAnchor="middle" fill="#60a5fa" fontSize="7" fontWeight="bold" fontFamily="monospace">TEST</text>
+                  <text x="110" y="273" textAnchor="middle" fill="#60a5fa" fontSize="7" fontWeight="bold" fontFamily="monospace">ТЕСТ</text>
                   <text x="110" y="300" textAnchor="middle" fill="#94a3b8" fontSize="8" fontWeight="bold">С. Л. Петренко</text>
                 </g>
 
                 {/* Driver Dmytro Node */}
                 <g className="cursor-pointer" onClick={() => setSelectedPersonId('kharchenko-dmytro')}>
                   <circle cx="390" cy="90" r="18" fill="#020617" stroke="#f43f5e" strokeWidth="2" className={selectedPersonId === 'kharchenko-dmytro' ? 'stroke-rose-400' : 'opacity-80'} />
-                  <text x="390" y="93" textAnchor="middle" fill="#f87171" fontSize="7" fontWeight="bold" fontFamily="monospace">PROXY</text>
+                  <text x="390" y="93" textAnchor="middle" fill="#f87171" fontSize="7" fontWeight="bold" fontFamily="monospace">ПРОКСІ</text>
                   <text x="390" y="120" textAnchor="middle" fill="#94a3b8" fontSize="8" fontWeight="bold">Д. П. Харченко</text>
                 </g>
 
                 {/* Brother Oleksandr Node */}
                 <g className="cursor-pointer" onClick={() => setSelectedPersonId('kovalenko-oleksandr')}>
                   <circle cx="390" cy="270" r="18" fill="#020617" stroke="#3b82f6" strokeWidth="2" className={selectedPersonId === 'kovalenko-oleksandr' ? 'stroke-blue-400' : 'opacity-80'} />
-                  <text x="390" y="273" textAnchor="middle" fill="#60a5fa" fontSize="7" fontWeight="bold" fontFamily="monospace">BRO</text>
+                  <text x="390" y="273" textAnchor="middle" fill="#60a5fa" fontSize="7" fontWeight="bold" fontFamily="monospace">БРАТ</text>
                   <text x="390" y="300" textAnchor="middle" fill="#94a3b8" fontSize="8" fontWeight="bold">О. В. Коваленко</text>
                 </g>
               </svg>
 
               {/* Interconnectivity note overlay */}
-              <div className="absolute bottom-3 left-3 bg-slate-950/90 border border-white/5 px-2 py-1 rounded text-xs font-mono text-slate-400 uppercase flex items-center gap-1.5">
+              <div className="absolute bottom-3 left-3 bg-slate-950/90 border border-slate-800/60 px-2 py-1 rounded text-xs font-mono text-slate-400 uppercase flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
                 <span>Виявлено 4 номінальних проксі-утримувачів</span>
               </div>
@@ -1271,11 +1281,11 @@ export default function PersonProfiler() {
           </div>
 
           {/* Source of wealth charts (official vs shadow) */}
-          <div className="bg-black/40 backdrop-blur-md border border-white/5 rounded-2xl p-2 shadow-xl space-y-4">
-            <div className="flex items-center justify-between border-b border-white/5 pb-3">
+          <div className="bg-black/40 backdrop-blur-md border border-slate-800/60 rounded-2xl p-2 shadow-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-800/60 pb-3">
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-4.5 h-4.5 text-rose-400" />
-                <h4 className="text-xs font-bold text-slate-100 uppercase tracking-widest">
+                <h4 className="text-xs font-bold text-slate-200 uppercase tracking-widest">
                   Порівняння легального та оціненого доходу (10 років)
                 </h4>
               </div>

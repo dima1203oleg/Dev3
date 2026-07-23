@@ -18,7 +18,7 @@ export default function LicenseTab() {
     if (selectedSourceLicense.startsWith('MIT')) {
       return {
         level: 'Низький',
-        color: 'text-emerald-400 bg-emerald-500/10 border-white/10',
+        color: 'text-emerald-400 bg-emerald-500/10 border-slate-800',
         infectious: false,
         text: 'Сумісно без обмежень. Сміливо лінкуйте або імпортуйте.',
         advice: 'Ви можете закрити свій код та продавати сервіс як комерційний SaaS. Жодних умов по відкриттю коду немає.'
@@ -29,7 +29,7 @@ export default function LicenseTab() {
       if (integrationMethod === 'direct') {
         return {
           level: 'Критичний (Зараження коду)',
-          color: 'text-rose-400 bg-rose-500/10 border-white/10',
+          color: 'text-rose-400 bg-rose-500/10 border-slate-800',
           infectious: true,
           text: 'Ліцензійна сумісність порушена! Ваше закрите ядро "інфікується" GPL-3.0.',
           advice: 'Імпортування GPL-бібліотеки в закрите ядро FastAPI змусить вас відкрити весь код NEXUS під GPL v3! Терміново переключіть інтеграцію на "Окремий мікросервіс" через REST/gRPC API.'
@@ -37,7 +37,7 @@ export default function LicenseTab() {
       } else {
         return {
           level: 'Безпечно (При дотриманні ізоляції)',
-          color: 'text-amber-400 bg-amber-500/10 border-white/10',
+          color: 'text-amber-400 bg-amber-500/10 border-slate-800',
           infectious: false,
           text: 'Архітектурне рішення прийнятне. Мережевий API обхід працює.',
           advice: 'Оскільки ви викликаєте BBOT або Neo4j через REST API або Bolt protocol, ліцензія GPL-3.0 не поширюється на ваш закритий код. Це дозволена практика для SaaS.'
@@ -57,7 +57,7 @@ export default function LicenseTab() {
       } else {
         return {
           level: 'Середній (Допустимо offline)',
-          color: 'text-amber-400 bg-amber-500/10 border-white/10',
+          color: 'text-amber-400 bg-amber-500/10 border-slate-800',
           infectious: false,
           text: 'Дозволено для внутрішнього використання або Air-gapped.',
           advice: 'При локальному розгортанні (Internal/On-premise) без надання зовнішнього публічного доступу до SaaS, вимоги AGPL щодо відкриття коду користувачам мережі не активуються.'
@@ -69,7 +69,7 @@ export default function LicenseTab() {
       if (deploymentModel === 'saas' && integrationMethod === 'raw') {
         return {
           level: 'Високий (Комерційний конфлікт)',
-          color: 'text-rose-400 bg-rose-500/10 border-white/10',
+          color: 'text-rose-400 bg-rose-500/10 border-slate-800',
           infectious: false,
           text: 'Конфлікт інтересів з розробником Airbyte чи Elastic.',
           advice: 'Ви не можете створювати керований сервіс (SaaS), який конкурує напряму з Airbyte. Проте використання його як внутрішнього інструменту для перекачування реєстрів у NEXUS є повністю легальним.'
@@ -77,7 +77,7 @@ export default function LicenseTab() {
       } else {
         return {
           level: 'Низький / Безпечно',
-          color: 'text-emerald-400 bg-emerald-500/10 border-white/10',
+          color: 'text-emerald-400 bg-emerald-500/10 border-slate-800',
           infectious: false,
           text: 'Ліцензійно сумісне внутрішнє використання.',
           advice: 'Використання як приватного фонового ETL-процесу для потреб платформи не порушує умови Elastic License v2 або Server Side Public License.'
@@ -89,7 +89,7 @@ export default function LicenseTab() {
     if (deploymentModel === 'saas') {
       return {
         level: 'Фінансовий / Комерційний договір',
-        color: 'text-blue-400 bg-blue-500/10 border-white/10',
+        color: 'text-blue-400 bg-blue-500/10 border-slate-800',
         infectious: false,
         text: 'Потребує укладення B2B договору та оплати роялті.',
         advice: 'Для некомерційного використання (MVP, дослідження) дані OpenSanctions безкоштовні. Для запуску SaaS платформи потрібно придбати Enterprise Data License, інакше є ризик позовів.'
@@ -97,7 +97,7 @@ export default function LicenseTab() {
     } else {
       return {
         level: 'Середній (MVP)',
-        color: 'text-blue-400 bg-blue-500/10 border-white/10',
+        color: 'text-blue-400 bg-blue-500/10 border-slate-800',
         infectious: false,
         text: 'Потребує перевірки цілей використання.',
         advice: 'При локальних тестах діє некомерційна ліцензія (CC BY-NC 4.0). Для комерційного on-premise розгортання в державних установах також знадобиться комерційне ліцензування.'
@@ -110,8 +110,8 @@ export default function LicenseTab() {
   return (
     <div className="space-y-6" id="license-tab-root">
       {/* Overview Intro */}
-      <div className="bg-slate-900/60 border border-white/10 rounded-2xl p-2 backdrop-blur-md">
-        <h2 className="text-lg font-semibold text-slate-100 flex items-center gap-2 mb-2">
+      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-2 backdrop-blur-md">
+        <h2 className="text-lg font-semibold text-slate-200 flex items-center gap-2 mb-2">
           <ShieldCheck className="w-4 h-4 text-emerald-400" id="license-title-icon" />
           Матриця сумісності ліцензій (License Compliance Matrix)
         </h2>
@@ -123,10 +123,10 @@ export default function LicenseTab() {
       {/* Main Sandbox & Static Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
         {/* Interactive Compliance Simulator */}
-        <div className="lg:col-span-1 bg-slate-900/40 border border-white/10 rounded-2xl p-2 space-y-5" id="license-simulator">
-          <div className="flex items-center gap-2 border-b border-white/10/80 pb-3">
+        <div className="lg:col-span-1 bg-slate-900/40 border border-slate-800 rounded-2xl p-2 space-y-5" id="license-simulator">
+          <div className="flex items-center gap-2 border-b border-slate-800/80 pb-3">
             <Zap className="w-4 h-4 text-amber-400" />
-            <h3 className="text-xs font-semibold text-slate-100 uppercase tracking-wider">
+            <h3 className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
               Симулятор ліцензійних ризиків
             </h3>
           </div>
@@ -141,7 +141,7 @@ export default function LicenseTab() {
                 id="source-license-selector"
                 value={selectedSourceLicense}
                 onChange={(e) => setSelectedSourceLicense(e.target.value)}
-                className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-white/10 rounded-2xl px-2 py-1.5 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-slate-800 rounded-2xl px-2 py-1.5 text-xs text-slate-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
                 {LICENSE_MATRIX.map((item) => (
                   <option key={item.license} value={item.license}>
@@ -157,7 +157,7 @@ export default function LicenseTab() {
                 2. Метод архітектурної інтеграції
               </label>
               <div className="space-y-2">
-                <label className="flex items-start gap-2.5 p-2 bg-slate-950/60 rounded-2xl border border-white/10 cursor-pointer hover:border-white/10">
+                <label className="flex items-start gap-2.5 p-2 bg-slate-950/60 rounded-2xl border border-slate-800 cursor-pointer hover:border-slate-800">
                   <input
                     type="radio"
                     name="integration_method"
@@ -172,7 +172,7 @@ export default function LicenseTab() {
                   </div>
                 </label>
 
-                <label className="flex items-start gap-2.5 p-2 bg-slate-950/60 rounded-2xl border border-white/10 cursor-pointer hover:border-white/10">
+                <label className="flex items-start gap-2.5 p-2 bg-slate-950/60 rounded-2xl border border-slate-800 cursor-pointer hover:border-slate-800">
                   <input
                     type="radio"
                     name="integration_method"
@@ -187,7 +187,7 @@ export default function LicenseTab() {
                   </div>
                 </label>
 
-                <label className="flex items-start gap-2.5 p-2 bg-slate-950/60 rounded-2xl border border-white/10 cursor-pointer hover:border-white/10">
+                <label className="flex items-start gap-2.5 p-2 bg-slate-950/60 rounded-2xl border border-slate-800 cursor-pointer hover:border-slate-800">
                   <input
                     type="radio"
                     name="integration_method"
@@ -214,7 +214,7 @@ export default function LicenseTab() {
                   id="deploy-saas-button"
                   type="button"
                   onClick={() => setDeploymentModel('saas')}
-                  className={`py-1.5 px-2 rounded-2xl border text-center transition-all ${deploymentModel === 'saas' ? 'bg-blue-500/10 border-white/10 text-indigo-300' : 'bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-white/10 text-slate-500 hover:text-slate-300'}`}
+                  className={`py-1.5 px-2 rounded-2xl border text-center transition-all ${deploymentModel === 'saas' ? 'bg-blue-500/10 border-slate-800 text-indigo-300' : 'bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-slate-800 text-slate-500 hover:text-slate-300'}`}
                 >
                   Комерційний SaaS
                 </button>
@@ -222,7 +222,7 @@ export default function LicenseTab() {
                   id="deploy-internal-button"
                   type="button"
                   onClick={() => setDeploymentModel('internal')}
-                  className={`py-1.5 px-2 rounded-2xl border text-center transition-all ${deploymentModel === 'internal' ? 'bg-blue-500/10 border-white/10 text-indigo-300' : 'bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-white/10 text-slate-500 hover:text-slate-300'}`}
+                  className={`py-1.5 px-2 rounded-2xl border text-center transition-all ${deploymentModel === 'internal' ? 'bg-blue-500/10 border-slate-800 text-indigo-300' : 'bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border-slate-800 text-slate-500 hover:text-slate-300'}`}
                 >
                   On-Premise (Локально)
                 </button>
@@ -246,7 +246,7 @@ export default function LicenseTab() {
 
             <div className="space-y-1.5">
               <p className="text-xs font-semibold leading-normal">{currentRisk.text}</p>
-              <p className="text-xs text-slate-300/90 leading-relaxed border-t border-white/10/30 pt-2">
+              <p className="text-xs text-slate-300/90 leading-relaxed border-t border-slate-800/30 pt-2">
                 <strong>Рішення / Обхід:</strong> {currentRisk.advice}
               </p>
             </div>
@@ -264,24 +264,24 @@ export default function LicenseTab() {
             {LICENSE_MATRIX.map((item) => (
               <div
                 key={item.license}
-                className={`bg-slate-900/30 border rounded-2xl p-2 space-y-3 transition-colors ${selectedSourceLicense === item.license ? 'border-white/10 bg-slate-900/50' : 'border-white/10/80 hover:border-white/10/50'}`}
+                className={`bg-slate-900/30 border rounded-2xl p-2 space-y-3 transition-colors ${selectedSourceLicense === item.license ? 'border-slate-800 bg-slate-900/50' : 'border-slate-800/80 hover:border-slate-800/50'}`}
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h4 className="text-xs font-bold text-slate-100 flex items-center gap-2">
+                  <h4 className="text-xs font-bold text-slate-200 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-blue-500"></span>
                     {item.license}
                   </h4>
                   <span className={`text-xs font-bold font-mono uppercase px-2.5 py-0.5 rounded-full border ${
-                    item.riskLevel === 'Низький' ? 'bg-emerald-500/10 text-emerald-400 border-white/10' :
-                    item.riskLevel === 'Середній' ? 'bg-amber-500/10 text-amber-400 border-white/10' :
-                    item.riskLevel === 'Високий' ? 'bg-rose-500/10 text-rose-400 border-white/10' :
-                    'bg-blue-500/10 text-blue-400 border-white/10'
+                    item.riskLevel === 'Низький' ? 'bg-emerald-500/10 text-emerald-400 border-slate-800' :
+                    item.riskLevel === 'Середній' ? 'bg-amber-500/10 text-amber-400 border-slate-800' :
+                    item.riskLevel === 'Високий' ? 'bg-rose-500/10 text-rose-400 border-slate-800' :
+                    'bg-blue-500/10 text-blue-400 border-slate-800'
                   }`}>
                     Ризик: {item.riskLevel}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs border-y border-white/10/60 py-2 text-slate-300">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs border-y border-slate-800/60 py-2 text-slate-300">
                   <div>
                     <span className="text-xs text-slate-500 uppercase tracking-wider block font-medium">SaaS Використання</span>
                     <span className="text-slate-200 text-xs font-medium block mt-0.5">{item.saasUsage}</span>
@@ -298,7 +298,7 @@ export default function LicenseTab() {
 
                 <div className="space-y-1">
                   <span className="text-xs uppercase text-blue-400 font-bold tracking-wide block">Офіційний вердикт та обхід:</span>
-                  <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/40 p-2 rounded-2xl border border-white/10/40">
+                  <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/40 p-2 rounded-2xl border border-slate-800/40">
                     {item.solution}
                   </p>
                 </div>

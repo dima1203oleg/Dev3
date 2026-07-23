@@ -1,10 +1,11 @@
+import { useToast } from './ToastProvider';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
  * NEXUS - Advanced OSINT Sandbox & Investigation Board ("Павутина")
  */
 
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useContext,  useState, useRef, useEffect, useMemo } from 'react';
 import { 
   Network, Plus, Trash2, ArrowRight, ShieldAlert, Sparkles, HelpCircle,
   TrendingUp, Download, Eye, FileText, Share2, ZoomIn, ZoomOut, Maximize2, 
@@ -38,6 +39,7 @@ interface SandboxLink {
 }
 
 export default function InvestigationSandbox() {
+  const { showToast } = useToast();
   // Initial Nodes & Links - populate with standard entities to give an impressive out-of-the-box experience
   const [nodes, setNodes] = useState<SandboxNode[]>([
     {
@@ -522,7 +524,7 @@ export default function InvestigationSandbox() {
   // Form submission handler to add custom connection
   const handleAddLink = () => {
     if (!newLinkSource || !newLinkTarget || newLinkSource === newLinkTarget) {
-      alert('Будь ласка, оберіть два різні вузли для встановлення зв\'язку.');
+      showToast('Будь ласка, оберіть два різні вузли для встановлення зв\'язку.');
       return;
     }
     const newId = `custom-link-${Date.now()}`;
@@ -568,14 +570,14 @@ export default function InvestigationSandbox() {
     <div className="space-y-6" id="investigation-sandbox-panel">
       
       {/* 1. TOP HEADER & METRIC CARDS */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 bg-slate-900/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-white/10 p-2 rounded-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 bg-slate-900/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-slate-800 p-2 rounded-2xl">
         <div>
           <div className="flex items-center gap-2">
             <Network className="w-4 h-4 text-blue-400 animate-pulse" />
             <h1 className="text-lg font-black font-mono tracking-wider text-white uppercase">
               Служба розслідувань "Павутина"
             </h1>
-            <span className="text-xs bg-indigo-500/10 text-blue-400 border border-white/10 px-2 py-1 rounded font-mono font-bold uppercase tracking-widest">
+            <span className="text-xs bg-indigo-500/10 text-blue-400 border border-slate-800 px-2 py-1 rounded font-mono font-bold uppercase tracking-widest">
               Palantir Sandbox Engine
             </span>
           </div>
@@ -594,7 +596,7 @@ export default function InvestigationSandbox() {
           </button>
           <button 
             onClick={() => setShowAddLinkModal(true)}
-            className="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-white/10 rounded-2xl text-xs font-bold font-mono tracking-wider flex items-center gap-1.5 cursor-pointer transition-all"
+            className="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-800 rounded-2xl text-xs font-bold font-mono tracking-wider flex items-center gap-1.5 cursor-pointer transition-all"
           >
             <Zap className="w-4 h-4 text-amber-400" />
             <span>ВСТАНОВИТИ ЗВ'ЯЗОК</span>
@@ -604,7 +606,7 @@ export default function InvestigationSandbox() {
 
       {/* Mini Stats Banner */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-        <div className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex items-center gap-2">
+        <div className="glass-panel-premium border-slate-800 p-2.5 rounded-2xl flex items-center gap-2">
           <div className="w-8 h-8 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold font-mono text-xs">
             {nodes.length}
           </div>
@@ -614,7 +616,7 @@ export default function InvestigationSandbox() {
           </div>
         </div>
 
-        <div className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex items-center gap-2">
+        <div className="glass-panel-premium border-slate-800 p-2.5 rounded-2xl flex items-center gap-2">
           <div className="w-8 h-8 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 font-bold font-mono text-xs">
             {links.length}
           </div>
@@ -624,7 +626,7 @@ export default function InvestigationSandbox() {
           </div>
         </div>
 
-        <div className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex items-center gap-2">
+        <div className="glass-panel-premium border-slate-800 p-2.5 rounded-2xl flex items-center gap-2">
           <div className="w-8 h-8 rounded-2xl bg-rose-500/10 flex items-center justify-center text-rose-400 font-bold font-mono text-xs">
             {activeEcosystemStats.highRiskCount}
           </div>
@@ -634,7 +636,7 @@ export default function InvestigationSandbox() {
           </div>
         </div>
 
-        <div className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex items-center gap-2">
+        <div className="glass-panel-premium border-slate-800 p-2.5 rounded-2xl flex items-center gap-2">
           <div className={`w-8 h-8 rounded-2xl flex items-center justify-center font-bold font-mono text-xs ${activeEcosystemStats.avgRisk >= 70 ? 'bg-rose-500/15 text-rose-400' : activeEcosystemStats.avgRisk >= 40 ? 'bg-amber-500/15 text-amber-400' : 'bg-emerald-500/15 text-emerald-400'}`}>
             {activeEcosystemStats.avgRisk}%
           </div>
@@ -649,10 +651,10 @@ export default function InvestigationSandbox() {
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-2 items-start">
         
         {/* The Sandbox Area Canvas */}
-        <div className="xl:col-span-3 bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden relative shadow-inner flex flex-col h-[600px] select-none">
+        <div className="xl:col-span-3 bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded-2xl overflow-hidden relative shadow-inner flex flex-col h-[600px] select-none">
           
           {/* Canvas Floating Utilities Panel */}
-          <div className="absolute top-2 left-4 z-20 bg-slate-950/80 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-white/10 p-2.5 rounded-2xl flex items-center gap-2">
+          <div className="absolute top-2 left-4 z-20 bg-slate-950/80 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-slate-800 p-2.5 rounded-2xl flex items-center gap-2">
             <button 
               onClick={() => setZoomScale(prev => Math.min(1.5, prev + 0.1))} 
               className="p-1.5 bg-slate-900/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-2xl cursor-pointer transition-colors"
@@ -692,7 +694,7 @@ export default function InvestigationSandbox() {
             </button>
           </div>
 
-          <div className="absolute top-2 right-4 z-20 text-xs font-mono bg-blue-600/10 text-blue-400 border border-white/10 px-2 py-1 rounded">
+          <div className="absolute top-2 right-4 z-20 text-xs font-mono bg-blue-600/10 text-blue-400 border border-slate-800 px-2 py-1 rounded">
             ЗУМ: {Math.round(zoomScale * 100)}% | ПЕРЕТЯГНІТЬ ЛІВОЮ КНОПКОЮ МИШІ ДЛЯ НАВІГАЦІЇ
           </div>
 
@@ -861,15 +863,15 @@ export default function InvestigationSandbox() {
                     }}
                   >
                     <motion.div 
-                      className={`p-2 rounded-2xl border flex flex-col bg-slate-950/95 shadow-2xl shadow-black/40 relative select-none ${isSelected ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)] ring-1 ring-blue-500' : 'border-white/5 hover:border-white/10'}`}
+                      className={`p-2 rounded-2xl border flex flex-col bg-slate-950/95 shadow-2xl shadow-black/40 relative select-none ${isSelected ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)] ring-1 ring-blue-500' : 'border-slate-800/60 hover:border-slate-800'}`}
                     >
                       {/* Outer cascading risk border rings */}
                       {node.cascadedRisk > node.baseRisk && (
-                        <div className="absolute -inset-1 border border-dashed border-white/10 rounded-2xl animate-ping opacity-60 pointer-events-none" />
+                        <div className="absolute -inset-1 border border-dashed border-slate-800 rounded-2xl animate-ping opacity-60 pointer-events-none" />
                       )}
 
                       {/* Top bar with entity type icon & risk score */}
-                      <div className="flex items-center justify-between gap-1.5 border-b border-white/10 pb-1.5 mb-1.5">
+                      <div className="flex items-center justify-between gap-1.5 border-b border-slate-800 pb-1.5 mb-1.5">
                         <div className="flex items-center gap-1 text-slate-400">
                           <TypeIcon className="w-3.5 h-3.5 text-blue-400" />
                           <span className="text-[7.5px] uppercase font-mono tracking-wider text-slate-500">
@@ -879,14 +881,14 @@ export default function InvestigationSandbox() {
                         
                         {/* Risk Indicator badge */}
                         <div className="flex items-center gap-1">
-                          <span className={`text-xs font-mono font-extrabold px-1 py-0.5 rounded ${hasHighRisk ? 'bg-rose-500/15 text-rose-400 border border-white/10' : hasMedRisk ? 'bg-amber-500/15 text-amber-400 border border-white/10' : 'bg-emerald-500/15 text-emerald-400 border border-white/10'}`}>
+                          <span className={`text-xs font-mono font-extrabold px-1 py-0.5 rounded ${hasHighRisk ? 'bg-rose-500/15 text-rose-400 border border-slate-800' : hasMedRisk ? 'bg-amber-500/15 text-amber-400 border border-slate-800' : 'bg-emerald-500/15 text-emerald-400 border border-slate-800'}`}>
                             R: {node.cascadedRisk}%
                           </span>
                         </div>
                       </div>
 
                       {/* Entity Name */}
-                      <p className="text-[10.5px] font-bold text-slate-100 truncate" title={node.name}>
+                      <p className="text-[10.5px] font-bold text-slate-200 truncate" title={node.name}>
                         {node.name}
                       </p>
 
@@ -920,9 +922,9 @@ export default function InvestigationSandbox() {
         </div>
 
         {/* Dynamic Sandbox Inspector Panel */}
-        <div className="bg-slate-900/40 backdrop-blur-md border border-white/10 p-2 rounded-2xl flex flex-col space-y-4 h-[600px] overflow-y-auto">
+        <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-2 rounded-2xl flex flex-col space-y-4 h-[600px] overflow-y-auto">
           
-          <div className="border-b border-white/5 pb-3">
+          <div className="border-b border-slate-800/60 pb-3">
             <h3 className="text-xs font-black font-mono tracking-wider text-slate-300 uppercase flex items-center gap-2">
               <Sliders className="w-4 h-4 text-blue-400" />
               <span>Інспектор Елементів</span>
@@ -942,11 +944,11 @@ export default function InvestigationSandbox() {
                     <span className="text-xs uppercase tracking-wider font-mono font-bold bg-blue-600/10 text-blue-400 px-2 py-1 rounded">
                       {selectedNode.type}
                     </span>
-                    <span className={`text-xs uppercase tracking-wider font-mono font-bold px-2 py-1 rounded ${selectedNode.status === 'SANCTIONED' ? 'bg-rose-600/15 text-rose-400 border border-white/10' : 'bg-slate-800 text-slate-400'}`}>
+                    <span className={`text-xs uppercase tracking-wider font-mono font-bold px-2 py-1 rounded ${selectedNode.status === 'SANCTIONED' ? 'bg-rose-600/15 text-rose-400 border border-slate-800' : 'bg-slate-800 text-slate-400'}`}>
                       {selectedNode.status}
                     </span>
                   </div>
-                  <h4 className="text-xs font-bold text-slate-100 pt-1">
+                  <h4 className="text-xs font-bold text-slate-200 pt-1">
                     {selectedNode.name}
                   </h4>
                   <p className="text-xs font-mono text-slate-500">
@@ -955,7 +957,7 @@ export default function InvestigationSandbox() {
                 </div>
 
                 {/* Base Risk Configuration */}
-                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-white/5">
+                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-slate-800/60">
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-slate-400 font-mono text-xs">БАЗОВИЙ РИЗИК СУБ'ЄКТА</span>
                     <span className="font-mono font-bold text-slate-200">{selectedNode.baseRisk}%</span>
@@ -979,7 +981,7 @@ export default function InvestigationSandbox() {
                 {/* Desc */}
                 <div className="space-y-1">
                   <span className="text-xs font-mono text-slate-500 uppercase block">АНАЛІТИЧНИЙ ОПИС</span>
-                  <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/40 p-2.5 rounded-2xl border border-white/10">
+                  <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/40 p-2.5 rounded-2xl border border-slate-800">
                     {selectedNode.description}
                   </p>
                 </div>
@@ -1002,7 +1004,7 @@ export default function InvestigationSandbox() {
               {/* Delete button */}
               <button 
                 onClick={() => handleDeleteNode(selectedNode.id)}
-                className="w-full py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-white/10 rounded-2xl text-xs font-black font-mono tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                className="w-full py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-slate-800 rounded-2xl text-xs font-black font-mono tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>ВИДАЛИТИ СУБ'ЄКТ</span>
@@ -1017,7 +1019,7 @@ export default function InvestigationSandbox() {
                   <span className="text-xs uppercase tracking-wider font-mono font-bold bg-indigo-600/10 text-indigo-400 px-2 py-1 rounded">
                     ЗВ'ЯЗОК СУБ'ЄКТІВ
                   </span>
-                  <h4 className="text-xs font-bold text-slate-100 pt-1">
+                  <h4 className="text-xs font-bold text-slate-200 pt-1">
                     {selectedLink.label}
                   </h4>
                   <p className="text-xs font-mono text-slate-500">
@@ -1026,7 +1028,7 @@ export default function InvestigationSandbox() {
                 </div>
 
                 {/* Multiplier weight config */}
-                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-white/5">
+                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-slate-800/60">
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-slate-400 font-mono text-xs">ВАГА ЗВ'ЯЗКУ (ВПЛИВ)</span>
                     <span className="font-mono font-bold text-indigo-300">{selectedLink.multiplier}</span>
@@ -1062,7 +1064,7 @@ export default function InvestigationSandbox() {
                         onClick={() => {
                           setLinks(prev => prev.map(l => l.id === selectedLinkId ? { ...l, flowDirection: f.id as any } : l));
                         }}
-                        className={`py-1 text-xs font-bold font-mono tracking-wider uppercase border rounded-2xl transition-colors cursor-pointer ${selectedLink.flowDirection === f.id ? 'bg-indigo-600/10 text-indigo-400 border-white/10' : 'bg-slate-900/40 backdrop-blur-md border-transparent text-slate-400 hover:text-slate-200'}`}
+                        className={`py-1 text-xs font-bold font-mono tracking-wider uppercase border rounded-2xl transition-colors cursor-pointer ${selectedLink.flowDirection === f.id ? 'bg-indigo-600/10 text-indigo-400 border-slate-800' : 'bg-slate-900/40 backdrop-blur-md border-transparent text-slate-400 hover:text-slate-200'}`}
                       >
                         {f.label}
                       </button>
@@ -1071,7 +1073,7 @@ export default function InvestigationSandbox() {
                 </div>
 
                 {/* Connection entities debug info */}
-                <div className="bg-slate-950/40 border border-white/10 p-2.5 rounded-2xl text-xs font-mono space-y-1">
+                <div className="bg-slate-950/40 border border-slate-800 p-2.5 rounded-2xl text-xs font-mono space-y-1">
                   <p className="text-slate-400">Вузол А: {nodes.find(n => n.id === selectedLink.source)?.name || 'Невідомо'}</p>
                   <p className="text-slate-400">Вузол B: {nodes.find(n => n.id === selectedLink.target)?.name || 'Невідомо'}</p>
                 </div>
@@ -1080,7 +1082,7 @@ export default function InvestigationSandbox() {
               {/* Delete link */}
               <button 
                 onClick={() => handleDeleteLink(selectedLink.id)}
-                className="w-full py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-white/10 rounded-2xl text-xs font-black font-mono tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                className="w-full py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-slate-800 rounded-2xl text-xs font-black font-mono tracking-wider uppercase flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>ВИДАЛИТИ ЗВ'ЯЗОК</span>
@@ -1089,7 +1091,7 @@ export default function InvestigationSandbox() {
             </div>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-center p-2">
-              <div className="w-12 h-12 rounded-full bg-slate-900/50 border border-white/10 flex items-center justify-center text-slate-500 mb-3">
+              <div className="w-12 h-12 rounded-full bg-slate-900/50 border border-slate-800 flex items-center justify-center text-slate-500 mb-3">
                 <HelpCircle className="w-5 h-5" />
               </div>
               <p className="text-xs font-bold text-slate-300">Вузол не обрано</p>
@@ -1121,9 +1123,9 @@ export default function InvestigationSandbox() {
               initial={{ scale: 0.95, opacity: 0 }} 
               animate={{ scale: 1, opacity: 1 }} 
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-slate-900/40 backdrop-blur-md border border-white/10 p-2 rounded-2xl max-w-md w-full relative z-10 shadow-2xl"
+              className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-2 rounded-2xl max-w-md w-full relative z-10 shadow-2xl"
             >
-              <div className="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
+              <div className="flex justify-between items-center border-b border-slate-800/60 pb-3 mb-4">
                 <h3 className="text-xs font-black font-mono tracking-wider text-white uppercase">
                   + Додати новий об'єкт
                 </h3>
@@ -1184,7 +1186,7 @@ export default function InvestigationSandbox() {
                   </select>
                 </div>
 
-                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-white/5">
+                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-slate-800/60">
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-slate-400 font-mono text-xs">ПОЧАТКОВИЙ БАЗОВИЙ РИЗИК (%)</span>
                     <span className="font-mono font-bold text-slate-200">{newNodeRisk}%</span>
@@ -1246,9 +1248,9 @@ export default function InvestigationSandbox() {
               initial={{ scale: 0.95, opacity: 0 }} 
               animate={{ scale: 1, opacity: 1 }} 
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-slate-900/40 backdrop-blur-md border border-white/10 p-2 rounded-2xl max-w-md w-full relative z-10 shadow-2xl"
+              className="bg-slate-900/40 backdrop-blur-md border border-slate-800 p-2 rounded-2xl max-w-md w-full relative z-10 shadow-2xl"
             >
-              <div className="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
+              <div className="flex justify-between items-center border-b border-slate-800/60 pb-3 mb-4">
                 <h3 className="text-xs font-black font-mono tracking-wider text-white uppercase">
                   ⚡ Встановити новий зв'язок
                 </h3>
@@ -1297,7 +1299,7 @@ export default function InvestigationSandbox() {
                   />
                 </div>
 
-                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-white/5">
+                <div className="space-y-2 bg-slate-950/60 p-2 rounded-2xl border border-slate-800/60">
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-slate-400 font-mono text-xs">КОЕФІЦІЄНТ КАСКАДУ РИЗИКУ (0.1 - 1.0)</span>
                     <span className="font-mono font-bold text-indigo-300">{newLinkMultiplier}</span>

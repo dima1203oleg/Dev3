@@ -311,10 +311,10 @@ export function LiveChatBot() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="absolute bottom-20 right-0 w-[380px] h-[550px] glass-panel-premium border-white/10 border-glow rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.5)] backdrop-blur-md flex flex-col overflow-hidden"
+            className="absolute bottom-20 right-0 w-[380px] h-[550px] glass-panel-premium border-slate-800 border-glow rounded-2xl shadow-[0_15px_40px_rgba(0,0,0,0.5)] backdrop-blur-md flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="px-2 py-1.5 bg-black/30 border-b border-white/10 flex items-center justify-between">
+            <div className="px-2 py-1.5 bg-black/30 border-b border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Bot className="w-4 h-4 text-blue-400" />
                 <div>
@@ -351,7 +351,7 @@ export function LiveChatBot() {
                           whileHover={{ scale: 1.01, backgroundColor: "rgba(59, 130, 246, 0.1)" }}
                           whileTap={{ scale: 0.99 }}
                           onClick={() => handleSuggestionClick(item)}
-                          className="w-full text-left p-2.5 rounded-2xl border border-white/10 hover:border-white/10 bg-black/20 text-xs text-slate-300 font-mono transition-all"
+                          className="w-full text-left p-2.5 rounded-2xl border border-slate-800 hover:border-slate-800 bg-black/20 text-xs text-slate-300 font-mono transition-all"
                         >
                           ⚡ {item}
                         </motion.button>
@@ -362,7 +362,7 @@ export function LiveChatBot() {
               )}
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] rounded-2xl p-2 text-xs leading-relaxed ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-black/40 border border-white/10 text-slate-300'}`}>
+                  <div className={`max-w-[85%] rounded-2xl p-2 text-xs leading-relaxed ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-black/40 border border-slate-800 text-slate-300'}`}>
                     <p className="whitespace-pre-line">{msg.text}</p>
                   </div>
                 </div>
@@ -379,8 +379,8 @@ export function LiveChatBot() {
             )}
 
             {/* Input Area */}
-            <div className="p-2 bg-slate-900/60 border-t border-white/10">
-              <form onSubmit={handleSendText} className="flex items-center gap-1.5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] p-1.5 rounded-2xl border border-white/10/80">
+            <div className="p-2 bg-slate-900/60 border-t border-slate-800">
+              <form onSubmit={handleSendText} className="flex items-center gap-1.5 bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] p-1.5 rounded-2xl border border-slate-800/80">
                 <button
                   type="button"
                   onClick={isActive ? stopMic : startMic}
@@ -429,7 +429,7 @@ export function LiveChatBot() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="h-10 w-14 rounded-full flex items-center justify-center shadow-2xl transition-all border bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-800 text-slate-300 border-white/10 relative"
+        className="h-10 w-14 rounded-full flex items-center justify-center shadow-2xl transition-all border bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-800 text-slate-300 border-slate-800 relative"
       >
         <MessageSquare className="w-5 h-5" />
         {isActive && (

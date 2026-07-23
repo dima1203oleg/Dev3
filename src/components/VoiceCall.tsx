@@ -165,7 +165,7 @@ export function VoiceCall() {
               initial={{ opacity: 0, scale: 0.8, x: 20 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.8, x: 20 }}
-              className="bg-slate-950/95 border border-white/10 px-2 py-1.5 rounded-2xl shadow-[0_0_30px_rgba(217,70,239,0.15)] backdrop-blur-md flex items-center gap-2"
+              className="bg-slate-950/95 border border-slate-800 px-2 py-1.5 rounded-2xl shadow-[0_0_30px_rgba(217,70,239,0.15)] backdrop-blur-md flex items-center gap-2"
             >
               <div className="relative flex h-3 w-3 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
@@ -185,7 +185,7 @@ export function VoiceCall() {
           className={`h-10 w-14 rounded-full flex items-center justify-center shadow-2xl transition-all border ${
             isActive 
               ? 'bg-red-500/10 hover:bg-red-500/20 text-red-400 border-red-500/30' 
-              : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-800 text-slate-300 border-white/10'
+              : 'bg-slate-900/50 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-800 text-slate-300 border-slate-800'
           }`}
         >
           {isActive ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}

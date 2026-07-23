@@ -151,3 +151,17 @@ body {
   box-shadow: 0 0 15px -3px rgba(255, 255, 255, 0.1);
 }
 }
+
+@layer utilities {
+  .bg-glass {
+    @apply bg-slate-900/40 backdrop-blur-md border border-slate-800/80 shadow-xl;
+  }
+  .bg-glass-strong {
+    @apply bg-slate-950/60 backdrop-blur-xl border border-slate-800 shadow-2xl;
+  }
+  .text-glow {
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  }
+}
+
+@layer utilities { .font-display { font-family: var(--font-display); } }

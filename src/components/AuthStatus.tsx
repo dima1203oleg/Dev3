@@ -9,10 +9,10 @@ export function AuthStatus() {
 
   if (user) {
     return (
-      <div className="flex items-center gap-2 bg-slate-900/50 px-3 py-1.5 rounded-full border border-white/10">
+      <div className="flex items-center gap-2 bg-slate-900/50 px-3 py-1.5 rounded-full border border-slate-800">
         <div className="flex items-center gap-2">
           {user.photoURL ? (
-            <img src={user.photoURL} alt="User" className="w-4 h-4 rounded-full border border-white/10" />
+            <img src={user.photoURL} alt="Користувач" className="w-4 h-4 rounded-full border border-slate-800" />
           ) : (
             <User className="w-4 h-4 text-slate-300" />
           )}
@@ -23,7 +23,7 @@ export function AuthStatus() {
         <button 
           onClick={logout}
           className="text-slate-500 hover:text-red-400 transition-colors"
-          title="Sign out"
+          title="Вийти"
         >
           <LogOut className="w-3.5 h-3.5" />
         </button>
@@ -34,10 +34,10 @@ export function AuthStatus() {
   return (
     <button 
       onClick={signInWithGoogle}
-      className="flex items-center gap-1.5 bg-blue-600/20 hover:bg-blue-600/40 text-indigo-300 px-3 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider transition-all border border-white/10"
+      className="flex items-center gap-1.5 bg-blue-600/20 hover:bg-blue-600/40 text-indigo-300 px-3 py-1.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider transition-all border border-slate-800"
     >
       <LogIn className="w-3.5 h-3.5" />
-      <span>Identify</span>
+      <span>Ідентифікація</span>
     </button>
   );
 }

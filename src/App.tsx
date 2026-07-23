@@ -22,6 +22,8 @@ import AutonomousFactory from "./components/AutonomousFactory";
 import MapsTab from "./components/MapsTab";
 import InvestigationSandbox from "./components/InvestigationSandbox";
 import { MediaForensicsTab } from "./components/MediaForensicsTab";
+import { VoiceCall } from "./components/VoiceCall";
+import { ToastProvider } from "./components/ToastProvider";
 import { OSINT_ENTITIES, OsintEntity } from "./osintData";
 import { SOLUTIONS } from "./data";
 import {
@@ -978,7 +980,7 @@ export default function App() {
               <div className="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center font-bold text-xs text-white shadow-sm">
                 N
               </div>
-              <span className="text-sm font-bold tracking-wide text-slate-100">
+              <span className="text-sm font-bold tracking-wide text-slate-200">
                 Nexus
               </span>
             </div>
@@ -987,7 +989,7 @@ export default function App() {
             {!isRealMobile && (
               <button
                 onClick={() => setDeviceMode("desktop")}
-                className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-xs font-medium text-slate-300 hover:bg-slate-700 hover:text-slate-100 transition-all"
+                className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-xs font-medium text-slate-300 hover:bg-slate-700 hover:text-slate-200 transition-all"
                 title="Режим Десктоп"
               >
                 Десктоп
@@ -1119,7 +1121,7 @@ export default function App() {
                       N
                     </div>
                     <div>
-                      <h2 className="text-sm font-bold tracking-wide text-slate-100">
+                      <h2 className="text-sm font-bold tracking-wide text-slate-200">
                         Nexus Analytics
                       </h2>
                     </div>
@@ -1262,7 +1264,7 @@ export default function App() {
   const renderIpadLayout = () => {
     return (
       <div
-        className="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col items-center justify-center p-2 relative overflow-hidden select-none"
+        className="min-h-screen w-full bg-slate-950 text-slate-200 flex flex-col items-center justify-center p-2 relative overflow-hidden select-none"
         id="ipad-simulator-view"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,transparent_100%)] pointer-events-none" />
@@ -1291,7 +1293,7 @@ export default function App() {
   const renderIphoneLayout = () => {
     return (
       <div
-        className="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col items-center justify-center p-2 relative overflow-hidden select-none"
+        className="min-h-screen w-full bg-slate-950 text-slate-200 flex flex-col items-center justify-center p-2 relative overflow-hidden select-none"
       >
         <div className="absolute top-4 text-center z-50">
           <button
@@ -1334,7 +1336,7 @@ export default function App() {
               <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white shadow-sm">
                 N
               </div>
-              <span className="text-sm font-bold tracking-wide text-slate-100 flex items-center gap-2">
+              <span className="text-sm font-bold tracking-wide text-slate-200 flex items-center gap-2">
                 Nexus Analytics
               </span>
             </div>
@@ -1362,6 +1364,29 @@ export default function App() {
               >
                 📱 Телефон
               </button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-3 pr-4 border-r border-slate-800">
+              <div className="flex flex-col items-end">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Статус Системи</span>
+                <span className="text-xs font-mono text-emerald-400 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  ALL SYSTEMS NOMINAL
+                </span>
+              </div>
+            </div>
+            
+            <button className="relative p-2 text-slate-400 hover:text-slate-200 transition-colors rounded-lg hover:bg-slate-800">
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]"></span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            </button>
+            
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 p-[2px] cursor-pointer hover:shadow-lg hover:shadow-blue-500/20 transition-all">
+              <div className="w-full h-full rounded-full border border-slate-900 bg-slate-800 flex items-center justify-center overflow-hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
             </div>
           </div>
         </header>
@@ -1532,7 +1557,7 @@ export default function App() {
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${activeTab === "admin-back-office" ? "bg-blue-500/10 text-blue-400" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
                     >
                       <Settings className={`w-4 h-4 ${activeTab === "admin-back-office" ? "text-blue-400" : "text-slate-400"}`} />
-                      {!sidebarCollapsed && <span>Back Office Консоль</span>}
+                      {!sidebarCollapsed && <span>Консоль управління</span>}
                     </button>
                     <button
                       onClick={() => setActiveTab("autonomous-factory")}
@@ -1862,12 +1887,12 @@ export default function App() {
               <span className="text-emerald-400">
                 INDEXING: ACTIVE (140 files/sec)
               </span>
-              <span>BASES: Neo4j, Qdrant, PG</span>
+              <span>БАЗИ: Neo4j, Qdrant, PG</span>
               <span className="text-amber-500 font-bold">
                 QUEUES: KAFKA (0 LAG)
               </span>
               <span>LLM: GEMINI 3.5 FLASH</span>
-              <span>CLUSTER: CLOUD RUN EUR-W2</span>
+              <span>КЛАСТЕР: CLOUD RUN EUR-W2</span>
             </div>
           </footer>
         ) : (
@@ -1925,7 +1950,7 @@ export default function App() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: -10 }}
                 transition={{ duration: 0.15 }}
-                className="relative w-full max-w-2xl bg-[#0a0f1d] border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[500px] z-50"
+                className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[500px] z-50"
               >
                 {/* Search input header */}
                 <div className="flex items-center gap-2 px-2 py-1.5 border-b border-slate-800 bg-slate-950/50">
@@ -2186,6 +2211,7 @@ export default function App() {
         )}
       </AnimatePresence>
       <LiveChatBot />
+      <VoiceCall />
     </>
   );
 }

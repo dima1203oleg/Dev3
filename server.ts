@@ -799,14 +799,15 @@ function setupWss(server) {
 }
 
 // Vite middleware for development
+const server = createServer(app);
+setupWss(server);
+
 if (process.env.NODE_ENV !== "production") {
   createViteServer({
     server: { middlewareMode: true },
     appType: "spa",
   }).then((vite) => {
     app.use(vite.middlewares);
-    const server = createServer(app);
-    setupWss(server);
     server.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on http://localhost:${PORT}`);
     });
@@ -817,7 +818,7 @@ if (process.env.NODE_ENV !== "production") {
   app.get('*', (req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
   });
-  app.listen(PORT, "0.0.0.0", () => {
+  server.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 }

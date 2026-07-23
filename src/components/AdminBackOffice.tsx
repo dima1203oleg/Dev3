@@ -1,9 +1,10 @@
+import { useToast } from './ToastProvider';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useContext,  useState, useEffect, useMemo } from "react";
 import {
   Users,
   Landmark,
@@ -129,6 +130,7 @@ interface LogMessage {
 }
 
 export default function AdminBackOffice() {
+  const { showToast } = useToast();
   const [activeSection, setActiveSection] = useState<AdminSection>("dashboard");
 
   // Interactive state lists
@@ -855,7 +857,7 @@ export default function AdminBackOffice() {
       type: "Manual Snapshot",
     };
     setBackups((prev) => [newBackup, ...prev]);
-    alert(`Створення бекапу розпочато! Снепшот ${filename} збережено в MinIO.`);
+    showToast(`Створення бекапу розпочато! Снепшот ${filename} збережено в MinIO.`);
   };
 
   // Trigger simulated pod restart
@@ -868,7 +870,7 @@ export default function AdminBackOffice() {
         return pod;
       }),
     );
-    alert(
+    showToast(
       `Команда на перезапуск Pod '${podName}' надіслана у Kubernetes Cluster.`,
     );
   };
@@ -876,16 +878,16 @@ export default function AdminBackOffice() {
   return (
     <div className="space-y-6" id="admin-back-office-root">
       {/* HEADER SECTION: Professional, Enterprise Console theme */}
-      <div className="bg-[#0b1329]/80 border border-white/10/80 rounded-2xl p-2 flex flex-col xl:flex-row xl:items-center justify-between gap-2 shadow-xl backdrop-blur-sm">
+      <div className="bg-[#0b1329]/80 border border-slate-800/80 rounded-2xl p-2 flex flex-col xl:flex-row xl:items-center justify-between gap-2 shadow-xl backdrop-blur-sm">
         <div className="flex items-center gap-2">
-          <div className="w-12 h-12 rounded-2xl bg-blue-600/20 border border-white/10 flex items-center justify-center text-blue-400">
+          <div className="w-12 h-12 rounded-2xl bg-blue-600/20 border border-slate-800 flex items-center justify-center text-blue-400">
             <Settings
               className="w-5 h-5 animate-spin"
               style={{ animationDuration: "8s" }}
             />
           </div>
           <div>
-            <h1 className="text-sm font-black font-mono uppercase tracking-widest text-slate-100 flex items-center gap-2">
+            <h1 className="text-sm font-black font-mono uppercase tracking-widest text-slate-200 flex items-center gap-2">
               Адміністративна Консоль NEXUS
               <span className="text-xs bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-1 rounded font-mono font-bold tracking-widest uppercase">
                 ENTERPRISE SYSTEM ADMIN
@@ -899,7 +901,7 @@ export default function AdminBackOffice() {
         </div>
 
         {/* TOP LEVEL NAVIGATION BUTTONS - Enterprise Style */}
-        <div className="flex flex-wrap gap-1.5 border-t xl:border-t-0 pt-3 xl:pt-0 border-white/10">
+        <div className="flex flex-wrap gap-1.5 border-t xl:border-t-0 pt-3 xl:pt-0 border-slate-800">
           {[
             { id: "dashboard", label: "📊 Здоров'я & Дашборд", icon: Activity },
             {
@@ -935,7 +937,7 @@ export default function AdminBackOffice() {
               <button
                 key={sec.id}
                 onClick={() => setActiveSection(sec.id as AdminSection)}
-                className={`px-2 py-1.5 rounded-2xl text-xs font-bold uppercase tracking-wider font-mono border transition-all cursor-pointer flex items-center gap-2 ${isActive ? "bg-blue-600 text-white border-blue-500 shadow-xl shadow-black/20" : "bg-black/40 text-slate-300 border-white/10 hover:border-white/10"}`}
+                className={`px-2 py-1.5 rounded-2xl text-xs font-bold uppercase tracking-wider font-mono border transition-all cursor-pointer flex items-center gap-2 ${isActive ? "bg-blue-600 text-white border-blue-500 shadow-xl shadow-black/20" : "bg-black/40 text-slate-300 border-slate-800 hover:border-slate-800"}`}
               >
                 <Icon className="w-3.5 h-3.5" />
                 {sec.label}
@@ -958,14 +960,14 @@ export default function AdminBackOffice() {
                   value: "89 всього",
                   desc: "14 активних сесій",
                   icon: Users,
-                  color: "text-blue-400 bg-blue-500/10 border-white/10",
+                  color: "text-blue-400 bg-blue-500/10 border-slate-800",
                 },
                 {
                   label: "AI Запитів за добу",
                   value: "148,029",
                   desc: "Швидкість: 42 токена/сек",
                   icon: Zap,
-                  color: "text-amber-400 bg-amber-500/10 border-white/10",
+                  color: "text-amber-400 bg-amber-500/10 border-slate-800",
                 },
                 {
                   label: "Кластер Kubernetes",
@@ -973,19 +975,19 @@ export default function AdminBackOffice() {
                   desc: "0 перезапусків за 7д",
                   icon: Server,
                   color:
-                    "text-emerald-400 bg-emerald-500/10 border-white/10",
+                    "text-emerald-400 bg-emerald-500/10 border-slate-800",
                 },
                 {
                   label: "Використання GPU",
                   value: "82.4%",
                   desc: "Пам'ять: 42 GB / 48 GB",
                   icon: Cpu,
-                  color: "text-rose-400 bg-rose-500/10 border-white/10",
+                  color: "text-rose-400 bg-rose-500/10 border-slate-800",
                 },
               ].map((stat, idx) => (
                 <div
                   key={idx}
-                  className="bg-[#0b1329]/50 border border-white/10 rounded-2xl p-2 flex items-center justify-between shadow-2xl shadow-black/40"
+                  className="bg-[#0b1329]/50 border border-slate-800 rounded-2xl p-2 flex items-center justify-between shadow-2xl shadow-black/40"
                 >
                   <div>
                     <span className="text-xs text-slate-300 font-mono font-bold uppercase tracking-wider block">
@@ -1035,7 +1037,7 @@ export default function AdminBackOffice() {
               ].map((bar, idx) => (
                 <div
                   key={idx}
-                  className="glass-panel-premium border-white/10 rounded-2xl p-2 space-y-2.5 text-left"
+                  className="glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-2.5 text-left"
                 >
                   <div className="flex justify-between items-center text-xs font-mono">
                     <span className="text-slate-300 font-bold uppercase">
@@ -1057,11 +1059,11 @@ export default function AdminBackOffice() {
             </div>
 
             {/* Comprehensive status panel for 15 system technologies */}
-            <div className="bg-[#0b1329]/40 border border-white/10 rounded-2xl p-2 shadow-xl space-y-4">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div className="bg-[#0b1329]/40 border border-slate-800 rounded-2xl p-2 shadow-xl space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
                   <Database className="w-4.5 h-4.5 text-blue-400" />
-                  <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                  <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                     Статус компонентів та технологічного стеку ядра
                   </span>
                 </div>
@@ -1077,104 +1079,104 @@ export default function AdminBackOffice() {
                     status: "ONLINE",
                     lag: "0.2ms latency",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "Neo4j Graph Database",
                     status: "ONLINE",
                     lag: "12.4M зв'язків",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "Qdrant Vector DB",
                     status: "ONLINE",
                     lag: "99.8% точність",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "OpenSearch Indices",
                     status: "ONLINE",
                     lag: "8.4 GB індексу",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "Redis Cache Queue",
                     status: "ONLINE",
                     lag: "28 active sessions",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "MinIO Storage (S3)",
                     status: "ONLINE",
                     lag: "145k PDF звітів",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "Kafka / Redpanda",
                     status: "ONLINE",
                     lag: "0 message lag",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "Celery Workers",
                     status: "ONLINE",
                     lag: "14 processes live",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "FastAPI Rest Backend",
                     status: "ONLINE",
                     lag: "Response time: 14ms",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "Ollama LLM Instance",
                     status: "ONLINE",
                     lag: "Llama-3 active",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "YouControl Sync API",
                     status: "ONLINE",
                     lag: "Connected",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "Opendatabot Sync API",
                     status: "ONLINE",
                     lag: "Connected",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "Митні API Gateway",
                     status: "ONLINE",
                     lag: "Connected",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "Прозорро API Sink",
                     status: "ONLINE",
                     lag: "Connected",
                     color:
-                      "text-emerald-400 border-white/10 bg-emerald-500/5",
+                      "text-emerald-400 border-slate-800 bg-emerald-500/5",
                   },
                   {
                     name: "Telegram Scraper Bot",
                     status: "OFFLINE",
                     lag: "Disabled by Admin",
-                    color: "text-slate-500 border-white/10 bg-black/40",
+                    color: "text-slate-500 border-slate-800 bg-black/40",
                   },
                 ].map((comp, idx) => (
                   <div
@@ -1225,15 +1227,15 @@ export default function AdminBackOffice() {
             {/* Split screen: left users, right organizations */}
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-2">
               {/* Users list and controls */}
-              <div className="xl:col-span-7 glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="xl:col-span-7 glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                   <div className="flex items-center gap-2">
                     <Users className="w-4.5 h-4.5 text-blue-400" />
-                    <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                    <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                       Реєстр користувачів платформи
                     </span>
                   </div>
-                  <span className="text-xs text-blue-400 font-mono font-bold bg-blue-500/10 px-2 py-1 rounded border border-white/10">
+                  <span className="text-xs text-blue-400 font-mono font-bold bg-blue-500/10 px-2 py-1 rounded border border-slate-800">
                     Усього: {users.length} осіб
                   </span>
                 </div>
@@ -1241,7 +1243,7 @@ export default function AdminBackOffice() {
                 {/* Create User Form */}
                 <form
                   onSubmit={handleCreateUser}
-                  className="glass-panel-premium border-white/10 p-2 rounded-2xl space-y-3 text-left"
+                  className="glass-panel-premium border-slate-800 p-2 rounded-2xl space-y-3 text-left"
                 >
                   <h4 className="text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">
                     ➕ Створити нового користувача
@@ -1269,12 +1271,12 @@ export default function AdminBackOffice() {
                         onChange={(e) => setNewUserRole(e.target.value)}
                         className="input-premium"
                       >
-                        <option value="Super Admin">Super Admin</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Auditor">Auditor</option>
-                        <option value="Operator">Operator</option>
-                        <option value="Analyst">Analyst</option>
-                        <option value="Guest">Guest</option>
+                        <option value="Super Admin">Супер-адміністратор</option>
+                        <option value="Admin">Адміністратор</option>
+                        <option value="Auditor">Аудитор</option>
+                        <option value="Operator">Оператор</option>
+                        <option value="Analyst">Аналітик</option>
+                        <option value="Guest">Гість</option>
                       </select>
                     </div>
                     <div>
@@ -1305,7 +1307,7 @@ export default function AdminBackOffice() {
                 </form>
 
                 {/* Users Table */}
-                <div className="border border-white/10 rounded-2xl overflow-hidden divide-y divide-slate-900 bg-black/40">
+                <div className="border border-slate-800 rounded-2xl overflow-hidden divide-y divide-slate-900 bg-black/40">
                   {users.map((usr) => (
                     <div
                       key={usr.id}
@@ -1320,7 +1322,7 @@ export default function AdminBackOffice() {
                             <span className="text-xs font-bold text-slate-200">
                               {usr.email}
                             </span>
-                            <span className="text-xs bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-300 border border-white/10 px-2 py-1 rounded font-mono font-bold uppercase">
+                            <span className="text-xs bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-300 border border-slate-800 px-2 py-1 rounded font-mono font-bold uppercase">
                               {usr.org}
                             </span>
                           </div>
@@ -1333,20 +1335,20 @@ export default function AdminBackOffice() {
                       <div className="flex flex-wrap items-center gap-2">
                         {/* MFA status indicator */}
                         <span
-                          className={`text-xs font-mono font-bold border px-2 py-1 rounded ${usr.mfa ? "text-emerald-400 border-white/10 bg-emerald-500/5" : "text-amber-400 border-white/10 bg-amber-500/5"}`}
+                          className={`text-xs font-mono font-bold border px-2 py-1 rounded ${usr.mfa ? "text-emerald-400 border-slate-800 bg-emerald-500/5" : "text-amber-400 border-slate-800 bg-amber-500/5"}`}
                         >
                           {usr.mfa ? "MFA ACTIVE" : "NO MFA"}
                         </span>
 
                         {/* Role tag */}
-                        <span className="text-xs bg-blue-500/10 text-blue-400 border border-white/10 px-2 py-1 rounded font-mono font-bold">
+                        <span className="text-xs bg-blue-500/10 text-blue-400 border border-slate-800 px-2 py-1 rounded font-mono font-bold">
                           {usr.role}
                         </span>
 
                         {/* Block/Unblock toggle button */}
                         <button
                           onClick={() => toggleUserStatus(usr.id)}
-                          className={`px-2 py-1 rounded text-xs font-mono font-bold uppercase transition-all cursor-pointer border ${usr.status === "ACTIVE" ? "bg-emerald-500/10 border-white/10 text-emerald-400 hover:bg-rose-500/10 hover:border-white/10 hover:text-rose-400" : "bg-rose-500/10 border-white/10 text-rose-400 hover:bg-emerald-500/10 hover:border-white/10 hover:text-emerald-400"}`}
+                          className={`px-2 py-1 rounded text-xs font-mono font-bold uppercase transition-all cursor-pointer border ${usr.status === "ACTIVE" ? "bg-emerald-500/10 border-slate-800 text-emerald-400 hover:bg-rose-500/10 hover:border-slate-800 hover:text-rose-400" : "bg-rose-500/10 border-slate-800 text-rose-400 hover:bg-emerald-500/10 hover:border-slate-800 hover:text-emerald-400"}`}
                         >
                           {usr.status === "ACTIVE"
                             ? "Блокувати"
@@ -1356,11 +1358,11 @@ export default function AdminBackOffice() {
                         {/* Reset password button */}
                         <button
                           onClick={() =>
-                            alert(
+                            showToast(
                               `Запит на скидання паролю для ${usr.email} надіслано в Keycloak!`,
                             )
                           }
-                          className="px-2 py-1 bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 text-slate-300 hover:text-slate-200 border border-white/10 rounded text-xs font-mono font-bold uppercase transition-all cursor-pointer"
+                          className="px-2 py-1 bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 text-slate-300 hover:text-slate-200 border border-slate-800 rounded text-xs font-mono font-bold uppercase transition-all cursor-pointer"
                         >
                           Скинути PW
                         </button>
@@ -1380,11 +1382,11 @@ export default function AdminBackOffice() {
 
               {/* Clients Organizations details */}
               <div className="xl:col-span-5 space-y-4">
-                <div className="glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                     <div className="flex items-center gap-2">
                       <Landmark className="w-4.5 h-4.5 text-blue-400" />
-                      <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                      <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                         Клієнтські Організації (Tenant Profiles)
                       </span>
                     </div>
@@ -1394,18 +1396,18 @@ export default function AdminBackOffice() {
                     {orgs.map((org) => (
                       <div
                         key={org.id}
-                        className="glass-panel-premium border-white/10 p-2.5 rounded-2xl text-left space-y-2"
+                        className="glass-panel-premium border-slate-800 p-2.5 rounded-2xl text-left space-y-2"
                       >
                         <div className="flex justify-between items-center">
                           <strong className="text-xs text-white font-bold">
                             {org.name}
                           </strong>
-                          <span className="text-xs bg-blue-500/15 text-blue-400 border border-white/10 px-2 py-1 rounded font-mono font-bold">
+                          <span className="text-xs bg-blue-500/15 text-blue-400 border border-slate-800 px-2 py-1 rounded font-mono font-bold">
                             {org.license}
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-3 gap-2 text-xs font-mono text-slate-300 border-t border-white/10/50 pt-2">
+                        <div className="grid grid-cols-3 gap-2 text-xs font-mono text-slate-300 border-t border-slate-800/50 pt-2">
                           <div>
                             <span className="text-slate-500 block">
                               Аналітики
@@ -1470,15 +1472,15 @@ export default function AdminBackOffice() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-2">
               {/* Matrix of RBAC Permissions */}
-              <div className="xl:col-span-8 glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="xl:col-span-8 glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                   <div className="flex items-center gap-2">
                     <Shield className="w-4.5 h-4.5 text-blue-400" />
-                    <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                    <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                       Матриця дозволів безпеки (RBAC Access Matrix)
                     </span>
                   </div>
-                  <span className="text-xs text-amber-500 font-mono font-bold bg-amber-500/10 px-2.5 py-0.5 rounded border border-white/10">
+                  <span className="text-xs text-amber-500 font-mono font-bold bg-amber-500/10 px-2.5 py-0.5 rounded border border-slate-800">
                     KEYCLOAK SYNCED
                   </span>
                 </div>
@@ -1492,7 +1494,7 @@ export default function AdminBackOffice() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left font-mono text-xs border-collapse">
                     <thead>
-                      <tr className="border-b border-white/10 bg-slate-950/60">
+                      <tr className="border-b border-slate-800 bg-slate-950/60">
                         <th className="p-2 text-slate-300 uppercase font-black">
                           Роль доступу
                         </th>
@@ -1545,10 +1547,10 @@ export default function AdminBackOffice() {
               </div>
 
               {/* License Tiers Management */}
-              <div className="xl:col-span-4 glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4 text-left">
-                <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+              <div className="xl:col-span-4 glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4 text-left">
+                <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
                   <Landmark className="w-4.5 h-4.5 text-blue-400" />
-                  <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                  <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                     Активація модулів за ліцензіями
                   </span>
                 </div>
@@ -1557,7 +1559,7 @@ export default function AdminBackOffice() {
                   {licenses.map((lic) => (
                     <div
                       key={lic.id}
-                      className="glass-panel-premium border-white/10 p-2.5 rounded-2xl space-y-2"
+                      className="glass-panel-premium border-slate-800 p-2.5 rounded-2xl space-y-2"
                     >
                       <div className="flex justify-between items-center">
                         <strong className="text-xs text-white font-bold font-mono">
@@ -1572,9 +1574,9 @@ export default function AdminBackOffice() {
                                   : l,
                               ),
                             );
-                            alert(`Статус ліцензії ${lic.name} змінено!`);
+                            showToast(`Статус ліцензії ${lic.name} змінено!`);
                           }}
-                          className={`text-xs font-mono font-bold px-2 py-1 rounded border transition-all cursor-pointer ${lic.active ? "bg-emerald-500/10 text-emerald-400 border-white/10" : "bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-500 border-white/10"}`}
+                          className={`text-xs font-mono font-bold px-2 py-1 rounded border transition-all cursor-pointer ${lic.active ? "bg-emerald-500/10 text-emerald-400 border-slate-800" : "bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-500 border-slate-800"}`}
                         >
                           {lic.active ? "ACTIVE" : "INACTIVE"}
                         </button>
@@ -1588,7 +1590,7 @@ export default function AdminBackOffice() {
                           {lic.modules.map((m, i) => (
                             <span
                               key={i}
-                              className="text-xs bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-300 border border-white/10 px-2 py-1 rounded font-mono"
+                              className="text-xs bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-300 border border-slate-800 px-2 py-1 rounded font-mono"
                             >
                               {m}
                             </span>
@@ -1614,10 +1616,10 @@ export default function AdminBackOffice() {
         {activeSection === "ai-models" && (
           <div className="space-y-6">
             {/* Top configuration box for Arbiter Routing */}
-            <div className="bg-[#0b1329]/50 border border-white/10 rounded-2xl p-2 shadow-xl text-left space-y-3">
+            <div className="bg-[#0b1329]/50 border border-slate-800 rounded-2xl p-2 shadow-xl text-left space-y-3">
               <div className="flex items-center gap-2">
                 <Sliders className="w-4.5 h-4.5 text-blue-400 animate-pulse" />
-                <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                   Розумний Роутер ШІ "Arbiter Engine" v1.2
                 </span>
               </div>
@@ -1635,9 +1637,9 @@ export default function AdminBackOffice() {
             </div>
 
             {/* Models Table with routing controls */}
-            <div className="glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4 text-left">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+            <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4 text-left">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                   ШІ-моделі у семантичному пулі
                 </span>
                 <span className="text-xs text-slate-300 font-mono font-bold">
@@ -1647,7 +1649,7 @@ export default function AdminBackOffice() {
                 </span>
               </div>
 
-              <div className="border border-white/10 rounded-2xl overflow-hidden divide-y divide-slate-900 bg-black/40">
+              <div className="border border-slate-800 rounded-2xl overflow-hidden divide-y divide-slate-900 bg-black/40">
                 {aiModels.map((model) => (
                   <div
                     key={model.id}
@@ -1658,11 +1660,11 @@ export default function AdminBackOffice() {
                         <strong className="text-xs text-white font-mono">
                           {model.name}
                         </strong>
-                        <span className="text-xs bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-500 border border-white/10 px-2 py-1 rounded font-mono uppercase">
+                        <span className="text-xs bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-500 border border-slate-800 px-2 py-1 rounded font-mono uppercase">
                           {model.provider}
                         </span>
                         <span
-                          className={`text-xs font-mono font-bold px-2 py-1 rounded ${model.status === "ONLINE" ? "text-emerald-400 bg-emerald-500/10 border border-white/10" : model.status === "STANDBY" ? "text-amber-400 bg-amber-500/10 border border-white/10" : "text-slate-500 border-white/10 bg-black/40"}`}
+                          className={`text-xs font-mono font-bold px-2 py-1 rounded ${model.status === "ONLINE" ? "text-emerald-400 bg-emerald-500/10 border border-slate-800" : model.status === "STANDBY" ? "text-amber-400 bg-amber-500/10 border border-slate-800" : "text-slate-500 border-slate-800 bg-black/40"}`}
                         >
                           {model.status}
                         </span>
@@ -1752,10 +1754,10 @@ export default function AdminBackOffice() {
             {/* Split view: Integrations vs ETL Pipelines */}
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-2 text-left">
               {/* Integrations on/off switches */}
-              <div className="xl:col-span-6 glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4">
-                <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+              <div className="xl:col-span-6 glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4">
+                <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
                   <Landmark className="w-4.5 h-4.5 text-blue-400" />
-                  <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                  <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                     Підключені зовнішні API джерела
                   </span>
                 </div>
@@ -1764,7 +1766,7 @@ export default function AdminBackOffice() {
                   {dataSources.map((ds) => (
                     <div
                       key={ds.id}
-                      className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex items-center justify-between"
+                      className="glass-panel-premium border-slate-800 p-2.5 rounded-2xl flex items-center justify-between"
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
@@ -1804,10 +1806,10 @@ export default function AdminBackOffice() {
               {/* ETL Pipelines and Cron Scheduler */}
               <div className="xl:col-span-6 space-y-6">
                 {/* Pipelines List */}
-                <div className="glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4">
-                  <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+                <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4">
+                  <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
                     <Layers className="w-4.5 h-4.5 text-blue-400 animate-pulse" />
-                    <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                    <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                       Аналітичні ETL-пайплайни
                     </span>
                   </div>
@@ -1816,14 +1818,14 @@ export default function AdminBackOffice() {
                     {etlPipelines.map((pipe) => (
                       <div
                         key={pipe.id}
-                        className="glass-panel-premium border-white/10 p-2 rounded-2xl space-y-2"
+                        className="glass-panel-premium border-slate-800 p-2 rounded-2xl space-y-2"
                       >
                         <div className="flex justify-between items-center text-xs font-mono">
                           <strong className="text-slate-200">
                             {pipe.name}
                           </strong>
                           <span
-                            className={`text-xs font-bold px-2 py-1 rounded border ${pipe.status === "Running" ? "text-emerald-400 bg-emerald-500/10 border-white/10" : pipe.status === "Paused" ? "text-amber-400 bg-amber-500/10 border-white/10" : pipe.status === "Completed" ? "text-blue-400 bg-blue-500/10 border-white/10" : "text-rose-400 bg-rose-500/10 border-white/10"}`}
+                            className={`text-xs font-bold px-2 py-1 rounded border ${pipe.status === "Running" ? "text-emerald-400 bg-emerald-500/10 border-slate-800" : pipe.status === "Paused" ? "text-amber-400 bg-amber-500/10 border-slate-800" : pipe.status === "Completed" ? "text-blue-400 bg-blue-500/10 border-slate-800" : "text-rose-400 bg-rose-500/10 border-slate-800"}`}
                           >
                             {pipe.status}
                           </span>
@@ -1857,15 +1859,15 @@ export default function AdminBackOffice() {
                 </div>
 
                 {/* Scheduler Cron Tasks */}
-                <div className="glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4">
-                  <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+                <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4">
+                  <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
                     <Clock className="w-4.5 h-4.5 text-blue-400" />
-                    <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                    <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                       Планувальник Cron-задач
                     </span>
                   </div>
 
-                  <div className="border border-white/10 rounded-2xl overflow-hidden divide-y divide-slate-900 bg-black/40">
+                  <div className="border border-slate-800 rounded-2xl overflow-hidden divide-y divide-slate-900 bg-black/40">
                     {cronTasks.map((cron) => (
                       <div
                         key={cron.id}
@@ -1901,9 +1903,9 @@ export default function AdminBackOffice() {
                                   : c,
                               ),
                             );
-                            alert(`Статус Cron-задачі ${cron.name} змінено!`);
+                            showToast(`Статус Cron-задачі ${cron.name} змінено!`);
                           }}
-                          className={`text-xs font-mono font-bold px-2 py-1 rounded border transition-all cursor-pointer ${cron.status === "ACTIVE" ? "bg-emerald-500/10 text-emerald-400 border-white/10" : "bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-500 border-white/10"}`}
+                          className={`text-xs font-mono font-bold px-2 py-1 rounded border transition-all cursor-pointer ${cron.status === "ACTIVE" ? "bg-emerald-500/10 text-emerald-400 border-slate-800" : "bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-500 border-slate-800"}`}
                         >
                           {cron.status}
                         </button>
@@ -1925,35 +1927,35 @@ export default function AdminBackOffice() {
                 {
                   label: "Kafka Lag",
                   value: "2 msg",
-                  text: "MinIO S3 queue synchronization",
+                  text: "MinIO S3 синхронізація черг",
                   icon: Radio,
                   color: "text-emerald-400",
                 },
                 {
                   label: "Celery Tasks Running",
                   value: "14 active",
-                  text: "OCR / Graph Node computations",
+                  text: "Обчислення OCR / Графових вузлів",
                   icon: Cpu,
                   color: "text-blue-400",
                 },
                 {
                   label: "Redis Queue size",
                   value: "28 entries",
-                  text: "Transient memory broker pipeline",
+                  text: "Конвеєр транзитних брокерів пам'яті",
                   icon: Database,
                   color: "text-blue-400",
                 },
                 {
                   label: "Dead Letter Queue",
                   value: "1 msg",
-                  text: "Failed messages to analyze",
+                  text: "Помилкові повідомлення для аналізу",
                   icon: AlertTriangle,
                   color: "text-amber-500 animate-pulse",
                 },
               ].map((m, idx) => (
                 <div
                   key={idx}
-                  className="glass-panel-premium border-white/10 rounded-2xl p-2 flex items-center justify-between text-left"
+                  className="glass-panel-premium border-slate-800 rounded-2xl p-2 flex items-center justify-between text-left"
                 >
                   <div>
                     <span className="text-xs text-slate-500 font-mono font-black uppercase tracking-wider block">
@@ -1967,7 +1969,7 @@ export default function AdminBackOffice() {
                     </span>
                   </div>
                   <div
-                    className={`p-2.5 rounded-2xl bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-white/10 ${m.color}`}
+                    className={`p-2.5 rounded-2xl bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border border-slate-800 ${m.color}`}
                   >
                     <m.icon className="w-4 h-4" />
                   </div>
@@ -1976,8 +1978,8 @@ export default function AdminBackOffice() {
             </div>
 
             {/* Live systems log console with filters */}
-            <div className="glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4 text-left">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
+            <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4 text-left">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
                   <Terminal className="w-4.5 h-4.5 text-blue-400" />
                   <span className="text-xs font-black font-mono uppercase text-slate-200">
@@ -2004,7 +2006,7 @@ export default function AdminBackOffice() {
                     <button
                       key={f}
                       onClick={() => setLogFilter(f)}
-                      className={`px-2 py-1 rounded text-xs font-mono font-black uppercase border transition-all cursor-pointer ${logFilter === f ? "bg-blue-600 text-white border-blue-500 shadow" : "bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-500 border-white/10 hover:text-slate-300"}`}
+                      className={`px-2 py-1 rounded text-xs font-mono font-black uppercase border transition-all cursor-pointer ${logFilter === f ? "bg-blue-600 text-white border-blue-500 shadow" : "bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] text-slate-500 border-slate-800 hover:text-slate-300"}`}
                     >
                       {f}
                     </button>
@@ -2017,13 +2019,13 @@ export default function AdminBackOffice() {
                 <AnimatePresence initial={false}>
                   {filteredLogs.map((log, i) => {
                     const badgeColors = {
-                      ERROR: "text-rose-400 bg-rose-500/10 border-white/10",
+                      ERROR: "text-rose-400 bg-rose-500/10 border-slate-800",
                       WARNING:
-                        "text-amber-400 bg-amber-500/10 border-white/10",
-                      INFO: "text-slate-300 bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border-white/10",
+                        "text-amber-400 bg-amber-500/10 border-slate-800",
+                      INFO: "text-slate-300 bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] border-slate-800",
                       SECURITY:
-                        "text-emerald-400 bg-emerald-500/10 border-white/10",
-                      AUDIT: "text-blue-400 bg-blue-500/10 border-white/10",
+                        "text-emerald-400 bg-emerald-500/10 border-slate-800",
+                      AUDIT: "text-blue-400 bg-blue-500/10 border-slate-800",
                       AI: "text-teal-400 bg-teal-500/10 border-teal-500/20",
                     };
                     return (
@@ -2031,7 +2033,7 @@ export default function AdminBackOffice() {
                         key={i}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="flex items-start gap-2 p-1.5 hover:bg-slate-900/60 rounded border border-transparent hover:border-white/10 transition-all text-left"
+                        className="flex items-start gap-2 p-1.5 hover:bg-slate-900/60 rounded border border-transparent hover:border-slate-800 transition-all text-left"
                       >
                         <span className="text-slate-500 font-bold shrink-0">
                           {log.timestamp}
@@ -2056,7 +2058,7 @@ export default function AdminBackOffice() {
                 </AnimatePresence>
               </div>
 
-              <div className="flex items-center justify-between text-xs text-slate-500 font-mono pt-2 border-t border-white/10">
+              <div className="flex items-center justify-between text-xs text-slate-500 font-mono pt-2 border-t border-slate-800">
                 <span>Показано {filteredLogs.length} подій за фільтром</span>
                 <span className="text-emerald-400 font-black animate-pulse flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
@@ -2072,15 +2074,15 @@ export default function AdminBackOffice() {
           <div className="space-y-6">
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-2 text-left">
               {/* Kubernetes Pods & Deployments */}
-              <div className="xl:col-span-7 glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="xl:col-span-7 glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                   <div className="flex items-center gap-2">
                     <Layers className="w-4.5 h-4.5 text-blue-400" />
-                    <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                    <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                       Дерево Pods кластеру Kubernetes (Microservices)
                     </span>
                   </div>
-                  <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-white/10">
+                  <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-slate-800">
                     STATUS: ACTIVE
                   </span>
                 </div>
@@ -2089,7 +2091,7 @@ export default function AdminBackOffice() {
                   {k8sPods.map((pod) => (
                     <div
                       key={pod.name}
-                      className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+                      className="glass-panel-premium border-slate-800 p-2.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2"
                     >
                       <div>
                         <div className="flex items-center gap-2">
@@ -2136,20 +2138,20 @@ export default function AdminBackOffice() {
               {/* HashiCorp Vault secrets & manual backup system */}
               <div className="xl:col-span-5 space-y-6">
                 {/* Vault & Keycloak */}
-                <div className="glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                     <div className="flex items-center gap-2">
                       <Shield className="w-4.5 h-4.5 text-blue-400" />
-                      <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                      <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                         Безпека: HashiCorp Vault
                       </span>
                     </div>
                     <button
                       onClick={() => {
                         setVaultSealed(!vaultSealed);
-                        alert(`Статус сейфа HashiCorp Vault змінено!`);
+                        showToast(`Статус сейфа HashiCorp Vault змінено!`);
                       }}
-                      className={`text-xs font-mono font-bold px-2 py-1 rounded border transition-all cursor-pointer ${!vaultSealed ? "bg-emerald-500/10 text-emerald-400 border-white/10" : "bg-rose-500/10 text-rose-400 border-white/10 animate-pulse"}`}
+                      className={`text-xs font-mono font-bold px-2 py-1 rounded border transition-all cursor-pointer ${!vaultSealed ? "bg-emerald-500/10 text-emerald-400 border-slate-800" : "bg-rose-500/10 text-rose-400 border-slate-800 animate-pulse"}`}
                     >
                       {!vaultSealed ? "VAULT UNSEALED" : "VAULT SEALED"}
                     </button>
@@ -2162,7 +2164,7 @@ export default function AdminBackOffice() {
                       секретів Шаміра (3 з 5 шардів активовані).
                     </p>
 
-                    <div className="glass-panel-premium border-white/10 p-2 rounded-2xl font-mono text-xs text-slate-300 space-y-1">
+                    <div className="glass-panel-premium border-slate-800 p-2 rounded-2xl font-mono text-xs text-slate-300 space-y-1">
                       <div className="flex justify-between">
                         <span>OIDC Provider (Keycloak):</span>
                         <strong className="text-emerald-400">
@@ -2186,11 +2188,11 @@ export default function AdminBackOffice() {
                 </div>
 
                 {/* Databases Snapshot backups */}
-                <div className="glass-panel-premium border-white/10 rounded-2xl p-2 space-y-4">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                     <div className="flex items-center gap-2">
                       <Database className="w-4.5 h-4.5 text-blue-400" />
-                      <span className="text-xs font-black font-mono uppercase text-slate-100 tracking-wider">
+                      <span className="text-xs font-black font-mono uppercase text-slate-200 tracking-wider">
                         Резервні копії & Snapshots
                       </span>
                     </div>
@@ -2206,7 +2208,7 @@ export default function AdminBackOffice() {
                     {backups.map((bak, i) => (
                       <div
                         key={i}
-                        className="glass-panel-premium border-white/10 p-2.5 rounded-2xl flex justify-between items-center text-xs font-mono"
+                        className="glass-panel-premium border-slate-800 p-2.5 rounded-2xl flex justify-between items-center text-xs font-mono"
                       >
                         <div>
                           <strong
@@ -2222,11 +2224,11 @@ export default function AdminBackOffice() {
                         <div className="flex gap-1.5 shrink-0">
                           <button
                             onClick={() =>
-                              alert(
+                              showToast(
                                 `Запущено відновлення бази з файлу ${bak.filename}... Будь ласка, зачекайте 2 хв.`,
                               )
                             }
-                            className="px-2 py-1 bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 text-blue-400 hover:text-indigo-300 rounded border border-white/10 transition-colors cursor-pointer font-black text-xs"
+                            className="px-2 py-1 bg-black/40 backdrop-blur-md shadow-[0_4px_30px_rgba(30,58,138,0.1)] hover:bg-slate-850 text-blue-400 hover:text-indigo-300 rounded border border-slate-800 transition-colors cursor-pointer font-black text-xs"
                           >
                             RESTORE
                           </button>

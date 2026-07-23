@@ -106,8 +106,8 @@ export default function RoadmapTab() {
   return (
     <div className="space-y-6" id="roadmap-tab-root">
       {/* Top Header */}
-      <div className="glass-panel-premium border-white/10 rounded-2xl p-2 backdrop-blur-md">
-        <h2 className="text-lg font-semibold text-slate-100 flex items-center gap-2 mb-2">
+      <div className="glass-panel-premium border-slate-800 rounded-2xl p-2 backdrop-blur-md">
+        <h2 className="text-lg font-semibold text-slate-200 flex items-center gap-2 mb-2">
           <Calendar className="w-4 h-4 text-blue-400" id="roadmap-title-icon" />
           Дорожня карта розгортання платформи (Enterprise Roadmap)
         </h2>
@@ -133,7 +133,7 @@ export default function RoadmapTab() {
                   key={phase.id}
                   id={`roadmap-phase-btn-${phase.id}`}
                   onClick={() => setActivePhaseId(phase.id)}
-                  className={`w-full text-left p-2 rounded-2xl border transition-all relative overflow-hidden flex flex-col justify-between ${isActive ? 'bg-blue-500/10 border-white/10 shadow-[0_0_15px_rgba(99,102,241,0.05)]' : 'bg-slate-900/40 border-white/10 hover:border-white/10'}`}
+                  className={`w-full text-left p-2 rounded-2xl border transition-all relative overflow-hidden flex flex-col justify-between ${isActive ? 'bg-blue-500/10 border-slate-800 shadow-[0_0_15px_rgba(99,102,241,0.05)]' : 'bg-slate-900/40 border-slate-800 hover:border-slate-800'}`}
                 >
                   {/* Phase top tag */}
                   <div className="flex items-center justify-between text-xs uppercase font-bold tracking-wider text-slate-500">
@@ -163,8 +163,8 @@ export default function RoadmapTab() {
 
         {/* Middle Columns: Active Phase Detail & Milestones */}
         <div className="lg:col-span-2 space-y-4" id="active-phase-details">
-          <div className="bg-slate-900/40 border border-white/10 rounded-2xl p-2 space-y-5">
-            <div className="flex items-start justify-between border-b border-white/10 pb-4">
+          <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-2 space-y-5">
+            <div className="flex items-start justify-between border-b border-slate-800 pb-4">
               <div>
                 <span className="text-xs text-blue-400 font-mono font-bold uppercase">{activePhase.timeframe}</span>
                 <h3 className="text-lg font-bold text-white mt-1">{activePhase.title}</h3>
@@ -180,7 +180,7 @@ export default function RoadmapTab() {
             {/* Main Focus */}
             <div className="space-y-1.5">
               <span className="text-xs uppercase text-slate-500 font-bold tracking-wider block">Основний фокус етапу:</span>
-              <p className="text-xs text-slate-300 bg-slate-950/60 p-2.5 rounded-2xl border border-white/10 leading-relaxed font-medium">
+              <p className="text-xs text-slate-300 bg-slate-950/60 p-2.5 rounded-2xl border border-slate-800 leading-relaxed font-medium">
                 {activePhase.focus}
               </p>
             </div>
@@ -192,7 +192,7 @@ export default function RoadmapTab() {
                 <span className="text-xs uppercase text-slate-500 font-bold tracking-wider block">Архітектурні компоненти:</span>
                 <div className="space-y-1.5">
                   {activePhase.components.map((comp, idx) => (
-                    <div key={idx} className="bg-slate-950/80 border border-white/10 p-2 rounded-2xl flex items-center gap-2">
+                    <div key={idx} className="bg-slate-950/80 border border-slate-800 p-2 rounded-2xl flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
                       <span className="text-xs text-slate-300 font-medium">{comp}</span>
                     </div>
@@ -210,7 +210,7 @@ export default function RoadmapTab() {
                       id={`milestone-toggle-${activePhase.id}-${idx}`}
                       type="button"
                       onClick={() => handleToggleMilestone(activePhase.id, idx)}
-                      className="w-full text-left bg-slate-950/40 hover:bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-white/10/50 hover:border-white/10 p-2.5 rounded-2xl flex items-start gap-2.5 transition-all"
+                      className="w-full text-left bg-slate-950/40 hover:bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] border border-slate-800/50 hover:border-slate-800 p-2.5 rounded-2xl flex items-start gap-2.5 transition-all"
                     >
                       {m.done ? (
                         <CheckSquare className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
@@ -227,7 +227,7 @@ export default function RoadmapTab() {
             </div>
 
             {/* Active Phase Risks & Mitigations */}
-            <div className="border-t border-white/10/80 pt-4 space-y-2">
+            <div className="border-t border-slate-800/80 pt-4 space-y-2">
               <span className="text-xs uppercase text-rose-400 font-bold tracking-wider flex items-center gap-1">
                 <AlertTriangle className="w-4 h-4 text-rose-400" />
                 Ризики та Ключові виклики етапу:
@@ -242,7 +242,7 @@ export default function RoadmapTab() {
             </div>
 
             {/* GPU Requirements spec */}
-            <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl p-2 border border-white/10 flex items-center gap-2 text-xs text-slate-300">
+            <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl p-2 border border-slate-800 flex items-center gap-2 text-xs text-slate-300">
               <Cpu className="w-4 h-4 text-blue-400 flex-shrink-0" />
               <span>
                 <strong>Вимоги до GPU:</strong> {activePhase.gpuRequirements || 'Немає вимог.'}
@@ -253,8 +253,8 @@ export default function RoadmapTab() {
 
         {/* Right Column: AI Infrastructure Cluster Planner */}
         <div className="lg:col-span-1 space-y-4">
-          <div className="bg-slate-900/40 border border-white/10 rounded-2xl p-2 space-y-5" id="ai-gpu-cluster-planner">
-            <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+          <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-2 space-y-5" id="ai-gpu-cluster-planner">
+            <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
               <Server className="w-4 h-4 text-teal-400" />
               <h3 className="text-xs font-semibold text-slate-200 uppercase tracking-wider">
                 Планувальник ШІ-кластера
@@ -269,7 +269,7 @@ export default function RoadmapTab() {
             <div className="space-y-2.5 text-xs">
               <span className="text-xs uppercase text-slate-500 font-bold tracking-wider block">Моделі для локального запуску:</span>
               
-              <label className="flex items-center gap-2 p-2 bg-slate-950/60 rounded-2xl border border-white/10 cursor-pointer hover:border-white/10">
+              <label className="flex items-center gap-2 p-2 bg-slate-950/60 rounded-2xl border border-slate-800 cursor-pointer hover:border-slate-800">
                 <input
                   type="checkbox"
                   checked={runLlama}
@@ -282,7 +282,7 @@ export default function RoadmapTab() {
                 </div>
               </label>
 
-              <label className="flex items-center gap-2 p-2 bg-slate-950/60 rounded-2xl border border-white/10 cursor-pointer hover:border-white/10">
+              <label className="flex items-center gap-2 p-2 bg-slate-950/60 rounded-2xl border border-slate-800 cursor-pointer hover:border-slate-800">
                 <input
                   type="checkbox"
                   checked={runWhisper}
@@ -295,7 +295,7 @@ export default function RoadmapTab() {
                 </div>
               </label>
 
-              <label className="flex items-center gap-2 p-2 bg-slate-950/60 rounded-2xl border border-white/10 cursor-pointer hover:border-white/10">
+              <label className="flex items-center gap-2 p-2 bg-slate-950/60 rounded-2xl border border-slate-800 cursor-pointer hover:border-slate-800">
                 <input
                   type="checkbox"
                   checked={runDocTR}
@@ -310,7 +310,7 @@ export default function RoadmapTab() {
             </div>
 
             {/* Concurrency parameters */}
-            <div className="space-y-1 text-xs pt-2 border-t border-white/10/60">
+            <div className="space-y-1 text-xs pt-2 border-t border-slate-800/60">
               <div className="flex justify-between text-xs">
                 <span className="text-slate-300">Паралельні аналітики</span>
                 <span className="text-blue-400 font-bold font-mono">{userConcurrency} чол.</span>
@@ -330,7 +330,7 @@ export default function RoadmapTab() {
             </div>
 
             {/* CALCULATOR OUTPUTS */}
-            <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl p-2 border border-white/10 space-y-3" id="cluster-planner-results">
+            <div className="bg-slate-950/40 backdrop-blur-md shadow-[0_4px_40px_rgba(30,58,138,0.15)] rounded-2xl p-2 border border-slate-800 space-y-3" id="cluster-planner-results">
               <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest text-center">Конфігурація GPU ноди</h4>
               
               <div className="space-y-1.5 text-xs text-slate-300">
@@ -352,7 +352,7 @@ export default function RoadmapTab() {
                   </span>
                 </div>
               ) : (
-                <div className="bg-black/40 backdrop-blur-md border border-white/10 p-2.5 rounded-2xl text-center text-slate-500 text-xs">
+                <div className="bg-black/40 backdrop-blur-md border border-slate-800 p-2.5 rounded-2xl text-center text-slate-500 text-xs">
                   ШІ сервіси не активовано
                 </div>
               )}

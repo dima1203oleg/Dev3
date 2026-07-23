@@ -499,13 +499,13 @@ export default function AutonomousFactory() {
   const selectedVote = votes.find((v) => v.id === selectedVoteId);
 
   return (
-    <div className="w-full bg-transparent text-slate-100 p-1 md:p-2 rounded-2xl border border-white/10 shadow-2xl relative overflow-hidden font-sans">
+    <div className="w-full bg-transparent text-slate-200 p-1 md:p-2 rounded-2xl border border-slate-800 shadow-2xl relative overflow-hidden font-sans">
       {/* Background Cyber Glows */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-rose-500/5 blur-3xl pointer-events-none" />
 
       {/* Cyber Top Indicator Bar */}
-      <div className="w-full bg-slate-900/80 border-b border-white/10 p-2.5 flex flex-wrap justify-between items-center gap-2 rounded-t-lg backdrop-blur">
+      <div className="w-full bg-slate-900/80 border-b border-slate-800 p-2.5 flex flex-wrap justify-between items-center gap-2 rounded-t-lg backdrop-blur">
         <div className="flex items-center gap-2">
           <div className="relative">
             <Cpu
@@ -516,7 +516,7 @@ export default function AutonomousFactory() {
             />
           </div>
           <div>
-            <h1 className="text-xs font-black tracking-widest text-slate-100 uppercase font-mono">
+            <h1 className="text-xs font-black tracking-widest text-slate-200 uppercase font-mono">
               PREDATOR Autonomous Eternal Factory
             </h1>
             <p className="text-xs text-slate-500 font-mono tracking-wider">
@@ -526,7 +526,7 @@ export default function AutonomousFactory() {
         </div>
 
         <div className="flex items-center gap-2 text-xs font-mono">
-          <div className="bg-[#020617]/80 backdrop-blur-xl px-3 py-1 border border-white/10 rounded flex items-center gap-2">
+          <div className="bg-slate-950/80 backdrop-blur-xl px-3 py-1 border border-slate-800 rounded flex items-center gap-2">
             <span className="text-xs text-slate-500 uppercase">
               Синхронізація:
             </span>
@@ -543,7 +543,7 @@ export default function AutonomousFactory() {
             )}
           </div>
 
-          <div className="bg-[#020617]/80 backdrop-blur-xl px-3 py-1 border border-white/10 rounded flex items-center gap-2">
+          <div className="bg-slate-950/80 backdrop-blur-xl px-3 py-1 border border-slate-800 rounded flex items-center gap-2">
             <span className="text-xs text-slate-500 uppercase">
               VRAM GUARD:
             </span>
@@ -557,7 +557,7 @@ export default function AutonomousFactory() {
           {tasks.length === 0 && (
             <button
               onClick={handleSeedData}
-              className="px-3 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-white/10 rounded text-xs font-bold uppercase transition-all cursor-pointer"
+              className="px-3 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-slate-800 rounded text-xs font-bold uppercase transition-all cursor-pointer"
             >
               Ініціювати Демо-Дані
             </button>
@@ -565,7 +565,7 @@ export default function AutonomousFactory() {
 
           <button
             onClick={() => setKillSwitchActive(!killSwitchActive)}
-            className={`px-3 py-1.5 rounded font-bold uppercase text-xs border tracking-widest transition-all cursor-pointer flex items-center gap-1.5 ${killSwitchActive ? "bg-rose-950/40 text-rose-400 border-white/10 animate-pulse" : "bg-rose-600/10 text-rose-400 border-white/10 hover:bg-rose-500 hover:text-[#050505]"}`}
+            className={`px-3 py-1.5 rounded font-bold uppercase text-xs border tracking-widest transition-all cursor-pointer flex items-center gap-1.5 ${killSwitchActive ? "bg-rose-950/40 text-rose-400 border-slate-800 animate-pulse" : "bg-rose-600/10 text-rose-400 border-slate-800 hover:bg-rose-500 hover:text-[#050505]"}`}
           >
             <Flame className="w-3.5 h-3.5" />
             <span>
@@ -576,7 +576,7 @@ export default function AutonomousFactory() {
       </div>
 
       {killSwitchActive && (
-        <div className="bg-rose-950/20 border-b border-white/10 p-2 text-center text-xs font-mono font-bold text-rose-400 uppercase tracking-widest animate-pulse flex items-center justify-center gap-2">
+        <div className="bg-rose-950/20 border-b border-slate-800 p-2 text-center text-xs font-mono font-bold text-rose-400 uppercase tracking-widest animate-pulse flex items-center justify-center gap-2">
           <ShieldAlert className="w-4 h-4 animate-bounce" />
           <span>
             АВАРІЙНИЙ СТОП АКТИВОВАНО: Всі процеси, ШІ-Агенти та Клієнти
@@ -586,14 +586,14 @@ export default function AutonomousFactory() {
       )}
 
       {/* Cyber Sub-navigation Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1.5 p-2 bg-slate-950/60 border-b border-white/10">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1.5 p-2 bg-slate-950/60 border-b border-slate-800">
         {[
           {
             id: "conductor",
             label: "Chief Conductor",
             desc: "Управління Агентами",
             icon: Cpu,
-            color: "text-cyan-400 border-white/10",
+            color: "text-cyan-400 border-slate-800",
           },
           {
             id: "council",
@@ -607,14 +607,14 @@ export default function AutonomousFactory() {
             label: "Telegram Bot",
             desc: "Пульт Управління",
             icon: MessageSquare,
-            color: "text-blue-400 border-white/10",
+            color: "text-blue-400 border-slate-800",
           },
           {
             id: "uitester",
             label: "UI-Tester",
             desc: "Автоматичні Тести",
             icon: CheckSquare,
-            color: "text-emerald-400 border-white/10",
+            color: "text-emerald-400 border-slate-800",
           },
           {
             id: "specification",
@@ -628,7 +628,7 @@ export default function AutonomousFactory() {
             label: "Helpers Node",
             desc: "Помічники Системи",
             icon: Server,
-            color: "text-amber-400 border-white/10",
+            color: "text-amber-400 border-slate-800",
           },
         ].map((subTab) => {
           const Icon = subTab.icon;
@@ -637,7 +637,7 @@ export default function AutonomousFactory() {
             <button
               key={subTab.id}
               onClick={() => setActiveSubTab(subTab.id as any)}
-              className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer relative overflow-hidden ${isActive ? "bg-[#09152b] border-white/10 shadow-[inset_0_0_15px_rgba(6,182,212,0.15)] text-slate-100" : "bg-slate-950/40 border-transparent text-slate-400 hover:bg-slate-900/30 hover:text-slate-200"}`}
+              className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer relative overflow-hidden ${isActive ? "bg-[#09152b] border-slate-800 shadow-[inset_0_0_15px_rgba(6,182,212,0.15)] text-slate-200" : "bg-slate-950/40 border-transparent text-slate-400 hover:bg-slate-900/30 hover:text-slate-200"}`}
             >
               <div className="flex items-center gap-2">
                 <Icon
@@ -663,14 +663,14 @@ export default function AutonomousFactory() {
         {activeSubTab === "conductor" && (
           <div className="grid grid-cols-12 gap-2">
             {/* OODA 2.0 Cycle Visualizer */}
-            <div className="col-span-12 xl:col-span-4 bg-slate-950/50 border border-white/10 rounded-2xl p-2 flex flex-col justify-between h-[350px]">
+            <div className="col-span-12 xl:col-span-4 bg-slate-950/50 border border-slate-800 rounded-2xl p-2 flex flex-col justify-between h-[350px]">
               <div>
-                <div className="pb-2 border-b border-white/10 mb-3 flex justify-between items-center">
+                <div className="pb-2 border-b border-slate-800 mb-3 flex justify-between items-center">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
                     <Zap className="w-4 h-4 text-cyan-400 animate-pulse" />
                     Оркестрація AI Intelligence Acquisition
                   </span>
-                  <span className="text-xs font-mono bg-cyan-950 text-cyan-400 border border-white/10 px-2 py-1 rounded uppercase font-black">
+                  <span className="text-xs font-mono bg-cyan-950 text-cyan-400 border border-slate-800 px-2 py-1 rounded uppercase font-black">
                     {isFactoryRunning && !killSwitchActive ? "АКТИВНА" : "СТОП"}
                   </span>
                 </div>
@@ -681,13 +681,13 @@ export default function AutonomousFactory() {
                       step: "1. DISCOVERY ENGINE",
                       desc: "Автоматичний парсинг Swagger, GraphQL, REST схем з джерел",
                       status: "АКТИВНО",
-                      glow: "shadow-[0_0_10px_rgba(6,182,212,0.15)] bg-cyan-950/20 border-white/10 text-cyan-400",
+                      glow: "shadow-[0_0_10px_rgba(6,182,212,0.15)] bg-cyan-950/20 border-slate-800 text-cyan-400",
                     },
                     {
                       step: "2. CODEGEN ENGINE",
                       desc: "Генерація Python-клієнта, ETL та Pydantic-моделей",
                       status: "ЧЕКАННЯ",
-                      glow: "bg-slate-900/40 border-white/5 text-slate-400",
+                      glow: "bg-slate-900/40 border-slate-800/60 text-slate-400",
                     },
                     {
                       step: "3. VALIDATION ENGINE",
@@ -699,7 +699,7 @@ export default function AutonomousFactory() {
                       step: "4. SELF-HEALING & DEPLOY",
                       desc: "Виявлення Schema Drift, автофікси та GitOps деплой через ArgoCD",
                       status: "ЧЕКАННЯ",
-                      glow: "bg-slate-900/40 border-white/5 text-slate-400",
+                      glow: "bg-slate-900/40 border-slate-800/60 text-slate-400",
                     },
                   ].map((s, idx) => (
                     <div
@@ -720,11 +720,11 @@ export default function AutonomousFactory() {
                 </div>
               </div>
 
-              <div className="flex gap-2 border-t border-white/10 pt-3">
+              <div className="flex gap-2 border-t border-slate-800 pt-3">
                 <button
                   onClick={() => setIsFactoryRunning(!isFactoryRunning)}
                   disabled={killSwitchActive}
-                  className={`flex-1 py-2 rounded text-xs font-bold uppercase transition-all cursor-pointer flex items-center justify-center gap-1.5 ${isFactoryRunning ? "bg-slate-900/40 backdrop-blur-md hover:bg-slate-800 text-slate-300 border border-white/5" : "bg-cyan-600 hover:bg-cyan-500 text-[#050505]"}`}
+                  className={`flex-1 py-2 rounded text-xs font-bold uppercase transition-all cursor-pointer flex items-center justify-center gap-1.5 ${isFactoryRunning ? "bg-slate-900/40 backdrop-blur-md hover:bg-slate-800 text-slate-300 border border-slate-800/60" : "bg-cyan-600 hover:bg-cyan-500 text-[#050505]"}`}
                 >
                   {isFactoryRunning ? (
                     <>
@@ -742,9 +742,9 @@ export default function AutonomousFactory() {
             </div>
 
             {/* Tasks Queue Creator & Manager */}
-            <div className="col-span-12 xl:col-span-8 bg-slate-950/50 border border-white/10 rounded-2xl p-2 flex flex-col justify-between h-[350px]">
+            <div className="col-span-12 xl:col-span-8 bg-slate-950/50 border border-slate-800 rounded-2xl p-2 flex flex-col justify-between h-[350px]">
               <div>
-                <div className="pb-2 border-b border-white/10 mb-3 flex justify-between items-center">
+                <div className="pb-2 border-b border-slate-800 mb-3 flex justify-between items-center">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
                     <Database className="w-4 h-4 text-cyan-400" />
                     Черга завдань ШІ-Агентів
@@ -757,7 +757,7 @@ export default function AutonomousFactory() {
                 {/* Queue Adder Form */}
                 <form
                   onSubmit={handleCreateTask}
-                  className="grid grid-cols-1 md:grid-cols-12 gap-2 mb-4 bg-[#020617]/80 backdrop-blur-xl p-2.5 rounded-2xl border border-white/10"
+                  className="grid grid-cols-1 md:grid-cols-12 gap-2 mb-4 bg-slate-950/80 backdrop-blur-xl p-2.5 rounded-2xl border border-slate-800"
                 >
                   <div className="md:col-span-5">
                     <input
@@ -765,14 +765,14 @@ export default function AutonomousFactory() {
                       placeholder="Опис задачі для ШІ-агента..."
                       value={newTaskName}
                       onChange={(e) => setNewTaskName(e.target.value)}
-                      className="w-full bg-transparent border border-white/10 focus:border-white/10 rounded px-2 py-1.5 text-xs text-slate-100 focus:outline-none transition-all"
+                      className="w-full bg-transparent border border-slate-800 focus:border-slate-800 rounded px-2 py-1.5 text-xs text-slate-200 focus:outline-none transition-all"
                     />
                   </div>
                   <div className="md:col-span-3">
                     <select
                       value={newTaskAgent}
                       onChange={(e) => setNewTaskAgent(e.target.value)}
-                      className="w-full bg-transparent border border-white/10 focus:border-white/10 rounded px-2 py-1.5 text-xs text-slate-300 focus:outline-none transition-all"
+                      className="w-full bg-transparent border border-slate-800 focus:border-slate-800 rounded px-2 py-1.5 text-xs text-slate-300 focus:outline-none transition-all"
                     >
                       <option value="Discovery_Engine">
                         🔍 Discovery Engine (Схеми)
@@ -795,12 +795,12 @@ export default function AutonomousFactory() {
                     <select
                       value={newTaskPriority}
                       onChange={(e: any) => setNewTaskPriority(e.target.value)}
-                      className="w-full bg-transparent border border-white/10 focus:border-white/10 rounded px-2 py-1.5 text-xs text-slate-300 focus:outline-none transition-all"
+                      className="w-full bg-transparent border border-slate-800 focus:border-slate-800 rounded px-2 py-1.5 text-xs text-slate-300 focus:outline-none transition-all"
                     >
-                      <option value="LOW">LOW</option>
-                      <option value="MEDIUM">MEDIUM</option>
-                      <option value="HIGH">HIGH</option>
-                      <option value="CRITICAL">CRITICAL</option>
+                      <option value="LOW">НИЗЬКИЙ</option>
+                      <option value="MEDIUM">СЕРЕДНІЙ</option>
+                      <option value="HIGH">ВИСОКИЙ</option>
+                      <option value="CRITICAL">КРИТИЧНИЙ</option>
                     </select>
                   </div>
                   <button
@@ -823,21 +823,21 @@ export default function AutonomousFactory() {
                     {tasks.map((task) => {
                       const priorityColors = {
                         CRITICAL:
-                          "bg-rose-500/10 text-rose-400 border-white/10",
-                        HIGH: "bg-amber-500/10 text-amber-400 border-white/10",
+                          "bg-rose-500/10 text-rose-400 border-slate-800",
+                        HIGH: "bg-amber-500/10 text-amber-400 border-slate-800",
                         MEDIUM:
-                          "bg-blue-500/10 text-blue-400 border-white/10",
-                        LOW: "bg-slate-500/10 text-slate-400 border-white/5",
+                          "bg-blue-500/10 text-blue-400 border-slate-800",
+                        LOW: "bg-slate-500/10 text-slate-400 border-slate-800/60",
                       };
 
                       const statusColors = {
-                        QUEUED: "text-slate-400 bg-[#020617]/80 backdrop-blur-xl border-white/10",
+                        QUEUED: "text-slate-400 bg-slate-950/80 backdrop-blur-xl border-slate-800",
                         RUNNING:
-                          "text-cyan-400 bg-cyan-950/20 border-white/10 animate-pulse",
+                          "text-cyan-400 bg-cyan-950/20 border-slate-800 animate-pulse",
                         COMPLETED:
-                          "text-emerald-400 bg-emerald-950/20 border-white/10",
+                          "text-emerald-400 bg-emerald-950/20 border-slate-800",
                         FAILED:
-                          "text-rose-400 bg-rose-950/20 border-white/10",
+                          "text-rose-400 bg-rose-950/20 border-slate-800",
                       };
 
                       return (
@@ -846,7 +846,7 @@ export default function AutonomousFactory() {
                           initial={{ opacity: 0, y: 5 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, x: -10 }}
-                          className={`p-2.5 rounded-2xl border bg-slate-950/40 border-white/10 flex justify-between items-center transition-all ${task.status === "RUNNING" ? "shadow-[0_0_10px_rgba(6,182,212,0.05)] border-white/10" : ""}`}
+                          className={`p-2.5 rounded-2xl border bg-slate-950/40 border-slate-800 flex justify-between items-center transition-all ${task.status === "RUNNING" ? "shadow-[0_0_10px_rgba(6,182,212,0.05)] border-slate-800" : ""}`}
                         >
                           <div className="flex-1 min-w-0 pr-3">
                             <div className="flex items-center gap-2">
@@ -868,7 +868,7 @@ export default function AutonomousFactory() {
                               {task.name}
                             </h4>
                             {task.status === "RUNNING" && (
-                              <div className="w-full bg-[#020617]/80 backdrop-blur-xl rounded-full h-1 mt-2 overflow-hidden">
+                              <div className="w-full bg-slate-950/80 backdrop-blur-xl rounded-full h-1 mt-2 overflow-hidden">
                                 <div
                                   className="bg-cyan-400 h-1 transition-all duration-500"
                                   style={{ width: `${task.progress}%` }}
@@ -902,7 +902,7 @@ export default function AutonomousFactory() {
                   )}
                 </div>
               </div>
-              <div className="border-t border-white/10 pt-3 flex justify-between text-xs font-mono text-slate-500">
+              <div className="border-t border-slate-800 pt-3 flex justify-between text-xs font-mono text-slate-500">
                 <span>
                   Eternal Factory: Оркестрація OODA є асинхронною та
                   імутабельною
@@ -917,9 +917,9 @@ export default function AutonomousFactory() {
         {activeSubTab === "council" && (
           <div className="grid grid-cols-12 gap-2">
             {/* Scenarios / Votes list */}
-            <div className="col-span-12 xl:col-span-5 bg-slate-950/50 border border-white/10 rounded-2xl p-2 flex flex-col justify-between h-[350px]">
+            <div className="col-span-12 xl:col-span-5 bg-slate-950/50 border border-slate-800 rounded-2xl p-2 flex flex-col justify-between h-[350px]">
               <div>
-                <div className="pb-2 border-b border-white/10 mb-3">
+                <div className="pb-2 border-b border-slate-800 mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
                     <Layers className="w-4 h-4 text-purple-400" />
                     Кейси на обговорення Ради LLM
@@ -933,7 +933,7 @@ export default function AutonomousFactory() {
                       <div
                         key={v.id}
                         onClick={() => setSelectedVoteId(v.id)}
-                        className={`p-2.5 rounded-2xl border text-left cursor-pointer transition-all ${isSelected ? "bg-purple-600/10 border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.1)]" : "bg-slate-950/40 border-white/10 hover:border-white/5"}`}
+                        className={`p-2.5 rounded-2xl border text-left cursor-pointer transition-all ${isSelected ? "bg-purple-600/10 border-purple-500/40 shadow-[0_0_15px_rgba(168,85,247,0.1)]" : "bg-slate-950/40 border-slate-800 hover:border-slate-800/60"}`}
                       >
                         <h4 className="text-xs font-black text-slate-200 line-clamp-2">
                           {v.scenario}
@@ -957,12 +957,12 @@ export default function AutonomousFactory() {
             </div>
 
             {/* Voting Consensus visualizer */}
-            <div className="col-span-12 xl:col-span-7 bg-slate-950/50 border border-white/10 rounded-2xl p-2 flex flex-col justify-between h-[350px] relative overflow-hidden">
+            <div className="col-span-12 xl:col-span-7 bg-slate-950/50 border border-slate-800 rounded-2xl p-2 flex flex-col justify-between h-[350px] relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 blur-2xl pointer-events-none" />
 
               {selectedVote ? (
                 <div>
-                  <div className="pb-2 border-b border-white/10 mb-3 flex justify-between items-center">
+                  <div className="pb-2 border-b border-slate-800 mb-3 flex justify-between items-center">
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
                       <Bot className="w-4 h-4 text-purple-400" />
                       Консенсус-Аналітика Голосування (ADIP-Vote)
@@ -972,11 +972,11 @@ export default function AutonomousFactory() {
                     </span>
                   </div>
 
-                  <div className="bg-slate-900/40 backdrop-blur-md p-2 rounded-2xl border border-white/10 mb-4">
+                  <div className="bg-slate-900/40 backdrop-blur-md p-2 rounded-2xl border border-slate-800 mb-4">
                     <span className="text-xs font-mono text-slate-500 block uppercase">
                       СЦЕНАРІЙ ДОСЛІДЖЕННЯ:
                     </span>
-                    <h3 className="text-xs font-black text-slate-100 mt-1">
+                    <h3 className="text-xs font-black text-slate-200 mt-1">
                       {selectedVote.scenario}
                     </h3>
                   </div>
@@ -986,16 +986,16 @@ export default function AutonomousFactory() {
                     {selectedVote.models.map((m, idx) => {
                       const voteColors = {
                         APPROVE:
-                          "bg-emerald-950/40 text-emerald-400 border-white/10",
+                          "bg-emerald-950/40 text-emerald-400 border-slate-800",
                         REJECT:
-                          "bg-rose-950/40 text-rose-400 border-white/10",
-                        ABSTAIN: "bg-slate-900/40 backdrop-blur-md text-slate-400 border-white/5",
+                          "bg-rose-950/40 text-rose-400 border-slate-800",
+                        ABSTAIN: "bg-slate-900/40 backdrop-blur-md text-slate-400 border-slate-800/60",
                       };
 
                       return (
                         <div
                           key={idx}
-                          className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded-2xl border border-white/10 space-y-2 flex flex-col justify-between"
+                          className="bg-slate-950/80 backdrop-blur-xl p-2 rounded-2xl border border-slate-800 space-y-2 flex flex-col justify-between"
                         >
                           <div>
                             <span className="text-xs font-black text-slate-300 font-mono block">
@@ -1005,7 +1005,7 @@ export default function AutonomousFactory() {
                               "{m.reason}"
                             </p>
                           </div>
-                          <div className="flex justify-between items-center pt-2 border-t border-white/10/60 mt-2">
+                          <div className="flex justify-between items-center pt-2 border-t border-slate-800/60 mt-2">
                             <span
                               className={`text-xs font-mono border px-2 py-1 rounded font-black tracking-widest ${voteColors[m.vote]}`}
                             >
@@ -1030,7 +1030,7 @@ export default function AutonomousFactory() {
                       <span className="text-xs font-mono text-purple-400 uppercase tracking-widest block font-bold">
                         Остаточний Консенсусний Вердикт:
                       </span>
-                      <span className="text-xs font-black text-slate-100 mt-1 block">
+                      <span className="text-xs font-black text-slate-200 mt-1 block">
                         {selectedVote.verdict}
                       </span>
                     </div>
@@ -1046,7 +1046,7 @@ export default function AutonomousFactory() {
                 </div>
               )}
 
-              <div className="border-t border-white/10 pt-3 flex justify-end gap-2">
+              <div className="border-t border-slate-800 pt-3 flex justify-end gap-2">
                 <span className="text-xs font-mono text-slate-500 self-center">
                   Explainable AI: Консенсус надійно захищає від галюцинацій
                 </span>
@@ -1059,9 +1059,9 @@ export default function AutonomousFactory() {
         {activeSubTab === "telegram" && (
           <div className="grid grid-cols-12 gap-2">
             {/* Command controls list */}
-            <div className="col-span-12 xl:col-span-5 bg-slate-950/50 border border-white/10 rounded-2xl p-2 flex flex-col justify-between h-[350px]">
+            <div className="col-span-12 xl:col-span-5 bg-slate-950/50 border border-slate-800 rounded-2xl p-2 flex flex-col justify-between h-[350px]">
               <div>
-                <div className="pb-2 border-b border-white/10 mb-3">
+                <div className="pb-2 border-b border-slate-800 mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
                     <Terminal className="w-4 h-4 text-blue-400" />
                     Керування Telegram-Бот Сервером
@@ -1069,7 +1069,7 @@ export default function AutonomousFactory() {
                 </div>
 
                 <div className="space-y-3 font-mono text-xs text-slate-300">
-                  <div className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded border border-white/10">
+                  <div className="bg-slate-950/80 backdrop-blur-xl p-2 rounded border border-slate-800">
                     <span className="text-xs text-slate-500 block uppercase mb-1">
                       Служба Бот-Центру:
                     </span>
@@ -1078,7 +1078,7 @@ export default function AutonomousFactory() {
                     </span>
                   </div>
 
-                  <div className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded border border-white/10 space-y-2">
+                  <div className="bg-slate-950/80 backdrop-blur-xl p-2 rounded border border-slate-800 space-y-2">
                     <span className="text-xs text-slate-500 block uppercase">
                       Підтримувані API команди:
                     </span>
@@ -1115,7 +1115,7 @@ export default function AutonomousFactory() {
                 </div>
               </div>
 
-              <div className="border-t border-white/10 pt-3">
+              <div className="border-t border-slate-800 pt-3">
                 <button
                   onClick={async () => {
                     try {
@@ -1143,7 +1143,7 @@ export default function AutonomousFactory() {
                       );
                     }
                   }}
-                  className="w-full py-2 bg-slate-900/40 backdrop-blur-md hover:bg-slate-800 text-slate-400 border border-white/5 rounded text-xs font-bold font-mono uppercase transition-all cursor-pointer"
+                  className="w-full py-2 bg-slate-900/40 backdrop-blur-md hover:bg-slate-800 text-slate-400 border border-slate-800/60 rounded text-xs font-bold font-mono uppercase transition-all cursor-pointer"
                 >
                   Очистити історію чату
                 </button>
@@ -1151,10 +1151,10 @@ export default function AutonomousFactory() {
             </div>
 
             {/* Simulated Live Telegram Chat Device */}
-            <div className="col-span-12 xl:col-span-7 bg-slate-950/50 border border-white/10 rounded-2xl p-2 flex flex-col h-[350px] justify-between relative overflow-hidden">
+            <div className="col-span-12 xl:col-span-7 bg-slate-950/50 border border-slate-800 rounded-2xl p-2 flex flex-col h-[350px] justify-between relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 blur-2xl pointer-events-none" />
 
-              <div className="flex justify-between items-center pb-2 border-b border-white/10 mb-3">
+              <div className="flex justify-between items-center pb-2 border-b border-slate-800 mb-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
                   <MessageSquare className="w-4 h-4 text-blue-400" />
                   PREDATOR_Telegram_Simulator_Device
@@ -1165,7 +1165,7 @@ export default function AutonomousFactory() {
               </div>
 
               {/* Chat Canvas */}
-              <div className="flex-1 overflow-y-auto custom-scrollbar p-2 bg-slate-950/90 rounded-2xl border border-white/10 space-y-3 mb-4">
+              <div className="flex-1 overflow-y-auto custom-scrollbar p-2 bg-slate-950/90 rounded-2xl border border-slate-800 space-y-3 mb-4">
                 {telegramLogs.map((log) => {
                   const isBot = log.sender === "bot";
                   const isSys = log.sender === "system";
@@ -1177,10 +1177,10 @@ export default function AutonomousFactory() {
                       <div
                         className={`max-w-[85%] rounded-2xl p-2 text-xs font-mono border whitespace-pre-wrap ${
                           isSys
-                            ? "bg-[#020617]/80 backdrop-blur-xl border-white/10 text-slate-500 text-center text-xs rounded-full px-3 py-1"
+                            ? "bg-slate-950/80 backdrop-blur-xl border-slate-800 text-slate-500 text-center text-xs rounded-full px-3 py-1"
                             : isBot
-                              ? "bg-blue-950/20 text-blue-300 border-white/10 rounded-tl-none"
-                              : "bg-slate-900/40 backdrop-blur-md text-slate-100 border-white/5 rounded-tr-none"
+                              ? "bg-blue-950/20 text-blue-300 border-slate-800 rounded-tl-none"
+                              : "bg-slate-900/40 backdrop-blur-md text-slate-200 border-slate-800/60 rounded-tr-none"
                         }`}
                       >
                         {!isSys && (
@@ -1209,7 +1209,7 @@ export default function AutonomousFactory() {
                   value={teleInput}
                   onChange={(e) => setTeleInput(e.target.value)}
                   disabled={killSwitchActive}
-                  className="flex-1 bg-[#020617]/80 backdrop-blur-xl border border-white/10 focus:border-white/10 rounded-2xl p-2 text-xs text-slate-100 focus:outline-none transition-all font-mono"
+                  className="flex-1 bg-slate-950/80 backdrop-blur-xl border border-slate-800 focus:border-slate-800 rounded-2xl p-2 text-xs text-slate-200 focus:outline-none transition-all font-mono"
                 />
                 <button
                   type="submit"
@@ -1227,9 +1227,9 @@ export default function AutonomousFactory() {
         {/* UICheckerView Tab */}
         {activeSubTab === "uitester" && (
           <div className="grid grid-cols-12 gap-2">
-            <div className="col-span-12 xl:col-span-5 bg-slate-950/50 border border-white/10 rounded-2xl p-2 flex flex-col justify-between h-[350px]">
+            <div className="col-span-12 xl:col-span-5 bg-slate-950/50 border border-slate-800 rounded-2xl p-2 flex flex-col justify-between h-[350px]">
               <div>
-                <div className="pb-2 border-b border-white/10 mb-3">
+                <div className="pb-2 border-b border-slate-800 mb-3">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
                     <CheckSquare className="w-4 h-4 text-emerald-400" />
                     Playwright Headless UI-Tester
@@ -1237,7 +1237,7 @@ export default function AutonomousFactory() {
                 </div>
 
                 <div className="space-y-4 font-mono text-xs text-slate-300">
-                  <div className="bg-[#020617]/80 backdrop-blur-xl p-2 rounded border border-white/10">
+                  <div className="bg-slate-950/80 backdrop-blur-xl p-2 rounded border border-slate-800">
                     <span className="text-xs text-slate-500 block uppercase mb-1">
                       ОСТАННІЙ ЗАПУСК ТЕСТІВ:
                     </span>
@@ -1285,8 +1285,8 @@ export default function AutonomousFactory() {
                 </div>
               </div>
 
-              <div className="border-t border-white/10 pt-3">
-                <button className="w-full py-2 bg-emerald-600/10 hover:bg-emerald-600 text-emerald-400 hover:text-[#050505] border border-white/10 rounded text-xs font-bold font-mono uppercase transition-all cursor-pointer flex items-center justify-center gap-1.5">
+              <div className="border-t border-slate-800 pt-3">
+                <button className="w-full py-2 bg-emerald-600/10 hover:bg-emerald-600 text-emerald-400 hover:text-[#050505] border border-slate-800 rounded text-xs font-bold font-mono uppercase transition-all cursor-pointer flex items-center justify-center gap-1.5">
                   <RefreshCw className="w-3.5 h-3.5" />
                   <span>Запустити тести Playwright зараз</span>
                 </button>
@@ -1294,10 +1294,10 @@ export default function AutonomousFactory() {
             </div>
 
             {/* Headless Testing Log Panel */}
-            <div className="col-span-12 xl:col-span-7 bg-slate-950/50 border border-white/10 rounded-2xl p-2 flex flex-col h-[350px] justify-between relative overflow-hidden">
+            <div className="col-span-12 xl:col-span-7 bg-slate-950/50 border border-slate-800 rounded-2xl p-2 flex flex-col h-[350px] justify-between relative overflow-hidden">
               <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 blur-2xl pointer-events-none" />
 
-              <div className="flex justify-between items-center pb-2 border-b border-white/10 mb-3">
+              <div className="flex justify-between items-center pb-2 border-b border-slate-800 mb-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
                   <Terminal className="w-4 h-4 text-emerald-400" />
                   Лог останнього циклу автоматичного тестування
@@ -1308,25 +1308,25 @@ export default function AutonomousFactory() {
               </div>
 
               {/* Logs display */}
-              <div className="flex-1 overflow-y-auto custom-scrollbar p-2 bg-[#020617]/80 backdrop-blur-xl rounded-2xl border border-white/10 font-mono text-xs text-slate-400 space-y-1.5">
+              <div className="flex-1 overflow-y-auto custom-scrollbar p-2 bg-slate-950/80 backdrop-blur-xl rounded-2xl border border-slate-800 font-mono text-xs text-slate-400 space-y-1.5">
                 <div>
                   [08:15:02] playwright-ui-tester started. CWD:
                   /apps/predator-analytics-ui
                 </div>
                 <div>[08:15:03] launching chromium headless...</div>
                 <div>
-                  [08:15:04] page.goto('http://localhost:3030') - SUCCESS
+                  [08:15:04] page.goto('http://localhost:3030') - УСПІШНО
                 </div>
                 <div>
-                  [08:15:05] checking 'data-ingestion' tab - SUCCESS (17 sources
+                  [08:15:05] checking 'data-ingestion' tab - УСПІШНО (17 sources
                   verified)
                 </div>
                 <div>
                   [08:15:06] checking 'maps' tab and Nexus map container -
-                  SUCCESS
+                  УСПІШНО
                 </div>
                 <div>
-                  [08:15:07] checking 'live-analytical-center' - SUCCESS (
+                  [08:15:07] checking 'live-analytical-center' - УСПІШНО (
                   scenario elements present)
                 </div>
                 <div>
@@ -1346,7 +1346,7 @@ export default function AutonomousFactory() {
                 </div>
               </div>
 
-              <div className="border-t border-white/10 pt-3 flex justify-between text-xs font-mono text-slate-500">
+              <div className="border-t border-slate-800 pt-3 flex justify-between text-xs font-mono text-slate-500">
                 <span>
                   Результати деплояться через ArgoCD тільки у разі 100%
                   проходження тестів
@@ -1361,7 +1361,7 @@ export default function AutonomousFactory() {
         {activeSubTab === "specification" && (
           <div className="space-y-4">
             {/* Main Manifesto Header Card */}
-            <div className="bg-slate-950/50 border border-white/10 rounded-2xl p-2 relative overflow-hidden">
+            <div className="bg-slate-950/50 border border-slate-800 rounded-2xl p-2 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 blur-3xl rounded-full translate-x-10 -translate-y-10"></div>
 
               <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2 relative z-10">
@@ -1370,11 +1370,11 @@ export default function AutonomousFactory() {
                     <span className="text-xs bg-pink-500/10 text-pink-400 border border-pink-500/20 px-2 py-1 rounded font-mono font-bold uppercase tracking-widest animate-pulse">
                       Google Antigravity Agent Mode Active
                     </span>
-                    <span className="text-xs bg-cyan-500/10 text-cyan-400 border border-white/10 px-2 py-1 rounded font-mono font-bold uppercase tracking-widest">
+                    <span className="text-xs bg-cyan-500/10 text-cyan-400 border border-slate-800 px-2 py-1 rounded font-mono font-bold uppercase tracking-widest">
                       vNext Platform Spec
                     </span>
                   </div>
-                  <h2 className="text-xs font-black tracking-widest text-slate-100 uppercase font-mono">
+                  <h2 className="text-xs font-black tracking-widest text-slate-200 uppercase font-mono">
                     PREDATOR Analytics vNext — AI Intelligence Acquisition
                     Platform
                   </h2>
@@ -1414,7 +1414,7 @@ export default function AutonomousFactory() {
                     a.click();
                     URL.revokeObjectURL(url);
                   }}
-                  className="shrink-0 flex items-center gap-2 px-2 py-1.5 bg-slate-900/40 backdrop-blur-md hover:bg-slate-800 border border-white/5 rounded-2xl text-slate-300 font-mono text-xs uppercase font-bold transition-all cursor-pointer"
+                  className="shrink-0 flex items-center gap-2 px-2 py-1.5 bg-slate-900/40 backdrop-blur-md hover:bg-slate-800 border border-slate-800/60 rounded-2xl text-slate-300 font-mono text-xs uppercase font-bold transition-all cursor-pointer"
                 >
                   <Download className="w-4 h-4 text-cyan-400" />
                   Завантажити ТЗ (.md)
@@ -1425,7 +1425,7 @@ export default function AutonomousFactory() {
             {/* ADIP Grid Overview */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
               {/* Mission Statement */}
-              <div className="glass-panel-premium hover:border-white/5 transition-all rounded-2xl p-2 relative overflow-hidden flex flex-col justify-center min-h-[160px]">
+              <div className="glass-panel-premium hover:border-slate-800/60 transition-all rounded-2xl p-2 relative overflow-hidden flex flex-col justify-center min-h-[160px]">
                 <div className="absolute top-0 right-0 w-80 h-80 bg-pink-500/5 blur-3xl pointer-events-none" />
                 <div className="relative z-10 space-y-4">
                   <div className="flex items-center gap-2">
@@ -1433,7 +1433,7 @@ export default function AutonomousFactory() {
                       <Bot className="w-4 h-4 text-pink-400" />
                     </div>
                     <div>
-                      <h3 className="text-xs font-black tracking-widest text-slate-100 uppercase font-mono">
+                      <h3 className="text-xs font-black tracking-widest text-slate-200 uppercase font-mono">
                         MISSION
                       </h3>
                       <p className="text-xs text-slate-400 font-mono mt-0.5">
@@ -1454,7 +1454,7 @@ export default function AutonomousFactory() {
 
               {/* Roles Section */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-4">
-                <div className="bg-slate-950/40 border border-white/10 rounded-2xl p-2.5">
+                <div className="bg-slate-950/40 border border-slate-800 rounded-2xl p-2.5">
                   <span className="text-xs font-mono text-pink-400 uppercase block mb-1">
                     СИСТЕМНА РОЛЬ
                   </span>
@@ -1470,7 +1470,7 @@ export default function AutonomousFactory() {
                   </p>
                 </div>
 
-                <div className="bg-slate-950/40 border border-white/10 rounded-2xl p-2.5">
+                <div className="bg-slate-950/40 border border-slate-800 rounded-2xl p-2.5">
                   <span className="text-xs font-mono text-cyan-400 uppercase block mb-1">
                     ГОЛОВНА МЕТА
                   </span>
@@ -1487,7 +1487,7 @@ export default function AutonomousFactory() {
                   </p>
                 </div>
 
-                <div className="bg-slate-950/40 border border-white/10 rounded-2xl p-2.5">
+                <div className="bg-slate-950/40 border border-slate-800 rounded-2xl p-2.5">
                   <span className="text-xs font-mono text-amber-400 uppercase block mb-1">
                     ТЕХНОЛОГІЧНИЙ СТЕК
                   </span>
@@ -1513,7 +1513,7 @@ export default function AutonomousFactory() {
                       1. Модулі життєвого циклу Платформи
                     </h3>
                     <div className="space-y-2 text-xs font-mono">
-                      <div className="p-2.5 rounded bg-slate-900/30 border border-white/10">
+                      <div className="p-2.5 rounded bg-slate-900/30 border border-slate-800">
                         <span className="text-pink-400 font-bold block uppercase">
                           🔍 GLOBAL DISCOVERY ENGINE (АВТО-ПОШУК):
                         </span>
@@ -1524,7 +1524,7 @@ export default function AutonomousFactory() {
                           людини.
                         </p>
                       </div>
-                      <div className="p-2.5 rounded bg-slate-900/30 border border-white/10">
+                      <div className="p-2.5 rounded bg-slate-900/30 border border-slate-800">
                         <span className="text-cyan-400 font-bold block uppercase">
                           ⚙️ CONNECTOR EVOLUTION ENGINE (CODEGEN):
                         </span>
@@ -1534,7 +1534,7 @@ export default function AutonomousFactory() {
                           інкрементального завантаження.
                         </p>
                       </div>
-                      <div className="p-2.5 rounded bg-slate-900/30 border border-white/10">
+                      <div className="p-2.5 rounded bg-slate-900/30 border border-slate-800">
                         <span className="text-emerald-400 font-bold block uppercase">
                           🛡️ VALIDATION ENGINE (АВТОМАТИЧНЕ ТЕСТУВАННЯ):
                         </span>
@@ -1556,7 +1556,7 @@ export default function AutonomousFactory() {
                       2. Системне самовідновлення та інтеграція
                     </h3>
                     <div className="space-y-2 text-xs font-mono">
-                      <div className="p-2.5 rounded bg-slate-900/30 border border-white/10">
+                      <div className="p-2.5 rounded bg-slate-900/30 border border-slate-800">
                         <span className="text-amber-400 font-bold block uppercase">
                           🩹 SELF-HEALING ENGINE (САМОВІДНОВЛЕННЯ):
                         </span>
@@ -1567,7 +1567,7 @@ export default function AutonomousFactory() {
                           GitOps.
                         </p>
                       </div>
-                      <div className="p-2.5 rounded bg-slate-900/30 border border-white/10">
+                      <div className="p-2.5 rounded bg-slate-900/30 border border-slate-800">
                         <span className="text-purple-400 font-bold block uppercase">
                           🧠 COGNITIVE STORAGE ENGINE (ЗНАПРУГА):
                         </span>
@@ -1578,7 +1578,7 @@ export default function AutonomousFactory() {
                           OpenSearch.
                         </p>
                       </div>
-                      <div className="p-2.5 rounded bg-slate-900/30 border border-white/10">
+                      <div className="p-2.5 rounded bg-slate-900/30 border border-slate-800">
                         <span className="text-blue-400 font-bold block uppercase">
                           📊 AI OBSERVABILITY & SRE:
                         </span>
@@ -1596,7 +1596,7 @@ export default function AutonomousFactory() {
 
               {/* Complete Prompt Code Display Section */}
               <div className="mt-5">
-                <div className="flex items-center justify-between pb-2 border-b border-white/10 mb-3">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-800 mb-3">
                   <span className="text-xs font-black uppercase text-slate-300 font-mono flex items-center gap-1.5">
                     <Terminal className="w-3.5 h-3.5 text-pink-400" />
                     АКТИВНИЙ СИСТЕМНИЙ ПРОМПТ ПЛАТФОРМИ (SYSTEM_PROMPT.TXT)
@@ -1607,12 +1607,12 @@ export default function AutonomousFactory() {
                         `ROLE: Google Antigravity Agent Mode\nGLOBAL GOAL: Build a fully autonomous system called "Intelligence Acquisition Platform" which discovers registries, analyzes them, creates connectors, builds ETL, validates, deploys, and repairs them autonomously without human intervention.`,
                       );
                     }}
-                    className="px-2 py-1 bg-[#020617]/80 backdrop-blur-xl hover:bg-slate-900/40 backdrop-blur-md text-slate-400 text-xs font-mono uppercase tracking-wider border border-white/5 rounded cursor-pointer transition-all"
+                    className="px-2 py-1 bg-slate-950/80 backdrop-blur-xl hover:bg-slate-900/40 backdrop-blur-md text-slate-400 text-xs font-mono uppercase tracking-wider border border-slate-800/60 rounded cursor-pointer transition-all"
                   >
                     Скопіювати
                   </button>
                 </div>
-                <div className="bg-[#020617]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 font-mono text-xs text-slate-300 h-60 overflow-y-auto custom-scrollbar select-all leading-relaxed whitespace-pre-wrap">
+                <div className="bg-slate-950/80 backdrop-blur-xl border border-slate-800 rounded-2xl p-2 font-mono text-xs text-slate-300 h-60 overflow-y-auto custom-scrollbar select-all leading-relaxed whitespace-pre-wrap">
                   {`PREDATOR Analytics vNext — AI Intelligence Acquisition Platform
 Повністю автономна система розвідки, генерації та самовідновлення конекторів
 
@@ -1658,13 +1658,13 @@ DETAILED ARCHITECTURE & MODULES:
                   desc: "Постійний моніторинг логів, виявлення системних аномалій та шкідливого трафіку.",
                   status: "АКТИВНИЙ",
                   color:
-                    "border-white/10 text-emerald-400 bg-emerald-950/10",
+                    "border-slate-800 text-emerald-400 bg-emerald-950/10",
                 },
                 {
                   name: "UI-Tester (Тестувальник)",
                   desc: "Автоматична регулярна перевірка Playwright, відповідність даних та перевірка локалізації.",
                   status: "АКТИВНИЙ",
-                  color: "border-white/10 text-cyan-400 bg-cyan-950/10",
+                  color: "border-slate-800 text-cyan-400 bg-cyan-950/10",
                 },
                 {
                   name: "UX-Optimizer (Оптимізатор)",
@@ -1677,21 +1677,21 @@ DETAILED ARCHITECTURE & MODULES:
                   name: "Code-Guardian (Охоронець)",
                   desc: "Статичний аналіз коду, сувора типізація Mypy та безпекові аудити.",
                   status: "ЧЕКАННЯ",
-                  color: "border-white/5 text-slate-400 bg-slate-950/20",
+                  color: "border-slate-800/60 text-slate-400 bg-slate-950/20",
                 },
                 {
                   name: "Performance-Tuner (Тюнер)",
                   desc: "Регулювання навантаження GPU/VRAM та запобігання Out-of-Memory помилкам.",
                   status: "АКТИВНИЙ",
-                  color: "border-white/10 text-amber-400 bg-amber-950/10",
+                  color: "border-slate-800 text-amber-400 bg-amber-950/10",
                 },
               ].map((h, idx) => (
                 <div
                   key={idx}
-                  className="bg-slate-950/50 border border-white/10 rounded-2xl p-2 flex flex-col justify-between h-[180px] hover:border-white/5 transition-all"
+                  className="bg-slate-950/50 border border-slate-800 rounded-2xl p-2 flex flex-col justify-between h-[180px] hover:border-slate-800/60 transition-all"
                 >
                   <div>
-                    <h3 className="text-xs font-black text-slate-100 font-mono flex items-center gap-1.5">
+                    <h3 className="text-xs font-black text-slate-200 font-mono flex items-center gap-1.5">
                       <span
                         className={`w-2 h-2 rounded-full ${h.status === "АКТИВНИЙ" ? "bg-emerald-500 animate-pulse" : "bg-slate-600"}`}
                       />
@@ -1701,7 +1701,7 @@ DETAILED ARCHITECTURE & MODULES:
                       {h.desc}
                     </p>
                   </div>
-                  <div className="flex justify-between items-center pt-2 border-t border-white/10/60 mt-3">
+                  <div className="flex justify-between items-center pt-2 border-t border-slate-800/60 mt-3">
                     <span
                       className={`text-xs font-mono border px-2 py-1 rounded font-black tracking-widest ${h.color}`}
                     >
@@ -1712,7 +1712,7 @@ DETAILED ARCHITECTURE & MODULES:
               ))}
             </div>
 
-            <div className="bg-slate-950/50 border border-white/10 rounded-2xl p-2">
+            <div className="bg-slate-950/50 border border-slate-800 rounded-2xl p-2">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3 flex items-center gap-1.5">
                 <Server className="w-4 h-4 text-cyan-400" />
                 Специфікація фонових процесів
